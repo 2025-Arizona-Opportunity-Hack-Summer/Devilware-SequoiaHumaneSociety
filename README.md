@@ -11,7 +11,7 @@
     @Faisal Alyousefi (on Slack)
 
     ## Team "Devilware"
-    - [Team Member 1](GitHub profile link)
+    - [Nghi H.](https://github.com/GittBitt)
     - [Team Member 2](GitHub profile link)
     - [Team Member 3](GitHub profile link)
     <!-- Add all team members -->
@@ -20,9 +20,9 @@
     Brief description of your project and its goals.
 
     ## Tech Stack
-    - Frontend: 
-    - Backend: 
-    - Database: 
+    - Frontend: React.js
+    - Backend: Python, Flask
+    - Database: MongoDB, AWS
     - APIs: 
     <!-- Add/modify as needed -->
 

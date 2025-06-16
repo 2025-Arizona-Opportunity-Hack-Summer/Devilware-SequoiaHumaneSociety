@@ -14,7 +14,7 @@
 
 - [Nghi H.](https://github.com/GittBitt)
 - [Ngoc Dinh Khoa Nguyen](https://github.com/KhoaDinhNguyen)
-- [Team Member 3](GitHub profile link)
+- [Faisal Alyousefi](https://github.com/fkalyousefi)
 <!-- Add all team members -->
 
 ## Project Overview

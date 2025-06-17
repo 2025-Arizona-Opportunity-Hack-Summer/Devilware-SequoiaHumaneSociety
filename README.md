@@ -23,7 +23,7 @@ Brief description of your project and its goals.
 
 ## Tech Stack
 
-- Frontend: React.js
+- Frontend: React.js, Node.js, Tailwind CSS
 - Backend: Python, Flask
 - Database: MongoDB, AWS
 - APIs:
@@ -34,11 +34,17 @@ Brief description of your project and its goals.
 Instructions on how to set up and run your project locally.
 
 ```bash
-# Example commands
-git clone [your-repo-link]
-cd [your-repo-name]
+# Clone the repository
+git clone https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety
+
+# Change directory to app folder
+cd matchmaker-app
+
+# Install dependencies
 npm install
-npm start
+
+# Run development server
+npm run dev
 ```
 
 ## Your next steps

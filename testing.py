@@ -37,55 +37,78 @@ def train_data():
 
     return clf, label_encoders_x, label_encoder_y, old_x.columns.tolist()
 
-def predict_match(clf, label_encoders_x, label_encoder_y, feature_cols, input_data):
+def predict_top_matches(clf, label_encoders_x, label_encoder_y, feature_cols, all_pet_options, input_data, top_n=5):
     """
-    input_data: dict, keys = feature_cols, values = input strings (same format as original CSV)
+    Predict and rank top N pet matches for the given owner input.
+
+    Parameters:
+    - clf: trained classifier
+    - label_encoders_x: dict of LabelEncoders for each feature
+    - label_encoder_y: LabelEncoder for target (e.g., 'Yes', 'No')
+    - feature_cols: list of feature column names used in training
+    - all_pet_options: list of dicts, each representing a pet's features
+    - input_data: owner's features (dict)
+    - top_n: how many matches to return
     """
 
-    if 'Allergies' in input_data and 'Shedding' in input_data:
-        if input_data['Allergies'] == 'Yes' and input_data['Shedding'] != 'Low':
-            return 'No'  # Or whatever label represents "Not a Match"
-        
-    # Encode input features using saved label encoders
-    encoded_features = []
-    for col in feature_cols:
-        le = label_encoders_x[col]
-        value = input_data[col]
-        # Handle unseen labels by assigning a default or raise error
-        if value not in le.classes_:
-            print(f"Warning: '{value}' not seen in training for feature '{col}'. Prediction may be inaccurate.")
-            # Option 1: assign a default (e.g., first class)
-            encoded_value = 0
-        else:
-            encoded_value = le.transform([value])[0]
-        encoded_features.append(encoded_value)
+    results = []
 
-    
+    for pet in all_pet_options:
+        combined_input = input_data.copy()
+        combined_input.update(pet)
 
-    # Predict
-    prediction_encoded = clf.predict([encoded_features])[0]
-    prediction_label = label_encoder_y.inverse_transform([prediction_encoded])[0]
+        # Filter 1: Allergy-safe
+        if combined_input.get('Allergies') == 'Yes' and combined_input.get('Shedding') not in ['Low', 'None']:
+            continue
 
-    return prediction_label
+        # Filter 2: Match pet preference
+        if input_data.get('Pet_Preference') and combined_input.get('Species') != input_data.get('Pet_Preference'):
+            continue
+
+        # Encode features
+        encoded_features = []
+        for col in feature_cols:
+            le = label_encoders_x[col]
+            value = combined_input.get(col)
+            if value not in le.classes_:
+                encoded_value = 0  
+            else:
+                encoded_value = le.transform([value])[0]
+            encoded_features.append(encoded_value)
+
+        # Predict match probability
+        prob = clf.predict_proba([encoded_features])[0]
+        match_index = list(label_encoder_y.classes_).index('Yes')
+        match_prob = prob[match_index]
+
+        results.append((match_prob, pet))
+
+    # Sort and return top matches
+    top_matches = sorted(results, key=lambda x: x[0], reverse=True)[:top_n]
+    return top_matches
 
 if __name__ == "__main__":
     clf, label_encoders_x, label_encoder_y, feature_cols = train_data()
 
-    # Example input from user
     new_input = {
-        'Owner_Personality': 'Friendly',
+        'Owner_Personality': 'Calm',
         'Owner_Activity_Level': 'Low',
         'Living_Space': 'Apartment',
         'Pet_Preference': 'Dog',
-        'Allergies' : 'Yes',
-
-        'Species': 'Cat',
-        'Pet_Personality': 'Calm',
-        'Pet_Activity_Need': 'High',
-        'Pet_Size': 'Medium',
-        'Shedding': 'Low'
+        'Allergies': 'No',
     }
 
-    result = predict_match(clf, label_encoders_x, label_encoder_y, feature_cols, new_input)
-    print("Match result:", result)
+    all_pet_options = [
+        {'Species': 'Dog', 'Pet_Personality': 'Playful', 'Pet_Activity_Need': 'High', 'Pet_Size': 'Big', 'Shedding': 'High'},
+        {'Species': 'Cat', 'Pet_Personality': 'Calm', 'Pet_Activity_Need': 'Low', 'Pet_Size': 'Big', 'Shedding': 'Low'},
+        {'Species': 'Rabbit', 'Pet_Personality': 'Gentle', 'Pet_Activity_Need': 'Medium','Pet_Size': 'Big', 'Shedding': 'Low'},
+        {'Species': 'Dog', 'Pet_Personality': 'Social', 'Pet_Activity_Need': 'High', 'Pet_Size': 'Big', 'Shedding': 'None'},
+        {'Species': 'Hamster', 'Pet_Personality': 'Independent', 'Pet_Activity_Need': 'Medium','Pet_Size': 'Big', 'Shedding': 'Low'},
+        {'Species': 'Dog', 'Pet_Personality': 'Loyal', 'Pet_Activity_Need': 'Medium','Pet_Size': 'Big', 'Shedding': 'Medium'},
+        {'Species': 'Cat', 'Pet_Personality': 'Quiet', 'Pet_Activity_Need': 'Low','Pet_Size': 'Big', 'Shedding': 'None'},
+    ]
 
+    result = predict_top_matches(clf, label_encoders_x, label_encoder_y, feature_cols, all_pet_options, new_input)
+    print("Top Pet Matches:")
+    for score, pet in result:
+        print(f"Match Score: {score*100:.2f}%| Pet Info: {pet}")

@@ -1,0 +1,51 @@
+Owner_ID,Owner_Name,Owner_Age,Owner_Personality,Owner_Activity_Level,Living_Space,Pet_Preference,Allergies,Pet_ID,Pet_Name,Species,Breed,Pet_Age,Pet_Personality,Pet_Activity_Need,Pet_Size,Shedding,Match,Shedding_Level,Allergy_Compatibility,Owner_Activity_Level_Num,Pet_Activity_Need_Num,Energy_Compatibility_Score,Suggested_Match_Score,Suggested_Pet_Types
+1,Alice,25,Calm,Low,Apartment,Cat,None,101,Luna,Cat,British Shorthair,3,Calm,Low,Small,Low,Yes,0.0,True,0,0,2,4,"Cat, Rabbit, Small Dog"
+2,Ben,30,Active,High,House,Dog,None,102,Max,Dog,Border Collie,2,Energetic,High,Medium,Moderate,Yes,1.0,True,2,2,2,4,"Dog (Collie, Retriever), Parrot"
+3,Chloe,22,Social,Medium,Apartment,Dog,Yes,103,Coco,Dog,Poodle,4,Friendly,Medium,Small,Low,Yes,0.0,True,1,1,2,4,"Dog (Beagle, Labrador), Parrot"
+4,David,45,Responsible,Medium,House,No Preference,None,104,Rocky,Dog,Labrador,6,Loyal,Medium,Large,High,Yes,2.0,True,1,1,2,4,"Trainable pets (Poodle, German Shepherd)"
+5,Eva,34,Introverted,Low,Condo,Cat,None,105,Momo,Cat,Persian,2,Quiet,Low,Small,High,Yes,2.0,True,0,0,2,4,"Cat, Guinea Pig, Fish"
+6,Frank,29,Adventurous,High,House,Dog,None,106,Rex,Dog,Husky,3,Energetic,High,Large,High,Yes,2.0,True,2,2,2,4,"Bengal Cat, Jack Russell"
+7,Grace,50,Nurturing,Medium,Apartment,Cat,Yes,107,Kiwi,Cat,Sphynx,1,Playful,Medium,Small,None,Yes,,True,1,1,2,4,General Pet
+8,Henry,37,Laid-back,Low,Apartment,No Preference,None,108,Bobo,Rabbit,Holland Lop,1,Gentle,Low,Small,Low,Yes,0.0,True,0,0,2,4,General Pet
+9,Isla,28,Energetic,High,Condo,Dog,None,109,Bolt,Dog,Jack Russell,2,Playful,High,Small,Moderate,Yes,1.0,True,2,2,2,4,General Pet
+10,Jack,40,Quiet,Low,House,Cat,None,110,Shadow,Cat,Russian Blue,5,Reserved,Low,Medium,Low,Yes,0.0,True,0,0,2,4,General Pet
+11,Karen,26,Cheerful,Medium,Apartment,Cat,Yes,111,Whiskers,Cat,Maine Coon,4,Gentle,Medium,Large,High,No,2.0,False,1,1,2,2,General Pet
+12,Leo,33,Outgoing,High,House,Dog,None,112,Zeus,Dog,German Shepherd,5,Protective,High,Large,High,Yes,2.0,True,2,2,2,4,General Pet
+13,Maya,24,Creative,Low,Studio,Cat,None,113,Pixie,Cat,Ragdoll,2,Docile,Low,Medium,Moderate,Yes,1.0,True,0,0,2,4,General Pet
+14,Noah,42,Patient,Medium,House,Dog,Yes,114,Buddy,Dog,Golden Retriever,3,Friendly,Medium,Large,High,No,2.0,False,1,1,2,2,General Pet
+15,Olivia,31,Organized,Low,Condo,Cat,None,115,Mittens,Cat,Siamese,6,Vocal,Medium,Small,Low,Yes,0.0,True,0,1,1,3,General Pet
+16,Paul,38,Relaxed,Low,Apartment,No Preference,Yes,116,Nibbles,Rabbit,Lionhead,2,Calm,Low,Small,Moderate,No,1.0,False,0,0,2,2,General Pet
+17,Quinn,27,Spontaneous,High,House,Dog,None,117,Dash,Dog,Whippet,1,Energetic,High,Medium,Low,Yes,0.0,True,2,2,2,4,General Pet
+18,Ruby,35,Caring,Medium,Apartment,Cat,Yes,118,Smokey,Cat,Scottish Fold,3,Calm,Low,Small,Moderate,No,1.0,False,1,0,1,1,General Pet
+19,Sam,29,Athletic,High,Condo,Dog,None,119,Ace,Dog,Australian Cattle Dog,4,Active,High,Medium,Moderate,Yes,1.0,True,2,2,2,4,General Pet
+20,Tina,46,Gentle,Low,Apartment,Cat,None,120,Patches,Cat,Calico,7,Independent,Low,Small,Low,Yes,0.0,True,0,0,2,4,General Pet
+21,Uma,23,Bubbly,Medium,House,Dog,Yes,121,Ranger,Dog,Beagle,2,Curious,Medium,Medium,Moderate,No,1.0,False,1,1,2,2,General Pet
+22,Victor,41,Steady,Medium,Condo,No Preference,None,122,Peanut,Rabbit,Mini Rex,3,Playful,Medium,Small,Low,Yes,0.0,True,1,1,2,4,General Pet
+23,Wendy,36,Warm,Low,Apartment,Cat,Yes,123,Tiger,Cat,Bengal,1,Energetic,High,Medium,Low,Yes,0.0,True,0,2,0,2,General Pet
+24,Xavier,32,Adventurous,High,House,Dog,None,124,Storm,Dog,Siberian Husky,3,Independent,High,Large,High,Yes,2.0,True,2,2,2,4,"Bengal Cat, Jack Russell"
+25,Yara,28,Artistic,Medium,Studio,Cat,None,125,Sage,Cat,Norwegian Forest,5,Gentle,Medium,Large,High,Yes,2.0,True,1,1,2,4,General Pet
+26,Zoe,39,Practical,Low,Condo,Dog,Yes,126,Buster,Dog,Bulldog,4,Calm,Low,Medium,Low,Yes,0.0,True,0,0,2,4,General Pet
+27,Adam,44,Methodical,Medium,House,Cat,None,127,Oreo,Cat,Tuxedo,2,Playful,Medium,Small,Moderate,Yes,1.0,True,1,1,2,4,General Pet
+28,Bella,25,Vivacious,High,Apartment,Dog,Yes,128,Flash,Dog,Greyhound,6,Gentle,Medium,Large,Low,Yes,0.0,True,2,1,1,3,General Pet
+29,Carlos,37,Diplomatic,Low,Condo,No Preference,None,129,Cuddles,Rabbit,Angora,1,Docile,Low,Small,High,Yes,2.0,True,0,0,2,4,General Pet
+30,Diana,30,Ambitious,Medium,House,Cat,Yes,130,Midnight,Cat,Bombay,3,Mysterious,Low,Medium,Low,Yes,0.0,True,1,0,1,3,General Pet
+31,Ethan,26,Optimistic,High,Apartment,Dog,None,131,Rocket,Dog,Rat Terrier,2,Energetic,High,Small,Moderate,Yes,1.0,True,2,2,2,4,General Pet
+32,Fiona,43,Thoughtful,Low,Condo,Cat,Yes,132,Princess,Cat,Himalayan,4,Regal,Low,Medium,High,No,2.0,False,0,0,2,2,General Pet
+33,George,35,Reliable,Medium,House,Dog,None,133,Bruno,Dog,Mastiff,5,Gentle Giant,Medium,Large,Moderate,Yes,1.0,True,1,1,2,4,General Pet
+34,Hannah,24,Enthusiastic,High,Apartment,Cat,None,134,Ginger,Cat,Orange Tabby,1,Mischievous,High,Small,Moderate,Yes,1.0,True,2,2,2,4,General Pet
+35,Ian,40,Contemplative,Low,House,No Preference,Yes,135,Velvet,Rabbit,Flemish Giant,3,Calm,Low,Large,Low,Yes,0.0,True,0,0,2,4,General Pet
+36,Jade,32,Dynamic,Medium,Condo,Dog,None,136,Scout,Dog,Border Terrier,2,Alert,Medium,Small,Moderate,Yes,1.0,True,1,1,2,4,General Pet
+37,Kyle,28,Easygoing,Low,Apartment,Cat,Yes,137,Duchess,Cat,Turkish Angora,6,Elegant,Low,Medium,High,No,2.0,False,0,0,2,2,General Pet
+38,Luna,34,Nurturing,Medium,House,Dog,None,138,Captain,Dog,Rottweiler,4,Loyal,Medium,Large,Moderate,Yes,1.0,True,1,1,2,4,General Pet
+39,Mason,31,Focused,High,Condo,Cat,None,139,Ninja,Cat,Japanese Bobtail,2,Agile,High,Small,Low,Yes,0.0,True,2,2,2,4,General Pet
+40,Nora,45,Serene,Low,Apartment,No Preference,Yes,140,Honey,Rabbit,Jersey Wooly,1,Sweet,Low,Small,Moderate,No,1.0,False,0,0,2,2,General Pet
+41,Owen,33,Adventurous,High,House,Dog,None,141,Blaze,Dog,Weimaraner,3,Energetic,High,Large,Moderate,Yes,1.0,True,2,2,2,4,"Bengal Cat, Jack Russell"
+42,Penny,27,Cheerful,Medium,Apartment,Cat,Yes,142,Marble,Cat,Russian White,5,Serene,Low,Medium,Low,Yes,0.0,True,1,0,1,3,General Pet
+43,Quentin,38,Intellectual,Low,Condo,Cat,None,143,Aristotle,Cat,Abyssinian,4,Curious,Medium,Small,Moderate,Yes,1.0,True,0,1,1,3,General Pet
+44,Rosa,29,Compassionate,Medium,House,Dog,Yes,144,Sunny,Dog,Cocker Spaniel,2,Happy,Medium,Medium,High,No,2.0,False,1,1,2,2,General Pet
+45,Sean,42,Practical,High,Apartment,Dog,None,145,Turbo,Dog,Basenji,1,Independent,High,Small,Low,Yes,0.0,True,2,2,2,4,General Pet
+46,Tara,26,Spirited,Medium,Condo,Cat,Yes,146,Cleopatra,Cat,Egyptian Mau,3,Regal,Medium,Medium,Moderate,No,1.0,False,1,1,2,2,General Pet
+47,Ulysses,36,Philosophical,Low,House,No Preference,None,147,Binky,Rabbit,Dutch,2,Gentle,Low,Small,Low,Yes,0.0,True,0,0,2,4,General Pet
+48,Vera,41,Stable,Medium,Apartment,Cat,Yes,148,Frost,Cat,White Persian,7,Dignified,Low,Small,High,No,2.0,False,1,0,1,1,General Pet
+49,Wade,30,Energetic,High,House,Dog,None,149,Thunder,Dog,Doberman,4,Alert,High,Large,Low,Yes,0.0,True,2,2,2,4,General Pet
+50,Xara,25,Creative,Low,Studio,Cat,None,150,Zen,Cat,Birman,1,Peaceful,Low,Medium,Moderate,Yes,1.0,True,0,0,2,4,General Pet

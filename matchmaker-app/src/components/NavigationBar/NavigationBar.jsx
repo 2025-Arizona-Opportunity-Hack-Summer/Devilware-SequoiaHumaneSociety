@@ -2,7 +2,7 @@ import { NavLink } from "react-router";
 
 import "./NavigationBar.css";
 import navIconUnchecked from "../../assets/images/nav-icon-unchecked.svg";
-import navIconChecked from "../../assets/images/nav-icon-checked.svg";
+// import navIconChecked from "../../assets/images/nav-icon-checked.svg";
 import shsLogo from "../../assets/images/shs-logo.png";
 
 function NavigationBar() {
@@ -18,8 +18,8 @@ function LogoContainer() {
   return (
     <div className="flex justify-between items-center">
       <figure className="flex items-center justify-start">
-        <img src={shsLogo} alt="logo" className="w-10" />
-        <figcaption className="text-[#7C0F0F] uppercase font-bold text-2xl">
+        <img src={shsLogo} alt="logo" className="w-12 md:w-20" />
+        <figcaption className="text-[#7C0F0F] uppercase font-bold text-2xl logo-name">
           Sequoia
         </figcaption>
       </figure>
@@ -69,7 +69,7 @@ function NavListContainer() {
           Match
         </NavLink>
       </nav>
-      <nav className="nav-list mt-1.5">
+      <nav className="nav-list mt-1.5 md:mt-0">
         <NavLink to="/sign-in" className={isLinkActive}>
           Sign in
         </NavLink>

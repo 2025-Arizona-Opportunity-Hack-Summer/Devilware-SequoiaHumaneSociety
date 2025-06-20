@@ -1,0 +1,43 @@
+@import url("https://fonts.googleapis.com/css2?family=Koh+Santepheap:wght@100;300;400;700;900&display=swap");
+@import "tailwindcss";
+
+.navigation-bar {
+  @apply mx-5 mt-10 py-2.5 pl-2.5 pr-5;
+  @apply border border-black rounded-sm;
+}
+
+.icon-image {
+  @apply w-[20px] h-[20px];
+}
+
+/*===================================== NAV BUTTON /*=====================================*/
+
+.nav-button-label {
+  @apply rounded-sm p-2 cursor-pointer;
+}
+
+.nav-button {
+  @apply hidden;
+}
+
+/*===================================== NAV LIST /*=====================================*/
+.navigation-bar:has(.nav-button:checked) {
+  .nav-list-container {
+    @apply visible h-[175px] opacity-100 transition-all duration-500;
+  }
+  .nav-list {
+    @apply visible;
+  }
+  @apply shadow-[7px_7px_#00000080];
+}
+
+.nav-list-container {
+  @apply invisible h-0 transition-all duration-500;
+}
+
+.nav-list {
+  @apply flex flex-col invisible gap-1.5 text-sm;
+  font-family: "Koh Santepheap", serif;
+  font-weight: 400;
+  font-style: normal;
+}

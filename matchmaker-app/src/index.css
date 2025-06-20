@@ -77,9 +77,39 @@ button:focus-visible {
   }
 } */
 
-@layer utilities {
-  .nav-list-desktop {
-    @apply flex gap-1;
+.root {
+  @apply min-h-screen;
+}
+
+.root:has(.sign-in) {
+  @apply bg-[#7C0F0F];
+}
+/* 
+@media screen and (width > 768px) {
+  .toggle-button-container {
+    @apply hidden;
+  }
+}
+
+.navigation-bar {
+  @apply grid grid-cols-2 grid-rows-[50px] border border-black mx-5 mt-2 p-5 rounded-2xl;
+}
+
+.navigation-bar:has(.toggle-button-container .toggle-button:checked) {
+  @apply grid grid-cols-2 grid-rows-[50px_420px] border border-black mx-5 mt-2 p-5 rounded-2xl;
+}
+
+@media screen and (width > 768px) {
+  .navigation-bar {
+    @apply grid grid-cols-[1fr_2fr] items-center mx-3 p-5 bg-[#fff];
+  }
+
+  .nav-list-container {
+    @apply flex justify-between;
+  }
+
+  .nav-list {
+    @apply flex flex-row gap-1;
 
     a {
       @apply px-6 py-4 text-lg text-black rounded-2xl w-max font-medium;
@@ -89,12 +119,28 @@ button:focus-visible {
       @apply text-white bg-[#7C0F0F];
     }
   }
+}
 
-  .root {
-    @apply min-h-screen;
-  }
+.nav-list-container {
+  @apply flex flex-col invisible col-start-1 col-end-3 row-start-2 row-end-3 h-0;
+}
 
-  .root:has(.sign-in) {
-    @apply bg-[#7C0F0F];
+.nav-list {
+  @apply flex flex-col gap-0;
+
+  a {
+    @apply p-5 text-sm text-black w-max font-medium;
   }
 }
+
+.toggle-button-container:has(.toggle-button:checked) + .nav-list-container {
+  @apply visible h-[200px];
+}
+
+.logo {
+  @apply col-start-1 col-end-2 row-start-1 row-end-2;
+}
+
+.toggle-button-container {
+  @apply col-start-2 col-end-3 row-start-1 row-end-2;
+} */

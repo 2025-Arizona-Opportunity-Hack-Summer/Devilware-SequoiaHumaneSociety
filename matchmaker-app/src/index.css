@@ -35,6 +35,13 @@
 
 .root:has(.sign-in) {
   @apply bg-[#7C0F0F];
+  background-image: url('/src/assets/images/signin.png');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
 }
 
 @media screen and (max-width: 768px) {

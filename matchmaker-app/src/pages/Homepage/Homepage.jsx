@@ -1,8 +1,10 @@
+import PageWrapper from '../../components/NavigationBar/PageWrapper';
+
 function Homepage() {
   return (
-    <div>
+    <PageWrapper className="homepage">
       <p>This is homepage</p>
-    </div>
+    </PageWrapper>
   );
 }
 

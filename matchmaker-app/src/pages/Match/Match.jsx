@@ -1,8 +1,10 @@
+import PageWrapper from '../../components/NavigationBar/PageWrapper';
+
 function Match() {
   return (
-    <div>
+    <PageWrapper className="match">
       <p>This is match</p>
-    </div>
+    </PageWrapper>
   );
 }
 

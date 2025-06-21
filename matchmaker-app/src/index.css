@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@font-face {
+    font-family: "Koulen";
+    display: swap;
+    src: url("https://fonts.googleapis.com/css2?family=Koulen&display=swap");
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

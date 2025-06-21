@@ -18,8 +18,11 @@
 /*===================================== LOGO /*=====================================*/
 .logo-name {
   @apply tracking-tighter;
-  font-family: "Koh Santepheap", serif;
+  font-family: "Koulen", serif;
+  font-size: 35px;
+  font-style: normal;
   font-weight: 400;
+  line-height: normal;
   font-style: normal;
 }
 
@@ -75,7 +78,7 @@
   }
 
   .nav-list a {
-    @apply p-5 text-black w-max font-medium text-xl rounded-2xl;
+    @apply p-4 text-black w-max font-medium text-base rounded-2xl;
   }
 
   .nav-list a:hover,

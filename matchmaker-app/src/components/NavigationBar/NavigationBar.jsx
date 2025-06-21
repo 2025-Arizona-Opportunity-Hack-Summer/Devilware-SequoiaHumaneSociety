@@ -69,7 +69,7 @@ function NavigationBar() {
           </ul>
         </div>
 
-        {/* Hamburger Menu Button - Shows on mobile AND when desktop items would overlap */}
+        {/* Hamburger Menu Button - Shows on mobile and for when desktop items overlap while zooming in on site*/}
         <button
           className="xl:hidden p-2 rounded-sm cursor-pointer focus:outline-none hover:bg-[#7C0F0F]/10 transition-colors duration-200"
           onClick={toggleMenu}
@@ -123,13 +123,13 @@ function NavigationBar() {
             className="flex flex-col items-center gap-4" 
             style={{ fontFamily: 'Koh Santepheap, serif' }}
           >
-            <li><NavLink to="/" className={mobileNavLinkClass} onClick={closeMenu}>Home</NavLink></li>
-            <li><NavLink to="/about" className={mobileNavLinkClass} onClick={closeMenu}>About</NavLink></li>
-            <li><NavLink to="/contact" className={mobileNavLinkClass} onClick={closeMenu}>Contact</NavLink></li>
-            <li><NavLink to="/adopt" className={mobileNavLinkClass} onClick={closeMenu}>Adopt</NavLink></li>
-            <li><NavLink to="/match" className={mobileNavLinkClass} onClick={closeMenu}>Match</NavLink></li>
-            <li><NavLink to="/sign-in" className={mobileNavLinkClass} onClick={closeMenu}>Sign In</NavLink></li>
-            <li><NavLink to="/register" className={mobileNavLinkClass} onClick={closeMenu}>Register</NavLink></li>
+            <li><NavLink to="/" className={mobileNavLinkClass}>Home</NavLink></li>
+            <li><NavLink to="/about" className={mobileNavLinkClass}>About</NavLink></li>
+            <li><NavLink to="/contact" className={mobileNavLinkClass}>Contact</NavLink></li>
+            <li><NavLink to="/adopt" className={mobileNavLinkClass}>Adopt</NavLink></li>
+            <li><NavLink to="/match" className={mobileNavLinkClass}>Match</NavLink></li>
+            <li><NavLink to="/sign-in" className={mobileNavLinkClass}>Sign In</NavLink></li>
+            <li><NavLink to="/register" className={mobileNavLinkClass}>Register</NavLink></li>
           </ul>
         </div>
       </div>

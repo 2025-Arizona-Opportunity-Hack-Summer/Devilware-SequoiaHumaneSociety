@@ -1,0 +1,85 @@
+@import url("https://fonts.googleapis.com/css2?family=Koh+Santepheap:wght@100;300;400;700;900&display=swap");
+@import "tailwindcss";
+
+.navigation-bar {
+  @apply mx-5 py-2.5 pl-2.5 pr-5;
+  @apply border border-black rounded-md;
+  @apply bg-[#fff];
+}
+
+@media screen and (min-width: 768px) {
+  .navigation-bar {
+    @apply m-0 p-2.5 mx-5;
+    @apply border-0;
+    @apply grid grid-cols-[1fr_2fr];
+  }
+}
+
+/*===================================== LOGO /*=====================================*/
+.logo-name {
+  @apply tracking-tighter;
+  font-family: "Koh Santepheap", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+/*===================================== NAV BUTTON /*=====================================*/
+
+.nav-button-label {
+  @apply rounded-sm p-2 cursor-pointer;
+}
+
+.icon-image {
+  @apply w-[20px] h-[20px];
+}
+
+.nav-button {
+  @apply hidden;
+}
+
+@media screen and (min-width: 768px) {
+  .nav-button-label {
+    @apply hidden;
+  }
+}
+
+/*===================================== NAV LIST /*=====================================*/
+.navigation-bar:has(.nav-button:checked) {
+  .nav-list-container {
+    @apply visible h-[175px] opacity-100 transition-all duration-500;
+  }
+  .nav-list {
+    @apply visible;
+  }
+  @apply shadow-[7px_7px_#00000080];
+}
+
+.nav-list-container {
+  @apply invisible h-0 transition-all duration-500;
+}
+
+.nav-list {
+  @apply flex flex-col invisible gap-1.5 text-sm;
+  font-family: "Koh Santepheap", serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+@media screen and (min-width: 768px) {
+  .nav-list-container {
+    @apply visible h-max opacity-100;
+    @apply flex items-center justify-between;
+  }
+  .nav-list {
+    @apply flex flex-row items-center justify-between visible gap-2;
+  }
+
+  .nav-list a {
+    @apply p-5 text-black w-max font-medium text-xl rounded-2xl;
+  }
+
+  .nav-list a:hover,
+  .nav-list .link-active {
+    @apply text-white bg-[#7C0F0F];
+  }
+}

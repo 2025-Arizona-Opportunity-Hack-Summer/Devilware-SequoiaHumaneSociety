@@ -7,7 +7,9 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
+  color: #000;
   background-color: #242424;
+  background-color: #fff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -15,19 +17,25 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-a {
+/* a {
   font-weight: 500;
   color: #646cff;
   text-decoration: inherit;
 }
 a:hover {
   color: #535bf2;
-}
+} */
 
-body {
+/* body {
   margin: 0;
   display: flex;
   place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+} */
+
+/* body {
+  margin: 0;
   min-width: 320px;
   min-height: 100vh;
 }
@@ -66,5 +74,19 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+} */
+
+.root {
+  @apply min-h-screen;
+}
+
+.root:has(.sign-in) {
+  @apply bg-[#7C0F0F];
+}
+
+@media screen and (max-width: 768px) {
+  .root {
+    @apply pt-5;
   }
 }

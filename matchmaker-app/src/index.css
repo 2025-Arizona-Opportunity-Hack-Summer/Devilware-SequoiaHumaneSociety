@@ -6,6 +6,12 @@
     src: url("https://fonts.googleapis.com/css2?family=Koulen&display=swap");
 }
 
+@font-face {
+    font-family: "Koh Santepheap";
+    display: swap;
+    src: url("https://fonts.googleapis.com/css2?family=Koh+Santepheap:wght@100;300;400;700;900&display=swap");
+}
+
 :root {
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;

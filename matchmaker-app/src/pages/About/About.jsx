@@ -1,8 +1,10 @@
+import PageWrapper from '../../components/NavigationBar/PageWrapper';
+
 function About() {
   return (
-    <div className="about">
+    <PageWrapper className="about">
       <p>This is about</p>
-    </div>
+    </PageWrapper>
   );
 }
 

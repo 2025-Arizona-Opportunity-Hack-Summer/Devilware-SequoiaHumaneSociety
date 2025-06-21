@@ -30,7 +30,7 @@ function NavigationBar() {
   const toggleMenu = () => setMenuOpen(prev => !prev);
 
   return (
-    <nav className="w-full bg-white shadow-lg fixed top-0 left-0 z-50">
+    <nav className="w-full bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-2 py-3 md:px-3 md:py-3">
         
         {/* Logo Section */}
@@ -69,7 +69,7 @@ function NavigationBar() {
           </ul>
         </div>
 
-        {/* Hamburger Menu Button - Shows on mobile and for when desktop items overlap while zooming in on site*/}
+        {/* Hamburger Menu Button - Shows on mobile and for when desktop items overlap while zooming in on site */}
         <button
           className="xl:hidden p-2 rounded-sm cursor-pointer focus:outline-none hover:bg-[#7C0F0F]/10 transition-colors duration-200"
           onClick={toggleMenu}
@@ -92,10 +92,10 @@ function NavigationBar() {
       {/* Mobile/Responsive Navigation Menu */}
       <div className={`
         xl:hidden fixed top-0 right-0 h-full w-64 bg-white shadow-lg 
-        transform transition-transform duration-300 ease-in-out z-50 overflow-y-auto
+        transform transition-transform duration-300 ease-in-out z-50
         ${menuOpen ? 'translate-x-0' : 'translate-x-full'}
       `}>
-        <div className="flex justify-end p-4 sticky top-0 bg-white">
+        <div className="flex justify-end p-4 bg-white border-b border-gray-100">
           <button
             onClick={closeMenu}
             className="p-2 rounded focus:outline-none hover:bg-[#7C0F0F]/10 transition-colors duration-200 cursor-pointer"
@@ -117,20 +117,22 @@ function NavigationBar() {
           </button>
         </div>
         
-        {/* Mobile Navigation Links */}
-        <div className="px-4 pb-8">
-          <ul 
-            className="flex flex-col items-center gap-4" 
-            style={{ fontFamily: 'Koh Santepheap, serif' }}
-          >
-            <li><NavLink to="/" className={mobileNavLinkClass}>Home</NavLink></li>
-            <li><NavLink to="/about" className={mobileNavLinkClass}>About</NavLink></li>
-            <li><NavLink to="/contact" className={mobileNavLinkClass}>Contact</NavLink></li>
-            <li><NavLink to="/adopt" className={mobileNavLinkClass}>Adopt</NavLink></li>
-            <li><NavLink to="/match" className={mobileNavLinkClass}>Match</NavLink></li>
-            <li><NavLink to="/sign-in" className={mobileNavLinkClass}>Sign In</NavLink></li>
-            <li><NavLink to="/register" className={mobileNavLinkClass}>Register</NavLink></li>
-          </ul>
+        {/* Scrollable Mobile Navigation Links Container */}
+        <div className="h-full overflow-y-auto pb-20">
+          <div className="px-4 py-6">
+            <ul 
+              className="flex flex-col items-center gap-4" 
+              style={{ fontFamily: 'Koh Santepheap, serif' }}
+            >
+              <li><NavLink to="/" className={mobileNavLinkClass}>Home</NavLink></li>
+              <li><NavLink to="/about" className={mobileNavLinkClass}>About</NavLink></li>
+              <li><NavLink to="/contact" className={mobileNavLinkClass}>Contact</NavLink></li>
+              <li><NavLink to="/adopt" className={mobileNavLinkClass}>Adopt</NavLink></li>
+              <li><NavLink to="/match" className={mobileNavLinkClass}>Match</NavLink></li>
+              <li><NavLink to="/sign-in" className={mobileNavLinkClass}>Sign In</NavLink></li>
+              <li><NavLink to="/register" className={mobileNavLinkClass}>Register</NavLink></li>
+            </ul>
+          </div>
         </div>
       </div>
     </nav>

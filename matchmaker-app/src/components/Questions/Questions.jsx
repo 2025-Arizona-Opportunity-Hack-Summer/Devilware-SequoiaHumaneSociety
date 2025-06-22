@@ -41,7 +41,7 @@ export default function Questions() {
 
   return (
     <ul
-      className="flex flex-col items-end max-w-max m-auto gap-5"
+      className="flex flex-col items-end max-w-max m-auto gap-5 bg-white p-10 px-28 rounded-xl"
       style={{ fontFamily: "Koh Santepheap, serif" }}
     >
       {activeQuestions}

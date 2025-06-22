@@ -1,0 +1,39 @@
+.submitLabel {
+  background-color: #7c0f0f;
+  padding: 10px 20px;
+  border-radius: 5px;
+  position: relative;
+  cursor: pointer;
+  border: 3px solid #7c0f0f;
+  display: block;
+  width: max-content;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+
+.submitLabel:before {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: white;
+  transition-duration: 500ms;
+  z-index: 1;
+  border-radius: 3px;
+}
+
+.submitLabel:hover:before {
+  width: 100%;
+}
+
+.submitLabel span {
+  position: relative;
+  color: white;
+  z-index: 10;
+}
+
+.submitLabel:hover span {
+  color: #7c0f0f;
+}

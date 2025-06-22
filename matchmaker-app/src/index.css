@@ -63,13 +63,19 @@
   0% {
     opacity: 0;
     visibility: hidden;
+    height: 0;
   }
   50% {
     opacity: 0;
     visibility: hidden;
+    height: 0;
+  }
+  75% {
+    height: 50%;
   }
   100% {
     opacity: 100%;
     visibility: visible;
+    height: max-content;
   }
 }

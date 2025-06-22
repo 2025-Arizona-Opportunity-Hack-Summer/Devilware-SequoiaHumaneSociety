@@ -1,6 +1,7 @@
 import { useState } from "react";
 import shsLogo from "../../../assets/images/shs-logo.png";
 import user from "../../../assets/images/user.png";
+import PulseLoader from "react-spinners/PulseLoader";
 
 import "./HousingEnvironmentQuestions.css";
 
@@ -70,10 +71,16 @@ export function QuestionHE1({ onSubmitAnswer }) {
           </div>
         )}
 
-        <div>
+        <div className="flex items-center">
           <img src={user} alt="you" className="xl:w-12 xl:h-12" />
         </div>
       </div>
+      {answer === "" && (
+        <div className="flex items-center justify-end answer mt-5">
+          <PulseLoader size={10} />
+          <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
+        </div>
+      )}
     </div>
   );
 }
@@ -212,6 +219,12 @@ export function QuestionHE2({ onSubmitAnswer }) {
           <img src={user} alt="you" className="xl:w-12 xl:h-12" />
         </div>
       </div>
+      {answer === "" && (
+        <div className="flex items-center justify-end answer mt-5">
+          <PulseLoader size={10} />
+          <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
+        </div>
+      )}
     </div>
   );
 }
@@ -350,6 +363,12 @@ export function QuestionHE3({ onSubmitAnswer }) {
           <img src={user} alt="you" className="xl:w-12 xl:h-12" />
         </div>
       </div>
+      {answer === "" && (
+        <div className="flex items-center justify-end answer mt-5">
+          <PulseLoader size={10} />
+          <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
+        </div>
+      )}
     </div>
   );
 }
@@ -402,6 +421,12 @@ export function QuestionHE4({ onSubmitAnswer }) {
         )}
         <img src={user} alt="you" className="xl:w-12 xl:h-12" />
       </div>
+      {answer === "" && (
+        <div className="flex items-center justify-end answer mt-5">
+          <PulseLoader size={10} />
+          <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
+        </div>
+      )}
     </div>
   );
 }
@@ -540,6 +565,12 @@ export function QuestionHE5({ onSubmitAnswer }) {
           <img src={user} alt="you" className="xl:w-12 xl:h-12" />
         </div>
       </div>
+      {answer === "" && (
+        <div className="flex items-center justify-end answer mt-5">
+          <PulseLoader size={10} />
+          <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
+        </div>
+      )}
     </div>
   );
 }

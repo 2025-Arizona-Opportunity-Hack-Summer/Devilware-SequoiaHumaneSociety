@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 @font-face {
-    font-family: "Koulen";
-    display: swap;
-    src: url("https://fonts.googleapis.com/css2?family=Koulen&display=swap");
+  font-family: "Koulen";
+  display: swap;
+  src: url("https://fonts.googleapis.com/css2?family=Koulen&display=swap");
 }
 
 @font-face {
-    font-family: "Koh Santepheap";
-    display: swap;
-    src: url("https://fonts.googleapis.com/css2?family=Koh+Santepheap:wght@100;300;400;700;900&display=swap");
+  font-family: "Koh Santepheap";
+  display: swap;
+  src: url("https://fonts.googleapis.com/css2?family=Koh+Santepheap:wght@100;300;400;700;900&display=swap");
 }
 
 :root {
@@ -35,7 +35,7 @@
 
 .root:has(.sign-in) {
   @apply bg-[#7C0F0F];
-  background-image: url('/src/assets/images/signin.png');
+  background-image: url("/src/assets/images/signin.png");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -47,5 +47,35 @@
 @media screen and (max-width: 768px) {
   .root {
     @apply pt-5;
+  }
+}
+
+@keyframes typing {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+  }
+  50% {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+  }
+  75% {
+    height: 50%;
+  }
+  100% {
+    opacity: 100%;
+    visibility: visible;
+    height: max-content;
   }
 }

@@ -1,7 +1,11 @@
+import PageWrapper from '../../components/NavigationBar/PageWrapper';
+
 function Register() {
-  <div>
+  return (
+  <PageWrapper className="register">
     <p>This is register</p>
-  </div>;
+  </PageWrapper>
+  );
 }
 
 export default Register;

@@ -1,8 +1,10 @@
+import PageWrapper from '../../components/NavigationBar/PageWrapper';
+
 function Adopt() {
   return (
-    <div>
+    <PageWrapper className="adopt">
       <p>This is adopt</p>
-    </div>
+    </PageWrapper>
   );
 }
 

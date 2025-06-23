@@ -1,8 +1,10 @@
+import PageWrapper from '../../components/NavigationBar/PageWrapper';
+
 function SignIn() {
   return (
-    <div className="sign-in">
+    <PageWrapper className="sign-in">
       <p>This is sign in</p>
-    </div>
+    </PageWrapper>
   );
 }
 

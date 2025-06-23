@@ -1,83 +1,142 @@
-import { NavLink } from "react-router";
-
-import "./NavigationBar.css";
-import navIconUnchecked from "../../assets/images/nav-icon-unchecked.svg";
-// import navIconChecked from "../../assets/images/nav-icon-checked.svg";
+import { useState } from "react";
+import { NavLink } from "react-router-dom";
 import shsLogo from "../../assets/images/shs-logo.png";
 
 function NavigationBar() {
-  return (
-    <div className="navigation-bar">
-      <LogoContainer />
-      <NavListContainer />
-    </div>
-  );
-}
+  const [menuOpen, setMenuOpen] = useState(false);
 
-function LogoContainer() {
+  const navLinkClass = ({ isActive }) =>
+    `px-6 py-3 text-base font-medium rounded-2xl transition-all duration-200 ${
+      isActive
+        ? "bg-[#7C0F0F] text-white shadow-md"
+        : "text-black hover:bg-[#7C0F0F] hover:text-white hover:shadow-md"
+    }`;
+
+  const authLinkClass = ({ isActive }) =>
+    `px-6 py-3 text-base font-medium rounded-2xl transition-all duration-200 ${
+      isActive
+        ? "bg-[#7C0F0F] text-white shadow-md"
+        : "text-black hover:bg-[#7C0F0F] hover:text-white hover:shadow-md"
+    }`;
+
+  const mobileNavLinkClass = ({ isActive }) =>
+    `block px-3 py-2 rounded-lg transition-colors ${
+      isActive
+        ? "bg-[#7C0F0F] text-white"
+        : "text-[#7C0F0F] hover:bg-[#7C0F0F]/10"
+    }`;
+
+  const closeMenu = () => setMenuOpen(false);
+  const toggleMenu = () => setMenuOpen(prev => !prev);
+
   return (
-    <div className="flex justify-between items-center">
-      <figure className="flex items-center justify-start">
-        <img src={shsLogo} alt="logo" className="w-12 md:w-20" />
-        <figcaption className="text-[#7C0F0F] uppercase font-bold text-2xl logo-name">
-          Sequoia
-        </figcaption>
-      </figure>
-      {/*
-          The nav-button-container only visible when the width of viewport <= 769 
-        */}
-      <div className="nav-button-container">
-        <label htmlFor="nav-button" className="nav-button-label">
-          <img
-            src={navIconUnchecked}
-            alt="uncheckedIcon"
-            className="icon-image"
-          />
-        </label>
-        <input
-          type="checkbox"
-          className="nav-button"
-          id="nav-button"
-          name="nav-button"
-        />
+    <nav className="w-full bg-white shadow-lg sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-2 py-3 md:px-3 md:py-3">
+        
+        {/* Logo Section */}
+        <div className="flex items-center gap-1 md:gap-2">
+          <img src={shsLogo} alt="logo" className="w-8 md:w-14" />
+          <span 
+            className="text-[#7C0F0F] uppercase font-bold text-xl md:text-3xl tracking-tighter" 
+            style={{ fontFamily: 'Koulen, sans-serif' }}
+          >
+            Sequoia
+          </span>
+        </div>
+
+        {/* Desktop Navigation - Centered - Hidden at smaller desktop sizes when items would overlap */}
+        <div className="hidden xl:flex xl:absolute xl:left-1/2 xl:transform xl:-translate-x-1/2">
+          <ul 
+            className="flex flex-row items-center gap-3" 
+            style={{ fontFamily: 'Koh Santepheap, serif' }}
+          >
+            <li><NavLink to="/" className={navLinkClass}>Home</NavLink></li>
+            <li><NavLink to="/about" className={navLinkClass}>About</NavLink></li>
+            <li><NavLink to="/contact" className={navLinkClass}>Contact</NavLink></li>
+            <li><NavLink to="/adopt" className={navLinkClass}>Adopt</NavLink></li>
+            <li><NavLink to="/match" className={navLinkClass}>Match</NavLink></li>
+          </ul>
+        </div>
+
+        {/* Desktop Auth Links - Right - Hidden at smaller desktop sizes */}
+        <div className="hidden xl:flex">
+          <ul 
+            className="flex flex-row items-center gap-3" 
+            style={{ fontFamily: 'Koh Santepheap, serif' }}
+          >
+            <li><NavLink to="/sign-in" className={authLinkClass}>Sign In</NavLink></li>
+            <li><NavLink to="/register" className={authLinkClass}>Register</NavLink></li>
+          </ul>
+        </div>
+
+        {/* Hamburger Menu Button - Shows on mobile and for when desktop items overlap while zooming in on site */}
+        <button
+          className="xl:hidden p-2 rounded-sm cursor-pointer focus:outline-none hover:bg-[#7C0F0F]/10 transition-colors duration-200"
+          onClick={toggleMenu}
+          aria-label="Toggle navigation"
+        >
+          <div className="w-5 h-5 flex flex-col justify-center items-center">
+            <span className={`block w-full h-0.5 bg-[#7C0F0F] transition-all duration-300 ${
+              menuOpen ? 'rotate-45 translate-y-1' : ''
+            }`} />
+            <span className={`block w-full h-0.5 bg-[#7C0F0F] transition-all duration-300 my-1 ${
+              menuOpen ? 'opacity-0' : ''
+            }`} />
+            <span className={`block w-full h-0.5 bg-[#7C0F0F] transition-all duration-300 ${
+              menuOpen ? '-rotate-45 -translate-y-1' : ''
+            }`} />
+          </div>
+        </button>
       </div>
-    </div>
+
+      {/* Mobile/Responsive Navigation Menu */}
+      <div className={`
+        xl:hidden fixed top-0 right-0 h-full w-64 bg-white shadow-lg 
+        transform transition-transform duration-300 ease-in-out z-50
+        ${menuOpen ? 'translate-x-0' : 'translate-x-full'}
+      `}>
+        <div className="flex justify-end p-4 bg-white border-b border-gray-100">
+          <button
+            onClick={closeMenu}
+            className="p-2 rounded focus:outline-none hover:bg-[#7C0F0F]/10 transition-colors duration-200 cursor-pointer"
+            aria-label="Close navigation"
+          >
+            <svg
+              className="w-6 h-6 text-[#7C0F0F] hover:text-[#7C0F0F]/80 transition-colors duration-200"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        
+        {/* Scrollable Mobile Navigation Links Container */}
+        <div className="h-full overflow-y-auto pb-20">
+          <div className="px-4 py-6">
+            <ul 
+              className="flex flex-col items-center gap-4" 
+              style={{ fontFamily: 'Koh Santepheap, serif' }}
+            >
+              <li><NavLink to="/" className={mobileNavLinkClass}>Home</NavLink></li>
+              <li><NavLink to="/about" className={mobileNavLinkClass}>About</NavLink></li>
+              <li><NavLink to="/contact" className={mobileNavLinkClass}>Contact</NavLink></li>
+              <li><NavLink to="/adopt" className={mobileNavLinkClass}>Adopt</NavLink></li>
+              <li><NavLink to="/match" className={mobileNavLinkClass}>Match</NavLink></li>
+              <li><NavLink to="/sign-in" className={mobileNavLinkClass}>Sign In</NavLink></li>
+              <li><NavLink to="/register" className={mobileNavLinkClass}>Register</NavLink></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
   );
 }
 
-function NavListContainer() {
-  const isLinkActive = ({ isActive }) => {
-    return isActive ? "link-active" : "";
-  };
-
-  return (
-    <div className="nav-list-container">
-      <nav className="nav-list">
-        <NavLink to="/" className={isLinkActive}>
-          Home
-        </NavLink>
-        <NavLink to="/about" className={isLinkActive}>
-          About
-        </NavLink>
-        <NavLink to="/contact" className={isLinkActive}>
-          Contact
-        </NavLink>
-        <NavLink to="/adopt" className={isLinkActive}>
-          Adopt
-        </NavLink>
-        <NavLink to="/match" className={isLinkActive}>
-          Match
-        </NavLink>
-      </nav>
-      <nav className="nav-list mt-1.5 md:mt-0">
-        <NavLink to="/sign-in" className={isLinkActive}>
-          Sign in
-        </NavLink>
-        <NavLink to="register" className={isLinkActive}>
-          Register
-        </NavLink>
-      </nav>
-    </div>
-  );
-}
 export default NavigationBar;

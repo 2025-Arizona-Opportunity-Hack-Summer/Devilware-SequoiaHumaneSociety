@@ -1,8 +1,10 @@
+import PageWrapper from '../../components/NavigationBar/PageWrapper';
+
 function Contact() {
   return (
-    <div>
+    <PageWrapper className="contact">
       <p>This is contact</p>
-    </div>
+    </PageWrapper>
   );
 }
 

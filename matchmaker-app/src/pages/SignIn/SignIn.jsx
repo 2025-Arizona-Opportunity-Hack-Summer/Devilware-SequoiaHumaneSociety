@@ -1,5 +1,4 @@
-import PageWrapper from '../../components/NavigationBar/PageWrapper';
-
+import PageWrapper from "../../components/PageWrapper/PageWrapper";
 function SignIn() {
   return (
     <PageWrapper className="sign-in">

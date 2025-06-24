@@ -79,3 +79,13 @@
     height: max-content;
   }
 }
+
+.typewriter {
+  overflow: hidden;
+  white-space: nowrap;
+  animation: typing 1s steps(26) forwards;
+}
+
+.answer {
+  animation: fade-in 2s forwards;
+}

@@ -2,6 +2,10 @@ import { useState } from "react";
 import shsLogo from "../../../assets/images/shs-logo.png";
 import user from "../../../assets/images/user.png";
 import PulseLoader from "react-spinners/PulseLoader";
+import AnimalList from "../AnimalList/AnimalList";
+
+import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
+import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
 
 import "./HousingEnvironmentQuestions.css";
 
@@ -16,17 +20,12 @@ export function QuestionHE1({ onSubmitAnswer }) {
   return (
     <div className="xl:max-w-max">
       {/* Question container - contains the question */}
-      <div className="flex items-center justify-between">
-        {/* Chat box */}
-        <div className="bg-[#E0E0E0] p-3 rounded-2xl border-white border w-max">
-          {/* Running text */}
-          <p className="typewriter overflow-hidden">
-            Do you own or rent your house? If renting, do you have written permission from your landloard to have pets?
-          </p>
-        </div>
-        {/* Company logo */}
-        <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
-      </div>
+      <QuestionContainer>
+        {/* Running text */}
+        <p className="typewriter overflow-hidden">
+          Do you own or rent your house? If renting, do you have written permission from your landloard to have pets?
+        </p>
+      </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
       <div className="flex items-end justify-end mt-3 answer">
@@ -36,13 +35,14 @@ export function QuestionHE1({ onSubmitAnswer }) {
           <div className="flex flex-col gap-2 items-end">
             <label
               htmlFor="he1a"
-              className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+              className="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
               I have my own home
             </label>
             <input type="radio" name="he1" id="he1a" className="hidden" value="own-home" onClick={onClickAnswer} />
+
             <label
               htmlFor="he1b"
-              className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+              className="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
               I rent home but I have permission from my landloard to have pets
             </label>
             <input type="radio" name="he1" id="he1b" className="hidden" value="rent-home" onClick={onClickAnswer} />
@@ -65,12 +65,7 @@ export function QuestionHE1({ onSubmitAnswer }) {
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
-      {answer === "" && (
-        <div className="flex items-center justify-end answer mt-5">
-          <PulseLoader size={10} />
-          <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
-        </div>
-      )}
+      <WaitingAnswerSpinner answer={answer} />
     </div>
   );
 }
@@ -100,19 +95,15 @@ export function QuestionHE2({ onSubmitAnswer }) {
     setOtherAnswer((prevState) => event.target.value);
   };
   return (
-    <div className="xl:max-w-2xl">
+    <div className="xl:max-w-2xl xl:w-[550px]">
       {/* Question container - contains the questions */}
-      <div className="flex items-center justify-between">
-        {/* Chat box */}
-        <div className="bg-[#E0E0E0] p-3 rounded-2xl border-white border w-max">
-          <p className="typewriter overflow-hidden">
-            {/* Running text */}
-            What type of housing do you live in?
-          </p>
-        </div>
-        {/* Company logo */}
-        <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
-      </div>
+      <QuestionContainer>
+        {/* Running text */}
+        <p className="typewriter overflow-hidden">
+          {/* Running text */}
+          What type of housing do you live in?
+        </p>
+      </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
       <div className="flex items-end justify-end mt-3 answer">
@@ -231,7 +222,7 @@ export function QuestionHE3({ onSubmitAnswer }) {
     setAnswer((prevState) => newAnswer);
   };
   return (
-    <div className="xl:max-w-2xl">
+    <div className="xl:max-w-2xl xl:w-[550px]">
       {/* Question container - contains the questions */}
       <div className="flex items-center">
         <div className="bg-[#E0E0E0] p-3 rounded-2xl border-white border w-max">
@@ -339,7 +330,7 @@ export function QuestionHE4({ onSubmitAnswer }) {
   };
 
   return (
-    <div className="xl:max-w-2xl">
+    <div className="xl:max-w-2xl xl:w-[550px]">
       {/* Question container - contains the questions */}
       <div className="flex items-center">
         <div className="bg-[#E0E0E0] p-3 rounded-2xl border-white border w-max">
@@ -357,7 +348,7 @@ export function QuestionHE4({ onSubmitAnswer }) {
             <select
               name="he4"
               id="he4"
-              className="block px-3 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointertransition-all duration-300 focus:border-[#7C0F0F] hover:border-[#7C0F0F] cursor-pointer"
+              className="block px-3 py-3 border border-[#E0E0E0] rounded-2xl transition-all duration-300 focus:border-[#7C0F0F] hover:border-[#7C0F0F] cursor-pointer"
               value={answer}
               onChange={onSelect}>
               {Options}
@@ -408,9 +399,9 @@ export function QuestionHE5({ onSubmitAnswer }) {
     setOtherAnswer((prevState) => event.target.value);
   };
   return (
-    <div className="xl:max-w-2xl">
+    <div className="xl:max-w-2xl xl:w-[550px]">
       {/* Question container - contains the questions */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-end">
         <div className="bg-[#E0E0E0] p-3 rounded-2xl border-white border w-max">
           <p className="typewriter overflow-hidden">Where will the pet sleep and spend most of its time?</p>
         </div>

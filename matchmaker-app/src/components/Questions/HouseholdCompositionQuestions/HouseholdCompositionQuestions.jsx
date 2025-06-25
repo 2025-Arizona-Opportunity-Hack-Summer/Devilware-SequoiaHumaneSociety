@@ -175,6 +175,7 @@ function QuestionHC1a({ onChangeYoungestAge, hasAnswer }) {
           name="hc1c"
           className="block px-3 py-3 border-2 border-[#E0E0E0] rounded-md transition-all duration-300 focus:border-[#7C0F0F] hover:border-[#7C0F0F] cursor-pointer"
           onChange={onChangeYoungestAge}>
+          <option value="" disabled></option>
           {ageOptions}
         </select>
         {/* Whether the answer is empty string or NOT, ALWAYS display user logo */}
@@ -257,7 +258,7 @@ export function QuestionHC2({ getNextQuestion }) {
               <InputDatalist
                 id={"hc2c"}
                 labelText={""}
-                placeholder={"Chose animal"}
+                placeholder={"Choose animal"}
                 defaultOptions={animalOptions}
                 onSubmitAnswer={onClickOption}
               />

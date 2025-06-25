@@ -25,7 +25,14 @@ import {
   QuestionLC5,
 } from "./LifestyleCommitmentQuestions/LifestyleCommitmentQuestions";
 
-import { finishHCSlice, finishHESlice, finishLCSlice } from "../../redux/MatchFormSlice";
+import {
+  QuestionEE1,
+  QuestionEE2,
+  QuestionEE3,
+  QuestionEE4,
+} from "./ExperienceExpectationsQuestions/ExperienceExpectationsQuestions";
+
+import { finishHCSlice, finishHESlice, finishLCSlice, finishEESlice } from "../../redux/MatchFormSlice";
 
 import InputButton from "../Input/InputButton/InputButton";
 
@@ -35,6 +42,7 @@ export default function Questions() {
   const finishHE = useSelector((store) => store[finishHESlice.name]);
   const finishHC = useSelector((store) => store[finishHCSlice.name]);
   const finishLC = useSelector((store) => store[finishLCSlice.name]);
+  const finishEE = useSelector((store) => store[finishEESlice.name]);
 
   const [currQuestions, setCurrQuestions] = useState(0);
   const [finish, setFinish] = useState(false);
@@ -52,7 +60,8 @@ export default function Questions() {
   const isNextAble =
     (currQuestions === 0 && finishHE === true) ||
     (currQuestions === 1 && finishHC === true) ||
-    (currQuestions === 2 && finishLC === true);
+    (currQuestions === 2 && finishLC === true) ||
+    (currQuestions === 3 && finishEE === true);
   return (
     <div className="bg-[#F8EAC9] py-10" id="form">
       <form className="flex flex-col min-h-screen w-max m-auto rounded-2xl">
@@ -62,6 +71,7 @@ export default function Questions() {
           {currQuestions === 0 && <HousingEnvironmentQuestions />}
           {currQuestions === 1 && <HouseholdCompositionQuestions />}
           {currQuestions === 2 && <LifeStyleCommitmentQuestions />}
+          {currQuestions === 3 && <ExperienceExpectationsQuestions />}
         </ul>
         <div className="flex justify-between">
           <InputButton
@@ -225,6 +235,45 @@ function LifeStyleCommitmentQuestions() {
     <>
       <div className="flex justify-start w-full">
         <h2 className="text-2xl font-semibold text-[#7C0F0F]">Lifestyle & Commitment</h2>
+      </div>
+      {questions.slice(0, currQuestions)}
+    </>
+  );
+}
+
+function ExperienceExpectationsQuestions() {
+  const dispatch = useDispatch();
+  const [currQuestions, setCurrQuestions] = useState(1);
+
+  const questions = [
+    <li key={"EE1"}>
+      <QuestionEE1 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"EE2"}>
+      <QuestionEE2 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"EE3"}>
+      <QuestionEE3 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"EE4"}>
+      <QuestionEE4 getNextQuestion={getNextQuestion} />
+    </li>,
+  ];
+
+  function getNextQuestion() {
+    if (currQuestions < questions.length) {
+      setCurrQuestions(currQuestions + 1);
+    } else {
+      dispatch(finishEESlice.actions.assign(true));
+    }
+  }
+
+  // pendingQuestions representes questions that are in waiting list
+
+  return (
+    <>
+      <div className="flex justify-start w-full">
+        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Experience & Expectations</h2>
       </div>
       {questions.slice(0, currQuestions)}
     </>

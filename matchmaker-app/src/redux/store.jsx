@@ -4,6 +4,7 @@ import HEQuestionsSlice from "./HousingEnvironmentSlice";
 import HCQuestionsSlice from "./HouseholdCompositionSlice";
 import LCQuestionsSlice from "./LifeStyleCommitmentSlice";
 import EEQuestionsSlice from "./ExperienceExpectationsSlice";
+import SPQuestionsSlice from "./SpecificPreferencesSlice";
 import MatchFormSlice from "./MatchFormSlice";
 
 const reducers = {
@@ -11,6 +12,7 @@ const reducers = {
   ...HCQuestionsSlice,
   ...LCQuestionsSlice,
   ...EEQuestionsSlice,
+  ...SPQuestionsSlice,
   ...MatchFormSlice,
 };
 

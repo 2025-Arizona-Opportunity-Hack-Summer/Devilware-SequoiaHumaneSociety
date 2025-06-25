@@ -233,7 +233,7 @@ export function QuestionHC2({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""} relative z-30`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <InputRadio

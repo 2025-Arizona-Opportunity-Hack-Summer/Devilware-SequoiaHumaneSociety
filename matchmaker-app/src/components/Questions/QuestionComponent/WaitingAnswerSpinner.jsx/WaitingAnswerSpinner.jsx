@@ -1,8 +1,8 @@
 import PulseLoader from "react-spinners/PulseLoader";
 import shsLogo from "../../../../assets/images/shs-logo.png";
 
-function WaitingAnswerSpinner({ anwser }) {
-  if (anwser !== "") {
+function WaitingAnswerSpinner({ visible }) {
+  if (visible === false) {
     return <></>;
   }
   return (

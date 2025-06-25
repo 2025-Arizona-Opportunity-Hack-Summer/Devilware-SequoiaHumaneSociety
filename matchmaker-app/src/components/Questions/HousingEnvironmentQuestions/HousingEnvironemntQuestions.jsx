@@ -1,20 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
+import OptionContainer from "../QuestionComponent/OptionContainer/OptionContainer";
+import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
+import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
+import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
+
+import InputRadio from "../../Input/InputRadio/InputRadio";
+import InputText from "../../Input/InputText/InputText";
+import InputNumber from "../../Input/InputNumber/InputNumber";
+import InputButton from "../../Input/InputButton/InputButton";
+
 import shsLogo from "../../../assets/images/shs-logo.png";
 import user from "../../../assets/images/user.png";
 import PulseLoader from "react-spinners/PulseLoader";
-import AnimalList from "../AnimalList/AnimalList";
 
-import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
-import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
+import { he1Slice, he2Slice, he3Slice } from "../../../redux/HousingEnvironmentSlice";
 
 import "./HousingEnvironmentQuestions.css";
 
-export function QuestionHE1({ onSubmitAnswer }) {
-  const [answer, setAnswer] = useState("");
+export function QuestionHE1({ getNextQuestion }) {
+  const dispatch = useDispatch();
+  const initialAnswer = useSelector((store) => store[he1Slice.name]);
 
-  const onClickAnswer = (event) => {
+  const [hasAnswer, setHasAnswer] = useState(false);
+  const [answer, setAnswer] = useState(initialAnswer);
+
+  useEffect(() => {
+    if (initialAnswer !== "") {
+      setHasAnswer((preState) => true);
+      getNextQuestion();
+    }
+  }, []);
+
+  const onClickOption = (event) => {
+    setHasAnswer((preAnser) => true);
     setAnswer((preAnser) => event.target.value);
-    onSubmitAnswer(event.target.value);
+    dispatch(he1Slice.actions.assign(event.target.value));
+    getNextQuestion();
   };
 
   return (
@@ -22,173 +46,197 @@ export function QuestionHE1({ onSubmitAnswer }) {
       {/* Question container - contains the question */}
       <QuestionContainer>
         {/* Running text */}
-        <p className="typewriter overflow-hidden">
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
           Do you own or rent your house? If renting, do you have written permission from your landloard to have pets?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className="flex items-end justify-end mt-3 answer">
+      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
-        {answer == "" && (
-          /* List of options is flex column and each option must be displayed at the right corner */
-          <div className="flex flex-col gap-2 items-end">
-            <label
-              htmlFor="he1a"
-              className="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-              I have my own home
-            </label>
-            <input type="radio" name="he1" id="he1a" className="hidden" value="own-home" onClick={onClickAnswer} />
+        <OptionContainer visible={!hasAnswer}>
+          {/* List of options is flex column and each option must be displayed at the right corner */}
+          <InputRadio
+            id="he1a"
+            name="he1"
+            value="own-home"
+            onClickHandler={onClickOption}
+            labelStyle="radio-question-label"
+            inputStyle="radio-question-input">
+            I have my own home
+          </InputRadio>
 
-            <label
-              htmlFor="he1b"
-              className="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-              I rent home but I have permission from my landloard to have pets
-            </label>
-            <input type="radio" name="he1" id="he1b" className="hidden" value="rent-home" onClick={onClickAnswer} />
-          </div>
-        )}
+          <InputRadio
+            id="he1b"
+            name="he1"
+            value="rent-home"
+            onClickHandler={onClickOption}
+            labelStyle="radio-question-label"
+            inputStyle="radio-question-input">
+            I rent home but I have permission from my landloard to have pets
+          </InputRadio>
+        </OptionContainer>
         {/* If the answer is NOT empty string ==> Display answer */}
-        {answer != "" && (
-          <div>
-            <p className="bg-[#7C0F0F] p-3 rounded-2xl text-white">
-              {answer == "own-home"
-                ? "I have my own home"
-                : "I rent home but I have permission from my landloard to have pets"}
-            </p>
-          </div>
-        )}
+        <AnswerContainer visible={hasAnswer}>
+          <p>
+            {answer == "own-home"
+              ? "I have my own home"
+              : "I rent home but I have permission from my landloard to have pets"}
+          </p>
+        </AnswerContainer>
+
         {/* Whether the answer is empty string or NOT, ALWAYS display user logo */}
-        <div className="flex items-center">
-          <img src={user} alt="you" className="xl:w-12 xl:h-12" />
-        </div>
+        <UserLogo src={user} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
-      <WaitingAnswerSpinner answer={answer} />
+      <WaitingAnswerSpinner visible={!hasAnswer} />
     </div>
   );
 }
 
-export function QuestionHE2({ onSubmitAnswer }) {
-  const [answer, setAnswer] = useState("");
+export function QuestionHE2({ getNextQuestion }) {
+  const dispatch = useDispatch();
+  const initialAnswer = useSelector((store) => store[he2Slice.name]);
+
+  const [house, setHouse] = useState(initialAnswer);
+  const [hasAnswer, setHasAnswer] = useState(false);
   const [other, setOther] = useState(false);
-  const [otherAnswer, setOtherAnswer] = useState("");
+
+  useEffect(() => {
+    if (initialAnswer !== "") {
+      setHouse((prevState) => initialAnswer);
+      setHasAnswer((preState) => true);
+      getNextQuestion();
+    }
+  }, []);
 
   const onClickOther = () => {
     setOther((prevState) => true);
   };
 
   const onClickNonOther = (event) => {
-    setAnswer((prevAnswer) => event.target.value);
-    onSubmitAnswer(event.target.value);
+    setHasAnswer((prevState) => true);
+    setHouse((prevAnswer) => event.target.value);
+    getNextQuestion();
+    dispatch(he2Slice.actions.assign(event.target.value));
   };
 
   const onClickNext = () => {
-    if (otherAnswer !== "") {
-      setAnswer((prevAnswer) => otherAnswer);
-      onSubmitAnswer(otherAnswer);
+    if (house !== "") {
+      getNextQuestion();
+      setHasAnswer((prevState) => true);
+      dispatch(he2Slice.actions.assign(house));
     }
   };
 
-  const onChangeOtherAnswer = (event) => {
-    setOtherAnswer((prevState) => event.target.value);
+  const onChangeText = (event) => {
+    setHouse((prevState) => event.target.value);
   };
   return (
     <div className="xl:max-w-2xl xl:w-[550px]">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         {/* Running text */}
-        <p className="typewriter overflow-hidden">
-          {/* Running text */}
-          What type of housing do you live in?
-        </p>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What type of housing do you live in?</p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className="flex items-end justify-end mt-3 answer">
+      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
-        {answer === "" && (
+        <OptionContainer visible={!hasAnswer}>
           <div className="flex flex-col gap-2 items-end">
-            <label
-              htmlFor="he2a"
-              className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-              Apartment
-            </label>
-            <input type="radio" name="he2" id="he2a" className="hidden" onClick={onClickNonOther} value={"Apartment"} />
-            <label
-              htmlFor="he2b"
-              className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+            <InputRadio
+              id="he2a"
+              name="he2"
+              onClickHandler={onClickNonOther}
+              value="Apartment"
+              inputStyle="hidden"
+              labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+              Aparment
+            </InputRadio>
+
+            <InputRadio
+              id="he2b"
+              name="he2"
+              onClickHandler={onClickNonOther}
+              value="House"
+              inputStyle="hidden"
+              labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
               House
-            </label>
-            <input type="radio" name="he2" id="he2b" className="hidden" onClick={onClickNonOther} value={"House"} />
-            <label
-              htmlFor="he2c"
-              className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+            </InputRadio>
+
+            <InputRadio
+              id="he2c"
+              name="he2"
+              onClickHandler={onClickNonOther}
+              value="Condo"
+              inputStyle="hidden"
+              labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
               Condo
-            </label>
-            <input type="radio" name="he2" id="he2c" className="hidden" onClick={onClickNonOther} value={"Condo"} />
+            </InputRadio>
             {/* If the other option is click, then remove other option from the list, create text input */}
             {!other && (
               <>
-                <label
-                  htmlFor="he2d"
-                  className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+                <InputRadio
+                  id="he2d"
+                  name="he2"
+                  onClickHandler={onClickOther}
+                  inputStyle="hidden"
+                  labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
                   Other
-                </label>
-                <input type="radio" name="he2" id="he2d" className="hidden" onClick={onClickOther} />
+                </InputRadio>
               </>
             )}
             {other && (
               <>
-                <div>
-                  <input
-                    type="text"
-                    name="he2d1"
-                    id="he21"
-                    placeholder="Please specify"
-                    className="block px-6 py-3 border-2 rounded-md focus:border-orange-400 outline-0"
-                    value={otherAnswer}
-                    onChange={onChangeOtherAnswer}
-                  />
-                </div>
-                <button
-                  className="hover:bg-[#7C0F0F] text-white px-3 py-1 rounded-sm font-bold mt-2 w-max cursor-pointer bg-[#669bbc] transition-all duration-300"
-                  onClick={onClickNext}>
+                <InputText
+                  id="he2d1"
+                  placeholder="Please specify"
+                  value={house}
+                  onChangeHandler={onChangeText}
+                  inputStyle="block px-6 py-3 border-2 rounded-md focus:border-orange-400 outline-0"></InputText>
+
+                <InputButton
+                  onClickHandler={onClickNext}
+                  value="Next"
+                  id="h2eNextButton"
+                  labelStyle="hover:bg-[#7C0F0F] text-white px-3 py-1 rounded-sm font-bold mt-2 w-max cursor-pointer bg-[#669bbc] transition-all duration-300"
+                  inputStyle="hidden">
                   Next
-                </button>
+                </InputButton>
               </>
             )}
           </div>
-        )}
+        </OptionContainer>
+
         {/* If the answer is NOT empty string ==> Display answer */}
-        {answer !== "" && (
-          <div>
-            <p className="bg-[#7C0F0F] p-3 rounded-2xl text-white">{answer}</p>
-          </div>
-        )}
-        <div>
-          <img src={user} alt="you" className="xl:w-12 xl:h-12" />
-        </div>
+        <AnswerContainer visible={hasAnswer}>
+          <p>{house}</p>
+        </AnswerContainer>
+        <UserLogo src={user} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
-      {answer === "" && (
-        <div className="flex items-center justify-end answer mt-5">
-          <PulseLoader size={10} />
-          <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
-        </div>
-      )}
+      <WaitingAnswerSpinner visible={!hasAnswer} />
     </div>
   );
 }
 
-export function QuestionHE3({ onSubmitAnswer }) {
-  const [type, setType] = useState("");
-  const [height, setHeight] = useState("");
-  const [hasFence, setHasFence] = useState(false);
-  const [answer, setAnswer] = useState("");
+export function QuestionHE3({ getNextQuestion }) {
+  const dispatch = useDispatch();
+  const initialAnswer = useSelector((store) => store[he3Slice.name]);
 
+  const [type, setType] = useState(initialAnswer.type);
+  const [height, setHeight] = useState(initialAnswer.height);
+  const [hasFence, setHasFence] = useState(false);
+  const [hasAnswer, setHasAnswer] = useState(false);
+
+  useEffect(() => {
+    if (initialAnswer.type !== "") {
+      setHasAnswer((preState) => true);
+    }
+  }, []);
   const onClickYes = () => {
     setHasFence((prevState) => true);
   };
@@ -202,118 +250,94 @@ export function QuestionHE3({ onSubmitAnswer }) {
   };
 
   const onClickNo = () => {
-    const newAnswer = {
-      type: "None",
-      height: 0,
-    };
-    onSubmitAnswer({ type: "None", height: 0 });
-    setAnswer((prevState) => newAnswer);
+    setHasAnswer((prevState) => true);
+    dispatch(he3Slice.actions.assign({ type: "None", height: 0 }));
+    setType((prevState) => "None");
+    getNextQuestion();
   };
 
   const onClickNext = () => {
-    let newAnswer;
-    if (!(type === "" || type === "")) {
-      newAnswer = {
-        type: type,
-        height: height,
-      };
-    }
-    onSubmitAnswer(newAnswer);
-    setAnswer((prevState) => newAnswer);
+    getNextQuestion();
+    setHasAnswer((prevState) => true);
+    dispatch(he3Slice.actions.assign({ type: type, height: height }));
   };
+
   return (
     <div className="xl:max-w-2xl xl:w-[550px]">
       {/* Question container - contains the questions */}
-      <div className="flex items-center">
-        <div className="bg-[#E0E0E0] p-3 rounded-2xl border-white border w-max">
-          <p className="typewriter overflow-hidden">
-            Do you have a fenced yard? If so, what type and height of fencing?
-          </p>
-        </div>
-        <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
-      </div>
+      <QuestionContainer>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          Do you have a fenced yard? If so, what type and height of fencing?
+        </p>
+      </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className="flex items-end justify-end mt-3 answer">
-        <div className="flex flex-col gap-2 items-end">
-          {answer == "" && (
+      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+        <OptionContainer visible={!hasAnswer}>
+          <InputRadio
+            id="he3a"
+            name="he3"
+            inputStyle="hidden"
+            onClickHandler={onClickNo}
+            labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+            No
+          </InputRadio>
+          {!hasFence && (
+            <InputRadio
+              id="he3b"
+              name="he3"
+              inputStyle="hidden"
+              onClickHandler={onClickYes}
+              labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+              Yes
+            </InputRadio>
+          )}
+
+          {hasFence && (
             <>
-              <label
-                htmlFor="he3a"
-                className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-                No
-              </label>
-              <input type="radio" name="he3" id="he3a" className="hidden" onClick={onClickNo} />
-              {!hasFence && (
-                <>
-                  <label
-                    htmlFor="he3b"
-                    className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-                    Yes
-                  </label>
-                  <input type="radio" name="he3" id="he3b" className="hidden" onClick={onClickYes} />
-                </>
-              )}
-              {hasFence && (
-                <>
-                  <div className="flex gap-2">
-                    <input
-                      type="text"
-                      name="he3b1"
-                      id="he3b1"
-                      placeholder="Type"
-                      className="block px-6 py-3 border-2 rounded-md focus:border-orange-400 outline-0 w-48"
-                      onChange={onChangeType}
-                      value={type}
-                    />
-                    <input
-                      type="number"
-                      name="he3b2"
-                      id="he3b2"
-                      placeholder="Height (meter)"
-                      className="block px-6 py-3 border-2 rounded-md focus:border-orange-400 outline-0 w-48"
-                      min={1}
-                      onChange={onChangeHeight}
-                      value={height}
-                    />
-                  </div>
-                  <div className="flex justify-end">
-                    <button
-                      onClick={onClickNext}
-                      className="hover:bg-[#7C0F0F] text-white px-3 py-1 rounded-sm font-bold mt-2 w-max cursor-pointer bg-[#669bbc] transition-all duration-300">
-                      Next
-                    </button>
-                  </div>
-                </>
-              )}
+              <div className="flex gap-2">
+                <InputText
+                  id="he3b1"
+                  placeholder="Type"
+                  inputStyle="block px-6 py-3 border-2 rounded-md focus:border-orange-400 outline-0 w-48"
+                  value={type}
+                  onChangeHandler={onChangeType}
+                />
+                <InputNumber
+                  id="he3b2"
+                  placeholder="Height (meter)"
+                  inputStyle="block px-6 py-3 border-2 rounded-md focus:border-orange-400 outline-0 w-48"
+                  value={type}
+                  onChangeHandler={onChangeHeight}
+                />
+              </div>
+              <InputButton
+                onClickHandler={onClickNext}
+                value="Next"
+                id="he3NextButton"
+                labelStyle="hover:bg-[#7C0F0F] text-white px-3 py-1 rounded-sm font-bold mt-2 w-max cursor-pointer bg-[#669bbc] transition-all duration-300"
+                inputStyle="hidden">
+                Next
+              </InputButton>
             </>
           )}
-        </div>
-        {answer !== "" && (
-          <div>
-            <p className="bg-[#7C0F0F] p-3 rounded-2xl text-white">
-              {answer.type == "None" ? "No" : `I have ${answer.type.toLowerCase()} fence with ${answer.height} meters`}
-            </p>
-          </div>
-        )}
-        <div>
-          <img src={user} alt="you" className="xl:w-12 xl:h-12" />
-        </div>
+        </OptionContainer>
+        <AnswerContainer visible={hasAnswer}>
+          <p>{type == "None" ? "No" : `I have ${type.toLowerCase()} fence with ${height} meters`}</p>
+        </AnswerContainer>
+        <UserLogo src={user} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
-      {answer === "" && (
-        <div className="flex items-center justify-end answer mt-5">
-          <PulseLoader size={10} />
-          <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
-        </div>
-      )}
+      <WaitingAnswerSpinner visible={!hasAnswer} />
     </div>
   );
 }
 
-export function QuestionHE4({ onSubmitAnswer }) {
+export function QuestionHE4({ getNextQuestion }) {
   const [answer, setAnswer] = useState("");
+  const [hasAnswer, setHasAnswer] = useState(false);
+
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 
   const Options = hours.map((val) => {
@@ -325,169 +349,150 @@ export function QuestionHE4({ onSubmitAnswer }) {
   });
 
   const onSelect = (event) => {
-    onSubmitAnswer(event.target.value);
+    getNextQuestion();
     setAnswer((preState) => event.target.value);
+    setHasAnswer((preState) => true);
   };
 
   return (
     <div className="xl:max-w-2xl xl:w-[550px]">
       {/* Question container - contains the questions */}
-      <div className="flex items-center">
-        <div className="bg-[#E0E0E0] p-3 rounded-2xl border-white border w-max">
-          <label htmlFor="he4" className="typewriter overflow-hidden block">
-            Hour may hours per day will the pet be left alone?
-          </label>
-        </div>
-        <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
-      </div>
+      <QuestionContainer>
+        <label htmlFor="he4" className="typewriter overflow-hidden block">
+          Hour may hours per day will the pet be left alone?
+        </label>
+      </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
       <div className="flex items-center justify-end mt-3 answer">
-        {answer === "" && (
-          <div className="">
-            <select
-              name="he4"
-              id="he4"
-              className="block px-3 py-3 border border-[#E0E0E0] rounded-2xl transition-all duration-300 focus:border-[#7C0F0F] hover:border-[#7C0F0F] cursor-pointer"
-              value={answer}
-              onChange={onSelect}>
-              {Options}
-            </select>
-          </div>
-        )}
-        {answer !== "" && (
-          <div>
-            <p className="bg-[#7C0F0F] p-3 rounded-2xl text-white">{answer}</p>
-          </div>
-        )}
-        <img src={user} alt="you" className="xl:w-12 xl:h-12" />
+        <OptionContainer visible={!hasAnswer}>
+          <select
+            name="he4"
+            id="he4"
+            className="block px-3 py-3 border border-[#E0E0E0] rounded-md transition-all duration-300 focus:border-[#7C0F0F] hover:border-[#7C0F0F] cursor-pointer"
+            value={answer}
+            onChange={onSelect}>
+            {Options}
+          </select>
+        </OptionContainer>
+
+        <AnswerContainer visible={hasAnswer}>
+          <p>{answer}</p>
+        </AnswerContainer>
+
+        <UserLogo src={user} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
-      {answer === "" && (
-        <div className="flex items-center justify-end answer mt-5">
-          <PulseLoader size={10} />
-          <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
-        </div>
-      )}
+      <WaitingAnswerSpinner visible={!hasAnswer} />
     </div>
   );
 }
 
-export function QuestionHE5({ onSubmitAnswer }) {
+export function QuestionHE5({ getNextQuestion }) {
   const [answer, setAnswer] = useState("");
-  const [other, setOther] = useState(false);
-  const [otherAnswer, setOtherAnswer] = useState("");
+  const [hasOther, setHasOther] = useState(false);
+  const [hasAnswer, setHasAnswer] = useState(false);
 
   const onClickOther = () => {
-    setOther((prevState) => true);
+    setHasOther((prevState) => true);
   };
 
   const onClickNonOther = (event) => {
     setAnswer((prevAnswer) => event.target.value);
-    onSubmitAnswer(event.target.value);
+    setHasAnswer((preState) => true);
+    getNextQuestion();
   };
 
   const onClickNext = () => {
-    if (otherAnswer !== "") {
-      setAnswer((prevAnswer) => otherAnswer);
-      onSubmitAnswer(otherAnswer);
+    console.log(answer);
+    if (answer !== "") {
+      setAnswer((prevAnswer) => answer);
+      getNextQuestion();
+      setHasAnswer((preState) => true);
     }
   };
 
   const onChangeOtherAnswer = (event) => {
-    setOtherAnswer((prevState) => event.target.value);
+    setAnswer((prevState) => event.target.value);
   };
   return (
     <div className="xl:max-w-2xl xl:w-[550px]">
       {/* Question container - contains the questions */}
-      <div className="flex items-center justify-end">
-        <div className="bg-[#E0E0E0] p-3 rounded-2xl border-white border w-max">
-          <p className="typewriter overflow-hidden">Where will the pet sleep and spend most of its time?</p>
-        </div>
-        <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
-      </div>
+      <QuestionContainer>
+        <p className="typewriter overflow-hidden">Where will the pet sleep and spend most of its time?</p>
+      </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
       <div className="flex items-end justify-end mt-3 answer">
-        {answer === "" && (
-          <div className="flex flex-col gap-2 items-end">
-            <label
-              htmlFor="he5a"
-              className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-              Living room
-            </label>
-            <input
-              type="radio"
+        <OptionContainer visible={!hasAnswer}>
+          <InputRadio
+            id="he5a"
+            name="he5"
+            onClickHandler={onClickNonOther}
+            value="Living room"
+            inputStyle="hidden"
+            labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+            Living room
+          </InputRadio>
+          <InputRadio
+            id="he5b"
+            name="he5"
+            onClickHandler={onClickNonOther}
+            value="Bedroom"
+            inputStyle="hidden"
+            labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+            Bedroom
+          </InputRadio>
+          <InputRadio
+            id="he5c"
+            name="he5"
+            onClickHandler={onClickNonOther}
+            value="Kitchen"
+            inputStyle="hidden"
+            labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+            Kitchen
+          </InputRadio>
+
+          {!hasOther && (
+            <InputRadio
+              id="he5d"
               name="he5"
-              id="he5a"
-              className="hidden"
-              onClick={onClickNonOther}
-              value={"Living room"}
-            />
+              onClickHandler={onClickOther}
+              value=""
+              inputStyle="hidden"
+              labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+              Other
+            </InputRadio>
+          )}
+          {hasOther && (
+            <>
+              <InputText
+                id="he5text"
+                value={answer}
+                onChangeHandler={onChangeOtherAnswer}
+                placeholder="Please Specify"
+                inputStyle="block px-6 py-3 border-2 rounded-md focus:border-orange-400 outline-0"
+              />
+              <InputButton
+                id="he5Button"
+                labelStyle="hover:bg-[#7C0F0F] text-white px-3 py-1 rounded-sm font-bold mt-2 w-max cursor-pointer bg-[#669bbc] transition-all duration-300"
+                onClickHandler={onClickNext}>
+                Next
+              </InputButton>
+            </>
+          )}
+        </OptionContainer>
 
-            <label
-              htmlFor="he5b"
-              className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-              Bedroom
-            </label>
-            <input type="radio" name="he5" id="he5b" className="hidden" onClick={onClickNonOther} value={"Bedroom"} />
+        <AnswerContainer visible={hasAnswer}>
+          <p>{answer}</p>
+        </AnswerContainer>
 
-            <label
-              htmlFor="he5c"
-              className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-              Kitchen
-            </label>
-            <input type="radio" name="he5" id="he5c" className="hidden" onClick={onClickNonOther} value={"Kitchen"} />
-            {!other && (
-              <div className="flex justify-end">
-                <label
-                  htmlFor="he5d"
-                  className="block px-6 py-3 border border-[#E0E0E0] rounded-2xl cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-                  Other
-                </label>
-                <input type="radio" name="he5" id="he5d" className="hidden" onClick={onClickOther} />
-              </div>
-            )}
-            {other && (
-              <div className="flex flex-col items-end">
-                <div>
-                  <input
-                    type="text"
-                    name="he2d1"
-                    id="he21"
-                    placeholder="Please specify"
-                    className="block px-6 py-3 border-2 rounded-md focus:border-orange-400 outline-0"
-                    value={otherAnswer}
-                    onChange={onChangeOtherAnswer}
-                  />
-                </div>
-                <button
-                  className="hover:bg-[#7C0F0F] text-white px-3 py-1 rounded-sm font-bold mt-2 w-max cursor-pointer bg-[#669bbc] transition-all duration-300"
-                  onClick={onClickNext}>
-                  Next
-                </button>
-              </div>
-            )}
-          </div>
-        )}
-        {answer !== "" && (
-          <div>
-            <p className="bg-[#7C0F0F] p-3 rounded-2xl text-white">{answer}</p>
-          </div>
-        )}
-        <div>
-          <img src={user} alt="you" className="xl:w-12 xl:h-12" />
-        </div>
+        <UserLogo src={user} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
-      {answer === "" && (
-        <div className="flex items-center justify-end answer mt-5">
-          <PulseLoader size={10} />
-          <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
-        </div>
-      )}
+      <WaitingAnswerSpinner visible={!hasAnswer} />
     </div>
   );
 }

@@ -7,18 +7,21 @@ function ProgressBar({ currIdx }) {
 
   switch (currIdx) {
     case 0:
-      widthBar = "relative h-1 bg-[#7C0F0F] flex mb-20 w-[10%] transition-all duration-700";
+      widthBar = "relative h-1 bg-[#7C0F0F] flex mb-20 w-[0%] transition-all duration-700";
       break;
     case 1:
-      widthBar = "relative h-1 bg-[#7C0F0F] flex mb-20 w-[30%] transition-all duration-700";
+      widthBar = "relative h-1 bg-[#7C0F0F] flex mb-20 w-[20%] transition-all duration-700";
       break;
     case 2:
-      widthBar = "relative h-1 bg-[#7C0F0F] flex mb-20 w-[50%] transition-all duration-700";
+      widthBar = "relative h-1 bg-[#7C0F0F] flex mb-20 w-[40%] transition-all duration-700";
       break;
     case 3:
-      widthBar = "relative h-1 bg-[#7C0F0F] flex mb-20 w-[70%] transition-all duration-700";
+      widthBar = "relative h-1 bg-[#7C0F0F] flex mb-20 w-[60%] transition-all duration-700";
       break;
     case 4:
+      widthBar = "relative h-1 bg-[#7C0F0F] flex mb-20 w-[80%] transition-all duration-700";
+      break;
+    case 5:
       widthBar = "relative h-1 bg-[#7C0F0F] flex mb-20 w-[100%] transition-all duration-700";
       break;
   }
@@ -26,7 +29,7 @@ function ProgressBar({ currIdx }) {
   return (
     <div className="relative h-1 bg-[#EFEFEF] flex mb-20 xl:w-[1000px]">
       <div className={widthBar}></div>
-      <div className="absolute translate-[-50%] top-[650%] left-[10%] flex flex-col items-center max-w-[100px]">
+      <div className="absolute translate-[-50%] top-[650%] left-[0%] flex flex-col items-center max-w-[100px]">
         <div
           className={`w-6 h-6 ${
             currIdx < 0 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
@@ -37,7 +40,7 @@ function ProgressBar({ currIdx }) {
           </p>
         </div>
       </div>
-      <div className="absolute translate-[-50%] top-[650%] left-[30%] flex flex-col items-center max-w-[100px]">
+      <div className="absolute translate-[-50%] top-[650%] left-[20%] flex flex-col items-center max-w-[100px]">
         <div
           className={`w-6 h-6 ${
             currIdx < 1 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
@@ -48,7 +51,7 @@ function ProgressBar({ currIdx }) {
           </p>
         </div>
       </div>
-      <div className="absolute translate-[-50%] top-[650%] left-[50%] flex flex-col items-center max-w-[100px]">
+      <div className="absolute translate-[-50%] top-[650%] left-[40%] flex flex-col items-center max-w-[100px]">
         <div
           className={`w-6 h-6 ${
             currIdx < 2 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
@@ -59,7 +62,7 @@ function ProgressBar({ currIdx }) {
           </p>
         </div>
       </div>
-      <div className="absolute translate-[-50%] top-[650%] left-[70%] flex flex-col items-center max-w-[100px]">
+      <div className="absolute translate-[-50%] top-[650%] left-[60%] flex flex-col items-center max-w-[100px]">
         <div
           className={`w-6 h-6 ${
             currIdx < 3 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
@@ -70,7 +73,7 @@ function ProgressBar({ currIdx }) {
           </p>
         </div>
       </div>
-      <div className="absolute translate-[-50%] top-[650%] left-[90%] flex flex-col items-center max-w-[100px]">
+      <div className="absolute translate-[-50%] top-[650%] left-[80%] flex flex-col items-center max-w-[100px]">
         <div
           className={`w-6 h-6 ${
             currIdx < 4 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
@@ -79,6 +82,15 @@ function ProgressBar({ currIdx }) {
           <p className={`text-center ${currIdx < 4 ? "text-[#adb5bd]" : "text-[#7C0F0F]"} font-semibold`}>
             Specific Preferences
           </p>
+        </div>
+      </div>
+      <div className="absolute translate-[-50%] top-[350%] left-[100%] flex flex-col items-center max-w-[100px]">
+        <div
+          className={`w-6 h-6 ${
+            currIdx < 5 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
+          } rounded-full transition-all duration-700`}></div>
+        <div>
+          <p className={`text-center ${currIdx < 5 ? "text-[#adb5bd]" : "text-[#7C0F0F]"} font-semibold`}>Review</p>
         </div>
       </div>
     </div>

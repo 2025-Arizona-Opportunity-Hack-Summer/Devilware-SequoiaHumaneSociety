@@ -40,11 +40,22 @@ export const finishEESlice = createSlice({
   },
 });
 
+export const finishSPSlice = createSlice({
+  name: "finishSPSlice",
+  initialState: false,
+  reducers: {
+    assign(state, action) {
+      return action.payload;
+    },
+  },
+});
+
 const MatchFormSlice = {
   [finishHESlice.name]: finishHESlice.reducer,
   [finishHCSlice.name]: finishHCSlice.reducer,
   [finishLCSlice.name]: finishLCSlice.reducer,
   [finishEESlice.name]: finishEESlice.reducer,
+  [finishSPSlice.name]: finishSPSlice.reducer,
 };
 
 export default MatchFormSlice;

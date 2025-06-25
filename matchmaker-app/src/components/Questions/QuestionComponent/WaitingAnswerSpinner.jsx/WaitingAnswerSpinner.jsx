@@ -6,7 +6,7 @@ function WaitingAnswerSpinner({ visible }) {
     return <></>;
   }
   return (
-    <div className="flex items-center justify-end answer mt-5">
+    <div className="flex items-center justify-end answer mt-5 relative z-0">
       <PulseLoader size={10} />
       <img src={shsLogo} alt="company" className="xl:w-12 xl:h-12" />
     </div>

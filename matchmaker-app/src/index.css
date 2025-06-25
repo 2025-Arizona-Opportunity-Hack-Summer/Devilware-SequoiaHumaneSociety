@@ -99,3 +99,15 @@ html {
 .radio-question-input {
   @apply hidden;
 }
+
+/* input[type="checkbox"]:checked + label {
+  @apply text-white bg-[#7c0f0f] border-[#7C0F0F] font-semibold;
+} */
+
+.checkbox-question-label {
+  @apply border-2 px-5 py-2 rounded-md text-[#adb5bd] border-[#adb5bd] bg-white cursor-pointer select-none;
+}
+
+.checkbox-question-input:checked + label {
+  @apply border-2 px-5 py-2 rounded-md text-[#fff] border-[#7C0F0F] bg-[#7C0F0F] cursor-pointer;
+}

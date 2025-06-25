@@ -32,7 +32,16 @@ import {
   QuestionEE4,
 } from "./ExperienceExpectationsQuestions/ExperienceExpectationsQuestions";
 
-import { finishHCSlice, finishHESlice, finishLCSlice, finishEESlice } from "../../redux/MatchFormSlice";
+import {
+  QuestionSP1,
+  QuestionSP2,
+  QuestionSP3,
+  QuestionSP4,
+  QuestionSP5,
+  QuestionSP6,
+} from "./SpecificPreferencesQuestions/SpecificPreferencesQuestions";
+
+import { finishHCSlice, finishHESlice, finishLCSlice, finishEESlice, finishSPSlice } from "../../redux/MatchFormSlice";
 
 import InputButton from "../Input/InputButton/InputButton";
 
@@ -43,8 +52,9 @@ export default function Questions() {
   const finishHC = useSelector((store) => store[finishHCSlice.name]);
   const finishLC = useSelector((store) => store[finishLCSlice.name]);
   const finishEE = useSelector((store) => store[finishEESlice.name]);
+  const finishSP = useSelector((store) => store[finishSPSlice.name]);
 
-  const [currQuestions, setCurrQuestions] = useState(0);
+  const [currQuestions, setCurrQuestions] = useState(4);
   const [finish, setFinish] = useState(false);
 
   const totalQuestions = 5;
@@ -61,7 +71,8 @@ export default function Questions() {
     (currQuestions === 0 && finishHE === true) ||
     (currQuestions === 1 && finishHC === true) ||
     (currQuestions === 2 && finishLC === true) ||
-    (currQuestions === 3 && finishEE === true);
+    (currQuestions === 3 && finishEE === true) ||
+    (currQuestions === 4 && finishSP === true);
   return (
     <div className="bg-[#F8EAC9] py-10" id="form">
       <form className="flex flex-col min-h-screen w-max m-auto rounded-2xl">
@@ -72,6 +83,7 @@ export default function Questions() {
           {currQuestions === 1 && <HouseholdCompositionQuestions />}
           {currQuestions === 2 && <LifeStyleCommitmentQuestions />}
           {currQuestions === 3 && <ExperienceExpectationsQuestions />}
+          {currQuestions === 4 && <SpecificPreferencesQuestions />}
         </ul>
         <div className="flex justify-between">
           <InputButton
@@ -274,6 +286,51 @@ function ExperienceExpectationsQuestions() {
     <>
       <div className="flex justify-start w-full">
         <h2 className="text-2xl font-semibold text-[#7C0F0F]">Experience & Expectations</h2>
+      </div>
+      {questions.slice(0, currQuestions)}
+    </>
+  );
+}
+
+function SpecificPreferencesQuestions() {
+  const dispatch = useDispatch();
+  const [currQuestions, setCurrQuestions] = useState(1);
+
+  const questions = [
+    <li key={"SP1"}>
+      <QuestionSP1 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"SP2"}>
+      <QuestionSP2 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"SP3"}>
+      <QuestionSP3 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"SP4"}>
+      <QuestionSP4 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"SP5"}>
+      <QuestionSP5 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"SP6"}>
+      <QuestionSP6 getNextQuestion={getNextQuestion} />
+    </li>,
+  ];
+
+  function getNextQuestion() {
+    if (currQuestions < questions.length) {
+      setCurrQuestions(currQuestions + 1);
+    } else {
+      dispatch(finishSPSlice.actions.assign(true));
+    }
+  }
+
+  // pendingQuestions representes questions that are in waiting list
+
+  return (
+    <>
+      <div className="flex justify-start w-full">
+        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Specific Preferences</h2>
       </div>
       {questions.slice(0, currQuestions)}
     </>

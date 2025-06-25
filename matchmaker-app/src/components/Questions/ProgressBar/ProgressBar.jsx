@@ -27,9 +27,9 @@ function ProgressBar({ currIdx }) {
   return (
     <div className="relative h-1 bg-[#EFEFEF] flex mb-20 xl:w-[1000px]">
       <div className={widthBar}></div>
-      <div className="absolute translate-[-50%] top-[500%] left-[10%] flex flex-col items-center max-w-[100px]">
+      <div className="absolute translate-[-50%] top-[650%] left-[10%] flex flex-col items-center max-w-[100px]">
         <div
-          className={`w-12 h-12 ${
+          className={`w-6 h-6 ${
             currIdx < 0 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
           } rounded-full transition-all duration-700`}></div>
         <div>
@@ -38,9 +38,9 @@ function ProgressBar({ currIdx }) {
           </p>
         </div>
       </div>
-      <div className="absolute translate-[-50%] top-[500%] left-[30%] flex flex-col items-center max-w-[100px]">
+      <div className="absolute translate-[-50%] top-[650%] left-[30%] flex flex-col items-center max-w-[100px]">
         <div
-          className={`w-12 h-12 ${
+          className={`w-6 h-6 ${
             currIdx < 1 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
           } rounded-full transition-all duration-700`}></div>
         <div>
@@ -49,9 +49,9 @@ function ProgressBar({ currIdx }) {
           </p>
         </div>
       </div>
-      <div className="absolute translate-[-50%] top-[500%] left-[50%] flex flex-col items-center max-w-[100px]">
+      <div className="absolute translate-[-50%] top-[650%] left-[50%] flex flex-col items-center max-w-[100px]">
         <div
-          className={`w-12 h-12 ${
+          className={`w-6 h-6 ${
             currIdx < 2 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
           } rounded-full transition-all duration-700`}></div>
         <div>
@@ -60,9 +60,9 @@ function ProgressBar({ currIdx }) {
           </p>
         </div>
       </div>
-      <div className="absolute translate-[-50%] top-[500%] left-[70%] flex flex-col items-center max-w-[100px]">
+      <div className="absolute translate-[-50%] top-[650%] left-[70%] flex flex-col items-center max-w-[100px]">
         <div
-          className={`w-12 h-12 ${
+          className={`w-6 h-6 ${
             currIdx < 3 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
           } rounded-full transition-all duration-700`}></div>
         <div>
@@ -71,9 +71,9 @@ function ProgressBar({ currIdx }) {
           </p>
         </div>
       </div>
-      <div className="absolute translate-[-50%] top-[500%] left-[90%] flex flex-col items-center max-w-[100px]">
+      <div className="absolute translate-[-50%] top-[650%] left-[90%] flex flex-col items-center max-w-[100px]">
         <div
-          className={`w-12 h-12 ${
+          className={`w-6 h-6 ${
             currIdx < 4 ? "bg-[#EFEFEF]" : "bg-[#7C0F0F]"
           } rounded-full transition-all duration-700`}></div>
         <div>

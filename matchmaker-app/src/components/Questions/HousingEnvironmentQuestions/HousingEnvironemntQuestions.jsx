@@ -307,7 +307,7 @@ export function QuestionHE3({ getNextQuestion }) {
                   id="he3b2"
                   placeholder="Height (meter)"
                   inputStyle="block px-6 py-3 border-2 rounded-md focus:border-orange-400 outline-0 w-48"
-                  value={type}
+                  value={height}
                   onChangeHandler={onChangeHeight}
                 />
               </div>

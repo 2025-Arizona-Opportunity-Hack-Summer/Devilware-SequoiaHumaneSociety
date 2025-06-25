@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import ProgressBar from "./ProgressBar/ProgressBar";
 import {
@@ -16,33 +17,32 @@ import {
   QuestionHC4,
 } from "./HouseholdCompositionQuestions/HouseholdCompositionQuestions";
 
+import { finishHESlice } from "../../redux/MatchFormSlice";
+
+import InputButton from "../Input/InputButton/InputButton";
+
 import "./Questions.css";
 
 export default function Questions() {
-  const [answers, setAnswer] = useState([]);
+  const finishHE = useSelector((store) => store[finishHESlice.name]);
+
   const [currQuestions, setCurrQuestions] = useState(0);
   const [finish, setFinish] = useState(false);
 
   const totalQuestions = 5;
 
-  function onSubmitAnswer(newAnswer) {
-    setAnswer((prevAnswers) => [...prevAnswers, newAnswer]);
-    if (pendingQuestions.length > 0) {
-      const nextQuestion = pendingQuestions.shift();
-      setActiveQuestions((prevQuestions) => [...prevQuestions, nextQuestion]);
-    } else {
-      setFinish((preState) => true);
-    }
-  }
-
   const onClickNext = () => {
+    window.scrollTo(0, 0);
     setCurrQuestions((preState) => preState + 1);
   };
 
   const onClickBack = () => {
+    window.scrollTo(0, 0);
+
     setCurrQuestions((preState) => preState - 1);
   };
 
+  const isNextAble = currQuestions == 0 && finishHE == true;
   return (
     <div className="bg-[#F8EAC9] py-10">
       <form className="flex flex-col min-h-screen w-max m-auto rounded-2xl">
@@ -53,7 +53,16 @@ export default function Questions() {
           {currQuestions === 1 && <HouseholdCompositionQuestions />}
         </ul>
         <div className="flex justify-between">
-          <input type="button" value={"Back"} onClick={onClickBack} />
+          <InputButton
+            id="backButton"
+            onClickHandler={onClickBack}
+            inputStyle="hidden"
+            labelStyle={`bg-[#7C0F0F] text-white px-6 py-3 mt-5 rounded-md cursor-pointer font-semibold block ${
+              currQuestions === 0 ? "disabledButton" : ""
+            }`}
+            disabled={currQuestions === 0}>
+            Back
+          </InputButton>
           {finish && (
             /* Submit button */
             <>
@@ -70,10 +79,63 @@ export default function Questions() {
               <input type="submit" className="hidden" id="submitButton" />
             </>
           )}
-          <input type="button" value={"Next"} onClick={onClickNext} />
+          <InputButton
+            id="nextButton"
+            onClickHandler={onClickNext}
+            inputStyle="hidden"
+            labelStyle={`bg-[#7C0F0F] text-white px-6 py-3 mt-5 rounded-md cursor-pointer font-semibold block ${
+              !isNextAble ? "disabledButton" : ""
+            }`}
+            disabled={!isNextAble}>
+            Next
+          </InputButton>
         </div>
       </form>
     </div>
+  );
+}
+
+function HousingEnvironmentQuestions() {
+  const dispatch = useDispatch();
+
+  const [activeQuestions, setActiveQuestions] = useState([
+    <li key={"HE1"}>
+      <QuestionHE1 getNextQuestion={getNextQuestion} />
+    </li>,
+  ]);
+
+  function getNextQuestion() {
+    if (pendingQuestions.length > 0) {
+      const nextQuestion = pendingQuestions.shift();
+      setActiveQuestions((prevQuestions) => [...prevQuestions, nextQuestion]);
+    } else {
+      dispatch(finishHESlice.actions.assign(true));
+    }
+  }
+
+  // pendingQuestions representes questions that are in waiting list
+  const pendingQuestions = [
+    <li key={"HE2"}>
+      <QuestionHE2 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HE3"}>
+      <QuestionHE3 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HE4"}>
+      <QuestionHE4 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HE5"}>
+      <QuestionHE5 getNextQuestion={getNextQuestion} />
+    </li>,
+  ];
+
+  return (
+    <>
+      <div className="flex justify-start w-full">
+        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Housing Environment</h2>
+      </div>
+      {activeQuestions}
+    </>
   );
 }
 
@@ -102,39 +164,6 @@ function HouseholdCompositionQuestions() {
     </li>,
     <li key={"HC4"}>
       <QuestionHC4 onSubmitAnswer={onSubmitAnswer} />
-    </li>,
-  ];
-
-  return <>{activeQuestions}</>;
-}
-
-function HousingEnvironmentQuestions() {
-  const [activeQuestions, setActiveQuestions] = useState([
-    <li key={"HE1"}>
-      <QuestionHE1 getNextQuestion={getNextQuestion} />
-    </li>,
-  ]);
-
-  function getNextQuestion() {
-    if (pendingQuestions.length > 0) {
-      const nextQuestion = pendingQuestions.shift();
-      setActiveQuestions((prevQuestions) => [...prevQuestions, nextQuestion]);
-    }
-  }
-
-  // pendingQuestions representes questions that are in waiting list
-  const pendingQuestions = [
-    <li key={"HE2"}>
-      <QuestionHE2 getNextQuestion={getNextQuestion} />
-    </li>,
-    <li key={"HE3"}>
-      <QuestionHE3 getNextQuestion={getNextQuestion} />
-    </li>,
-    <li key={"HE4"}>
-      <QuestionHE4 getNextQuestion={getNextQuestion} />
-    </li>,
-    <li key={"HE5"}>
-      <QuestionHE5 getNextQuestion={getNextQuestion} />
     </li>,
   ];
 

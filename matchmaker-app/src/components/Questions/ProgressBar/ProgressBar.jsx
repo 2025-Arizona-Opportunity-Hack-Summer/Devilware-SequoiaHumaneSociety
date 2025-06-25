@@ -23,7 +23,6 @@ function ProgressBar({ currIdx }) {
       break;
   }
 
-  console.log(widthBar);
   return (
     <div className="relative h-1 bg-[#EFEFEF] flex mb-20 xl:w-[1000px]">
       <div className={widthBar}></div>

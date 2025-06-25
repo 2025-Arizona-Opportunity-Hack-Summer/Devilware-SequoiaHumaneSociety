@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
@@ -12,11 +12,9 @@ import InputText from "../../Input/InputText/InputText";
 import InputNumber from "../../Input/InputNumber/InputNumber";
 import InputButton from "../../Input/InputButton/InputButton";
 
-import shsLogo from "../../../assets/images/shs-logo.png";
 import user from "../../../assets/images/user.png";
-import PulseLoader from "react-spinners/PulseLoader";
 
-import { he1Slice, he2Slice, he3Slice } from "../../../redux/HousingEnvironmentSlice";
+import { he1Slice, he2Slice, he3Slice, he4Slice, he5Slice } from "../../../redux/HousingEnvironmentSlice";
 
 import "./HousingEnvironmentQuestions.css";
 
@@ -235,8 +233,10 @@ export function QuestionHE3({ getNextQuestion }) {
   useEffect(() => {
     if (initialAnswer.type !== "") {
       setHasAnswer((preState) => true);
+      getNextQuestion();
     }
   }, []);
+
   const onClickYes = () => {
     setHasFence((prevState) => true);
   };
@@ -335,10 +335,20 @@ export function QuestionHE3({ getNextQuestion }) {
 }
 
 export function QuestionHE4({ getNextQuestion }) {
-  const [answer, setAnswer] = useState("");
+  const dispatch = useDispatch();
+  const initialAnwser = useSelector((store) => store[he4Slice.name]);
+
+  const [hour, setHour] = useState(initialAnwser);
   const [hasAnswer, setHasAnswer] = useState(false);
 
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
+
+  useEffect(() => {
+    if (initialAnwser !== "") {
+      setHasAnswer((preState) => true);
+      getNextQuestion();
+    }
+  }, []);
 
   const Options = hours.map((val) => {
     return (
@@ -350,34 +360,35 @@ export function QuestionHE4({ getNextQuestion }) {
 
   const onSelect = (event) => {
     getNextQuestion();
-    setAnswer((preState) => event.target.value);
+    setHour((preState) => event.target.value);
     setHasAnswer((preState) => true);
+    dispatch(he4Slice.actions.assign(event.target.value));
   };
 
   return (
     <div className="xl:max-w-2xl xl:w-[550px]">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <label htmlFor="he4" className="typewriter overflow-hidden block">
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
           Hour may hours per day will the pet be left alone?
-        </label>
+        </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className="flex items-center justify-end mt-3 answer">
+      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
         <OptionContainer visible={!hasAnswer}>
           <select
             name="he4"
             id="he4"
             className="block px-3 py-3 border border-[#E0E0E0] rounded-md transition-all duration-300 focus:border-[#7C0F0F] hover:border-[#7C0F0F] cursor-pointer"
-            value={answer}
+            value={hour}
             onChange={onSelect}>
             {Options}
           </select>
         </OptionContainer>
 
         <AnswerContainer visible={hasAnswer}>
-          <p>{answer}</p>
+          <p>{hour}</p>
         </AnswerContainer>
 
         <UserLogo src={user} />
@@ -390,9 +401,19 @@ export function QuestionHE4({ getNextQuestion }) {
 }
 
 export function QuestionHE5({ getNextQuestion }) {
-  const [answer, setAnswer] = useState("");
+  const disptach = useDispatch();
+  const initialAnswer = useSelector((store) => store[he5Slice.name]);
+
+  const [answer, setAnswer] = useState(initialAnswer);
   const [hasOther, setHasOther] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
+
+  useEffect(() => {
+    if (initialAnswer !== "") {
+      setHasAnswer((preState) => true);
+      getNextQuestion();
+    }
+  }, []);
 
   const onClickOther = () => {
     setHasOther((prevState) => true);
@@ -401,13 +422,14 @@ export function QuestionHE5({ getNextQuestion }) {
   const onClickNonOther = (event) => {
     setAnswer((prevAnswer) => event.target.value);
     setHasAnswer((preState) => true);
+    disptach(he5Slice.actions.assign(event.target.value));
     getNextQuestion();
   };
 
   const onClickNext = () => {
-    console.log(answer);
     if (answer !== "") {
       setAnswer((prevAnswer) => answer);
+      disptach(he5Slice.actions.assign(answer));
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
@@ -420,11 +442,13 @@ export function QuestionHE5({ getNextQuestion }) {
     <div className="xl:max-w-2xl xl:w-[550px]">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className="typewriter overflow-hidden">Where will the pet sleep and spend most of its time?</p>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          Where will the pet sleep and spend most of its time?
+        </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className="flex items-end justify-end mt-3 answer">
+      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
         <OptionContainer visible={!hasAnswer}>
           <InputRadio
             id="he5a"
@@ -435,6 +459,7 @@ export function QuestionHE5({ getNextQuestion }) {
             labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
             Living room
           </InputRadio>
+
           <InputRadio
             id="he5b"
             name="he5"
@@ -444,6 +469,7 @@ export function QuestionHE5({ getNextQuestion }) {
             labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
             Bedroom
           </InputRadio>
+
           <InputRadio
             id="he5c"
             name="he5"

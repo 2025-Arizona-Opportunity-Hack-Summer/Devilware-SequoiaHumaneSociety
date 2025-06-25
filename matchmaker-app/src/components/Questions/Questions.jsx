@@ -17,7 +17,7 @@ import {
   QuestionHC4,
 } from "./HouseholdCompositionQuestions/HouseholdCompositionQuestions";
 
-import { finishHESlice } from "../../redux/MatchFormSlice";
+import { finishHCSlice, finishHESlice } from "../../redux/MatchFormSlice";
 
 import InputButton from "../Input/InputButton/InputButton";
 
@@ -25,26 +25,23 @@ import "./Questions.css";
 
 export default function Questions() {
   const finishHE = useSelector((store) => store[finishHESlice.name]);
-
+  const finishHC = useSelector((store) => store[finishHCSlice.name]);
   const [currQuestions, setCurrQuestions] = useState(0);
   const [finish, setFinish] = useState(false);
 
   const totalQuestions = 5;
 
   const onClickNext = () => {
-    window.scrollTo(0, 0);
     setCurrQuestions((preState) => preState + 1);
   };
 
   const onClickBack = () => {
-    window.scrollTo(0, 0);
-
     setCurrQuestions((preState) => preState - 1);
   };
 
-  const isNextAble = currQuestions == 0 && finishHE == true;
+  const isNextAble = (currQuestions === 0 && finishHE === true) || (currQuestions === 1 && finishHC === true);
   return (
-    <div className="bg-[#F8EAC9] py-10">
+    <div className="bg-[#F8EAC9] py-10" id="form">
       <form className="flex flex-col min-h-screen w-max m-auto rounded-2xl">
         {/* Question lists */}
         <ul className="flex flex-col items-end justify-start max-w-max gap-5 rounded-xl bg-white py-20 pr-12 pl-24">
@@ -54,14 +51,15 @@ export default function Questions() {
         </ul>
         <div className="flex justify-between">
           <InputButton
-            id="backButton"
-            onClickHandler={onClickBack}
+            id="nextButton"
             inputStyle="hidden"
-            labelStyle={`bg-[#7C0F0F] text-white px-6 py-3 mt-5 rounded-md cursor-pointer font-semibold block ${
+            labelStyle={`bg-[#7C0F0F] text-white mt-5 rounded-md cursor-pointer font-semibold block ${
               currQuestions === 0 ? "disabledButton" : ""
             }`}
             disabled={currQuestions === 0}>
-            Back
+            <a href="#form" onClick={onClickBack} className="block px-6 py-3">
+              Back
+            </a>
           </InputButton>
           {finish && (
             /* Submit button */
@@ -81,13 +79,14 @@ export default function Questions() {
           )}
           <InputButton
             id="nextButton"
-            onClickHandler={onClickNext}
             inputStyle="hidden"
-            labelStyle={`bg-[#7C0F0F] text-white px-6 py-3 mt-5 rounded-md cursor-pointer font-semibold block ${
+            labelStyle={`bg-[#7C0F0F] text-white mt-5 rounded-md cursor-pointer font-semibold block ${
               !isNextAble ? "disabledButton" : ""
             }`}
             disabled={!isNextAble}>
-            Next
+            <a href="#form" onClick={onClickNext} className="block px-6 py-3">
+              Next
+            </a>
           </InputButton>
         </div>
       </form>
@@ -97,24 +96,12 @@ export default function Questions() {
 
 function HousingEnvironmentQuestions() {
   const dispatch = useDispatch();
+  const [currQuestions, setCurrQuestions] = useState(1);
 
-  const [activeQuestions, setActiveQuestions] = useState([
+  const questions = [
     <li key={"HE1"}>
       <QuestionHE1 getNextQuestion={getNextQuestion} />
     </li>,
-  ]);
-
-  function getNextQuestion() {
-    if (pendingQuestions.length > 0) {
-      const nextQuestion = pendingQuestions.shift();
-      setActiveQuestions((prevQuestions) => [...prevQuestions, nextQuestion]);
-    } else {
-      dispatch(finishHESlice.actions.assign(true));
-    }
-  }
-
-  // pendingQuestions representes questions that are in waiting list
-  const pendingQuestions = [
     <li key={"HE2"}>
       <QuestionHE2 getNextQuestion={getNextQuestion} />
     </li>,
@@ -129,43 +116,61 @@ function HousingEnvironmentQuestions() {
     </li>,
   ];
 
+  function getNextQuestion() {
+    if (currQuestions < questions.length) {
+      setCurrQuestions(currQuestions + 1);
+    } else {
+      dispatch(finishHESlice.actions.assign(true));
+    }
+  }
+
+  // pendingQuestions representes questions that are in waiting list
+
   return (
     <>
       <div className="flex justify-start w-full">
         <h2 className="text-2xl font-semibold text-[#7C0F0F]">Housing Environment</h2>
       </div>
-      {activeQuestions}
+      {questions.slice(0, currQuestions)}
     </>
   );
 }
 
 function HouseholdCompositionQuestions() {
-  const [activeQuestions, setActiveQuestions] = useState([
-    <li key={"HC1"}>
-      <QuestionHC1 onSubmitAnswer={onSubmitAnswer} />
-    </li>,
-  ]);
+  const dispatch = useDispatch();
+  const [currQuestions, setCurrQuestions] = useState(1);
 
-  function onSubmitAnswer(newAnswer) {
-    //setAnswer((prevAnswers) => [...prevAnswers, newAnswer]);
-    if (pendingQuestions.length > 0) {
-      const nextQuestion = pendingQuestions.shift();
-      setActiveQuestions((prevQuestions) => [...prevQuestions, nextQuestion]);
+  const questions = [
+    <li key={"HC1"}>
+      <QuestionHC1 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HC2"}>
+      <QuestionHC2 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HC3"}>
+      <QuestionHC3 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HC4"}>
+      <QuestionHC4 getNextQuestion={getNextQuestion} />
+    </li>,
+  ];
+
+  function getNextQuestion() {
+    if (currQuestions < questions.length) {
+      setCurrQuestions((cnt) => cnt + 1);
+    } else {
+      dispatch(finishHCSlice.actions.assign(true));
     }
   }
 
   // pendingQuestions representes questions that are in waiting list
-  const pendingQuestions = [
-    <li key={"HC2"}>
-      <QuestionHC2 onSubmitAnswer={onSubmitAnswer} />
-    </li>,
-    <li key={"HC3"}>
-      <QuestionHC3 onSubmitAnswer={onSubmitAnswer} />
-    </li>,
-    <li key={"HC4"}>
-      <QuestionHC4 onSubmitAnswer={onSubmitAnswer} />
-    </li>,
-  ];
 
-  return <>{activeQuestions}</>;
+  return (
+    <>
+      <div className="flex justify-start w-full">
+        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Household Composition</h2>
+      </div>
+      {questions.slice(0, currQuestions)}
+    </>
+  );
 }

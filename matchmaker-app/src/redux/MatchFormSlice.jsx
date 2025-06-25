@@ -10,8 +10,19 @@ export const finishHESlice = createSlice({
   },
 });
 
+export const finishHCSlice = createSlice({
+  name: "finishHCSlice",
+  initialState: false,
+  reducers: {
+    assign(state, action) {
+      return action.payload;
+    },
+  },
+});
+
 const MatchFormSlice = {
   [finishHESlice.name]: finishHESlice.reducer,
+  [finishHCSlice.name]: finishHCSlice.reducer,
 };
 
 export default MatchFormSlice;

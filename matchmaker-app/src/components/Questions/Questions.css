@@ -37,3 +37,9 @@
 .submitLabel:hover span {
   color: #7c0f0f;
 }
+
+.disabledButton {
+  background-color: white;
+  color: #ced4da;
+  cursor: default;
+}

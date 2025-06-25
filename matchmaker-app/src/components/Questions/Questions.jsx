@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import ProgressBar from "./ProgressBar/ProgessBar";
+import ProgressBar from "./ProgressBar/ProgressBar";
 import {
   QuestionHE1,
   QuestionHE2,
@@ -48,18 +48,9 @@ export default function Questions() {
       <form className="flex flex-col min-h-screen w-max m-auto rounded-2xl">
         {/* Question lists */}
         <ul className="flex flex-col items-end justify-start max-w-max gap-5 rounded-xl bg-white py-20 pr-12 pl-24">
-          <HousingEnvironmentQuestions
-            setAnswer={setAnswer}
-            currQuestions={currQuestions}
-            onClickNext={onClickNext}
-            onClickBack={onClickBack}
-          />
-          <HouseholdCompositionQuestions
-            setAnswer={setAnswer}
-            currQuestions={currQuestions}
-            onClickNext={onClickNext}
-            onClickBack={onClickBack}
-          />
+          <ProgressBar currIdx={currQuestions} />
+          {currQuestions === 0 && <HousingEnvironmentQuestions />}
+          {currQuestions === 1 && <HouseholdCompositionQuestions />}
         </ul>
         <div className="flex justify-between">
           <input type="button" value={"Back"} onClick={onClickBack} />
@@ -82,12 +73,11 @@ export default function Questions() {
           <input type="button" value={"Next"} onClick={onClickNext} />
         </div>
       </form>
-      <ProgressBar percentage={Math.round((answers.length / totalQuestions) * 100)} />
     </div>
   );
 }
 
-function HouseholdCompositionQuestions({ setAnswer, currQuestions }) {
+function HouseholdCompositionQuestions() {
   const [activeQuestions, setActiveQuestions] = useState([
     <li key={"HC1"}>
       <QuestionHC1 onSubmitAnswer={onSubmitAnswer} />
@@ -95,7 +85,7 @@ function HouseholdCompositionQuestions({ setAnswer, currQuestions }) {
   ]);
 
   function onSubmitAnswer(newAnswer) {
-    setAnswer((prevAnswers) => [...prevAnswers, newAnswer]);
+    //setAnswer((prevAnswers) => [...prevAnswers, newAnswer]);
     if (pendingQuestions.length > 0) {
       const nextQuestion = pendingQuestions.shift();
       setActiveQuestions((prevQuestions) => [...prevQuestions, nextQuestion]);
@@ -115,21 +105,17 @@ function HouseholdCompositionQuestions({ setAnswer, currQuestions }) {
     </li>,
   ];
 
-  if (currQuestions !== 1) {
-    return <></>;
-  }
   return <>{activeQuestions}</>;
 }
 
-function HousingEnvironmentQuestions({ setAnswer, currQuestions }) {
+function HousingEnvironmentQuestions() {
   const [activeQuestions, setActiveQuestions] = useState([
     <li key={"HE1"}>
-      <QuestionHE1 onSubmitAnswer={onSubmitAnswer} />
+      <QuestionHE1 getNextQuestion={getNextQuestion} />
     </li>,
   ]);
 
-  function onSubmitAnswer(newAnswer) {
-    setAnswer((prevAnswers) => [...prevAnswers, newAnswer]);
+  function getNextQuestion() {
     if (pendingQuestions.length > 0) {
       const nextQuestion = pendingQuestions.shift();
       setActiveQuestions((prevQuestions) => [...prevQuestions, nextQuestion]);
@@ -139,21 +125,18 @@ function HousingEnvironmentQuestions({ setAnswer, currQuestions }) {
   // pendingQuestions representes questions that are in waiting list
   const pendingQuestions = [
     <li key={"HE2"}>
-      <QuestionHE2 onSubmitAnswer={onSubmitAnswer} />
+      <QuestionHE2 getNextQuestion={getNextQuestion} />
     </li>,
     <li key={"HE3"}>
-      <QuestionHE3 onSubmitAnswer={onSubmitAnswer} />
+      <QuestionHE3 getNextQuestion={getNextQuestion} />
     </li>,
     <li key={"HE4"}>
-      <QuestionHE4 onSubmitAnswer={onSubmitAnswer} />
+      <QuestionHE4 getNextQuestion={getNextQuestion} />
     </li>,
     <li key={"HE5"}>
-      <QuestionHE5 onSubmitAnswer={onSubmitAnswer} />
+      <QuestionHE5 getNextQuestion={getNextQuestion} />
     </li>,
   ];
 
-  if (currQuestions !== 0) {
-    return <></>;
-  }
   return <>{activeQuestions}</>;
 }

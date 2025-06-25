@@ -1,10 +1,5 @@
-import { useState } from "react";
-import {
-  createBrowserRouter,
-  Route,
-  RouterProvider,
-  createRoutesFromElements,
-} from "react-router";
+import { createBrowserRouter, Route, RouterProvider, createRoutesFromElements } from "react-router";
+import { Provider } from "react-redux";
 import "react-router-dom";
 
 import Root from "./pages/Root/Root";
@@ -16,6 +11,8 @@ import Match from "./pages/Match/Match";
 
 import SignIn from "./pages/SignIn/SignIn";
 import Register from "./pages/Register/Register";
+
+import store from "./redux/store";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,7 +31,11 @@ const router = createBrowserRouter(
 );
 
 function App() {
-  return <RouterProvider router={router} />;
+  return (
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  );
 }
 
 export default App;

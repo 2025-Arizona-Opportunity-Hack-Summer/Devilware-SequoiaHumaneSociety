@@ -2,11 +2,13 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 import HEQuestionsSlice from "./HousingEnvironmentSlice";
 import HCQuestionsSlice from "./HouseholdCompositionSlice";
+import LCQuestionsSlice from "./LifeStyleCommitmentSlice";
 import MatchFormSlice from "./MatchFormSlice";
 
 const reducers = {
   ...HEQuestionsSlice,
   ...HCQuestionsSlice,
+  ...LCQuestionsSlice,
   ...MatchFormSlice,
 };
 

@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import shsLogo from "../../../assets/images/shs-logo.png";
 import user from "../../../assets/images/user.png";
-import PulseLoader from "react-spinners/PulseLoader";
 
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
@@ -15,25 +13,73 @@ import AnimalList from "../AnimalList/AnimalList";
 import InputDatalist from "../../Input/InputDataList/InputDataList";
 import InputRadio from "../../Input/InputRadio/InputRadio";
 
-import { hc1Slice, hc2Slice, hc3Slice, hc4Slice } from "../../../redux/HouseholdCompositionSlice";
-
-import "./HouseholdCompositionQuestions.css";
 import InputButton from "../../Input/InputButton/InputButton";
 import InputText from "../../Input/InputText/InputText";
 
-export function QuestionHC1({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[hc1Slice.name]);
+import { finishHCSlice } from "../../../redux/MatchFormSlice";
 
-  const [adults, setAdults] = useState(initialAnswer.adults);
-  const [children, setChildren] = useState(initialAnswer.children);
-  const [youngestAge, setYoungestAge] = useState(initialAnswer.youngestAge);
+export default function HouseholdCompositionQuestions() {
+  const dispatch = useDispatch();
+  const [currQuestions, setCurrQuestions] = useState(1);
+
+  const questions = [
+    <li key={"HC1"} className="w-full">
+      <QuestionHC1 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HC2"} className="w-full">
+      <QuestionHC2 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HC3"} className="w-full">
+      <QuestionHC3 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HC4"} className="w-full">
+      <QuestionHC4 getNextQuestion={getNextQuestion} />
+    </li>,
+  ];
+
+  function getNextQuestion() {
+    if (currQuestions < questions.length) {
+      setCurrQuestions((cnt) => cnt + 1);
+    } else {
+      dispatch(finishHCSlice.actions.assign(true));
+    }
+  }
+
+  // pendingQuestions representes questions that are in waiting list
+
+  return (
+    <>
+      <div className="flex justify-start w-full">
+        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Household Composition</h2>
+      </div>
+      {questions.slice(0, currQuestions)}
+    </>
+  );
+}
+
+function QuestionHC1({ getNextQuestion }) {
+  const [adults, setAdults] = useState("");
+  const [children, setChildren] = useState("");
+  const [youngestAge, setYoungestAge] = useState("");
   const [hasAnswer, setHasAnswer] = useState(false);
+
+  useEffect(() => {
+    const storedAnswer = sessionStorage.getItem("hc1");
+
+    if (storedAnswer !== null) {
+      const parsedAnswer = JSON.parse(storedAnswer);
+      setAdults((preState) => parsedAnswer.adults);
+      setChildren((preState) => parsedAnswer.children);
+      setYoungestAge((preState) => parsedAnswer.youngestAge);
+      getNextQuestion();
+      setHasAnswer((preState) => true);
+    }
+  }, []);
 
   const onChangeAdults = (event) => {
     setAdults((preState) => Number(event.target.value));
     if (children === 0 || (children > 0 && youngestAge !== "")) {
-      dispatch(hc1Slice.actions.assign({ adults: adults, children: children, youngestAge: youngestAge }));
+      sessionStorage.setItem("hc1", JSON.stringify({ adults: adults, children: children, youngestAge: youngestAge }));
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
@@ -42,9 +88,11 @@ export function QuestionHC1({ getNextQuestion }) {
   const onChangeChildren = (event) => {
     setChildren((preState) => Number(event.target.value));
     if (adults !== "" && (Number(event.target.value) === 0 || (Number(event.target.value) > 0 && youngestAge !== ""))) {
-      dispatch(
-        hc1Slice.actions.assign({ adults: adults, children: Number(event.target.value), youngestAge: youngestAge })
+      sessionStorage.setItem(
+        "hc1",
+        JSON.stringify({ adults: adults, children: Number(event.target.value), youngestAge: youngestAge })
       );
+
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
@@ -52,17 +100,13 @@ export function QuestionHC1({ getNextQuestion }) {
 
   const onChangeYoungestAge = (event) => {
     setYoungestAge((preState) => event.target.value);
-    dispatch(hc1Slice.actions.assign({ adults: adults, children: children, youngestAge: event.target.value }));
+    sessionStorage.setItem(
+      "hc1",
+      JSON.stringify({ adults: adults, children: children, youngestAge: event.target.value })
+    );
     getNextQuestion();
     setHasAnswer((preState) => true);
   };
-
-  useEffect(() => {
-    if ((adults !== "" && children === 0) || (adults !== "" && children > 0 && youngestAge !== "")) {
-      getNextQuestion();
-      setHasAnswer((preState) => true);
-    }
-  }, []);
 
   const adultsOptions = Array(11)
     .fill(0)
@@ -186,25 +230,27 @@ function QuestionHC1a({ onChangeYoungestAge, hasAnswer, youngestAge }) {
   );
 }
 
-export function QuestionHC2({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[hc2Slice.name]);
+function QuestionHC2({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [hasAllergies, setHasAllergies] = useState(false);
 
-  const [allergiesAnimal, setAllergiesAnimal] = useState(initialAnswer);
+  const [allergiesAnimal, setAllergiesAnimal] = useState("");
 
   const animalOptions = ["Bird", "Cat", "Dog"];
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = sessionStorage.getItem("hc2");
+    if (storedAnswer !== null) {
+      const parsedAnswer = JSON.parse(storedAnswer);
+      setAllergiesAnimal((preState) => parsedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
   }, []);
   const onClickNo = () => {
     setHasAnswer((preState) => true);
-    dispatch(hc2Slice.actions.assign([]));
+    setAllergiesAnimal((preState) => []);
+    sessionStorage.setItem("hc2", JSON.stringify([]));
     getNextQuestion();
   };
 
@@ -220,7 +266,7 @@ export function QuestionHC2({ getNextQuestion }) {
     if (allergiesAnimal.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      dispatch(hc2Slice.actions.assign(allergiesAnimal));
+      sessionStorage.setItem("hc2", JSON.stringify(allergiesAnimal));
       getNextQuestion();
     }
   };
@@ -296,16 +342,16 @@ export function QuestionHC2({ getNextQuestion }) {
   );
 }
 
-export function QuestionHC3({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[hc3Slice.name]);
-
+function QuestionHC3({ getNextQuestion }) {
   const [hasAnimal, setHasAnimal] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [animalList, setAnimalList] = useState(initialAnswer);
+  const [animalList, setAnimalList] = useState("");
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = sessionStorage.getItem("hc3");
+    if (storedAnswer !== null) {
+      const parsedAnswer = JSON.parse(storedAnswer);
+      setAnimalList((preState) => parsedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
@@ -317,13 +363,13 @@ export function QuestionHC3({ getNextQuestion }) {
 
   const onClickNo = () => {
     setAnimalList((preState) => []);
-    dispatch(hc3Slice.actions.assign([]));
+    sessionStorage.setItem("hc3", JSON.stringify([]));
     setHasAnswer((preState) => true);
     getNextQuestion();
   };
 
   const onClickNext = () => {
-    dispatch(hc3Slice.actions.assign(animalList));
+    sessionStorage.setItem("hc3", JSON.stringify(animalList));
     setHasAnswer((preState) => true);
     getNextQuestion();
   };
@@ -422,25 +468,33 @@ function QuestionHC3a({ animalList, setAnimalList, onClickNext }) {
   );
 }
 
-export function QuestionHC4({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[hc4Slice.name]);
-
+function QuestionHC4({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [hasPetBefore, setHasPetBefore] = useState(false);
-  const [answer, setAnswer] = useState(initialAnswer);
+  const [answer, setAnswer] = useState(null);
 
   useEffect(() => {
-    if (initialAnswer !== null) {
+    const storedAnswer = sessionStorage.getItem("hc4");
+    if (storedAnswer !== null) {
+      if (storedAnswer === "") {
+        setHasPetBefore((preState) => false);
+      } else {
+        setHasPetBefore((preState) => true);
+        setAnswer((preState) => storedAnswer);
+      }
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
+    // if (initialAnswer !== null) {
+    //   getNextQuestion();
+    //   setHasAnswer((preState) => true);
+    // }
   }, []);
   const onClickNo = () => {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => []);
-    dispatch(hc4Slice.actions.assign(""));
+    sessionStorage.setItem("hc4", "");
   };
 
   const onClickYes = () => {
@@ -453,7 +507,7 @@ export function QuestionHC4({ getNextQuestion }) {
       getNextQuestion();
       setHasAnswer((preState) => true);
       setAnswer((preState) => answer);
-      dispatch(hc4Slice.actions.assign(answer));
+      sessionStorage.setItem("hc4", answer);
     }
   };
 
@@ -509,7 +563,7 @@ export function QuestionHC4({ getNextQuestion }) {
   );
 }
 
-export function QuestionHC4a({ onClickNext, onChangeAnswer }) {
+function QuestionHC4a({ onClickNext, onChangeAnswer }) {
   return (
     <div className="xl:max-w-screen mt-5 w-full">
       <QuestionContainer>

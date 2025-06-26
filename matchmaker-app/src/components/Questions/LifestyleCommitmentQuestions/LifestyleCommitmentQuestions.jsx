@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import user from "../../../assets/images/user.png";
 
@@ -9,32 +9,69 @@ import OptionContainer from "../QuestionComponent/OptionContainer/OptionContaine
 import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 
-import { lc1Slice, lc2Slice, lc3Slice, lc4Slice, lc5Slice } from "../../../redux/LifeStyleCommitmentSlice";
+import { finishLCSlice } from "../../../redux/MatchFormSlice";
 
 import InputRadio from "../../Input/InputRadio/InputRadio";
 
-// import "./HouseholdCompositionQuestions.css";
-
-export function QuestionLC1({ getNextQuestion }) {
+export default function LifestyleCommitmentQuestions() {
   const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[lc1Slice.name]);
+  const [currQuestions, setCurrQuestions] = useState(1);
 
-  const [reason, setReasion] = useState(initialAnswer);
+  const questions = [
+    <li key={"LC1"} className="w-full">
+      <QuestionLC1 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"LC2"} className="w-full">
+      <QuestionLC2 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"LC3"} className="w-full">
+      <QuestionLC3 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"LC4"} className="w-full">
+      <QuestionLC4 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"LC5"} className="w-full">
+      <QuestionLC5 getNextQuestion={getNextQuestion} />
+    </li>,
+  ];
+
+  function getNextQuestion() {
+    if (currQuestions < questions.length) {
+      setCurrQuestions(currQuestions + 1);
+    } else {
+      dispatch(finishLCSlice.actions.assign(true));
+    }
+  }
+
+  return (
+    <>
+      <div className="flex justify-start w-full">
+        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Lifestyle & Commitment</h2>
+      </div>
+      {questions.slice(0, currQuestions)}
+    </>
+  );
+}
+
+function QuestionLC1({ getNextQuestion }) {
+  const [reason, setReason] = useState("");
   const [hasAnswer, setHasAnswer] = useState(false);
 
-  const onClickOption = (event) => {
-    setReasion((prevState) => event.target.value);
-    dispatch(lc1Slice.actions.assign(event.target.value));
-    setHasAnswer((prevState) => true);
-    getNextQuestion();
-  };
-
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = sessionStorage.getItem("lc1");
+    if (storedAnswer !== null) {
+      setReason((preState) => storedAnswer);
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
   }, []);
+
+  const onClickOption = (event) => {
+    setReason((prevState) => event.target.value);
+    sessionStorage.setItem("lc1", event.target.value);
+    setHasAnswer((prevState) => true);
+    getNextQuestion();
+  };
 
   const options = ["Save a live", "Find companion"];
 
@@ -84,14 +121,14 @@ export function QuestionLC1({ getNextQuestion }) {
   );
 }
 
-export function QuestionLC2({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[lc2Slice.name]);
+function QuestionLC2({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [hour, setHour] = useState(initialAnswer);
+  const [hour, setHour] = useState("");
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("lc2"));
+    if (storedAnswer !== null) {
+      setHour((hour) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
@@ -100,7 +137,7 @@ export function QuestionLC2({ getNextQuestion }) {
   const onClickOption = (event) => {
     setHasAnswer((preState) => true);
     setHour((hour) => Number(event.target.value));
-    dispatch(lc2Slice.actions.assign(Number(event.target.value)));
+    sessionStorage.setItem("lc2", JSON.stringify(Number(event.target.value)));
     getNextQuestion();
   };
 
@@ -150,14 +187,15 @@ export function QuestionLC2({ getNextQuestion }) {
   );
 }
 
-export function QuestionLC3({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[lc3Slice.name]);
+function QuestionLC3({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [activityLevel, setActivityLevel] = useState(initialAnswer);
+  const [activityLevel, setActivityLevel] = useState("");
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("lc3"));
+
+    if (storedAnswer !== null) {
+      setActivityLevel((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
@@ -166,14 +204,14 @@ export function QuestionLC3({ getNextQuestion }) {
   const onClickOption = (event) => {
     setHasAnswer((preState) => true);
     setActivityLevel((preState) => event.target.value);
-    dispatch(lc3Slice.actions.assign(event.target.value));
+    sessionStorage.setItem("lc3", JSON.stringify(event.target.value));
     getNextQuestion();
   };
 
   const activityLevelOptions = ["Very active", "Moderately active", "Quiet Active"];
 
   const renderedOptions = activityLevelOptions.map((option) => (
-    <option key={option} value={option}>
+    <option key={option} value={option.toLowerCase()}>
       {option}
     </option>
   ));
@@ -214,25 +252,26 @@ export function QuestionLC3({ getNextQuestion }) {
   );
 }
 
-export function QuestionLC4({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[lc4Slice.name]);
-
+function QuestionLC4({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [plan, setPlan] = useState(initialAnswer.plan);
-  const [frequency, setFrequency] = useState(initialAnswer.frequency);
+  const [plan, setPlan] = useState("");
+  const [frequency, setFrequency] = useState("");
 
   useEffect(() => {
-    if (initialAnswer.frequency !== "") {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("lc4"));
+
+    if (storedAnswer !== null) {
       getNextQuestion();
       setHasAnswer((preState) => true);
+      setPlan((preState) => storedAnswer.plan);
+      setFrequency((preState) => storedAnswer.frequency);
     }
   }, []);
 
   const onClickNever = (event) => {
     setHasAnswer((preState) => true);
     setFrequency((preState) => event.target.value);
-    dispatch(lc4Slice.actions.assign({ frequency: "Never", plan: "" }));
+    sessionStorage.setItem("lc4", JSON.stringify({ frequency: "Never", plan: "" }));
     getNextQuestion();
   };
 
@@ -243,7 +282,7 @@ export function QuestionLC4({ getNextQuestion }) {
   const onSelectPlan = (event) => {
     setPlan(event.target.value);
     setHasAnswer((preState) => true);
-    dispatch(lc4Slice.actions.assign({ frequency: frequency, plan: event.target.value }));
+    sessionStorage.setItem("lc4", JSON.stringify({ frequency: frequency, plan: event.target.value }));
     getNextQuestion();
   };
 
@@ -366,15 +405,15 @@ function QuestionLC4a({ onSelectPlan, plan }) {
   );
 }
 
-export function QuestionLC5({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[lc5Slice.name]);
-
+function QuestionLC5({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [answer, setAnswer] = useState(initialAnswer);
+  const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    if (initialAnswer !== null) {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("lc5"));
+
+    if (storedAnswer !== null) {
+      setAnswer((preState) => storedAnswer);
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
@@ -384,14 +423,14 @@ export function QuestionLC5({ getNextQuestion }) {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => false);
-    dispatch(lc5Slice.actions.assign(false));
+    sessionStorage.setItem("lc5", JSON.stringify(false));
   };
 
   const onClickYes = () => {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => true);
-    dispatch(lc5Slice.actions.assign(true));
+    sessionStorage.setItem("lc5", JSON.stringify(true));
   };
 
   return (

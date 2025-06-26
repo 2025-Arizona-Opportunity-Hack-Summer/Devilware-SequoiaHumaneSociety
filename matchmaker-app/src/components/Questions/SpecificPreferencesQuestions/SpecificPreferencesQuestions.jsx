@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import user from "../../../assets/images/user.png";
 
@@ -14,20 +14,65 @@ import InputRadio from "../../Input/InputRadio/InputRadio";
 import InputButton from "../../Input/InputButton/InputButton";
 import InputCheckbox from "../../Input/InputCheckbox/InputCheckbox";
 
-import { sp1Slice, sp2Slice, sp3Slice, sp4Slice, sp5Slice, sp6Slice } from "../../../redux/SpecificPreferencesSlice";
+import { finishSPSlice } from "../../../redux/MatchFormSlice";
 
-export function QuestionSP1({ getNextQuestion }) {
+export default function SpecificPreferencesQuestions() {
   const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[sp1Slice.name]);
+  const [currQuestions, setCurrQuestions] = useState(1);
 
+  const questions = [
+    <li key={"SP1"} className="w-full">
+      <QuestionSP1 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"SP2"} className="w-full">
+      <QuestionSP2 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"SP3"} className="w-full">
+      <QuestionSP3 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"SP4"} className="w-full">
+      <QuestionSP4 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"SP5"} className="w-full">
+      <QuestionSP5 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"SP6"} className="w-full">
+      <QuestionSP6 getNextQuestion={getNextQuestion} />
+    </li>,
+  ];
+
+  function getNextQuestion() {
+    if (currQuestions < questions.length) {
+      setCurrQuestions(currQuestions + 1);
+    } else {
+      dispatch(finishSPSlice.actions.assign(true));
+    }
+  }
+
+  // pendingQuestions representes questions that are in waiting list
+
+  return (
+    <>
+      <div className="flex justify-start w-full">
+        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Specific Preferences</h2>
+      </div>
+      {questions.slice(0, currQuestions)}
+    </>
+  );
+}
+
+function QuestionSP1({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [animalTypes, setAnimalTypes] = useState(initialAnswer);
+  const [animalTypes, setAnimalTypes] = useState("");
 
   const animalOptions = ["Bird", "Cat", "Dog"];
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("sp1"));
+
+    if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
+      setAnimalTypes((preState) => storedAnswer);
       getNextQuestion();
     }
   }, []);
@@ -40,7 +85,7 @@ export function QuestionSP1({ getNextQuestion }) {
     if (animalTypes.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      dispatch(sp1Slice.actions.assign(animalTypes));
+      sessionStorage.setItem("sp1", JSON.stringify(animalTypes));
       getNextQuestion();
     }
   };
@@ -92,18 +137,18 @@ export function QuestionSP1({ getNextQuestion }) {
   );
 }
 
-export function QuestionSP2({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[sp2Slice.name]);
-
+function QuestionSP2({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [fromAge, setFromAge] = useState(initialAnswer.fromAge);
-  const [toAge, setToAge] = useState(initialAnswer.toAge);
+  const [fromAge, setFromAge] = useState("");
+  const [toAge, setToAge] = useState("");
 
   useEffect(() => {
-    if (initialAnswer.fromAge !== "") {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("sp2"));
+    if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
       getNextQuestion();
+      setFromAge((preState) => storedAnswer.fromAge);
+      setToAge((preState) => storedAnswer.toAge);
     }
   }, []);
 
@@ -133,7 +178,7 @@ export function QuestionSP2({ getNextQuestion }) {
     if (fromAge === "" && toAge === "") {
     } else {
       setHasAnswer((preState) => true);
-      dispatch(sp2Slice.actions.assign({ fromAge: fromAge, toAge: toAge }));
+      sessionStorage.setItem("sp2", JSON.stringify({ fromAge: fromAge, toAge: toAge }));
       getNextQuestion();
     }
   };
@@ -206,17 +251,17 @@ export function QuestionSP2({ getNextQuestion }) {
   );
 }
 
-export function QuestionSP3({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[sp3Slice.name]);
-
+function QuestionSP3({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [sizes, setSizes] = useState(initialAnswer);
+  const [sizes, setSizes] = useState([]);
 
   useEffect(() => {
-    if (initialAnswer.length !== 0) {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("sp3"));
+
+    if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
       getNextQuestion();
+      setSizes((preState) => storedAnswer);
     }
   }, []);
 
@@ -224,7 +269,7 @@ export function QuestionSP3({ getNextQuestion }) {
     if (sizes.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      dispatch(sp3Slice.actions.assign(sizes));
+      sessionStorage.setItem("sp3", JSON.stringify(sizes));
       getNextQuestion();
     }
   };
@@ -306,17 +351,17 @@ export function QuestionSP3({ getNextQuestion }) {
   );
 }
 
-export function QuestionSP4({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[sp4Slice.name]);
-
+function QuestionSP4({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [levels, setLevels] = useState(initialAnswer);
+  const [levels, setLevels] = useState([]);
 
   useEffect(() => {
-    if (initialAnswer.length !== 0) {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("sp4"));
+
+    if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
       getNextQuestion();
+      setLevels((preState) => storedAnswer);
     }
   }, []);
 
@@ -324,7 +369,8 @@ export function QuestionSP4({ getNextQuestion }) {
     if (levels.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      dispatch(sp4Slice.actions.assign(levels));
+
+      sessionStorage.setItem("sp4", JSON.stringify(levels));
       getNextQuestion();
     }
   };
@@ -408,15 +454,14 @@ export function QuestionSP4({ getNextQuestion }) {
   );
 }
 
-export function QuestionSP5({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[sp5Slice.name]);
-
+function QuestionSP5({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [answer, setAnswer] = useState(initialAnswer);
+  const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = sessionStorage.getItem("sp5");
+    if (storedAnswer !== null) {
+      setAnswer((preState) => storedAnswer);
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
@@ -426,14 +471,14 @@ export function QuestionSP5({ getNextQuestion }) {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => false);
-    dispatch(sp5Slice.actions.assign(false));
+    sessionStorage.setItem("sp5", JSON.stringify(false));
   };
 
   const onClickYes = () => {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => true);
-    dispatch(sp5Slice.actions.assign(true));
+    sessionStorage.setItem("sp5", JSON.stringify(true));
   };
 
   return (
@@ -485,19 +530,19 @@ export function QuestionSP5({ getNextQuestion }) {
   );
 }
 
-export function QuestionSP6({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[sp6Slice.name]);
-
+function QuestionSP6({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [answers, setAnswers] = useState("");
 
   const options = ["I don't know"];
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("sp6"));
+
+    if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
       getNextQuestion();
+      setAnswers((preState) => storedAnswer);
     }
   }, []);
 
@@ -509,7 +554,7 @@ export function QuestionSP6({ getNextQuestion }) {
     if (answers.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      dispatch(sp6Slice.actions.assign(answers));
+      sessionStorage.setItem("sp6", JSON.stringify(answers));
       getNextQuestion();
     }
   };

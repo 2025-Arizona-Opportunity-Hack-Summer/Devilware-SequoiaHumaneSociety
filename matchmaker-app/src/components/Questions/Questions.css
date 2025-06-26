@@ -7,8 +7,6 @@
   border: 3px solid #7c0f0f;
   display: block;
   width: max-content;
-  margin: 0 auto;
-  margin-top: 40px;
 }
 
 .submitLabel:before {

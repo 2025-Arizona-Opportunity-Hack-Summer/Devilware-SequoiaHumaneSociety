@@ -16,6 +16,8 @@ import InputRadio from "../../Input/InputRadio/InputRadio";
 import InputButton from "../../Input/InputButton/InputButton";
 import InputText from "../../Input/InputText/InputText";
 
+import SessionStorage from "../../features/sessionStorage";
+
 import { finishHCSlice } from "../../../redux/MatchFormSlice";
 
 export default function HouseholdCompositionQuestions() {
@@ -64,13 +66,12 @@ function QuestionHC1({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("hc1");
+    const storedAnswer = SessionStorage.getItem("hc1");
 
     if (storedAnswer !== null) {
-      const parsedAnswer = JSON.parse(storedAnswer);
-      setAdults((preState) => parsedAnswer.adults);
-      setChildren((preState) => parsedAnswer.children);
-      setYoungestAge((preState) => parsedAnswer.youngestAge);
+      setAdults((preState) => storedAnswer.adults);
+      setChildren((preState) => storedAnswer.children);
+      setYoungestAge((preState) => storedAnswer.youngestAge);
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
@@ -79,7 +80,7 @@ function QuestionHC1({ getNextQuestion }) {
   const onChangeAdults = (event) => {
     setAdults((preState) => Number(event.target.value));
     if (children === 0 || (children > 0 && youngestAge !== "")) {
-      sessionStorage.setItem("hc1", JSON.stringify({ adults: adults, children: children, youngestAge: youngestAge }));
+      SessionStorage.setItem("hc1", { adults: adults, children: children, youngestAge: youngestAge });
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
@@ -88,10 +89,7 @@ function QuestionHC1({ getNextQuestion }) {
   const onChangeChildren = (event) => {
     setChildren((preState) => Number(event.target.value));
     if (adults !== "" && (Number(event.target.value) === 0 || (Number(event.target.value) > 0 && youngestAge !== ""))) {
-      sessionStorage.setItem(
-        "hc1",
-        JSON.stringify({ adults: adults, children: Number(event.target.value), youngestAge: youngestAge })
-      );
+      SessionStorage.setItem("hc1", { adults: adults, children: Number(event.target.value), youngestAge: youngestAge });
 
       getNextQuestion();
       setHasAnswer((preState) => true);
@@ -100,10 +98,7 @@ function QuestionHC1({ getNextQuestion }) {
 
   const onChangeYoungestAge = (event) => {
     setYoungestAge((preState) => event.target.value);
-    sessionStorage.setItem(
-      "hc1",
-      JSON.stringify({ adults: adults, children: children, youngestAge: event.target.value })
-    );
+    SessionStorage.setItem("hc1", { adults: adults, children: children, youngestAge: event.target.value });
     getNextQuestion();
     setHasAnswer((preState) => true);
   };
@@ -239,10 +234,9 @@ function QuestionHC2({ getNextQuestion }) {
   const animalOptions = ["Bird", "Cat", "Dog"];
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("hc2");
+    const storedAnswer = SessionStorage.getItem("hc2");
     if (storedAnswer !== null) {
-      const parsedAnswer = JSON.parse(storedAnswer);
-      setAllergiesAnimal((preState) => parsedAnswer);
+      setAllergiesAnimal((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
@@ -250,7 +244,7 @@ function QuestionHC2({ getNextQuestion }) {
   const onClickNo = () => {
     setHasAnswer((preState) => true);
     setAllergiesAnimal((preState) => []);
-    sessionStorage.setItem("hc2", JSON.stringify([]));
+    SessionStorage.setItem("hc2", []);
     getNextQuestion();
   };
 
@@ -266,7 +260,7 @@ function QuestionHC2({ getNextQuestion }) {
     if (allergiesAnimal.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      sessionStorage.setItem("hc2", JSON.stringify(allergiesAnimal));
+      SessionStorage.setItem("hc2", allergiesAnimal);
       getNextQuestion();
     }
   };
@@ -348,10 +342,9 @@ function QuestionHC3({ getNextQuestion }) {
   const [animalList, setAnimalList] = useState("");
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("hc3");
+    const storedAnswer = SessionStorage.getItem("hc3");
     if (storedAnswer !== null) {
-      const parsedAnswer = JSON.parse(storedAnswer);
-      setAnimalList((preState) => parsedAnswer);
+      setAnimalList((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
@@ -363,13 +356,13 @@ function QuestionHC3({ getNextQuestion }) {
 
   const onClickNo = () => {
     setAnimalList((preState) => []);
-    sessionStorage.setItem("hc3", JSON.stringify([]));
+    SessionStorage.setItem("hc3", []);
     setHasAnswer((preState) => true);
     getNextQuestion();
   };
 
   const onClickNext = () => {
-    sessionStorage.setItem("hc3", JSON.stringify(animalList));
+    SessionStorage.setItem("hc3", animalList);
     setHasAnswer((preState) => true);
     getNextQuestion();
   };
@@ -474,7 +467,7 @@ function QuestionHC4({ getNextQuestion }) {
   const [answer, setAnswer] = useState(null);
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("hc4");
+    const storedAnswer = SessionStorage.getItem("hc4");
     if (storedAnswer !== null) {
       if (storedAnswer === "") {
         setHasPetBefore((preState) => false);
@@ -494,7 +487,7 @@ function QuestionHC4({ getNextQuestion }) {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => []);
-    sessionStorage.setItem("hc4", "");
+    SessionStorage.setItem("hc4", "");
   };
 
   const onClickYes = () => {
@@ -507,7 +500,7 @@ function QuestionHC4({ getNextQuestion }) {
       getNextQuestion();
       setHasAnswer((preState) => true);
       setAnswer((preState) => answer);
-      sessionStorage.setItem("hc4", answer);
+      SessionStorage.setItem("hc4", answer);
     }
   };
 

@@ -14,6 +14,8 @@ import InputRadio from "../../Input/InputRadio/InputRadio";
 import InputButton from "../../Input/InputButton/InputButton";
 import InputCheckbox from "../../Input/InputCheckbox/InputCheckbox";
 
+import SessionStorage from "../../features/sessionStorage";
+
 import { finishSPSlice } from "../../../redux/MatchFormSlice";
 
 export default function SpecificPreferencesQuestions() {
@@ -68,7 +70,7 @@ function QuestionSP1({ getNextQuestion }) {
   const animalOptions = ["Bird", "Cat", "Dog"];
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("sp1"));
+    const storedAnswer = SessionStorage.getItem("sp1");
 
     if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
@@ -85,7 +87,7 @@ function QuestionSP1({ getNextQuestion }) {
     if (animalTypes.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      sessionStorage.setItem("sp1", JSON.stringify(animalTypes));
+      SessionStorage.setItem("sp1", animalTypes);
       getNextQuestion();
     }
   };
@@ -143,7 +145,7 @@ function QuestionSP2({ getNextQuestion }) {
   const [toAge, setToAge] = useState("");
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("sp2"));
+    const storedAnswer = SessionStorage.getItem("sp2");
     if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
       getNextQuestion();
@@ -178,7 +180,7 @@ function QuestionSP2({ getNextQuestion }) {
     if (fromAge === "" && toAge === "") {
     } else {
       setHasAnswer((preState) => true);
-      sessionStorage.setItem("sp2", JSON.stringify({ fromAge: fromAge, toAge: toAge }));
+      SessionStorage.setItem("sp2", { fromAge: fromAge, toAge: toAge });
       getNextQuestion();
     }
   };
@@ -256,7 +258,7 @@ function QuestionSP3({ getNextQuestion }) {
   const [sizes, setSizes] = useState([]);
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("sp3"));
+    const storedAnswer = SessionStorage.getItem("sp3");
 
     if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
@@ -269,7 +271,7 @@ function QuestionSP3({ getNextQuestion }) {
     if (sizes.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      sessionStorage.setItem("sp3", JSON.stringify(sizes));
+      SessionStorage.setItem("sp3", sizes);
       getNextQuestion();
     }
   };
@@ -356,7 +358,7 @@ function QuestionSP4({ getNextQuestion }) {
   const [levels, setLevels] = useState([]);
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("sp4"));
+    const storedAnswer = SessionStorage.getItem("sp4");
 
     if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
@@ -370,7 +372,7 @@ function QuestionSP4({ getNextQuestion }) {
     } else {
       setHasAnswer((preState) => true);
 
-      sessionStorage.setItem("sp4", JSON.stringify(levels));
+      SessionStorage.setItem("sp4", levels);
       getNextQuestion();
     }
   };
@@ -459,7 +461,7 @@ function QuestionSP5({ getNextQuestion }) {
   const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("sp5");
+    const storedAnswer = SessionStorage.getItem("sp5");
     if (storedAnswer !== null) {
       setAnswer((preState) => storedAnswer);
       getNextQuestion();
@@ -471,14 +473,14 @@ function QuestionSP5({ getNextQuestion }) {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => false);
-    sessionStorage.setItem("sp5", JSON.stringify(false));
+    SessionStorage.setItem("sp5", false);
   };
 
   const onClickYes = () => {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => true);
-    sessionStorage.setItem("sp5", JSON.stringify(true));
+    SessionStorage.setItem("sp5", true);
   };
 
   return (
@@ -537,7 +539,7 @@ function QuestionSP6({ getNextQuestion }) {
   const options = ["I don't know"];
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("sp6"));
+    const storedAnswer = SessionStorage.getItem("sp6");
 
     if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
@@ -554,7 +556,7 @@ function QuestionSP6({ getNextQuestion }) {
     if (answers.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      sessionStorage.setItem("sp6", JSON.stringify(answers));
+      SessionStorage.setItem("sp6", answers);
       getNextQuestion();
     }
   };

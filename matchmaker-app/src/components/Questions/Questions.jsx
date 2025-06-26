@@ -70,10 +70,6 @@ export default function Questions() {
     setCurrQuestions(getQuestionNumber());
   }, []);
 
-  const [finish, setFinish] = useState(false);
-
-  const totalQuestions = 5;
-
   const onClickNext = () => {
     setCurrQuestions((preState) => preState + 1);
   };
@@ -105,11 +101,11 @@ export default function Questions() {
           {currQuestions === 4 && <SpecificPreferencesQuestions />}
           {currQuestions === 5 && <ReviewQuestions />}
         </ul>
-        <div className="flex justify-between">
+        <div className="flex justify-between items-center mt-5">
           <InputButton
             id="nextButton"
             inputStyle="hidden"
-            labelStyle={`bg-[#7C0F0F] text-white mt-5 rounded-md cursor-pointer font-semibold block ${
+            labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
               currQuestions === 0 ? "disabledButton" : ""
             }`}
             disabled={currQuestions === 0}>
@@ -117,7 +113,7 @@ export default function Questions() {
               Back
             </a>
           </InputButton>
-          {finish && (
+          {finishSP && (
             /* Submit button */
             <>
               <label htmlFor="submitButton" className="submitLabel">
@@ -136,7 +132,7 @@ export default function Questions() {
           <InputButton
             id="backButton"
             inputStyle="hidden"
-            labelStyle={`bg-[#7C0F0F] text-white mt-5 rounded-md cursor-pointer font-semibold block ${
+            labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
               !isNextAble ? "disabledButton" : ""
             }`}
             disabled={!isNextAble}>

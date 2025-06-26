@@ -12,6 +12,8 @@ import InputText from "../../Input/InputText/InputText";
 import InputNumber from "../../Input/InputNumber/InputNumber";
 import InputButton from "../../Input/InputButton/InputButton";
 
+import SessionStorage from "../../features/sessionStorage";
+
 import user from "../../../assets/images/user.png";
 
 import { finishHESlice } from "../../../redux/MatchFormSlice";
@@ -61,7 +63,7 @@ function QuestionHE1({ getNextQuestion }) {
   const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("he1");
+    const storedAnswer = SessionStorage.getItem("he1");
     if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
       getNextQuestion();
@@ -72,7 +74,7 @@ function QuestionHE1({ getNextQuestion }) {
   const onClickOption = (event) => {
     setHasAnswer((preAnser) => true);
     setAnswer((preAnser) => event.target.value);
-    sessionStorage.setItem("he1", event.target.value);
+    SessionStorage.setItem("he1", event.target.value);
     getNextQuestion();
   };
 
@@ -138,7 +140,7 @@ function QuestionHE2({ getNextQuestion }) {
   const [other, setOther] = useState(false);
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("he2");
+    const storedAnswer = SessionStorage.getItem("he2");
     if (storedAnswer !== null) {
       setHouse((prevState) => storedAnswer);
       setHasAnswer((preState) => true);
@@ -154,14 +156,15 @@ function QuestionHE2({ getNextQuestion }) {
     setHasAnswer((prevState) => true);
     setHouse((prevAnswer) => event.target.value);
     getNextQuestion();
-    sessionStorage.setItem("he2", event.target.value);
+    SessionStorage.setItem("he2", event.target.value);
   };
 
   const onClickNext = () => {
     if (house !== "") {
       getNextQuestion();
       setHasAnswer((prevState) => true);
-      sessionStorage.setItem("he2", house);
+      SessionStorage.setItem("he2", house);
+      SessionStorage.setItem("he2", house);
     }
   };
 
@@ -265,14 +268,13 @@ function QuestionHE3({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("he3");
+    const storedAnswer = SessionStorage.getItem("he3");
 
     if (storedAnswer !== null) {
-      const parseAnswer = JSON.parse(storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
-      setType((preState) => parseAnswer.type);
-      setHeight((preState) => parseAnswer.height);
+      setType((preState) => storedAnswer.type);
+      setHeight((preState) => storedAnswer.height);
     }
   }, []);
 
@@ -290,7 +292,7 @@ function QuestionHE3({ getNextQuestion }) {
 
   const onClickNo = () => {
     setHasAnswer((prevState) => true);
-    sessionStorage.setItem("he3", JSON.stringify({ type: "None", height: 0 }));
+    SessionStorage.setItem("he3", { type: "None", height: 0 });
     setType((prevState) => "None");
     getNextQuestion();
   };
@@ -298,7 +300,7 @@ function QuestionHE3({ getNextQuestion }) {
   const onClickNext = () => {
     getNextQuestion();
     setHasAnswer((prevState) => true);
-    sessionStorage.setItem("he3", JSON.stringify({ type: type, height: height }));
+    SessionStorage.setItem("he3", { type: type, height: height });
   };
 
   return (
@@ -382,7 +384,7 @@ function QuestionHE4({ getNextQuestion }) {
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("he4");
+    const storedAnswer = SessionStorage.getItem("he4");
 
     if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
@@ -403,7 +405,7 @@ function QuestionHE4({ getNextQuestion }) {
     getNextQuestion();
     setHour((preState) => event.target.value);
     setHasAnswer((preState) => true);
-    sessionStorage.setItem("he4", event.target.value);
+    SessionStorage.setItem("he4", event.target.value);
   };
 
   return (
@@ -447,7 +449,7 @@ function QuestionHE5({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("he5");
+    const storedAnswer = SessionStorage.getItem("he5");
 
     if (storedAnswer !== null) {
       setAnswer((preState) => storedAnswer);
@@ -463,13 +465,13 @@ function QuestionHE5({ getNextQuestion }) {
   const onClickNonOther = (event) => {
     setAnswer((prevAnswer) => event.target.value);
     setHasAnswer((preState) => true);
-    sessionStorage.setItem("he5", event.target.value);
+    SessionStorage.setItem("he5", event.target.value);
     getNextQuestion();
   };
 
   const onClickNext = () => {
     if (answer !== "") {
-      sessionStorage.setItem("he5", answer);
+      SessionStorage.setItem("he5", answer);
       getNextQuestion();
       setHasAnswer((preState) => true);
     }

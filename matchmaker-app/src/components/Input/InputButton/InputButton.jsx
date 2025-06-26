@@ -1,4 +1,4 @@
-function InputButton({ children, id, onClickHandler, labelStyle, inputStyle, value, disabled }) {
+function InputButton({ children, id, onClickHandler, labelStyle, inputStyle, disabled }) {
   return (
     <>
       <label htmlFor={id} className={labelStyle}>

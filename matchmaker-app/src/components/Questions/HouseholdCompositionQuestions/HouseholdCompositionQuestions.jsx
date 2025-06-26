@@ -84,7 +84,7 @@ export function QuestionHC1({ getNextQuestion }) {
 
   return (
     <>
-      <div className="xl:max-w-max">
+      <div className="xl:max-w-screen">
         <QuestionContainer>
           <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
             How many adults and children live in your home?
@@ -140,8 +140,8 @@ export function QuestionHC1({ getNextQuestion }) {
         </div>
       </div>
       {children !== "" && children > 0 && adults !== "" && !hasAnswer && (
-        <div className="flex items-center justify-end mt-5">
-          <QuestionHC1a onChangeYoungestAge={onChangeYoungestAge} hasAnswer={hasAnswer} />
+        <div className="flex items-center mt-5">
+          <QuestionHC1a onChangeYoungestAge={onChangeYoungestAge} hasAnswer={hasAnswer} youngestAge={youngestAge} />
         </div>
       )}
 
@@ -150,7 +150,7 @@ export function QuestionHC1({ getNextQuestion }) {
   );
 }
 
-function QuestionHC1a({ onChangeYoungestAge, hasAnswer }) {
+function QuestionHC1a({ onChangeYoungestAge, hasAnswer, youngestAge }) {
   const ageOptions = (
     <>
       <option value={"New born (0 - 1 Month)"}>New born (0 - 1 Month)</option>
@@ -162,7 +162,7 @@ function QuestionHC1a({ onChangeYoungestAge, hasAnswer }) {
   );
 
   return (
-    <div className="xl:max-w-max">
+    <div className="xl:max-w-screen w-full">
       {/* Question container - contains the question */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>How old is the youngest child?</p>
@@ -174,7 +174,8 @@ function QuestionHC1a({ onChangeYoungestAge, hasAnswer }) {
           id="hc1c"
           name="hc1c"
           className="block px-3 py-3 border-2 border-[#E0E0E0] rounded-md transition-all duration-300 focus:border-[#7C0F0F] hover:border-[#7C0F0F] cursor-pointer"
-          onChange={onChangeYoungestAge}>
+          onChange={onChangeYoungestAge}
+          value={youngestAge}>
           <option value="" disabled></option>
           {ageOptions}
         </select>
@@ -224,7 +225,7 @@ export function QuestionHC2({ getNextQuestion }) {
     }
   };
   return (
-    <div className="xl:max-w-2xl xl:w-[550px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -236,23 +237,25 @@ export function QuestionHC2({ getNextQuestion }) {
       <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""} relative z-30`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
-          <InputRadio
-            id="hc2a"
-            name="hc2"
-            inputStyle="hidden"
-            labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-            onClickHandler={onClickNo}>
-            No
-          </InputRadio>
+          <div className="flex flex-row gap-2 flex-wrap">
+            <InputRadio
+              id="hc2b"
+              name="hc2"
+              inputStyle="hidden"
+              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+              onClickHandler={onClickYes}>
+              Yes
+            </InputRadio>
+            <InputRadio
+              id="hc2a"
+              name="hc2"
+              inputStyle="hidden"
+              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+              onClickHandler={onClickNo}>
+              No
+            </InputRadio>
+          </div>
 
-          <InputRadio
-            id="hc2b"
-            name="hc2"
-            inputStyle="hidden"
-            labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-            onClickHandler={onClickYes}>
-            Yes
-          </InputRadio>
           {hasAllergies && (
             <div className="relative z-30 flex flex-col items-end">
               <InputDatalist
@@ -327,7 +330,7 @@ export function QuestionHC3({ getNextQuestion }) {
 
   return (
     <>
-      <div className="xl:max-w-2xl xl:w-[550px]">
+      <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
           <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>Do you currently have other pets?</p>
@@ -336,22 +339,24 @@ export function QuestionHC3({ getNextQuestion }) {
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
         <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
           <OptionContainer visible={!hasAnswer}>
-            <InputRadio
-              id="hc3a"
-              name="hc3"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickNo}>
-              No
-            </InputRadio>
-            <InputRadio
-              id="hc3b"
-              name="hc3"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickYes}>
-              Yes
-            </InputRadio>
+            <div className="flex flex-row gap-2">
+              <InputRadio
+                id="hc3b"
+                name="hc3"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickYes}>
+                Yes
+              </InputRadio>
+              <InputRadio
+                id="hc3a"
+                name="hc3"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickNo}>
+                No
+              </InputRadio>
+            </div>
           </OptionContainer>
 
           <AnswerContainer visible={hasAnswer}>
@@ -381,7 +386,7 @@ export function QuestionHC3({ getNextQuestion }) {
         {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
       </div>
       {hasAnimal && !hasAnswer && (
-        <div className="flex items-center justify-end mt-5">
+        <div className="flex items-center justify-start mt-5">
           <QuestionHC3a animalList={animalList} setAnimalList={setAnimalList} onClickNext={onClickNext} />
         </div>
       )}
@@ -393,7 +398,7 @@ export function QuestionHC3({ getNextQuestion }) {
 
 function QuestionHC3a({ animalList, setAnimalList, onClickNext }) {
   return (
-    <div className="xl:max-w-2xl xl:w-[550px]">
+    <div className="xl:max-w-screen w-full">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className="typewriter overflow-hidden"> If so, what types, ages, and are they spayed/neutered?</p>
@@ -457,7 +462,7 @@ export function QuestionHC4({ getNextQuestion }) {
   };
   return (
     <>
-      <div className="xl:max-w-2xl xl:w-[550px]">
+      <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
           <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -469,23 +474,24 @@ export function QuestionHC4({ getNextQuestion }) {
         <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
-            <InputRadio
-              id="hc4a"
-              name="hc4"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickNo}>
-              No
-            </InputRadio>
-
-            <InputRadio
-              id="hc4b"
-              name="hc4"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickYes}>
-              Yes
-            </InputRadio>
+            <div className="flex flex-row gap-2">
+              <InputRadio
+                id="hc4b"
+                name="hc4"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickYes}>
+                Yes
+              </InputRadio>
+              <InputRadio
+                id="hc4a"
+                name="hc4"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickNo}>
+                No
+              </InputRadio>
+            </div>
           </OptionContainer>
 
           {/* If the answer is NOT empty string ==> Display answer */}
@@ -505,7 +511,7 @@ export function QuestionHC4({ getNextQuestion }) {
 
 export function QuestionHC4a({ onClickNext, onChangeAnswer }) {
   return (
-    <div className="xl:max-w-2xl xl:w-[550px] mt-5">
+    <div className="xl:max-w-screen mt-5 w-full">
       <QuestionContainer>
         <p className="typewriter overflow-hidden">
           {/* Running text */}

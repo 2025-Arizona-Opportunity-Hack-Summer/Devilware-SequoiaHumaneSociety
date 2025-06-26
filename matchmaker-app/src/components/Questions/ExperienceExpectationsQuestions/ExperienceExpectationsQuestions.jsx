@@ -38,13 +38,13 @@ export function QuestionEE1({ getNextQuestion }) {
 
   const onClickYes = () => {
     setHasAnswer((preState) => true);
-    dispatch(hc2Slice.actions.assign(true));
+    dispatch(ee1Slice.actions.assign(true));
     setAnswer((preState) => true);
     getNextQuestion();
   };
 
   return (
-    <div className="xl:max-w-2xl xl:w-[800px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -56,23 +56,24 @@ export function QuestionEE1({ getNextQuestion }) {
       <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
-          <InputRadio
-            id="ee1a"
-            name="ee1"
-            inputStyle="hidden"
-            labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-            onClickHandler={onClickNo}>
-            No
-          </InputRadio>
-
-          <InputRadio
-            id="ee1b"
-            name="ee1"
-            inputStyle="hidden"
-            labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-            onClickHandler={onClickYes}>
-            Yes
-          </InputRadio>
+          <div className="flex flex-row flex-wrap gap-2">
+            <InputRadio
+              id="ee1b"
+              name="ee1"
+              inputStyle="hidden"
+              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+              onClickHandler={onClickYes}>
+              Yes
+            </InputRadio>
+            <InputRadio
+              id="ee1a"
+              name="ee1"
+              inputStyle="hidden"
+              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+              onClickHandler={onClickNo}>
+              No
+            </InputRadio>
+          </div>
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
@@ -118,7 +119,7 @@ export function QuestionEE2({ getNextQuestion }) {
     }
   };
   return (
-    <div className="xl:max-w-2xl xl:w-[800px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -200,7 +201,7 @@ export function QuestionEE3({ getNextQuestion }) {
     }
   };
   return (
-    <div className="xl:max-w-2xl xl:w-[800px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -282,7 +283,7 @@ export function QuestionEE4({ getNextQuestion }) {
   };
   return (
     <>
-      <div className="xl:max-w-2xl xl:w-[800px]">
+      <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
           <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -294,23 +295,24 @@ export function QuestionEE4({ getNextQuestion }) {
         <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
-            <InputRadio
-              id="ee4a"
-              name="ee4"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickNo}>
-              No
-            </InputRadio>
-
-            <InputRadio
-              id="ee4b"
-              name="ee4"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickYes}>
-              Yes
-            </InputRadio>
+            <div className="flex flex-row gap-2 flex-wrap">
+              <InputRadio
+                id="ee4b"
+                name="ee4"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickYes}>
+                Yes
+              </InputRadio>
+              <InputRadio
+                id="ee4a"
+                name="ee4"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickNo}>
+                No
+              </InputRadio>
+            </div>
           </OptionContainer>
 
           {/* If the answer is NOT empty string ==> Display answer */}

@@ -46,7 +46,7 @@ export function QuestionSP1({ getNextQuestion }) {
   };
 
   return (
-    <div className="xl:max-w-2xl xl:w-[550px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What animal types are you looking for?</p>
@@ -139,7 +139,7 @@ export function QuestionSP2({ getNextQuestion }) {
   };
 
   return (
-    <div className="xl:max-w-2xl xl:w-[800px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -238,7 +238,7 @@ export function QuestionSP3({ getNextQuestion }) {
   };
 
   return (
-    <div className="xl:max-w-2xl xl:w-[800px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What animal size are you looking for?</p>
@@ -254,7 +254,7 @@ export function QuestionSP3({ getNextQuestion }) {
               value="Large"
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
-              onClickHandler={onChangeSize}
+              onChangeHandler={onChangeSize}
               checked={sizes.includes("Large")}>
               Large
             </InputCheckbox>
@@ -263,7 +263,7 @@ export function QuestionSP3({ getNextQuestion }) {
               value="Medium"
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
-              onClickHandler={onChangeSize}
+              onChangeHandler={onChangeSize}
               checked={sizes.includes("Medium")}>
               Medium
             </InputCheckbox>
@@ -272,7 +272,7 @@ export function QuestionSP3({ getNextQuestion }) {
               value="Small"
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
-              onClickHandler={onChangeSize}
+              onChangeHandler={onChangeSize}
               checked={sizes.includes("Small")}>
               Small
             </InputCheckbox>
@@ -338,7 +338,7 @@ export function QuestionSP4({ getNextQuestion }) {
   };
 
   return (
-    <div className="xl:max-w-2xl xl:w-[800px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -357,7 +357,7 @@ export function QuestionSP4({ getNextQuestion }) {
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
               checked={levels.includes("Very Active")}
-              onClickHandler={onChangeLevel}>
+              onChangeHandler={onChangeLevel}>
               Very Active
             </InputCheckbox>
             <InputCheckbox
@@ -366,7 +366,7 @@ export function QuestionSP4({ getNextQuestion }) {
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
               checked={levels.includes("Moderately Active")}
-              onClickHandler={onChangeLevel}>
+              onChangeHandler={onChangeLevel}>
               Moderately Active
             </InputCheckbox>
             <InputCheckbox
@@ -375,7 +375,7 @@ export function QuestionSP4({ getNextQuestion }) {
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
               checked={levels.includes("Quiet Active")}
-              onClickHandler={onChangeLevel}>
+              onChangeHandler={onChangeLevel}>
               Quiet Active
             </InputCheckbox>
           </div>
@@ -438,7 +438,7 @@ export function QuestionSP5({ getNextQuestion }) {
 
   return (
     <>
-      <div className="xl:max-w-2xl xl:w-[800px]">
+      <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
           <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -450,23 +450,24 @@ export function QuestionSP5({ getNextQuestion }) {
         <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
-            <InputRadio
-              id="sp5a"
-              name="sp5"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickNo}>
-              No
-            </InputRadio>
-
-            <InputRadio
-              id="sp5b"
-              name="sp5"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickYes}>
-              Yes
-            </InputRadio>
+            <div className="flex flex-row gap-2 flex-wrap">
+              <InputRadio
+                id="sp5b"
+                name="sp5"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickYes}>
+                Yes
+              </InputRadio>
+              <InputRadio
+                id="sp5a"
+                name="sp5"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickNo}>
+                No
+              </InputRadio>
+            </div>
           </OptionContainer>
 
           {/* If the answer is NOT empty string ==> Display answer */}
@@ -513,7 +514,7 @@ export function QuestionSP6({ getNextQuestion }) {
     }
   };
   return (
-    <div className="xl:max-w-2xl xl:w-[800px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>

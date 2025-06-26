@@ -45,7 +45,7 @@ export function QuestionLC1({ getNextQuestion }) {
   ));
   return (
     <>
-      <div className="xl:max-w-max">
+      <div className="xl:max-w-screen">
         <QuestionContainer>
           <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
             What is your primary reason for wanting to adopt a pet?
@@ -113,7 +113,7 @@ export function QuestionLC2({ getNextQuestion }) {
     </option>
   ));
   return (
-    <div className="xl:max-w-2xl xl:w-[1000px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -179,7 +179,7 @@ export function QuestionLC3({ getNextQuestion }) {
   ));
 
   return (
-    <div className="xl:max-w-2xl xl:w-[550px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What is your activity level?</p>
@@ -249,7 +249,7 @@ export function QuestionLC4({ getNextQuestion }) {
 
   return (
     <>
-      <div className="xl:max-w-2xl xl:w-[1000px]">
+      <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
           <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -261,45 +261,47 @@ export function QuestionLC4({ getNextQuestion }) {
         <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
-            <InputRadio
-              id="lc4a"
-              name="lc4"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickNonNever}
-              value="Always">
-              Always
-            </InputRadio>
+            <div className="flex flex-row gap-2 flex-wrap">
+              <InputRadio
+                id="lc4a"
+                name="lc4"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickNonNever}
+                value="Always">
+                Always
+              </InputRadio>
 
-            <InputRadio
-              id="lc4b"
-              name="lc4"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickNonNever}
-              value="Sometime">
-              Sometime
-            </InputRadio>
+              <InputRadio
+                id="lc4b"
+                name="lc4"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickNonNever}
+                value="Sometime">
+                Sometime
+              </InputRadio>
 
-            <InputRadio
-              id="lc4c"
-              name="lc4"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickNonNever}
-              value="Rarely">
-              Rearely
-            </InputRadio>
+              <InputRadio
+                id="lc4c"
+                name="lc4"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickNonNever}
+                value="Rarely">
+                Rearely
+              </InputRadio>
 
-            <InputRadio
-              id="lc4c"
-              name="lc4"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickNever}
-              value="Never">
-              Never
-            </InputRadio>
+              <InputRadio
+                id="lc4d"
+                name="lc4"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickNever}
+                value="Never">
+                Never
+              </InputRadio>
+            </div>
           </OptionContainer>
 
           {/* If the answer is NOT empty string ==> Display answer */}
@@ -336,7 +338,7 @@ function QuestionLC4a({ onSelectPlan, plan }) {
   ));
 
   return (
-    <div className="xl:max-w-2xl xl:w-[1000px] mt-5">
+    <div className="xl:max-w-screen w-full">
       <QuestionContainer>
         <p className="typewriter overflow-hidden">
           {/* Running text */}
@@ -394,7 +396,7 @@ export function QuestionLC5({ getNextQuestion }) {
 
   return (
     <>
-      <div className="xl:max-w-2xl xl:w-[1000px]">
+      <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
           <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -406,23 +408,24 @@ export function QuestionLC5({ getNextQuestion }) {
         <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
-            <InputRadio
-              id="lc5a"
-              name="lc5"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickNo}>
-              No
-            </InputRadio>
-
-            <InputRadio
-              id="lc5b"
-              name="lc5"
-              inputStyle="hidden"
-              labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
-              onClickHandler={onClickYes}>
-              Yes
-            </InputRadio>
+            <div className="flex flex-row gap-2 flex-wrap">
+              <InputRadio
+                id="lc5b"
+                name="lc5"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickYes}>
+                Yes
+              </InputRadio>
+              <InputRadio
+                id="lc5a"
+                name="lc5"
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border-2 border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300"
+                onClickHandler={onClickNo}>
+                No
+              </InputRadio>
+            </div>
           </OptionContainer>
 
           {/* If the answer is NOT empty string ==> Display answer */}

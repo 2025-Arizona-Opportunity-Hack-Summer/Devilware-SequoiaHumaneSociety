@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import OptionContainer from "../QuestionComponent/OptionContainer/OptionContainer";
@@ -14,28 +14,65 @@ import InputButton from "../../Input/InputButton/InputButton";
 
 import user from "../../../assets/images/user.png";
 
-import { he1Slice, he2Slice, he3Slice, he4Slice, he5Slice } from "../../../redux/HousingEnvironmentSlice";
+import { finishHESlice } from "../../../redux/MatchFormSlice";
 
-import "./HousingEnvironmentQuestions.css";
-
-export function QuestionHE1({ getNextQuestion }) {
+export default function HousingEnvironmentQuestions() {
   const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[he1Slice.name]);
+  const [currQuestions, setCurrQuestions] = useState(1);
 
+  const questions = [
+    <li key={"HE1"} className="w-full">
+      <QuestionHE1 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HE2"} className="w-full">
+      <QuestionHE2 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HE3"} className="w-full">
+      <QuestionHE3 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HE4"} className="w-full">
+      <QuestionHE4 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"HE5"} className="w-full">
+      <QuestionHE5 getNextQuestion={getNextQuestion} />
+    </li>,
+  ];
+
+  function getNextQuestion() {
+    if (currQuestions < questions.length) {
+      setCurrQuestions(currQuestions + 1);
+    } else {
+      dispatch(finishHESlice.actions.assign(true));
+    }
+  }
+
+  return (
+    <>
+      <div className="flex justify-start w-full">
+        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Housing Environment</h2>
+      </div>
+      {questions.slice(0, currQuestions)}
+    </>
+  );
+}
+
+function QuestionHE1({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [answer, setAnswer] = useState(initialAnswer);
+  const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = sessionStorage.getItem("he1");
+    if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
       getNextQuestion();
+      setAnswer((preState) => storedAnswer);
     }
   }, []);
 
   const onClickOption = (event) => {
     setHasAnswer((preAnser) => true);
     setAnswer((preAnser) => event.target.value);
-    dispatch(he1Slice.actions.assign(event.target.value));
+    sessionStorage.setItem("he1", event.target.value);
     getNextQuestion();
   };
 
@@ -95,17 +132,15 @@ export function QuestionHE1({ getNextQuestion }) {
   );
 }
 
-export function QuestionHE2({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[he2Slice.name]);
-
-  const [house, setHouse] = useState(initialAnswer);
+function QuestionHE2({ getNextQuestion }) {
+  const [house, setHouse] = useState("");
   const [hasAnswer, setHasAnswer] = useState(false);
   const [other, setOther] = useState(false);
 
   useEffect(() => {
-    if (initialAnswer !== "") {
-      setHouse((prevState) => initialAnswer);
+    const storedAnswer = sessionStorage.getItem("he2");
+    if (storedAnswer !== null) {
+      setHouse((prevState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
@@ -119,14 +154,14 @@ export function QuestionHE2({ getNextQuestion }) {
     setHasAnswer((prevState) => true);
     setHouse((prevAnswer) => event.target.value);
     getNextQuestion();
-    dispatch(he2Slice.actions.assign(event.target.value));
+    sessionStorage.setItem("he2", event.target.value);
   };
 
   const onClickNext = () => {
     if (house !== "") {
       getNextQuestion();
       setHasAnswer((prevState) => true);
-      dispatch(he2Slice.actions.assign(house));
+      sessionStorage.setItem("he2", house);
     }
   };
 
@@ -223,19 +258,21 @@ export function QuestionHE2({ getNextQuestion }) {
   );
 }
 
-export function QuestionHE3({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[he3Slice.name]);
-
-  const [type, setType] = useState(initialAnswer.type);
-  const [height, setHeight] = useState(initialAnswer.height);
+function QuestionHE3({ getNextQuestion }) {
+  const [type, setType] = useState("");
+  const [height, setHeight] = useState(0);
   const [hasFence, setHasFence] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
 
   useEffect(() => {
-    if (initialAnswer.type !== "") {
+    const storedAnswer = sessionStorage.getItem("he3");
+
+    if (storedAnswer !== null) {
+      const parseAnswer = JSON.parse(storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
+      setType((preState) => parseAnswer.type);
+      setHeight((preState) => parseAnswer.height);
     }
   }, []);
 
@@ -253,7 +290,7 @@ export function QuestionHE3({ getNextQuestion }) {
 
   const onClickNo = () => {
     setHasAnswer((prevState) => true);
-    dispatch(he3Slice.actions.assign({ type: "None", height: 0 }));
+    sessionStorage.setItem("he3", JSON.stringify({ type: "None", height: 0 }));
     setType((prevState) => "None");
     getNextQuestion();
   };
@@ -261,7 +298,7 @@ export function QuestionHE3({ getNextQuestion }) {
   const onClickNext = () => {
     getNextQuestion();
     setHasAnswer((prevState) => true);
-    dispatch(he3Slice.actions.assign({ type: type, height: height }));
+    sessionStorage.setItem("he3", JSON.stringify({ type: type, height: height }));
   };
 
   return (
@@ -338,19 +375,19 @@ export function QuestionHE3({ getNextQuestion }) {
   );
 }
 
-export function QuestionHE4({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnwser = useSelector((store) => store[he4Slice.name]);
-
-  const [hour, setHour] = useState(initialAnwser);
+function QuestionHE4({ getNextQuestion }) {
+  const [hour, setHour] = useState("");
   const [hasAnswer, setHasAnswer] = useState(false);
 
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 
   useEffect(() => {
-    if (initialAnwser !== "") {
+    const storedAnswer = sessionStorage.getItem("he4");
+
+    if (storedAnswer !== null) {
       setHasAnswer((preState) => true);
       getNextQuestion();
+      setHour((hour) => storedAnswer);
     }
   }, []);
 
@@ -366,7 +403,7 @@ export function QuestionHE4({ getNextQuestion }) {
     getNextQuestion();
     setHour((preState) => event.target.value);
     setHasAnswer((preState) => true);
-    dispatch(he4Slice.actions.assign(event.target.value));
+    sessionStorage.setItem("he4", event.target.value);
   };
 
   return (
@@ -404,16 +441,16 @@ export function QuestionHE4({ getNextQuestion }) {
   );
 }
 
-export function QuestionHE5({ getNextQuestion }) {
-  const disptach = useDispatch();
-  const initialAnswer = useSelector((store) => store[he5Slice.name]);
-
-  const [answer, setAnswer] = useState(initialAnswer);
+function QuestionHE5({ getNextQuestion }) {
+  const [answer, setAnswer] = useState("");
   const [hasOther, setHasOther] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = sessionStorage.getItem("he5");
+
+    if (storedAnswer !== null) {
+      setAnswer((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
@@ -426,14 +463,13 @@ export function QuestionHE5({ getNextQuestion }) {
   const onClickNonOther = (event) => {
     setAnswer((prevAnswer) => event.target.value);
     setHasAnswer((preState) => true);
-    disptach(he5Slice.actions.assign(event.target.value));
+    sessionStorage.setItem("he5", event.target.value);
     getNextQuestion();
   };
 
   const onClickNext = () => {
     if (answer !== "") {
-      setAnswer((prevAnswer) => answer);
-      disptach(he5Slice.actions.assign(answer));
+      sessionStorage.setItem("he5", answer);
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
@@ -442,6 +478,7 @@ export function QuestionHE5({ getNextQuestion }) {
   const onChangeOtherAnswer = (event) => {
     setAnswer((prevState) => event.target.value);
   };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}

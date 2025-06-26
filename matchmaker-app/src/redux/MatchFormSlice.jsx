@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const finishHESlice = createSlice({
-  name: "finishHESlice",
+  name: "finishHE",
   initialState: false,
   reducers: {
     assign(state, action) {
@@ -11,7 +11,7 @@ export const finishHESlice = createSlice({
 });
 
 export const finishHCSlice = createSlice({
-  name: "finishHCSlice",
+  name: "finishHC",
   initialState: false,
   reducers: {
     assign(state, action) {
@@ -21,7 +21,7 @@ export const finishHCSlice = createSlice({
 });
 
 export const finishLCSlice = createSlice({
-  name: "finishLCSlice",
+  name: "finishLC",
   initialState: false,
   reducers: {
     assign(state, action) {
@@ -31,7 +31,7 @@ export const finishLCSlice = createSlice({
 });
 
 export const finishEESlice = createSlice({
-  name: "finishEESlice",
+  name: "finishEE",
   initialState: false,
   reducers: {
     assign(state, action) {
@@ -41,7 +41,7 @@ export const finishEESlice = createSlice({
 });
 
 export const finishSPSlice = createSlice({
-  name: "finishSPSlice",
+  name: "finishSP",
   initialState: false,
   reducers: {
     assign(state, action) {

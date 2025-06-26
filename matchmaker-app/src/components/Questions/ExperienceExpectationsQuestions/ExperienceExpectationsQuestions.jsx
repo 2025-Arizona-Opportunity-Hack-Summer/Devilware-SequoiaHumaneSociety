@@ -14,16 +14,56 @@ import InputRadio from "../../Input/InputRadio/InputRadio";
 
 import InputButton from "../../Input/InputButton/InputButton";
 
-import { ee1Slice, ee2Slice, ee3Slice, ee4Slice } from "../../../redux/ExperienceExpectationsSlice.jsx";
+import { finishEESlice } from "../../../redux/MatchFormSlice.jsx";
 
-export function QuestionEE1({ getNextQuestion }) {
+export default function ExperienceExpectationsQuestions() {
   const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[ee1Slice.name]);
+  const [currQuestions, setCurrQuestions] = useState(1);
+
+  const questions = [
+    <li key={"EE1"} className="w-full">
+      <QuestionEE1 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"EE2"} className="w-full">
+      <QuestionEE2 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"EE3"} className="w-full">
+      <QuestionEE3 getNextQuestion={getNextQuestion} />
+    </li>,
+    <li key={"EE4"} className="w-full">
+      <QuestionEE4 getNextQuestion={getNextQuestion} />
+    </li>,
+  ];
+
+  function getNextQuestion() {
+    if (currQuestions < questions.length) {
+      setCurrQuestions(currQuestions + 1);
+    } else {
+      dispatch(finishEESlice.actions.assign(true));
+    }
+  }
+
+  // pendingQuestions representes questions that are in waiting list
+
+  return (
+    <>
+      <div className="flex justify-start w-full">
+        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Experience & Expectations</h2>
+      </div>
+      {questions.slice(0, currQuestions)}
+    </>
+  );
+}
+
+function QuestionEE1({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [answer, setAnswer] = useState(initialAnswer);
+  const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("ee1"));
+
+    if (storedAnswer !== null) {
+      setAnswer((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
@@ -31,14 +71,14 @@ export function QuestionEE1({ getNextQuestion }) {
 
   const onClickNo = () => {
     setHasAnswer((preState) => true);
-    dispatch(ee1Slice.actions.assign(false));
+    sessionStorage.setItem("ee1", JSON.stringify(false));
     setAnswer((preState) => false);
     getNextQuestion();
   };
 
   const onClickYes = () => {
     setHasAnswer((preState) => true);
-    dispatch(ee1Slice.actions.assign(true));
+    sessionStorage.setItem("ee1", JSON.stringify(true));
     setAnswer((preState) => true);
     getNextQuestion();
   };
@@ -90,17 +130,17 @@ export function QuestionEE1({ getNextQuestion }) {
   );
 }
 
-export function QuestionEE2({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[ee2Slice.name]);
-
+function QuestionEE2({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [answers, setAnswers] = useState(initialAnswer);
+  const [answers, setAnswers] = useState("");
 
   const options = ["I don't know"];
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("ee2"));
+
+    if (storedAnswer !== null) {
+      setAnswers((preSTate) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
@@ -114,7 +154,7 @@ export function QuestionEE2({ getNextQuestion }) {
     if (answers.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      dispatch(ee2Slice.actions.assign(answers));
+      sessionStorage.setItem("ee2", JSON.stringify(answers));
       getNextQuestion();
     }
   };
@@ -172,17 +212,17 @@ export function QuestionEE2({ getNextQuestion }) {
   );
 }
 
-export function QuestionEE3({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[ee3Slice.name]);
-
+function QuestionEE3({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [answers, setAnswers] = useState(initialAnswer);
+  const [answers, setAnswers] = useState("");
 
   const options = ["The pet characteristics does not fit mine"];
 
   useEffect(() => {
-    if (initialAnswer !== "") {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("ee3"));
+
+    if (storedAnswer !== null) {
+      setAnswers((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
     }
@@ -196,7 +236,7 @@ export function QuestionEE3({ getNextQuestion }) {
     if (answers.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      dispatch(ee3Slice.actions.assign(answers));
+      sessionStorage.setItem("ee3", JSON.stringify(answers));
       getNextQuestion();
     }
   };
@@ -254,15 +294,14 @@ export function QuestionEE3({ getNextQuestion }) {
   );
 }
 
-export function QuestionEE4({ getNextQuestion }) {
-  const dispatch = useDispatch();
-  const initialAnswer = useSelector((store) => store[ee4Slice.name]);
-
+function QuestionEE4({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [answer, setAnswer] = useState(initialAnswer);
+  const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    if (initialAnswer !== null) {
+    const storedAnswer = JSON.parse(sessionStorage.getItem("ee4"));
+    if (storedAnswer !== null) {
+      setAnswer((preState) => storedAnswer);
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
@@ -272,14 +311,14 @@ export function QuestionEE4({ getNextQuestion }) {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => false);
-    dispatch(ee4Slice.actions.assign(false));
+    sessionStorage.setItem("ee4", JSON.stringify(false));
   };
 
   const onClickYes = () => {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => true);
-    dispatch(ee4Slice.actions.assign(true));
+    sessionStorage.setItem("ee4", JSON.stringify(true));
   };
   return (
     <>

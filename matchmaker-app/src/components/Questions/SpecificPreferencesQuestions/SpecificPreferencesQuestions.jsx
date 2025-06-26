@@ -56,7 +56,7 @@ export default function SpecificPreferencesQuestions() {
   return (
     <>
       <div className="flex justify-start w-full">
-        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Specific Preferences</h2>
+        <h2 className="text-2xl font-bold text-[#7C0F0F]">Specific Preferences</h2>
       </div>
       {questions.slice(0, currQuestions)}
     </>

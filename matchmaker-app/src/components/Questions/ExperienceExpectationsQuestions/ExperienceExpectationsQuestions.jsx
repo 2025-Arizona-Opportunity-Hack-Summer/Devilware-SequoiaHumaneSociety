@@ -45,12 +45,10 @@ export default function ExperienceExpectationsQuestions() {
     }
   }
 
-  // pendingQuestions representes questions that are in waiting list
-
   return (
     <>
       <div className="flex justify-start w-full">
-        <h2 className="text-2xl font-semibold text-[#7C0F0F]">Experience & Expectations</h2>
+        <h2 className="text-2xl font-bold text-[#7C0F0F]">Experience & Expectations</h2>
       </div>
       {questions.slice(0, currQuestions)}
     </>

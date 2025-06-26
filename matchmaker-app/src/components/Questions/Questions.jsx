@@ -18,12 +18,14 @@ import InputButton from "../Input/InputButton/InputButton";
 import "./Questions.css";
 
 export default function Questions() {
+  const dispatch = useDispatch();
   const finishHE = useSelector((store) => store[finishHESlice.name]);
   const finishHC = useSelector((store) => store[finishHCSlice.name]);
   const finishLC = useSelector((store) => store[finishLCSlice.name]);
   const finishEE = useSelector((store) => store[finishEESlice.name]);
   const finishSP = useSelector((store) => store[finishSPSlice.name]);
 
+  const [openSubmit, setOpenSubmit] = useState(false);
   const [currQuestions, setCurrQuestions] = useState(0);
 
   useEffect(() => {
@@ -37,30 +39,45 @@ export default function Questions() {
       const initSP = spId.map((id) => sessionStorage.getItem(id) !== null);
 
       if (!initSP.includes(false)) {
+        dispatch(finishSPSlice.actions.assign(true));
+        dispatch(finishEESlice.actions.assign(true));
+        dispatch(finishLCSlice.actions.assign(true));
+        dispatch(finishHCSlice.actions.assign(true));
+        dispatch(finishHESlice.actions.assign(true));
         return 5;
       }
 
       const initEE = eeId.map((id) => sessionStorage.getItem(id) !== null);
 
       if (!initEE.includes(false)) {
+        dispatch(finishEESlice.actions.assign(true));
+        dispatch(finishLCSlice.actions.assign(true));
+        dispatch(finishHCSlice.actions.assign(true));
+        dispatch(finishHESlice.actions.assign(true));
         return 4;
       }
 
       const initLC = lcId.map((id) => sessionStorage.getItem(id) !== null);
 
       if (!initLC.includes(false)) {
+        dispatch(finishLCSlice.actions.assign(true));
+        dispatch(finishHCSlice.actions.assign(true));
+        dispatch(finishHESlice.actions.assign(true));
         return 3;
       }
 
       const initHC = hcId.map((id) => sessionStorage.getItem(id) !== null);
 
       if (!initHC.includes(false)) {
+        dispatch(finishHCSlice.actions.assign(true));
+        dispatch(finishHESlice.actions.assign(true));
         return 2;
       }
 
       const initHE = heId.map((id) => sessionStorage.getItem(id) !== null);
 
       if (!initHE.includes(false)) {
+        dispatch(finishHESlice.actions.assign(true));
         return 1;
       }
 
@@ -99,7 +116,7 @@ export default function Questions() {
           {currQuestions === 2 && <LifestyleCommitmentQuestions />}
           {currQuestions === 3 && <ExperienceExpectationsQuestions />}
           {currQuestions === 4 && <SpecificPreferencesQuestions />}
-          {currQuestions === 5 && <ReviewQuestions />}
+          {currQuestions === 5 && <ReviewQuestions setOpenSubmit={setOpenSubmit} />}
         </ul>
         <div className="flex justify-between items-center mt-5">
           <InputButton
@@ -113,7 +130,7 @@ export default function Questions() {
               Back
             </a>
           </InputButton>
-          {finishSP && (
+          {openSubmit && (
             /* Submit button */
             <>
               <label htmlFor="submitButton" className="submitLabel">

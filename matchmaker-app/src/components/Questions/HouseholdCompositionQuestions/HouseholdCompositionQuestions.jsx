@@ -478,11 +478,8 @@ function QuestionHC4({ getNextQuestion }) {
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
-    // if (initialAnswer !== null) {
-    //   getNextQuestion();
-    //   setHasAnswer((preState) => true);
-    // }
   }, []);
+
   const onClickNo = () => {
     getNextQuestion();
     setHasAnswer((preState) => true);

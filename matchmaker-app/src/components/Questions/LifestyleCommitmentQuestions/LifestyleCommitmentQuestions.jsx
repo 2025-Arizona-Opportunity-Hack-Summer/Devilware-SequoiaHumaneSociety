@@ -11,6 +11,8 @@ import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 
 import { finishLCSlice } from "../../../redux/MatchFormSlice";
 
+import SessionStorage from "../../features/sessionStorage";
+
 import InputRadio from "../../Input/InputRadio/InputRadio";
 
 export default function LifestyleCommitmentQuestions() {
@@ -58,7 +60,7 @@ function QuestionLC1({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
 
   useEffect(() => {
-    const storedAnswer = sessionStorage.getItem("lc1");
+    const storedAnswer = SessionStorage.getItem("lc1");
     if (storedAnswer !== null) {
       setReason((preState) => storedAnswer);
       getNextQuestion();
@@ -68,7 +70,7 @@ function QuestionLC1({ getNextQuestion }) {
 
   const onClickOption = (event) => {
     setReason((prevState) => event.target.value);
-    sessionStorage.setItem("lc1", event.target.value);
+    SessionStorage.setItem("lc1", event.target.value);
     setHasAnswer((prevState) => true);
     getNextQuestion();
   };
@@ -126,7 +128,7 @@ function QuestionLC2({ getNextQuestion }) {
   const [hour, setHour] = useState("");
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("lc2"));
+    const storedAnswer = SessionStorage.getItem("lc2");
     if (storedAnswer !== null) {
       setHour((hour) => storedAnswer);
       setHasAnswer((preState) => true);
@@ -137,7 +139,7 @@ function QuestionLC2({ getNextQuestion }) {
   const onClickOption = (event) => {
     setHasAnswer((preState) => true);
     setHour((hour) => Number(event.target.value));
-    sessionStorage.setItem("lc2", JSON.stringify(Number(event.target.value)));
+    SessionStorage.setItem("lc2", Number(event.target.value));
     getNextQuestion();
   };
 
@@ -192,7 +194,7 @@ function QuestionLC3({ getNextQuestion }) {
   const [activityLevel, setActivityLevel] = useState("");
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("lc3"));
+    const storedAnswer = SessionStorage.getItem("lc3");
 
     if (storedAnswer !== null) {
       setActivityLevel((preState) => storedAnswer);
@@ -204,7 +206,7 @@ function QuestionLC3({ getNextQuestion }) {
   const onClickOption = (event) => {
     setHasAnswer((preState) => true);
     setActivityLevel((preState) => event.target.value);
-    sessionStorage.setItem("lc3", JSON.stringify(event.target.value));
+    SessionStorage.setItem("lc3", event.target.value);
     getNextQuestion();
   };
 
@@ -258,7 +260,7 @@ function QuestionLC4({ getNextQuestion }) {
   const [frequency, setFrequency] = useState("");
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("lc4"));
+    const storedAnswer = SessionStorage.getItem("lc4");
 
     if (storedAnswer !== null) {
       getNextQuestion();
@@ -271,7 +273,7 @@ function QuestionLC4({ getNextQuestion }) {
   const onClickNever = (event) => {
     setHasAnswer((preState) => true);
     setFrequency((preState) => event.target.value);
-    sessionStorage.setItem("lc4", JSON.stringify({ frequency: "Never", plan: "" }));
+    SessionStorage.setItem("lc4", { frequency: "Never", plan: "" });
     getNextQuestion();
   };
 
@@ -282,7 +284,7 @@ function QuestionLC4({ getNextQuestion }) {
   const onSelectPlan = (event) => {
     setPlan(event.target.value);
     setHasAnswer((preState) => true);
-    sessionStorage.setItem("lc4", JSON.stringify({ frequency: frequency, plan: event.target.value }));
+    SessionStorage.setItem("lc4", { frequency: frequency, plan: event.target.value });
     getNextQuestion();
   };
 
@@ -410,7 +412,7 @@ function QuestionLC5({ getNextQuestion }) {
   const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("lc5"));
+    const storedAnswer = SessionStorage.getItem("lc5");
 
     if (storedAnswer !== null) {
       setAnswer((preState) => storedAnswer);
@@ -423,14 +425,14 @@ function QuestionLC5({ getNextQuestion }) {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => false);
-    sessionStorage.setItem("lc5", JSON.stringify(false));
+    SessionStorage.setItem("lc5", false);
   };
 
   const onClickYes = () => {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => true);
-    sessionStorage.setItem("lc5", JSON.stringify(true));
+    SessionStorage.setItem("lc5", true);
   };
 
   return (

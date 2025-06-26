@@ -14,6 +14,8 @@ import InputRadio from "../../Input/InputRadio/InputRadio";
 
 import InputButton from "../../Input/InputButton/InputButton";
 
+import SessionStorage from "../../features/sessionStorage.jsx";
+
 import { finishEESlice } from "../../../redux/MatchFormSlice.jsx";
 
 export default function ExperienceExpectationsQuestions() {
@@ -60,7 +62,7 @@ function QuestionEE1({ getNextQuestion }) {
   const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("ee1"));
+    const storedAnswer = SessionStorage.getItem("ee1");
 
     if (storedAnswer !== null) {
       setAnswer((preState) => storedAnswer);
@@ -71,14 +73,14 @@ function QuestionEE1({ getNextQuestion }) {
 
   const onClickNo = () => {
     setHasAnswer((preState) => true);
-    sessionStorage.setItem("ee1", JSON.stringify(false));
+    SessionStorage.setItem("ee1", false);
     setAnswer((preState) => false);
     getNextQuestion();
   };
 
   const onClickYes = () => {
     setHasAnswer((preState) => true);
-    sessionStorage.setItem("ee1", JSON.stringify(true));
+    SessionStorage.setItem("ee1", true);
     setAnswer((preState) => true);
     getNextQuestion();
   };
@@ -137,7 +139,7 @@ function QuestionEE2({ getNextQuestion }) {
   const options = ["I don't know"];
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("ee2"));
+    const storedAnswer = SessionStorage.getItem("ee2");
 
     if (storedAnswer !== null) {
       setAnswers((preSTate) => storedAnswer);
@@ -154,7 +156,7 @@ function QuestionEE2({ getNextQuestion }) {
     if (answers.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      sessionStorage.setItem("ee2", JSON.stringify(answers));
+      SessionStorage.setItem("ee2", answers);
       getNextQuestion();
     }
   };
@@ -219,7 +221,7 @@ function QuestionEE3({ getNextQuestion }) {
   const options = ["The pet characteristics does not fit mine"];
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("ee3"));
+    const storedAnswer = SessionStorage.getItem("ee3");
 
     if (storedAnswer !== null) {
       setAnswers((preState) => storedAnswer);
@@ -236,7 +238,7 @@ function QuestionEE3({ getNextQuestion }) {
     if (answers.length === 0) {
     } else {
       setHasAnswer((preState) => true);
-      sessionStorage.setItem("ee3", JSON.stringify(answers));
+      SessionStorage.setItem("ee3", answers);
       getNextQuestion();
     }
   };
@@ -299,7 +301,7 @@ function QuestionEE4({ getNextQuestion }) {
   const [answer, setAnswer] = useState("");
 
   useEffect(() => {
-    const storedAnswer = JSON.parse(sessionStorage.getItem("ee4"));
+    const storedAnswer = SessionStorage.getItem("ee4");
     if (storedAnswer !== null) {
       setAnswer((preState) => storedAnswer);
       getNextQuestion();
@@ -311,14 +313,14 @@ function QuestionEE4({ getNextQuestion }) {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => false);
-    sessionStorage.setItem("ee4", JSON.stringify(false));
+    SessionStorage.setItem("ee4", false);
   };
 
   const onClickYes = () => {
     getNextQuestion();
     setHasAnswer((preState) => true);
     setAnswer((preState) => true);
-    sessionStorage.setItem("ee4", JSON.stringify(true));
+    SessionStorage.setItem("ee4", true);
   };
   return (
     <>

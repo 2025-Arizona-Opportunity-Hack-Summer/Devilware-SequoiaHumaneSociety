@@ -40,7 +40,7 @@ export function QuestionHE1({ getNextQuestion }) {
   };
 
   return (
-    <div className="xl:max-w-max">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the question */}
       <QuestionContainer>
         {/* Running text */}
@@ -54,25 +54,27 @@ export function QuestionHE1({ getNextQuestion }) {
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           {/* List of options is flex column and each option must be displayed at the right corner */}
-          <InputRadio
-            id="he1a"
-            name="he1"
-            value="own-home"
-            onClickHandler={onClickOption}
-            labelStyle="radio-question-label"
-            inputStyle="radio-question-input">
-            I have my own home
-          </InputRadio>
+          <div className="flex flex-row gap-2 flex-wrap">
+            <InputRadio
+              id="he1a"
+              name="he1"
+              value="own-home"
+              onClickHandler={onClickOption}
+              labelStyle="radio-question-label"
+              inputStyle="radio-question-input">
+              I have my own home
+            </InputRadio>
 
-          <InputRadio
-            id="he1b"
-            name="he1"
-            value="rent-home"
-            onClickHandler={onClickOption}
-            labelStyle="radio-question-label"
-            inputStyle="radio-question-input">
-            I rent home but I have permission from my landloard to have pets
-          </InputRadio>
+            <InputRadio
+              id="he1b"
+              name="he1"
+              value="rent-home"
+              onClickHandler={onClickOption}
+              labelStyle="radio-question-label"
+              inputStyle="radio-question-input">
+              I rent home but I have permission from my landloard to have pets
+            </InputRadio>
+          </div>
         </OptionContainer>
         {/* If the answer is NOT empty string ==> Display answer */}
         <AnswerContainer visible={hasAnswer}>
@@ -132,7 +134,7 @@ export function QuestionHE2({ getNextQuestion }) {
     setHouse((prevState) => event.target.value);
   };
   return (
-    <div className="xl:max-w-2xl xl:w-[550px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         {/* Running text */}
@@ -143,7 +145,7 @@ export function QuestionHE2({ getNextQuestion }) {
       <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
-          <div className="flex flex-col gap-2 items-end">
+          <div className="flex flex-row gap-2 items-end flex-wrap">
             <InputRadio
               id="he2a"
               name="he2"
@@ -263,7 +265,7 @@ export function QuestionHE3({ getNextQuestion }) {
   };
 
   return (
-    <div className="xl:max-w-2xl xl:w-[550px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -274,24 +276,26 @@ export function QuestionHE3({ getNextQuestion }) {
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
       <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
         <OptionContainer visible={!hasAnswer}>
-          <InputRadio
-            id="he3a"
-            name="he3"
-            inputStyle="hidden"
-            onClickHandler={onClickNo}
-            labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-            No
-          </InputRadio>
-          {!hasFence && (
+          <div className="flex flex-row gap-2 flex-wrap">
+            {!hasFence && (
+              <InputRadio
+                id="he3b"
+                name="he3"
+                inputStyle="hidden"
+                onClickHandler={onClickYes}
+                labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+                Yes
+              </InputRadio>
+            )}
             <InputRadio
-              id="he3b"
+              id="he3a"
               name="he3"
               inputStyle="hidden"
-              onClickHandler={onClickYes}
+              onClickHandler={onClickNo}
               labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-              Yes
+              No
             </InputRadio>
-          )}
+          </div>
 
           {hasFence && (
             <>
@@ -366,7 +370,7 @@ export function QuestionHE4({ getNextQuestion }) {
   };
 
   return (
-    <div className="xl:max-w-2xl xl:w-[550px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -439,7 +443,7 @@ export function QuestionHE5({ getNextQuestion }) {
     setAnswer((prevState) => event.target.value);
   };
   return (
-    <div className="xl:max-w-2xl xl:w-[550px]">
+    <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
@@ -450,47 +454,50 @@ export function QuestionHE5({ getNextQuestion }) {
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
       <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
         <OptionContainer visible={!hasAnswer}>
-          <InputRadio
-            id="he5a"
-            name="he5"
-            onClickHandler={onClickNonOther}
-            value="Living room"
-            inputStyle="hidden"
-            labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-            Living room
-          </InputRadio>
-
-          <InputRadio
-            id="he5b"
-            name="he5"
-            onClickHandler={onClickNonOther}
-            value="Bedroom"
-            inputStyle="hidden"
-            labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-            Bedroom
-          </InputRadio>
-
-          <InputRadio
-            id="he5c"
-            name="he5"
-            onClickHandler={onClickNonOther}
-            value="Kitchen"
-            inputStyle="hidden"
-            labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-            Kitchen
-          </InputRadio>
-
-          {!hasOther && (
+          <div className="flex flex-row gap-2 flex-wrap">
             <InputRadio
-              id="he5d"
+              id="he5a"
               name="he5"
-              onClickHandler={onClickOther}
-              value=""
+              onClickHandler={onClickNonOther}
+              value="Living room"
               inputStyle="hidden"
               labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-              Other
+              Living room
             </InputRadio>
-          )}
+
+            <InputRadio
+              id="he5b"
+              name="he5"
+              onClickHandler={onClickNonOther}
+              value="Bedroom"
+              inputStyle="hidden"
+              labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+              Bedroom
+            </InputRadio>
+
+            <InputRadio
+              id="he5c"
+              name="he5"
+              onClickHandler={onClickNonOther}
+              value="Kitchen"
+              inputStyle="hidden"
+              labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+              Kitchen
+            </InputRadio>
+
+            {!hasOther && (
+              <InputRadio
+                id="he5d"
+                name="he5"
+                onClickHandler={onClickOther}
+                value=""
+                inputStyle="hidden"
+                labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
+                Other
+              </InputRadio>
+            )}
+          </div>
+
           {hasOther && (
             <>
               <InputText

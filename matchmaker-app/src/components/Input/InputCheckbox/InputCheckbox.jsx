@@ -1,4 +1,4 @@
-function InputCheckbox({ children, id, onClickHandler, labelStyle, inputStyle, value, checked }) {
+function InputCheckbox({ children, id, onChangeHandler, labelStyle, inputStyle, value, checked }) {
   return (
     <>
       <input
@@ -7,7 +7,7 @@ function InputCheckbox({ children, id, onClickHandler, labelStyle, inputStyle, v
         id={id}
         value={value}
         className={inputStyle}
-        onClick={onClickHandler}
+        onChange={onChangeHandler}
         checked={checked}
       />
       <label htmlFor={id} className={labelStyle}>

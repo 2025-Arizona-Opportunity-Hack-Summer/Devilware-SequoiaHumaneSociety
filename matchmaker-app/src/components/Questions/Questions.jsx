@@ -43,6 +43,8 @@ import {
 
 import { finishHCSlice, finishHESlice, finishLCSlice, finishEESlice, finishSPSlice } from "../../redux/MatchFormSlice";
 
+import ReviewQuestions from "./ReviewQuestions/ReviewQuestions";
+
 import InputButton from "../Input/InputButton/InputButton";
 
 import "./Questions.css";
@@ -54,7 +56,7 @@ export default function Questions() {
   const finishEE = useSelector((store) => store[finishEESlice.name]);
   const finishSP = useSelector((store) => store[finishSPSlice.name]);
 
-  const [currQuestions, setCurrQuestions] = useState(4);
+  const [currQuestions, setCurrQuestions] = useState(0);
   const [finish, setFinish] = useState(false);
 
   const totalQuestions = 5;
@@ -84,6 +86,7 @@ export default function Questions() {
           {currQuestions === 2 && <LifeStyleCommitmentQuestions />}
           {currQuestions === 3 && <ExperienceExpectationsQuestions />}
           {currQuestions === 4 && <SpecificPreferencesQuestions />}
+          {currQuestions === 5 && <ReviewQuestions />}
         </ul>
         <div className="flex justify-between">
           <InputButton
@@ -114,7 +117,7 @@ export default function Questions() {
             </>
           )}
           <InputButton
-            id="nextButton"
+            id="backButton"
             inputStyle="hidden"
             labelStyle={`bg-[#7C0F0F] text-white mt-5 rounded-md cursor-pointer font-semibold block ${
               !isNextAble ? "disabledButton" : ""
@@ -135,19 +138,19 @@ function HousingEnvironmentQuestions() {
   const [currQuestions, setCurrQuestions] = useState(1);
 
   const questions = [
-    <li key={"HE1"}>
+    <li key={"HE1"} className="w-full">
       <QuestionHE1 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"HE2"}>
+    <li key={"HE2"} className="w-full">
       <QuestionHE2 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"HE3"}>
+    <li key={"HE3"} className="w-full">
       <QuestionHE3 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"HE4"}>
+    <li key={"HE4"} className="w-full">
       <QuestionHE4 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"HE5"}>
+    <li key={"HE5"} className="w-full">
       <QuestionHE5 getNextQuestion={getNextQuestion} />
     </li>,
   ];
@@ -177,16 +180,16 @@ function HouseholdCompositionQuestions() {
   const [currQuestions, setCurrQuestions] = useState(1);
 
   const questions = [
-    <li key={"HC1"}>
+    <li key={"HC1"} className="w-full">
       <QuestionHC1 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"HC2"}>
+    <li key={"HC2"} className="w-full">
       <QuestionHC2 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"HC3"}>
+    <li key={"HC3"} className="w-full">
       <QuestionHC3 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"HC4"}>
+    <li key={"HC4"} className="w-full">
       <QuestionHC4 getNextQuestion={getNextQuestion} />
     </li>,
   ];
@@ -216,19 +219,19 @@ function LifeStyleCommitmentQuestions() {
   const [currQuestions, setCurrQuestions] = useState(1);
 
   const questions = [
-    <li key={"LC1"}>
+    <li key={"LC1"} className="w-full">
       <QuestionLC1 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"LC2"}>
+    <li key={"LC2"} className="w-full">
       <QuestionLC2 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"LC3"}>
+    <li key={"LC3"} className="w-full">
       <QuestionLC3 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"LC4"}>
+    <li key={"LC4"} className="w-full">
       <QuestionLC4 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"LC5"}>
+    <li key={"LC5"} className="w-full">
       <QuestionLC5 getNextQuestion={getNextQuestion} />
     </li>,
   ];
@@ -258,16 +261,16 @@ function ExperienceExpectationsQuestions() {
   const [currQuestions, setCurrQuestions] = useState(1);
 
   const questions = [
-    <li key={"EE1"}>
+    <li key={"EE1"} className="w-full">
       <QuestionEE1 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"EE2"}>
+    <li key={"EE2"} className="w-full">
       <QuestionEE2 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"EE3"}>
+    <li key={"EE3"} className="w-full">
       <QuestionEE3 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"EE4"}>
+    <li key={"EE4"} className="w-full">
       <QuestionEE4 getNextQuestion={getNextQuestion} />
     </li>,
   ];
@@ -297,22 +300,22 @@ function SpecificPreferencesQuestions() {
   const [currQuestions, setCurrQuestions] = useState(1);
 
   const questions = [
-    <li key={"SP1"}>
+    <li key={"SP1"} className="w-full">
       <QuestionSP1 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"SP2"}>
+    <li key={"SP2"} className="w-full">
       <QuestionSP2 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"SP3"}>
+    <li key={"SP3"} className="w-full">
       <QuestionSP3 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"SP4"}>
+    <li key={"SP4"} className="w-full">
       <QuestionSP4 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"SP5"}>
+    <li key={"SP5"} className="w-full">
       <QuestionSP5 getNextQuestion={getNextQuestion} />
     </li>,
-    <li key={"SP6"}>
+    <li key={"SP6"} className="w-full">
       <QuestionSP6 getNextQuestion={getNextQuestion} />
     </li>,
   ];

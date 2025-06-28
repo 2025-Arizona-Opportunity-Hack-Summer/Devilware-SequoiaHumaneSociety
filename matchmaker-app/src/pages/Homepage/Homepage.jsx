@@ -1,9 +1,8 @@
-import PageWrapper from "../../components/PageWrapper/PageWrapper";
 function Homepage() {
   return (
-    <PageWrapper className="homepage">
+    <div className="homepage">
       <p>This is homepage</p>
-    </PageWrapper>
+    </div>
   );
 }
 

@@ -21,6 +21,14 @@ export default function ExperienceExpectationsQuestions() {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
 
+  /** 
+    currQuestions represent the number of questions will display
+    1 --> [ee1]
+    2 --> [ee1, ee2]
+    3 --> [ee1, ee2, ee3]
+    4 --> [ee1, ee2, ee3, ee4]
+  **/
+
   const questions = [
     <li key={"EE1"} className="w-full">
       <QuestionEE1 getNextQuestion={getNextQuestion} />
@@ -62,6 +70,7 @@ function QuestionEE1({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("ee1");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setAnswer((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
@@ -139,6 +148,7 @@ function QuestionEE2({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("ee2");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setAnswers((preSTate) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
@@ -221,6 +231,7 @@ function QuestionEE3({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("ee3");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setAnswers((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
@@ -299,7 +310,9 @@ function QuestionEE4({ getNextQuestion }) {
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("ee4");
+
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setAnswer((preState) => storedAnswer);
       getNextQuestion();
       setHasAnswer((preState) => true);

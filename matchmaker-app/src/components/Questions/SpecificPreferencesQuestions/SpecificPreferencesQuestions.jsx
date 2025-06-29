@@ -21,6 +21,14 @@ import { finishSPSlice } from "../../../redux/MatchFormSlice";
 export default function SpecificPreferencesQuestions() {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
+  /** 
+    currQuestions represent the number of questions will display
+    1 --> [sp1]
+    2 --> [sp1, sp2]
+    3 --> [sp1, sp2, sp3]
+    4 --> [sp1, sp2, sp3, sp4]
+    5 --> [sp1, sp2, sp3, sp4, sp5]
+  **/
 
   const questions = [
     <li key={"SP1"} className="w-full">
@@ -44,14 +52,19 @@ export default function SpecificPreferencesQuestions() {
   ];
 
   function getNextQuestion() {
+    /*
+      if currQuestions < question.length
+        - increase the number of quetions by 1
+      else
+        - set finishSP is true  
+      
+    */
     if (currQuestions < questions.length) {
       setCurrQuestions(currQuestions + 1);
     } else {
       dispatch(finishSPSlice.actions.assign(true));
     }
   }
-
-  // pendingQuestions representes questions that are in waiting list
 
   return (
     <>
@@ -73,6 +86,7 @@ function QuestionSP1({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("sp1");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setHasAnswer((preState) => true);
       setAnimalTypes((preState) => storedAnswer);
       getNextQuestion();
@@ -146,7 +160,9 @@ function QuestionSP2({ getNextQuestion }) {
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("sp2");
+
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setHasAnswer((preState) => true);
       getNextQuestion();
       setFromAge((preState) => storedAnswer.fromAge);
@@ -261,6 +277,7 @@ function QuestionSP3({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("sp3");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setHasAnswer((preState) => true);
       getNextQuestion();
       setSizes((preState) => storedAnswer);
@@ -361,6 +378,7 @@ function QuestionSP4({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("sp4");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setHasAnswer((preState) => true);
       getNextQuestion();
       setLevels((preState) => storedAnswer);
@@ -462,7 +480,9 @@ function QuestionSP5({ getNextQuestion }) {
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("sp5");
+
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setAnswer((preState) => storedAnswer);
       getNextQuestion();
       setHasAnswer((preState) => true);
@@ -542,6 +562,7 @@ function QuestionSP6({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("sp6");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setHasAnswer((preState) => true);
       getNextQuestion();
       setAnswers((preState) => storedAnswer);

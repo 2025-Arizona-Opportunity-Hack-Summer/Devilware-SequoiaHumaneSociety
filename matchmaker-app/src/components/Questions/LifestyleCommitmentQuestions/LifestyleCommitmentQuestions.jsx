@@ -9,15 +9,23 @@ import OptionContainer from "../QuestionComponent/OptionContainer/OptionContaine
 import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 
+import InputRadio from "../../Input/InputRadio/InputRadio";
+
 import { finishLCSlice } from "../../../redux/MatchFormSlice";
 
 import SessionStorage from "../../features/sessionStorage";
 
-import InputRadio from "../../Input/InputRadio/InputRadio";
-
 export default function LifestyleCommitmentQuestions() {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
+  /** 
+    currQuestions represent the number of questions will display
+    1 --> [lc1]
+    2 --> [lc1, lc2]
+    3 --> [lc1, lc2, lc3]
+    4 --> [lc1, lc2, lc3, lc4]
+    5 --> [lc1, lc2, lc3, lc4, lc5]
+  **/
 
   const questions = [
     <li key={"LC1"} className="w-full">
@@ -38,6 +46,13 @@ export default function LifestyleCommitmentQuestions() {
   ];
 
   function getNextQuestion() {
+    /*
+      if currQuestions < question.length
+        - increase the number of quetions by 1
+      else
+        - set finishLC is true  
+      
+    */
     if (currQuestions < questions.length) {
       setCurrQuestions(currQuestions + 1);
     } else {
@@ -61,7 +76,9 @@ function QuestionLC1({ getNextQuestion }) {
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("lc1");
+
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setReason((preState) => storedAnswer);
       getNextQuestion();
       setHasAnswer((preState) => true);
@@ -127,7 +144,9 @@ function QuestionLC2({ getNextQuestion }) {
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("lc2");
+
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setHour((hour) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
@@ -141,6 +160,7 @@ function QuestionLC2({ getNextQuestion }) {
     getNextQuestion();
   };
 
+  /* Create a list of value from 0 to 25 --> [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ..., 25] */
   const hourOptions = Array(25)
     .fill(0)
     .map((_, idx) => idx);
@@ -195,6 +215,7 @@ function QuestionLC3({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("lc3");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setActivityLevel((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
@@ -261,6 +282,7 @@ function QuestionLC4({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("lc4");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       getNextQuestion();
       setHasAnswer((preState) => true);
       setPlan((preState) => storedAnswer.plan);
@@ -362,6 +384,11 @@ function QuestionLC4({ getNextQuestion }) {
   );
 }
 
+/**
+  @description QuestionLC4a is a next question of LC4. However, this question does not always display to the user. 
+  @description The appearance of this question depends completely on the answer of LC4
+**/
+
 function QuestionLC4a({ onSelectPlan, plan }) {
   const planOptions = [
     "I will keep the pets with me",
@@ -413,6 +440,7 @@ function QuestionLC5({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("lc5");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setAnswer((preState) => storedAnswer);
       getNextQuestion();
       setHasAnswer((preState) => true);

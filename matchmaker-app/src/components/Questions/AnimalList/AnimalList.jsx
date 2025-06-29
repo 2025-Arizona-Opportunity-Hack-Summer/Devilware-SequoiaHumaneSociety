@@ -1,3 +1,10 @@
+/**
+  Use for household composition question hc3
+  @param {Object} properties attributes of component
+  @param {[string]} propertes.animalList list of animal provided by parent's component state
+  @param {function(any):void} properties.setAnimalList function change the state of parent's component
+**/
+
 function AnimalList({ animalList, setAnimalList }) {
   const onClickAddNewAnimal = () => {
     const newAnimal = {
@@ -19,6 +26,9 @@ function AnimalList({ animalList, setAnimalList }) {
     );
   };
 
+  /**
+   * fired when one of [type, age, isNeutered] is selected
+   * **/
   const onChangeSelect = (event) => {
     const [idx, type] = String(event.target.id).split(" ");
     onChangeAnimalList(Number(idx), type, event.target.value);
@@ -35,12 +45,18 @@ function AnimalList({ animalList, setAnimalList }) {
     );
   };
 
+  /**
+   * default option for type
+   * **/
   const typeOptions = ["Dog", "Cat", "Bird"].map((value) => (
     <option key={value} value={value}>
       {value}
     </option>
   ));
 
+  /**
+   * default option for age
+   * **/
   const ageOptions = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "24", "36", "48", "60", ">60"].map(
     (value) => (
       <option key={value} value={value}>
@@ -49,6 +65,9 @@ function AnimalList({ animalList, setAnimalList }) {
     )
   );
 
+  /**
+   * default option for isNeutered
+   * **/
   const neuteredOptions = [true, false].map((value) => (
     <option key={value} value={value}>
       {value === true ? "Neutered" : "Spayed"}
@@ -57,6 +76,7 @@ function AnimalList({ animalList, setAnimalList }) {
 
   return (
     <div className="flex flex-col gap-2 items-end">
+      {/* Add new animal button */}
       <div>
         <input
           id="addAnimalButton"
@@ -67,6 +87,8 @@ function AnimalList({ animalList, setAnimalList }) {
           value="Add new animal"
         />
       </div>
+
+      {/* Animal description */}
       <div className="flex flex-col gap-2">
         {animalList !== "" &&
           animalList.map((animal, idx) => (

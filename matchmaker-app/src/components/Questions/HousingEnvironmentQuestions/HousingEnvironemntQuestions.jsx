@@ -83,13 +83,13 @@ function QuestionHE1({ getNextQuestion }) {
       {/* Question container - contains the question */}
       <QuestionContainer>
         {/* Running text */}
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden chatbox-text`}>
           Do you own or rent your house? If renting, do you have written permission from your landloard to have pets?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           {/* List of options is flex column and each option must be displayed at the right corner */}
@@ -180,7 +180,7 @@ function QuestionHE2({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex flex-row gap-2 items-end flex-wrap">
@@ -313,7 +313,7 @@ function QuestionHE3({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
         <OptionContainer visible={!hasAnswer}>
           <div className="flex flex-row gap-2 flex-wrap">
             {!hasFence && (
@@ -338,7 +338,7 @@ function QuestionHE3({ getNextQuestion }) {
 
           {hasFence && (
             <>
-              <div className="flex gap-2">
+              <div className="flex xl:gap-2 flex-wrap justify-end gap-y-2">
                 <InputText
                   id="he3b1"
                   placeholder="Type"
@@ -418,7 +418,7 @@ function QuestionHE4({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
         <OptionContainer visible={!hasAnswer}>
           <select
             name="he4"
@@ -491,7 +491,7 @@ function QuestionHE5({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
         <OptionContainer visible={!hasAnswer}>
           <div className="flex flex-row gap-2 flex-wrap">
             <InputRadio

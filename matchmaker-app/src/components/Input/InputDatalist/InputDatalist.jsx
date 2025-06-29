@@ -38,7 +38,7 @@ function InputDatalist({ id, labelText, placeholder, defaultOptions, onSubmitAns
           placeholder={placeholder}
           value={typing}
           onChange={onChangeTyping}
-          className="block px-6 py-3 border-2 focus:border-orange-400 outline-0 w-96"
+          className="block px-6 py-3 border-2 focus:border-orange-400 outline-0 xl:w-96"
         />
         {focus && (
           <div className="flex flex-col absolute w-full z-30">

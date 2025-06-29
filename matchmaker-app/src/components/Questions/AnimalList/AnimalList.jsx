@@ -70,7 +70,7 @@ function AnimalList({ animalList, setAnimalList }) {
       <div className="flex flex-col gap-2">
         {animalList !== "" &&
           animalList.map((animal, idx) => (
-            <div key={idx} className="flex items-center gap-2">
+            <div key={idx} className="flex items-center gap-2 flex-wrap">
               <label htmlFor={`${idx} type`} className="font-semibold">
                 Type
               </label>

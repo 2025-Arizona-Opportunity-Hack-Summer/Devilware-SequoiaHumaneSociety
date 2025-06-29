@@ -1,8 +1,4 @@
 function ProgressBar({ currIdx }) {
-  const styles = Array(101)
-    .fill(0)
-    .map((_, idx) => `fixed bottom-0 bg-[#40916c] h-3 w-[${idx}vw] transition-all duration-300`);
-
   let widthBar = 0;
 
   switch (currIdx) {

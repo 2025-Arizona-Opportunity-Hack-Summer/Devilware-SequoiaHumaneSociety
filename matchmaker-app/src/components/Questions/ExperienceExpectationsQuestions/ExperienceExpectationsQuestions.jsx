@@ -87,7 +87,7 @@ function QuestionEE1({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
           Have you ever house-trained a pet or dealt with behavioral issues?
         </p>
       </QuestionContainer>
@@ -162,7 +162,7 @@ function QuestionEE2({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
           What would you do if the pet developed expensive medical problems
         </p>
       </QuestionContainer>
@@ -174,7 +174,7 @@ function QuestionEE2({ getNextQuestion }) {
           <div className="relative z-30 flex flex-col items-end">
             <InputDatalist
               id={"ee3a"}
-              labelText={""}
+              children={""}
               placeholder={"Choose options"}
               defaultOptions={options}
               onSubmitAnswer={onClickOption}
@@ -244,7 +244,7 @@ function QuestionEE3({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
           Under what circumstances would you consider returning or rehoming the pet?
         </p>
       </QuestionContainer>
@@ -256,7 +256,7 @@ function QuestionEE3({ getNextQuestion }) {
           <div className="relative z-30 flex flex-col items-end">
             <InputDatalist
               id={"ee3a"}
-              labelText={""}
+              children={""}
               placeholder={"Choose options"}
               defaultOptions={options}
               onSubmitAnswer={onClickOption}
@@ -325,7 +325,7 @@ function QuestionEE4({ getNextQuestion }) {
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             Do you have a veterinarian selected, and can you afford routine and emergency veterinary care?
           </p>

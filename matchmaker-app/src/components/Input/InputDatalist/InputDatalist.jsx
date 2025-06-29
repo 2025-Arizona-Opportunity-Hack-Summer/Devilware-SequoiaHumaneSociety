@@ -1,10 +1,21 @@
 import { useState } from "react";
 
-function InputDatalist({ id, labelText, placeholder, defaultOptions, onSubmitAnswer }) {
-  const [focus, setFocus] = useState(false);
-  const [answers, setAnswers] = useState([]);
-  const [options, setOptions] = useState(defaultOptions);
-  const [typing, setTyping] = useState("");
+/** 
+  Support datalist option
+  @param {Object} properties attributes of component
+  @param {string} properties.id unique string
+  @param {Object} properties.children child components (placed inside label)
+  @param {[*]} properties.defaultOptions list of default option when the text is empty
+  @param {function(any): void} properties.onSubmitAnswer connect with parent component's state
+
+  @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/datalist MDN Reference}
+**/
+
+function InputDatalist({ id, children, placeholder, defaultOptions, onSubmitAnswer }) {
+  const [focus, setFocus] = useState(false); // the option list only displays when focus is true
+  const [answers, setAnswers] = useState([]); // the list of choices
+  const [options, setOptions] = useState(defaultOptions); // the list of options
+  const [typing, setTyping] = useState(""); // the current text of the datalist
 
   const onFocus = (event) => {
     setFocus((preState) => true);
@@ -29,8 +40,10 @@ function InputDatalist({ id, labelText, placeholder, defaultOptions, onSubmitAns
 
   return (
     <>
+      {/* The input text and the option container */}
       <div onMouseOver={onFocus} onMouseOut={onBlur} className="relative z-30">
-        <label htmlFor={id}>{labelText}</label>
+        {/* The input text container */}
+        <label htmlFor={id}>{children}</label>
         <input
           type="text"
           name={id}
@@ -40,6 +53,8 @@ function InputDatalist({ id, labelText, placeholder, defaultOptions, onSubmitAns
           onChange={onChangeTyping}
           className="block px-6 py-3 border-2 focus:border-orange-400 outline-0 xl:w-96"
         />
+        {/* The option container (in fact every option in option list is input[type=button]) */}
+
         {focus && (
           <div className="flex flex-col absolute w-full z-30">
             {options
@@ -55,6 +70,7 @@ function InputDatalist({ id, labelText, placeholder, defaultOptions, onSubmitAns
                   className="py-2 border cursor-pointer border-t-0 hover:bg-blue-300 bg-white z-30"
                 />
               ))}
+            {/* A new option when input text is not empty */}
             {typing !== "" && !options.includes(typing) && (
               <input
                 key={typing}
@@ -69,6 +85,8 @@ function InputDatalist({ id, labelText, placeholder, defaultOptions, onSubmitAns
           </div>
         )}
       </div>
+
+      {/* The answer container container */}
       <div>
         <ul className="flex gap-1 max-w-[400px] flex-wrap justify-end mt-2">
           {answers.map((answer) => (
@@ -82,7 +100,15 @@ function InputDatalist({ id, labelText, placeholder, defaultOptions, onSubmitAns
   );
 }
 
-// is t a substring of s
+export default InputDatalist;
+
+/** 
+  True if first string is a substring of second string 
+  @param {string} t first string
+  @param {string} s second string
+  @return {boolean} 
+**/
+
 function isSubString(t, s) {
   if (t.length > s.length) {
     return false;
@@ -100,4 +126,3 @@ function isSubString(t, s) {
 
   return true;
 }
-export default InputDatalist;

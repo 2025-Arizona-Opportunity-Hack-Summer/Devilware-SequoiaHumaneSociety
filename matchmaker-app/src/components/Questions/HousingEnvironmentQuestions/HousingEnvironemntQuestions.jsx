@@ -12,7 +12,7 @@ import InputText from "../../Input/InputText/InputText";
 import InputNumber from "../../Input/InputNumber/InputNumber";
 import InputButton from "../../Input/InputButton/InputButton";
 
-import SessionStorage from "../../features/sessionStorage";
+import SessionStorage from "../../../features/sessionStorage";
 
 import user from "../../../assets/images/user.png";
 

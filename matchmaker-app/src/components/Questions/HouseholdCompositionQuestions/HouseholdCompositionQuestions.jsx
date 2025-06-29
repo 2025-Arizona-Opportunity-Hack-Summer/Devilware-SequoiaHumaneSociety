@@ -16,7 +16,7 @@ import InputRadio from "../../Input/InputRadio/InputRadio";
 import InputButton from "../../Input/InputButton/InputButton";
 import InputText from "../../Input/InputText/InputText";
 
-import SessionStorage from "../../features/sessionStorage";
+import SessionStorage from "../../../features/sessionStorage";
 
 import { finishHCSlice } from "../../../redux/MatchFormSlice";
 

@@ -13,7 +13,7 @@ import InputDatalist from "../../Input/InputDataList/InputDataList";
 import InputRadio from "../../Input/InputRadio/InputRadio";
 import InputButton from "../../Input/InputButton/InputButton";
 
-import SessionStorage from "../../features/sessionStorage.jsx";
+import SessionStorage from "../../../features/sessionStorage.jsx";
 
 import { finishEESlice } from "../../../redux/MatchFormSlice.jsx";
 

@@ -14,7 +14,7 @@ import InputRadio from "../../Input/InputRadio/InputRadio";
 import InputButton from "../../Input/InputButton/InputButton";
 import InputCheckbox from "../../Input/InputCheckbox/InputCheckbox";
 
-import SessionStorage from "../../features/sessionStorage";
+import SessionStorage from "../../../features/sessionStorage";
 
 import { finishSPSlice } from "../../../redux/MatchFormSlice";
 

@@ -103,13 +103,13 @@ function QuestionLC1({ getNextQuestion }) {
     <>
       <div className="xl:max-w-screen">
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
             What is your primary reason for wanting to adopt a pet?
           </p>
         </QuestionContainer>
 
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <select
@@ -173,13 +173,13 @@ function QuestionLC2({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
           How many hours can you dedicate daily to exercise, training, and interaction?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <select
@@ -241,11 +241,11 @@ function QuestionLC3({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>What is your activity level?</p>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What is your activity level?</p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <select
@@ -313,13 +313,13 @@ function QuestionLC4({ getNextQuestion }) {
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             How often do you travel?
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2 flex-wrap">
@@ -406,7 +406,7 @@ function QuestionLC4a({ onSelectPlan, plan }) {
   return (
     <div className="xl:max-w-screen w-full mt-5">
       <QuestionContainer>
-        <p className="xl:typewriter overflow-hidden">
+        <p className="typewriter overflow-hidden">
           {/* Running text */}
           What are your plans for pet care during travel?
         </p>
@@ -466,13 +466,13 @@ function QuestionLC5({ getNextQuestion }) {
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             Are you prepared for the 10-20 year commitment of pet ownership?
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2 flex-wrap">

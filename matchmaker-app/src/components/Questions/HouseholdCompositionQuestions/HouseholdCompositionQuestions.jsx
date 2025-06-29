@@ -145,7 +145,7 @@ function QuestionHC1({ getNextQuestion }) {
         </QuestionContainer>
 
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex gap-2">
@@ -293,7 +293,7 @@ function QuestionHC2({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""} relative z-30`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""} relative z-30`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex flex-row gap-2 flex-wrap">
@@ -397,7 +397,7 @@ function QuestionHC3({ getNextQuestion }) {
         </QuestionContainer>
 
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2">
               <InputRadio
@@ -543,7 +543,7 @@ function QuestionHC4({ getNextQuestion }) {
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2">

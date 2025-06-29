@@ -96,7 +96,7 @@ function QuestionSP1({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What animal types are you looking for?</p>
+        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>What animal types are you looking for?</p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
@@ -106,7 +106,7 @@ function QuestionSP1({ getNextQuestion }) {
           <div className="relative z-30 flex flex-col items-end">
             <InputDatalist
               id={"sp1"}
-              labelText={""}
+              children={""}
               placeholder={"Choose animal"}
               defaultOptions={animalOptions}
               onSubmitAnswer={onClickOption}
@@ -189,7 +189,7 @@ function QuestionSP2({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
           What range of ages (months) are you looking for?
         </p>
       </QuestionContainer>
@@ -288,7 +288,7 @@ function QuestionSP3({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What animal size are you looking for?</p>
+        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>What animal size are you looking for?</p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
@@ -389,7 +389,7 @@ function QuestionSP4({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
           What animal energy level are you looking for?
         </p>
       </QuestionContainer>
@@ -488,7 +488,7 @@ function QuestionSP5({ getNextQuestion }) {
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             Are you open to a pet that needs special medical care or behavioral training?
           </p>
@@ -564,7 +564,7 @@ function QuestionSP6({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
           How do you plan to handle barking, scratching furniture, or other normal pet behaviors?
         </p>
       </QuestionContainer>
@@ -576,7 +576,7 @@ function QuestionSP6({ getNextQuestion }) {
           <div className="relative z-30 flex flex-col items-end">
             <InputDatalist
               id={"sp6"}
-              labelText={""}
+              children={""}
               placeholder={"Choose options"}
               defaultOptions={options}
               onSubmitAnswer={onClickOption}

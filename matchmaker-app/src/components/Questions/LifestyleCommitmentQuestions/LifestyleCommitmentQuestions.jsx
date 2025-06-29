@@ -86,7 +86,7 @@ function QuestionLC1({ getNextQuestion }) {
     <>
       <div className="xl:max-w-screen">
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
             What is your primary reason for wanting to adopt a pet?
           </p>
         </QuestionContainer>
@@ -153,7 +153,7 @@ function QuestionLC2({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
           How many hours can you dedicate daily to exercise, training, and interaction?
         </p>
       </QuestionContainer>
@@ -220,7 +220,7 @@ function QuestionLC3({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What is your activity level?</p>
+        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>What is your activity level?</p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
@@ -291,7 +291,7 @@ function QuestionLC4({ getNextQuestion }) {
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             How often do you travel?
           </p>
@@ -379,7 +379,7 @@ function QuestionLC4a({ onSelectPlan, plan }) {
   return (
     <div className="xl:max-w-screen w-full mt-5">
       <QuestionContainer>
-        <p className="typewriter overflow-hidden">
+        <p className="xl:typewriter overflow-hidden">
           {/* Running text */}
           What are your plans for pet care during travel?
         </p>
@@ -438,7 +438,7 @@ function QuestionLC5({ getNextQuestion }) {
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             Are you prepared for the 10-20 year commitment of pet ownership?
           </p>

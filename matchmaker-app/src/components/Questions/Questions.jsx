@@ -15,20 +15,37 @@ import ReviewQuestions from "./ReviewQuestions/ReviewQuestions";
 
 import InputButton from "../Input/InputButton/InputButton";
 
+import SessionStorage from "../features/sessionStorage";
+
 import "./Questions.css";
 
 export default function Questions() {
   const dispatch = useDispatch();
-  const finishHE = useSelector((store) => store[finishHESlice.name]);
-  const finishHC = useSelector((store) => store[finishHCSlice.name]);
-  const finishLC = useSelector((store) => store[finishLCSlice.name]);
-  const finishEE = useSelector((store) => store[finishEESlice.name]);
-  const finishSP = useSelector((store) => store[finishSPSlice.name]);
+  const finishHE = useSelector((store) => store[finishHESlice.name]); // true when the user have answered all housing environment question
+  const finishHC = useSelector((store) => store[finishHCSlice.name]); // true when the user have answered all household composition question
+  const finishLC = useSelector((store) => store[finishLCSlice.name]); // true when the user have answered all lifesytle and commitmnet question
+  const finishEE = useSelector((store) => store[finishEESlice.name]); // true when the user have answered all experience and expectation question
+  const finishSP = useSelector((store) => store[finishSPSlice.name]); // true when the user have answered all specific perferences question
 
-  const [openSubmit, setOpenSubmit] = useState(false);
+  const [openSubmit, setOpenSubmit] = useState(false); // the submit buttion only displays when openSubmit = true
   const [currQuestions, setCurrQuestions] = useState(0);
+  /*
+    currQuestions represents the index of current list of questions
+    0 --> housing environment
+    1 --> household composition
+    2 --> lifestyle and commitment
+    3 --> experience and expectation
+    4 --> specific perferences
+    5 --> review
+  */
 
   useEffect(() => {
+    // only called when the page is first reload
+
+    /**
+     * get which list of questions will display when the page is first reload
+     * @returns {number} index of list of questions
+     **/
     const getQuestionNumber = () => {
       const spId = ["sp1", "sp2", "sp3", "sp4", "sp5", "sp6"];
       const eeId = ["ee1", "ee2", "ee3", "ee4"];
@@ -36,9 +53,10 @@ export default function Questions() {
       const hcId = ["hc1", "hc2", "hc3", "hc4"];
       const heId = ["he1", "he2", "he3", "he4"];
 
-      const initSP = spId.map((id) => sessionStorage.getItem(id) !== null);
+      const SPAnswers = spId.map((id) => SessionStorage.getItem(id) !== null);
 
-      if (!initSP.includes(false)) {
+      if (!SPAnswers.includes(false)) {
+        // if the session storage store all SP answers then all other questions from EE, LC, HC, and HE have also been answered
         dispatch(finishSPSlice.actions.assign(true));
         dispatch(finishEESlice.actions.assign(true));
         dispatch(finishLCSlice.actions.assign(true));
@@ -47,9 +65,10 @@ export default function Questions() {
         return 5;
       }
 
-      const initEE = eeId.map((id) => sessionStorage.getItem(id) !== null);
+      const EEAnswers = eeId.map((id) => SessionStorage.getItem(id) !== null);
 
-      if (!initEE.includes(false)) {
+      if (!EEAnswers.includes(false)) {
+        // if the session storage store all EE answers then all other questions from LC, HC, and HE have also been answered
         dispatch(finishEESlice.actions.assign(true));
         dispatch(finishLCSlice.actions.assign(true));
         dispatch(finishHCSlice.actions.assign(true));
@@ -57,26 +76,28 @@ export default function Questions() {
         return 4;
       }
 
-      const initLC = lcId.map((id) => sessionStorage.getItem(id) !== null);
+      const LCAnswers = lcId.map((id) => SessionStorage.getItem(id) !== null);
 
-      if (!initLC.includes(false)) {
+      if (!LCAnswers.includes(false)) {
+        // if the session storage store all LC answers then all other questions from HC, and HE have also been answered
         dispatch(finishLCSlice.actions.assign(true));
         dispatch(finishHCSlice.actions.assign(true));
         dispatch(finishHESlice.actions.assign(true));
         return 3;
       }
 
-      const initHC = hcId.map((id) => sessionStorage.getItem(id) !== null);
+      const HCAnswers = hcId.map((id) => SessionStorage.getItem(id) !== null);
 
-      if (!initHC.includes(false)) {
+      if (!HCAnswers.includes(false)) {
+        // if the session storage store all HC answers then all other questions from and HE have also been answered
         dispatch(finishHCSlice.actions.assign(true));
         dispatch(finishHESlice.actions.assign(true));
         return 2;
       }
 
-      const initHE = heId.map((id) => sessionStorage.getItem(id) !== null);
+      const HEAnswers = heId.map((id) => SessionStorage.getItem(id) !== null);
 
-      if (!initHE.includes(false)) {
+      if (!HEAnswers.includes(false)) {
         dispatch(finishHESlice.actions.assign(true));
         return 1;
       }
@@ -98,12 +119,13 @@ export default function Questions() {
   const onSubmitForm = (event) => {
     event.preventDefault();
   };
+
   const isNextAble =
     (currQuestions === 0 && finishHE === true) ||
     (currQuestions === 1 && finishHC === true) ||
     (currQuestions === 2 && finishLC === true) ||
     (currQuestions === 3 && finishEE === true) ||
-    (currQuestions === 4 && finishSP === true);
+    (currQuestions === 4 && finishSP === true); // true if the next button is clickable
 
   return (
     <div className="bg-[#F8EAC9] py-10" id="form">
@@ -118,6 +140,8 @@ export default function Questions() {
           {currQuestions === 4 && <SpecificPreferencesQuestions />}
           {currQuestions === 5 && <ReviewQuestions setOpenSubmit={setOpenSubmit} />}
         </ul>
+
+        {/* Buttons */}
         <div className="flex justify-between items-center mt-5">
           <InputButton
             id="nextButton"

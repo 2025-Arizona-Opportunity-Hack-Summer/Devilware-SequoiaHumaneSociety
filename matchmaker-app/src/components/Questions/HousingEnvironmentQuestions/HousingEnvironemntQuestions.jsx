@@ -92,7 +92,6 @@ function QuestionHE1({ getNextQuestion }) {
       <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
-          {/* List of options is flex column and each option must be displayed at the right corner */}
           <div className="flex flex-row gap-2 flex-wrap">
             <InputRadio
               id="he1a"

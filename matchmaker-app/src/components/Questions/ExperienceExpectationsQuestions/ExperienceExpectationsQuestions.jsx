@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import user from "../../../assets/images/user.png";
 
@@ -11,7 +11,6 @@ import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 
 import InputDatalist from "../../Input/InputDataList/InputDataList";
 import InputRadio from "../../Input/InputRadio/InputRadio";
-
 import InputButton from "../../Input/InputButton/InputButton";
 
 import SessionStorage from "../../features/sessionStorage.jsx";

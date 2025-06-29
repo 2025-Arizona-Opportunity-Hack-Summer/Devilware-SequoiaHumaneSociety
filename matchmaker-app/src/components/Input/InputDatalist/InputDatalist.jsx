@@ -104,9 +104,10 @@ export default InputDatalist;
 
 /** 
   True if first string is a substring of second string 
+  @function
   @param {string} t first string
   @param {string} s second string
-  @return {boolean} 
+  @returns {boolean} 
 **/
 
 function isSubString(t, s) {

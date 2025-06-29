@@ -298,7 +298,7 @@ function QuestionHC2({ getNextQuestion }) {
             <div className="relative z-30 flex flex-col items-end">
               <InputDatalist
                 id={"hc2c"}
-                labelText={""}
+                children={""}
                 placeholder={"Choose animal"}
                 defaultOptions={animalOptions}
                 onSubmitAnswer={onClickOption}

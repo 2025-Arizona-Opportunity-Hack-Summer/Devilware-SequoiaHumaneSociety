@@ -13,7 +13,7 @@ import InputRadio from "../../Input/InputRadio/InputRadio";
 
 import { finishLCSlice } from "../../../redux/MatchFormSlice";
 
-import SessionStorage from "../../features/sessionStorage";
+import SessionStorage from "../../../features/sessionStorage";
 
 export default function LifestyleCommitmentQuestions() {
   const dispatch = useDispatch();

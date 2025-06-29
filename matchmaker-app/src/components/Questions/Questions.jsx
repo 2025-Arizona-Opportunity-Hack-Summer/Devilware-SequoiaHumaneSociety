@@ -15,7 +15,7 @@ import ReviewQuestions from "./ReviewQuestions/ReviewQuestions";
 
 import InputButton from "../Input/InputButton/InputButton";
 
-import SessionStorage from "../features/sessionStorage";
+import SessionStorage from "../../features/sessionStorage";
 
 import "./Questions.css";
 

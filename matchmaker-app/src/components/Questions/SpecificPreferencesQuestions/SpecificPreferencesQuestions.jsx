@@ -100,7 +100,7 @@ function QuestionSP1({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""} relative z-30`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""} relative z-30`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="relative z-30 flex flex-col items-end">
@@ -195,7 +195,7 @@ function QuestionSP2({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex gap-5 items-center">
@@ -292,10 +292,10 @@ function QuestionSP3({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
-          <div className="flex gap-5 items-center">
+          <div className="flex gap-5 items-center flex-wrap justify-end">
             <InputCheckbox
               id="sp3a"
               value="Large"
@@ -395,10 +395,10 @@ function QuestionSP4({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
-          <div className="flex gap-5 items-center">
+          <div className="flex gap-5 items-center flex-wrap justify-end">
             <InputCheckbox
               id="sp4a"
               value="Very Active"
@@ -494,7 +494,7 @@ function QuestionSP5({ getNextQuestion }) {
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2 flex-wrap">
@@ -570,7 +570,7 @@ function QuestionSP6({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="relative z-30 flex flex-col items-end">

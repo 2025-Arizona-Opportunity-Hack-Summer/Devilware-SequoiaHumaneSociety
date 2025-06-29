@@ -82,10 +82,16 @@ html {
   }
 }
 
-.typewriter {
-  overflow: hidden;
-  white-space: nowrap;
+/* .typewriter {
+  @apply overflow-hidden whitespace-nowrap;
   animation: typing 1s steps(26) forwards;
+} */
+
+@media screen and (width > 1024px) {
+  .typewriter {
+    @apply overflow-hidden whitespace-nowrap;
+    animation: typing 1s steps(26) forwards;
+  }
 }
 
 .answer {
@@ -93,7 +99,7 @@ html {
 }
 
 .radio-question-label {
-  @apply block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300;
+  @apply block xl:px-6 px-3 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300;
 }
 
 .radio-question-input {

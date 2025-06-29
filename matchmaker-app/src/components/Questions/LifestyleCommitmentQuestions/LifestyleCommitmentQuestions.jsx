@@ -92,7 +92,7 @@ function QuestionLC1({ getNextQuestion }) {
         </QuestionContainer>
 
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <select
@@ -112,9 +112,7 @@ function QuestionLC1({ getNextQuestion }) {
           </AnswerContainer>
 
           {/* Whether the answer is empty string or NOT, ALWAYS display user logo */}
-          <div className="flex items-center">
-            <img src={user} alt="you" className="xl:w-12 xl:h-12" />
-          </div>
+          <UserLogo src={user} />
         </div>
       </div>
 
@@ -161,7 +159,7 @@ function QuestionLC2({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <select
@@ -226,7 +224,7 @@ function QuestionLC3({ getNextQuestion }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <select
@@ -299,7 +297,7 @@ function QuestionLC4({ getNextQuestion }) {
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2 flex-wrap">
@@ -379,7 +377,7 @@ function QuestionLC4a({ onSelectPlan, plan }) {
   ));
 
   return (
-    <div className="xl:max-w-screen w-full">
+    <div className="xl:max-w-screen w-full mt-5">
       <QuestionContainer>
         <p className="typewriter overflow-hidden">
           {/* Running text */}
@@ -388,7 +386,7 @@ function QuestionLC4a({ onSelectPlan, plan }) {
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className="flex items-end justify-end mt-3 answer relative z-30">
+      <div className="flex items-end justify-end xl:mt-3 mt-5 answer relative z-30">
         <OptionContainer>
           <select
             id="lc3a"
@@ -446,7 +444,7 @@ function QuestionLC5({ getNextQuestion }) {
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end mt-3 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "answer" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2 flex-wrap">

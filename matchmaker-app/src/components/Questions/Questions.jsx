@@ -107,9 +107,9 @@ export default function Questions() {
 
   return (
     <div className="bg-[#F8EAC9] py-10" id="form">
-      <form className="flex flex-col min-h-screen w-max m-auto rounded-2xl" onSubmit={onSubmitForm}>
+      <form className="flex flex-col min-h-screen xl:w-[80vw] w-[90vw] m-auto rounded-2xl" onSubmit={onSubmitForm}>
         {/* Question lists */}
-        <ul className="flex flex-col items-end justify-start max-w-max gap-5 rounded-xl bg-white py-20 pr-12 pl-24">
+        <ul className="flex flex-col items-end justify-start max-w-screen gap-5 rounded-xl bg-white py-20 xl:pr-12 xl:pl-24 px-6">
           <ProgressBar currIdx={currQuestions} />
           {currQuestions === 0 && <HousingEnvironmentQuestions />}
           {currQuestions === 1 && <HouseholdCompositionQuestions />}

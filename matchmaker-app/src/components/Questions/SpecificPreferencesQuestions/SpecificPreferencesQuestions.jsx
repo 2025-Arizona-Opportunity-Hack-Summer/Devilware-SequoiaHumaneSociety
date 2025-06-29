@@ -110,11 +110,11 @@ function QuestionSP1({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>What animal types are you looking for?</p>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What animal types are you looking for?</p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""} relative z-30`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""} relative z-30`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="relative z-30 flex flex-col items-end">
@@ -205,13 +205,13 @@ function QuestionSP2({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
           What range of ages (months) are you looking for?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex gap-5 items-center">
@@ -305,11 +305,11 @@ function QuestionSP3({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>What animal size are you looking for?</p>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What animal size are you looking for?</p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex gap-5 items-center flex-wrap justify-end">
@@ -407,13 +407,13 @@ function QuestionSP4({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
           What animal energy level are you looking for?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex gap-5 items-center flex-wrap justify-end">
@@ -508,13 +508,13 @@ function QuestionSP5({ getNextQuestion }) {
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             Are you open to a pet that needs special medical care or behavioral training?
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""}`}>
+        <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2 flex-wrap">
@@ -585,13 +585,13 @@ function QuestionSP6({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "xl:typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
           How do you plan to handle barking, scratching furniture, or other normal pet behaviors?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "answer" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="relative z-30 flex flex-col items-end">

@@ -23,6 +23,13 @@ import { finishHCSlice } from "../../../redux/MatchFormSlice";
 export default function HouseholdCompositionQuestions() {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
+  /** 
+    currQuestions represent the number of questions will display
+    1 --> [hc1]
+    2 --> [hc1, hc2]
+    3 --> [hc1, hc2, hc3]
+    4 --> [hc1, hc2, hc3, hc4]
+  **/
 
   const questions = [
     <li key={"HC1"} className="w-full">
@@ -40,14 +47,19 @@ export default function HouseholdCompositionQuestions() {
   ];
 
   function getNextQuestion() {
+    /*
+      if currQuestions < question.length
+        - increase the number of quetions by 1
+      else
+        - set finishHC is true  
+      
+    */
     if (currQuestions < questions.length) {
       setCurrQuestions((cnt) => cnt + 1);
     } else {
       dispatch(finishHCSlice.actions.assign(true));
     }
   }
-
-  // pendingQuestions representes questions that are in waiting list
 
   return (
     <>
@@ -69,6 +81,7 @@ function QuestionHC1({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("hc1");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setAdults((preState) => storedAnswer.adults);
       setChildren((preState) => storedAnswer.children);
       setYoungestAge((preState) => storedAnswer.youngestAge);
@@ -103,6 +116,7 @@ function QuestionHC1({ getNextQuestion }) {
     setHasAnswer((preState) => true);
   };
 
+  /* Create a list of value from 0 to 10 --> [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10] */
   const adultsOptions = Array(11)
     .fill(0)
     .map((_, idx) => idx)
@@ -187,6 +201,11 @@ function QuestionHC1({ getNextQuestion }) {
   );
 }
 
+/**
+  @description QuestionHC1a is a next question of HC1. However, this question does not always display to the user. 
+  @description The appearance of this question depends completely on the answer of HC1
+**/
+
 function QuestionHC1a({ onChangeYoungestAge, hasAnswer, youngestAge }) {
   const ageOptions = (
     <>
@@ -233,7 +252,9 @@ function QuestionHC2({ getNextQuestion }) {
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("hc2");
+
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setAllergiesAnimal((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
@@ -341,7 +362,9 @@ function QuestionHC3({ getNextQuestion }) {
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("hc3");
+
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setAnimalList((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
@@ -433,6 +456,11 @@ function QuestionHC3({ getNextQuestion }) {
   );
 }
 
+/**
+  @description QuestionHC3a is a next question of HC3. However, this question does not always display to the user. 
+  @description The appearance of this question depends completely on the answer of HC3
+**/
+
 function QuestionHC3a({ animalList, setAnimalList, onClickNext }) {
   return (
     <div className="xl:max-w-screen w-full">
@@ -466,7 +494,9 @@ function QuestionHC4({ getNextQuestion }) {
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("hc4");
+
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       if (storedAnswer === "") {
         setHasPetBefore((preState) => false);
       } else {
@@ -550,6 +580,11 @@ function QuestionHC4({ getNextQuestion }) {
     </>
   );
 }
+
+/**
+  @description QuestionHC4a is a next question of HC4. However, this question does not always display to the user. 
+  @description The appearance of this question depends completely on the answer of HC4
+**/
 
 function QuestionHC4a({ onClickNext, onChangeAnswer }) {
   return (

@@ -1,4 +1,4 @@
-.submitLabel {
+.submit-label {
   background-color: #7c0f0f;
   padding: 10px;
   border-radius: 5px;
@@ -9,7 +9,7 @@
   width: max-content;
 }
 
-.submitLabel:before {
+.submit-label:before {
   content: "";
   position: absolute;
   width: 0%;
@@ -22,21 +22,21 @@
   border-radius: 3px;
 }
 
-.submitLabel:hover:before {
+.submit-label:hover:before {
   width: 100%;
 }
 
-.submitLabel span {
+.submit-label span {
   position: relative;
   color: white;
   z-index: 10;
 }
 
-.submitLabel:hover span {
+.submit-label:hover span {
   color: #7c0f0f;
 }
 
-.disabledButton {
+.disabled-button {
   background-color: white;
   color: #ced4da;
   cursor: default;

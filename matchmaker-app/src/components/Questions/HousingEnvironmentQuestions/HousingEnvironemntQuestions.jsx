@@ -21,6 +21,14 @@ import { finishHESlice } from "../../../redux/MatchFormSlice";
 export default function HousingEnvironmentQuestions() {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
+  /** 
+    currQuestions represent the number of questions will display
+    1 --> [he1]
+    2 --> [he1, he2]
+    3 --> [he1, he2, he3]
+    4 --> [he1, he2, he3, he4]
+    5 --> [he1, he2, he3, he4, he5]
+  **/
 
   const questions = [
     <li key={"HE1"} className="w-full">
@@ -41,6 +49,13 @@ export default function HousingEnvironmentQuestions() {
   ];
 
   function getNextQuestion() {
+    /*
+      if currQuestions < question.length
+        - increase the number of quetions by 1
+      else
+        - set finishHE is true  
+      
+    */
     if (currQuestions < questions.length) {
       setCurrQuestions(currQuestions + 1);
     } else {
@@ -63,8 +78,11 @@ function QuestionHE1({ getNextQuestion }) {
   const [answer, setAnswer] = useState("");
 
   useEffect(() => {
+    // Only called the the page is first reload
     const storedAnswer = SessionStorage.getItem("he1");
+
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setHasAnswer((preState) => true);
       getNextQuestion();
       setAnswer((preState) => storedAnswer);
@@ -140,7 +158,9 @@ function QuestionHE2({ getNextQuestion }) {
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("he2");
+
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setHouse((prevState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();
@@ -270,6 +290,7 @@ function QuestionHE3({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("he3");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setHasAnswer((preState) => true);
       getNextQuestion();
       setType((preState) => storedAnswer.type);
@@ -386,6 +407,7 @@ function QuestionHE4({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("he4");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setHasAnswer((preState) => true);
       getNextQuestion();
       setHour((hour) => storedAnswer);
@@ -451,6 +473,7 @@ function QuestionHE5({ getNextQuestion }) {
     const storedAnswer = SessionStorage.getItem("he5");
 
     if (storedAnswer !== null) {
+      // if session storage have the answered, then move to the next question
       setAnswer((preState) => storedAnswer);
       setHasAnswer((preState) => true);
       getNextQuestion();

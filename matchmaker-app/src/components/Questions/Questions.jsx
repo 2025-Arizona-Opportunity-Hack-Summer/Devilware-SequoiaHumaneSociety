@@ -147,9 +147,10 @@ export default function Questions() {
             id="nextButton"
             inputStyle="hidden"
             labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
-              currQuestions === 0 ? "disabledButton" : ""
+              currQuestions === 0 ? "disabled-button" : ""
             }`}
             disabled={currQuestions === 0}>
+            {/* When button is clicked, move the page to the top again*/}
             <a href="#form" onClick={onClickBack} className="block px-6 py-3">
               Back
             </a>
@@ -157,7 +158,7 @@ export default function Questions() {
           {openSubmit && (
             /* Submit button */
             <>
-              <label htmlFor="submitButton" className="submitLabel">
+              <label htmlFor="submitButton" className="submit-label">
                 <span
                   style={{
                     fontFamily: "Koulen, sans-serif",
@@ -174,9 +175,10 @@ export default function Questions() {
             id="backButton"
             inputStyle="hidden"
             labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
-              !isNextAble ? "disabledButton" : ""
+              !isNextAble ? "disabled-button" : ""
             }`}
             disabled={!isNextAble}>
+            {/* When button is clicked, move the page to the top again*/}
             <a href="#form" onClick={onClickNext} className="block px-6 py-3">
               Next
             </a>

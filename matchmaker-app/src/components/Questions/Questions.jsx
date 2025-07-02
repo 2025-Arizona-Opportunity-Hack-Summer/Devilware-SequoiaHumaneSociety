@@ -138,7 +138,7 @@ export default function Questions() {
           {currQuestions === 2 && <LifestyleCommitmentQuestions />}
           {currQuestions === 3 && <ExperienceExpectationsQuestions />}
           {currQuestions === 4 && <SpecificPreferencesQuestions />}
-          {currQuestions === 5 && <ReviewQuestions setOpenSubmit={setOpenSubmit} />}
+          {currQuestions === 5 && <ReviewQuestions setOpenSubmit={setOpenSubmit} setCurrQuestions={setCurrQuestions} />}
         </ul>
 
         {/* Buttons */}

@@ -9,7 +9,7 @@ function AnswerContainer({ children, className, visible, id, onClickEdit }) {
   return (
     <div className="w-full flex items-center answer-box justify-end">
       <InputButton
-        id={`edit${id}`}
+        id={`edit_${id}`}
         onClickHandler={onClickEdit}
         inputStyle="hidden"
         labelStyle="mr-2 cursor-pointer hover:bg-[#fae0e4] p-2 rounded-full">

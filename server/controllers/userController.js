@@ -30,7 +30,7 @@ async function createUser(req, res, next) {
 
       await newShelter.save();
 
-      res.status(201).json({ description: "Create user sucessully" });
+      res.status(201).json({ description: "Create user successfully" });
     } catch (err) {
       res.status(400).json({ description: "Cannot create user", error: err });
     }
@@ -61,7 +61,7 @@ async function createUser(req, res, next) {
 
       await newAdopter.save();
 
-      res.status(201).json({ description: "Create user sucessully" });
+      res.status(201).json({ description: "Create user successfully" });
     } catch (err) {
       res.status(400).json({ description: "Cannot create user", error: err });
     }
@@ -76,7 +76,7 @@ async function findUser(req, res, next) {
   try {
     const user = await User.findOne({ email: email });
 
-    if (user === undefined) {
+    if (user === null) {
       res.status(400).json({ description: "User does not exist" });
       return;
     }

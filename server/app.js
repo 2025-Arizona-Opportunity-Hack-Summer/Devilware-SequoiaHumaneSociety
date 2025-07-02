@@ -4,7 +4,7 @@ const bodyParser = require("body-parser");
 const path = require("path");
 const { spawn } = require("child_process");
 const mongoose = require("mongoose");
-const userRouter = require("./routes/userRoute");
+const userRoute = require("./routes/userRoute");
 
 require("dotenv").config();
 
@@ -59,7 +59,7 @@ const SCRIPT_NAME = "python.py";
 //   });
 // });
 
-app.use("/users", userRouter);
+app.use("/users", userRoute);
 
 mongoose
   .connect(process.env.DATABASE_CONNECTION)

@@ -10,7 +10,7 @@ function QuestionContainer({ children }) {
       {/* Company logo */}
       <img src={shsLogo} alt="company" className="w-12 h-12" />
       {/* Chat box */}
-      <div className="bg-[#E0E0E0] p-3 rounded-md border-white border w-max">{children}</div>
+      <div className="bg-[#e9ecef] p-3 rounded-md border-white border w-max">{children}</div>
     </div>
   );
 }

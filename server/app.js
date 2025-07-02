@@ -18,7 +18,7 @@ const SCRIPT_NAME = "python.py";
 
 app.get("/", (req, res) => {
   const pythonScriptPath = path.join(PYTHON_SCRIPTS_DIR, SCRIPT_NAME);
-  const pythonProcess = spawn("python", [pythonScriptPath, "Khoa"]);
+  const pythonProcess = spawn("python", [pythonScriptPath, "Nam"]);
 
   let dataToSend = "";
 

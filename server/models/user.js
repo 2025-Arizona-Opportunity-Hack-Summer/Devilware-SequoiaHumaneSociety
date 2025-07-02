@@ -15,6 +15,7 @@ const UserSchema = new Schema(
     email: {
       type: String,
       require: true,
+      unique: true,
     },
     address: {
       addressLine1: { type: String, require: true },
@@ -26,52 +27,10 @@ const UserSchema = new Schema(
   },
   {
     collection: "users",
-    discriminatorKey: "user",
+    timestamps: true,
   }
 );
 
 const User = mongoose.model("User", UserSchema);
 
-const AdopterSchema = new Schema({
-  name: {
-    firstName: { type: String, require: true },
-    middleName: { type: String, require: true },
-    lastName: { type: String, require: true },
-  },
-  dob: {
-    type: Date,
-  },
-  gender: {
-    type: String,
-  },
-  pronounce: {
-    type: String,
-  },
-  pet: {
-    type: [Schema.ObjectId],
-    ref: "Pet",
-    require: true,
-  },
-});
-
-const Adopter = User.discriminator("Adopter", AdopterSchema);
-
-const ShelterSchema = new Schema({
-  name: {
-    type: String,
-    require: true,
-  },
-  pet: {
-    type: [Schema.ObjectId],
-    ref: "Pet",
-    require: true,
-  },
-});
-
-const Shelter = User.discriminator("Shelter", ShelterSchema);
-
-module.exports = {
-  User,
-  Adopter,
-  Shelter,
-};
+module.exports = User;

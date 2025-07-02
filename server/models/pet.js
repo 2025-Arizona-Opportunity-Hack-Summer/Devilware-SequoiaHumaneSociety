@@ -13,11 +13,11 @@ const PetSchema = new Schema(
     images: { type: [String], require: true },
     documents: { type: [String], require: true },
     adopterId: { type: Schema.ObjectId, ref: "Adopter" },
-    shelterId: { type: Schema.ObjectId, ref: "Shelter" },
+    shelterId: { type: Schema.ObjectId, ref: "Shelter", require: true },
     holderId: { type: Schema.ObjectId, ref: "Adopter" },
     holderStartTime: { type: Date },
     holderEndTime: { type: Date },
-    adoptionFee: { type: Number },
+    adoptionFee: { type: Number, require: true },
   },
   {
     collection: "pets",

@@ -39,7 +39,7 @@
 }
 
 .disabled-button {
-  @apply bg-white text-[#ced4da] cursor-default;
+  @apply bg-[#e9ecef] text-[#ced4da] cursor-default;
 }
 
 .radio-question-label {

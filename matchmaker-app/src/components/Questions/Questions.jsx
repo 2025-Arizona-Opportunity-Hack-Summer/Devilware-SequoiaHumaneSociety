@@ -128,7 +128,7 @@ export default function Questions() {
     (currQuestions === 4 && finishSP === true); // true if the next button is clickable
 
   return (
-    <div className="bg-[#F8EAC9] py-10" id="form">
+    <div className="bg-white py-10" id="form">
       <form className="flex flex-col min-h-screen xl:w-[65vw] w-[90vw] m-auto rounded-2xl " onSubmit={onSubmitForm}>
         {/* Question lists */}
         <ul className="flex flex-col items-end justify-start max-w-screen gap-5 rounded-xl bg-white py-20 xl:pr-12 xl:pl-24 px-6">

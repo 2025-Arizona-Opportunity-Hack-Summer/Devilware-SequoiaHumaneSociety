@@ -1,0 +1,17 @@
+.filter-modal {
+  position: absolute;
+  animation: slide-up 300ms linear;
+}
+
+@keyframes slide-up {
+  from {
+    bottom: -100%;
+  }
+  to {
+    bottom: 0%;
+  }
+}
+
+.filter-label-text {
+  font-family: "Koulen, sans-serif";
+}

@@ -11,6 +11,7 @@ function Match() {
     <div className="match">
       <MatchBanner />
       <Questions />
+      <MatchedPets />
     </div>
   );
 }

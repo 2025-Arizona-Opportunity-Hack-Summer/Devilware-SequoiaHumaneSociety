@@ -47,7 +47,7 @@ npm install
 npm run dev
 
 # To run on both mobile devices, run dev server with network access
-npm run dev -- --host
+npx vite --host
 
 ```
 

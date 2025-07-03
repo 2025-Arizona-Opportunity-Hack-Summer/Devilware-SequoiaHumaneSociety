@@ -1,13 +1,12 @@
-import PageWrapper from "../../components/PageWrapper/PageWrapper";
 import Questions from "../../components/Questions/Questions";
 import MatchBanner from "../../components/MatchBanner/MatchBanner";
 
 function Match() {
   return (
-    <PageWrapper className="match">
+    <div className="match">
       <MatchBanner />
       <Questions />
-    </PageWrapper>
+    </div>
   );
 }
 

@@ -19,7 +19,7 @@ import SessionStorage from "../../features/sessionStorage";
 
 import "./Questions.css";
 
-export default function Questions() {
+export default function Questions({ setIsQuestionPage }) {
   const dispatch = useDispatch();
   const finishHE = useSelector((store) => store[finishHESlice.name]); // true when the user have answered all housing environment question
   const finishHC = useSelector((store) => store[finishHCSlice.name]); // true when the user have answered all household composition question
@@ -118,6 +118,8 @@ export default function Questions() {
 
   const onSubmitForm = (event) => {
     event.preventDefault();
+    setIsQuestionPage((preState) => false);
+    window.scroll(0, 0);
   };
 
   const isNextAble =
@@ -158,7 +160,7 @@ export default function Questions() {
           {openSubmit && (
             /* Submit button */
             <>
-              <label htmlFor="submitButton" className="submit-label">
+              <label htmlFor="submitButton" className="submit-label" id="submit-label">
                 <span
                   style={{
                     fontFamily: "Koulen, sans-serif",

@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
-const { spawn } = require("child_process");
+// const { spawn } = require("child_process");
 const mongoose = require("mongoose");
 const userRoute = require("./routes/userRoute");
 

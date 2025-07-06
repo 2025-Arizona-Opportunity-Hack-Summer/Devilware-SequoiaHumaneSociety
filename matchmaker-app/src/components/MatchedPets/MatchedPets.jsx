@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import FilterModal from "../Modal/FilterModal/FilterModal";
-// import GoBackButton from "./GoBackButton/GoBackButton";
+import GoBackButton from "./GoBackButton/GoBackButton";
 
 import InputText from "../Input/InputText/InputText";
 import InputButton from "../Input/InputButton/InputButton";
@@ -24,7 +24,7 @@ function MatchedPets({ setIsQuestionPage }) {
     <>
       <div className="bg-white py-10" id="form">
         <div className="flex flex-col min-h-screen xl:w-[80vw] w-[90vw] m-auto rounded-2xl gap-3">
-          {/* <GoBackButton onClickHandler={onClickGoBackQuestionBack} /> */}
+          <GoBackButton onClickHandler={onClickGoBackQuestionBack} />
           <h2
             className="text-3xl  text-[#C1272D] tracking-tighter"
             style={{

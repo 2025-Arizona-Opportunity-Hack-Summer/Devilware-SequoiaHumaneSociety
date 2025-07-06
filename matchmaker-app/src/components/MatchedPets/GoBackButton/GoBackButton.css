@@ -1,0 +1,29 @@
+.go-back-button-container {
+  cursor: pointer;
+  width: 75px;
+  position: relative;
+  border: 2px solid #ced4da;
+  border-radius: 10px;
+  overflow: hidden;
+  height: max-content;
+}
+
+.go-back-button-container:hover {
+  transition-duration: 500ms;
+  border: 2px solid black;
+  width: 300px;
+}
+.go-back-button-container:hover path {
+  fill: black;
+  transition-duration: 500ms;
+}
+
+.go-back-button-container p {
+  position: absolute;
+  left: 75px;
+  width: max-content;
+}
+
+.go-back-button-container:hover p {
+  left: 60px;
+}

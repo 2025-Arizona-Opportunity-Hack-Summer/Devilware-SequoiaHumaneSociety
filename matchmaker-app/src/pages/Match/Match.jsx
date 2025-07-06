@@ -10,8 +10,8 @@ function Match() {
   return (
     <div className="match">
       <MatchBanner />
-      <Questions />
-      <MatchedPets />
+      {isQuestionPage && <Questions setIsQuestionPage={setIsQuestionPage} />}
+      {!isQuestionPage && <MatchedPets setIsQuestionPage={setIsQuestionPage} />}
     </div>
   );
 }

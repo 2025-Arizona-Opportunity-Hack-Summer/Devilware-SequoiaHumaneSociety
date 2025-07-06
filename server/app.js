@@ -2,9 +2,12 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
-const { spawn } = require("child_process");
+// const { spawn } = require("child_process");
 const mongoose = require("mongoose");
+
+const mongoClient = require("./database");
 const userRoute = require("./routes/userRoute");
+const petRoute = require("./routes/petRoute");
 
 require("dotenv").config();
 
@@ -60,9 +63,10 @@ const SCRIPT_NAME = "python.py";
 // });
 
 app.use("/users", userRoute);
+app.use("/pets", petRoute);
 
-mongoose
-  .connect(process.env.DATABASE_CONNECTION)
+mongoClient
+  .init(process.env.DATABASE_CONNECTION)
   .then((response) => {
     app.listen(4041, () => {
       console.log("Server's listening");
@@ -71,3 +75,14 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
+
+// mongoose
+//   .connect(process.env.DATABASE_CONNECTION)
+//   .then((response) => {
+//     app.listen(4041, () => {
+//       console.log("Server's listening");
+//     });
+//   })
+//   .catch((err) => {
+//     console.log(err);
+//   });

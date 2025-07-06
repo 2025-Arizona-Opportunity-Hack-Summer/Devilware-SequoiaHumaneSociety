@@ -11,9 +11,9 @@ import { useState } from "react";
   @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/datalist MDN Reference}
 **/
 
-function InputDatalist({ id, children, placeholder, defaultOptions, onSubmitAnswer }) {
+function InputDatalist({ id, children, placeholder, defaultOptions, onSubmitAnswer, defaultAnswers = [] }) {
   const [focus, setFocus] = useState(false); // the option list only displays when focus is true
-  const [answers, setAnswers] = useState([]); // the list of choices
+  const [answers, setAnswers] = useState(defaultAnswers); // the list of choices
   const [options, setOptions] = useState(defaultOptions); // the list of options
   const [typing, setTyping] = useState(""); // the current text of the datalist
 
@@ -58,6 +58,7 @@ function InputDatalist({ id, children, placeholder, defaultOptions, onSubmitAnsw
         {focus && (
           <div className="flex flex-col absolute w-full z-30">
             {options
+              .filter((option) => !answers.includes(option))
               .filter((option) => isSubString(typing, option))
               .map((val) => (
                 <input

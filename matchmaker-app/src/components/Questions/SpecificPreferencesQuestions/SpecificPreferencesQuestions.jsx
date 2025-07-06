@@ -78,7 +78,8 @@ export default function SpecificPreferencesQuestions() {
 
 function QuestionSP1({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [animalTypes, setAnimalTypes] = useState("");
+  const [animalTypes, setAnimalTypes] = useState([]);
+  const [edit, setEdit] = useState(false);
 
   const animalOptions = ["Bird", "Cat", "Dog"];
 
@@ -106,15 +107,22 @@ function QuestionSP1({ getNextQuestion }) {
     }
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What animal types are you looking for?</p>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
+          What animal types are you looking for?
+        </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""} relative z-30`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer && !edit ? "option" : ""} relative z-30`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="relative z-30 flex flex-col items-end">
@@ -124,6 +132,7 @@ function QuestionSP1({ getNextQuestion }) {
               placeholder={"Choose animal"}
               defaultOptions={animalOptions}
               onSubmitAnswer={onClickOption}
+              defaultAnswers={animalTypes}
             />
 
             <InputButton
@@ -138,7 +147,7 @@ function QuestionSP1({ getNextQuestion }) {
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="sp1" onClickEdit={onClickEdit}>
           <p>
             {animalTypes !== "" && `I am looking for ${animalTypes.map((animal) => animal.toLowerCase()).join(", ")}`}
           </p>
@@ -157,6 +166,7 @@ function QuestionSP2({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [fromAge, setFromAge] = useState("");
   const [toAge, setToAge] = useState("");
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("sp2");
@@ -201,17 +211,22 @@ function QuestionSP2({ getNextQuestion }) {
     }
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
           What range of ages (months) are you looking for?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer && !edit ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex gap-5 items-center">
@@ -249,7 +264,7 @@ function QuestionSP2({ getNextQuestion }) {
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="sp2" onClickEdit={onClickEdit}>
           {fromAge === "All" && toAge === "All" && <p>I don't care about pet' ages </p>}
           {fromAge === "All" && <p>I'm looking for a pet less than {toAge} months</p>}
           {toAge === "All" && <p>I'm looking for a pet more than {toAge} months</p>}
@@ -272,6 +287,7 @@ function QuestionSP2({ getNextQuestion }) {
 function QuestionSP3({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [sizes, setSizes] = useState([]);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("sp3");
@@ -301,15 +317,22 @@ function QuestionSP3({ getNextQuestion }) {
     }
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What animal size are you looking for?</p>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
+          What animal size are you looking for?
+        </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer && !edit ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex gap-5 items-center flex-wrap justify-end">
@@ -352,7 +375,7 @@ function QuestionSP3({ getNextQuestion }) {
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="sp3" onClickEdit={onClickEdit}>
           <p>I'm looking for a pet with sizes:</p>
           <ul>
             {sizes.map((size) => (
@@ -373,6 +396,7 @@ function QuestionSP3({ getNextQuestion }) {
 function QuestionSP4({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [levels, setLevels] = useState([]);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("sp4");
@@ -403,17 +427,22 @@ function QuestionSP4({ getNextQuestion }) {
     }
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
           What animal energy level are you looking for?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer && !edit ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex gap-5 items-center flex-wrap justify-end">
@@ -456,7 +485,7 @@ function QuestionSP4({ getNextQuestion }) {
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="sp4" onClickEdit={onClickEdit}>
           <p>I'm looking for a pet with active level:</p>
           <ul>
             {levels.map((level) => (
@@ -477,6 +506,7 @@ function QuestionSP4({ getNextQuestion }) {
 function QuestionSP5({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [answer, setAnswer] = useState("");
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("sp5");
@@ -503,18 +533,23 @@ function QuestionSP5({ getNextQuestion }) {
     SessionStorage.setItem("sp5", true);
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <>
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             Are you open to a pet that needs special medical care or behavioral training?
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""}`}>
+        <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer && !edit ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2 flex-wrap">
@@ -538,7 +573,7 @@ function QuestionSP5({ getNextQuestion }) {
           </OptionContainer>
 
           {/* If the answer is NOT empty string ==> Display answer */}
-          <AnswerContainer visible={hasAnswer}>
+          <AnswerContainer visible={hasAnswer} id="sp5" onClickEdit={onClickEdit}>
             <p>{answer === false ? "No" : "Yes"}</p>
           </AnswerContainer>
 
@@ -554,7 +589,8 @@ function QuestionSP5({ getNextQuestion }) {
 
 function QuestionSP6({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [answers, setAnswers] = useState("");
+  const [answers, setAnswers] = useState([]);
+  const [edit, setEdit] = useState(false);
 
   const options = ["I don't know"];
 
@@ -581,17 +617,23 @@ function QuestionSP6({ getNextQuestion }) {
       getNextQuestion();
     }
   };
+
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
           How do you plan to handle barking, scratching furniture, or other normal pet behaviors?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end mt-5 xl:mt-3 ${!hasAnswer && !edit ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="relative z-30 flex flex-col items-end">
@@ -601,6 +643,7 @@ function QuestionSP6({ getNextQuestion }) {
               placeholder={"Choose options"}
               defaultOptions={options}
               onSubmitAnswer={onClickOption}
+              defaultAnswers={answers}
             />
 
             <InputButton
@@ -615,7 +658,7 @@ function QuestionSP6({ getNextQuestion }) {
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="sp6" onClickEdit={onClickEdit}>
           <p>I will:</p>
           {answers !== "" && (
             <ul className="list-decimal list-inside">

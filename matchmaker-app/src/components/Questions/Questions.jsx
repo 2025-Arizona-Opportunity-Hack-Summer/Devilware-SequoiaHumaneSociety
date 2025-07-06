@@ -19,7 +19,7 @@ import SessionStorage from "../../features/sessionStorage";
 
 import "./Questions.css";
 
-export default function Questions() {
+export default function Questions({ setIsQuestionPage }) {
   const dispatch = useDispatch();
   const finishHE = useSelector((store) => store[finishHESlice.name]); // true when the user have answered all housing environment question
   const finishHC = useSelector((store) => store[finishHCSlice.name]); // true when the user have answered all household composition question
@@ -118,6 +118,8 @@ export default function Questions() {
 
   const onSubmitForm = (event) => {
     event.preventDefault();
+    setIsQuestionPage((preState) => false);
+    window.scroll(0, 0);
   };
 
   const isNextAble =
@@ -128,8 +130,8 @@ export default function Questions() {
     (currQuestions === 4 && finishSP === true); // true if the next button is clickable
 
   return (
-    <div className="bg-[#F8EAC9] py-10" id="form">
-      <form className="flex flex-col min-h-screen xl:w-[80vw] w-[90vw] m-auto rounded-2xl" onSubmit={onSubmitForm}>
+    <div className="bg-white py-10" id="form">
+      <form className="flex flex-col min-h-screen xl:w-[65vw] w-[90vw] m-auto rounded-2xl " onSubmit={onSubmitForm}>
         {/* Question lists */}
         <ul className="flex flex-col items-end justify-start max-w-screen gap-5 rounded-xl bg-white py-20 xl:pr-12 xl:pl-24 px-6">
           <ProgressBar currIdx={currQuestions} />
@@ -138,7 +140,7 @@ export default function Questions() {
           {currQuestions === 2 && <LifestyleCommitmentQuestions />}
           {currQuestions === 3 && <ExperienceExpectationsQuestions />}
           {currQuestions === 4 && <SpecificPreferencesQuestions />}
-          {currQuestions === 5 && <ReviewQuestions setOpenSubmit={setOpenSubmit} />}
+          {currQuestions === 5 && <ReviewQuestions setOpenSubmit={setOpenSubmit} setCurrQuestions={setCurrQuestions} />}
         </ul>
 
         {/* Buttons */}
@@ -158,7 +160,7 @@ export default function Questions() {
           {openSubmit && (
             /* Submit button */
             <>
-              <label htmlFor="submitButton" className="submit-label">
+              <label htmlFor="submitButton" className="submit-label" id="submit-label">
                 <span
                   style={{
                     fontFamily: "Koulen, sans-serif",

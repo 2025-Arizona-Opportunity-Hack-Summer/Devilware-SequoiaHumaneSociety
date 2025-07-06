@@ -76,6 +76,7 @@ function QuestionHC1({ getNextQuestion }) {
   const [children, setChildren] = useState("");
   const [youngestAge, setYoungestAge] = useState("");
   const [hasAnswer, setHasAnswer] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("hc1");
@@ -135,17 +136,22 @@ function QuestionHC1({ getNextQuestion }) {
       </option>
     ));
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <>
       <div className="xl:max-w-screen">
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
             How many adults and children live in your home?
           </p>
         </QuestionContainer>
 
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex gap-2">
@@ -177,7 +183,7 @@ function QuestionHC1({ getNextQuestion }) {
           </OptionContainer>
           {/* If the answer is NOT empty string ==> Display answer */}
 
-          <AnswerContainer visible={hasAnswer}>
+          <AnswerContainer visible={hasAnswer} id="hc1" onClickEdit={onClickEdit}>
             <p>
               {children !== 0
                 ? `My home has ${adults} ${adults === 1 ? "adult" : "adults"} and ${children}
@@ -192,7 +198,12 @@ function QuestionHC1({ getNextQuestion }) {
       </div>
       {children !== "" && children > 0 && adults !== "" && !hasAnswer && (
         <div className="flex items-center mt-5">
-          <QuestionHC1a onChangeYoungestAge={onChangeYoungestAge} hasAnswer={hasAnswer} youngestAge={youngestAge} />
+          <QuestionHC1a
+            onChangeYoungestAge={onChangeYoungestAge}
+            hasAnswer={hasAnswer}
+            youngestAge={youngestAge}
+            edit={edit}
+          />
         </div>
       )}
 
@@ -206,7 +217,7 @@ function QuestionHC1({ getNextQuestion }) {
   @description The appearance of this question depends completely on the answer of HC1
 **/
 
-function QuestionHC1a({ onChangeYoungestAge, hasAnswer, youngestAge }) {
+function QuestionHC1a({ onChangeYoungestAge, hasAnswer, youngestAge, edit }) {
   const ageOptions = (
     <>
       <option value={"New born (0 - 1 Month)"}>New born (0 - 1 Month)</option>
@@ -221,7 +232,7 @@ function QuestionHC1a({ onChangeYoungestAge, hasAnswer, youngestAge }) {
     <div className="xl:max-w-screen w-full">
       {/* Question container - contains the question */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>How old is the youngest child?</p>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>How old is the youngest child?</p>
       </QuestionContainer>
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
       <div className="flex items-end justify-end xl:mt-3 mt-5 answer">
@@ -245,8 +256,8 @@ function QuestionHC1a({ onChangeYoungestAge, hasAnswer, youngestAge }) {
 function QuestionHC2({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [hasAllergies, setHasAllergies] = useState(false);
-
-  const [allergiesAnimal, setAllergiesAnimal] = useState("");
+  const [edit, setEdit] = useState(false);
+  const [allergiesAnimal, setAllergiesAnimal] = useState([]);
 
   const animalOptions = ["Bird", "Cat", "Dog"];
 
@@ -260,6 +271,7 @@ function QuestionHC2({ getNextQuestion }) {
       getNextQuestion();
     }
   }, []);
+
   const onClickNo = () => {
     setHasAnswer((preState) => true);
     setAllergiesAnimal((preState) => []);
@@ -279,21 +291,29 @@ function QuestionHC2({ getNextQuestion }) {
     if (allergiesAnimal.length === 0) {
     } else {
       setHasAnswer((preState) => true);
+
+      setAllergiesAnimal((preState) => allergiesAnimal);
       SessionStorage.setItem("hc2", allergiesAnimal);
       getNextQuestion();
     }
   };
+
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
           Does anyone in the household have allergies to animals?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""} relative z-30`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""} relative z-30`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex flex-row gap-2 flex-wrap">
@@ -322,6 +342,7 @@ function QuestionHC2({ getNextQuestion }) {
                 children={""}
                 placeholder={"Choose animal"}
                 defaultOptions={animalOptions}
+                defaultAnswers={allergiesAnimal}
                 onSubmitAnswer={onClickOption}
               />
 
@@ -338,7 +359,7 @@ function QuestionHC2({ getNextQuestion }) {
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="hc2" onClickEdit={onClickEdit}>
           <p>
             {allergiesAnimal.length === 0
               ? "We do not have allergies to any animal"
@@ -359,6 +380,7 @@ function QuestionHC3({ getNextQuestion }) {
   const [hasAnimal, setHasAnimal] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
   const [animalList, setAnimalList] = useState("");
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("hc3");
@@ -388,16 +410,23 @@ function QuestionHC3({ getNextQuestion }) {
     getNextQuestion();
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <>
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>Do you currently have other pets?</p>
+          <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
+            Do you currently have other pets?
+          </p>
         </QuestionContainer>
 
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2">
               <InputRadio
@@ -419,7 +448,7 @@ function QuestionHC3({ getNextQuestion }) {
             </div>
           </OptionContainer>
 
-          <AnswerContainer visible={hasAnswer}>
+          <AnswerContainer visible={hasAnswer} id="hc3" onClickEdit={onClickEdit}>
             {animalList !== "" && (
               <>
                 <p>
@@ -447,7 +476,7 @@ function QuestionHC3({ getNextQuestion }) {
       </div>
       {hasAnimal && !hasAnswer && (
         <div className="flex items-center justify-start mt-5">
-          <QuestionHC3a animalList={animalList} setAnimalList={setAnimalList} onClickNext={onClickNext} />
+          <QuestionHC3a animalList={animalList} setAnimalList={setAnimalList} onClickNext={onClickNext} edit={edit} />
         </div>
       )}
 
@@ -461,12 +490,14 @@ function QuestionHC3({ getNextQuestion }) {
   @description The appearance of this question depends completely on the answer of HC3
 **/
 
-function QuestionHC3a({ animalList, setAnimalList, onClickNext }) {
+function QuestionHC3a({ animalList, setAnimalList, onClickNext, edit }) {
   return (
     <div className="xl:max-w-screen w-full">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className="typewriter overflow-hidden"> If so, what types, ages, and are they spayed/neutered?</p>
+        <p className={`${!edit ? "typewriter" : ""} overflow-hidden`}>
+          If so, what types, ages, and are they spayed/neutered?
+        </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
@@ -491,6 +522,7 @@ function QuestionHC4({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [hasPetBefore, setHasPetBefore] = useState(false);
   const [answer, setAnswer] = useState(null);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("hc4");
@@ -511,6 +543,7 @@ function QuestionHC4({ getNextQuestion }) {
   const onClickNo = () => {
     getNextQuestion();
     setHasAnswer((preState) => true);
+    setHasPetBefore((preState) => false);
     setAnswer((preState) => []);
     SessionStorage.setItem("hc4", "");
   };
@@ -532,18 +565,24 @@ function QuestionHC4({ getNextQuestion }) {
   const onChangeAnswer = (event) => {
     setAnswer((prevState) => event.target.value);
   };
+
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <>
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             Have you had pets before?
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2">
@@ -567,14 +606,16 @@ function QuestionHC4({ getNextQuestion }) {
           </OptionContainer>
 
           {/* If the answer is NOT empty string ==> Display answer */}
-          <AnswerContainer visible={hasAnswer}>
+          <AnswerContainer visible={hasAnswer} id="hc4" onClickEdit={onClickEdit}>
             <p>{hasPetBefore === false ? "We don't have pet before" : `Yes. ${answer}`}</p>
           </AnswerContainer>
 
           <UserLogo src={user} />
         </div>
       </div>
-      {hasPetBefore && !hasAnswer && <QuestionHC4a onClickNext={onClickNext} onChangeAnswer={onChangeAnswer} />}
+      {hasPetBefore && !hasAnswer && (
+        <QuestionHC4a onClickNext={onClickNext} onChangeAnswer={onChangeAnswer} edit={edit} />
+      )}
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
       <WaitingAnswerSpinner visible={!hasAnswer} />
     </>
@@ -586,11 +627,11 @@ function QuestionHC4({ getNextQuestion }) {
   @description The appearance of this question depends completely on the answer of HC4
 **/
 
-function QuestionHC4a({ onClickNext, onChangeAnswer }) {
+function QuestionHC4a({ onClickNext, onChangeAnswer, edit }) {
   return (
     <div className="xl:max-w-screen mt-5 w-full">
       <QuestionContainer>
-        <p className="typewriter overflow-hidden">
+        <p className={`${!edit ? "typewriter" : ""} overflow-hidden`}>
           {/* Running text */}
           What happened to previous pets?
         </p>

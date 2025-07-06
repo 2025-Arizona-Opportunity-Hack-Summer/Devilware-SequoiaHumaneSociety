@@ -73,6 +73,7 @@ export default function LifestyleCommitmentQuestions() {
 function QuestionLC1({ getNextQuestion }) {
   const [reason, setReason] = useState("");
   const [hasAnswer, setHasAnswer] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("lc1");
@@ -99,23 +100,29 @@ function QuestionLC1({ getNextQuestion }) {
       {option}
     </option>
   ));
+
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <>
       <div className="xl:max-w-screen">
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
             What is your primary reason for wanting to adopt a pet?
           </p>
         </QuestionContainer>
 
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <select
               id="lc1a"
               name="lc1a"
-              className="block px-3 py-3 border-2 border-[#E0E0E0] rounded-md transition-all duration-300 focus:border-[#7C0F0F] hover:border-[#7C0F0F] cursor-pointer"
+              className="block p-3 border-2 border-[#E0E0E0] rounded-md transition-all duration-300 focus:border-[#7C0F0F] hover:border-[#7C0F0F] cursor-pointer"
               onChange={onClickOption}
               value={reason}>
               <option value="" disabled></option>
@@ -124,7 +131,7 @@ function QuestionLC1({ getNextQuestion }) {
           </OptionContainer>
           {/* If the answer is NOT empty string ==> Display answer */}
 
-          <AnswerContainer visible={hasAnswer}>
+          <AnswerContainer visible={hasAnswer} id="lc1" onClickEdit={onClickEdit}>
             <p>{reason}</p>
           </AnswerContainer>
 
@@ -141,6 +148,7 @@ function QuestionLC1({ getNextQuestion }) {
 function QuestionLC2({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [hour, setHour] = useState("");
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("lc2");
@@ -169,17 +177,23 @@ function QuestionLC2({ getNextQuestion }) {
       {value}
     </option>
   ));
+
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
           How many hours can you dedicate daily to exercise, training, and interaction?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <select
@@ -194,7 +208,7 @@ function QuestionLC2({ getNextQuestion }) {
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="lc2" onClickEdit={onClickEdit}>
           <p>{hour}</p>
         </AnswerContainer>
 
@@ -210,6 +224,7 @@ function QuestionLC2({ getNextQuestion }) {
 function QuestionLC3({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [activityLevel, setActivityLevel] = useState("");
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("lc3");
@@ -229,6 +244,11 @@ function QuestionLC3({ getNextQuestion }) {
     getNextQuestion();
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   const activityLevelOptions = ["Very active", "Moderately active", "Quiet Active"];
 
   const renderedOptions = activityLevelOptions.map((option) => (
@@ -241,11 +261,11 @@ function QuestionLC3({ getNextQuestion }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What is your activity level?</p>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>What is your activity level?</p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <select
@@ -260,7 +280,7 @@ function QuestionLC3({ getNextQuestion }) {
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="lc3" onClickEdit={onClickEdit}>
           <p>I am {activityLevel.toLowerCase()}</p>
         </AnswerContainer>
 
@@ -277,6 +297,7 @@ function QuestionLC4({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [plan, setPlan] = useState("");
   const [frequency, setFrequency] = useState("");
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("lc4");
@@ -308,18 +329,23 @@ function QuestionLC4({ getNextQuestion }) {
     getNextQuestion();
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <>
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             How often do you travel?
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2 flex-wrap">
@@ -366,7 +392,7 @@ function QuestionLC4({ getNextQuestion }) {
           </OptionContainer>
 
           {/* If the answer is NOT empty string ==> Display answer */}
-          <AnswerContainer visible={hasAnswer}>
+          <AnswerContainer visible={hasAnswer} id="lc4" onClickEdit={onClickEdit}>
             <p>
               I {frequency.toLowerCase()} travel. {frequency === "Never" ? "" : `When I travel, ${plan}`}
             </p>
@@ -376,7 +402,7 @@ function QuestionLC4({ getNextQuestion }) {
         </div>
       </div>
       {frequency !== "Never" && frequency !== "" && !hasAnswer && (
-        <QuestionLC4a onSelectPlan={onSelectPlan} plan={plan} />
+        <QuestionLC4a onSelectPlan={onSelectPlan} plan={plan} edit={edit} />
       )}
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
       <WaitingAnswerSpinner visible={!hasAnswer} />
@@ -389,7 +415,7 @@ function QuestionLC4({ getNextQuestion }) {
   @description The appearance of this question depends completely on the answer of LC4
 **/
 
-function QuestionLC4a({ onSelectPlan, plan }) {
+function QuestionLC4a({ onSelectPlan, plan, edit }) {
   const planOptions = [
     "I will keep the pets with me",
     "I send pet to relatives",
@@ -406,7 +432,7 @@ function QuestionLC4a({ onSelectPlan, plan }) {
   return (
     <div className="xl:max-w-screen w-full mt-5">
       <QuestionContainer>
-        <p className="typewriter overflow-hidden">
+        <p className={`${!edit ? "typewriter" : ""} overflow-hidden`}>
           {/* Running text */}
           What are your plans for pet care during travel?
         </p>
@@ -435,6 +461,7 @@ function QuestionLC4a({ onSelectPlan, plan }) {
 function QuestionLC5({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [answer, setAnswer] = useState("");
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("lc5");
@@ -459,6 +486,11 @@ function QuestionLC5({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     setAnswer((preState) => true);
     SessionStorage.setItem("lc5", true);
+  };
+
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
   };
 
   return (
@@ -496,7 +528,7 @@ function QuestionLC5({ getNextQuestion }) {
           </OptionContainer>
 
           {/* If the answer is NOT empty string ==> Display answer */}
-          <AnswerContainer visible={hasAnswer}>
+          <AnswerContainer visible={hasAnswer} id="lc5" onClickEdit={onClickEdit}>
             <p>{answer === false ? "No" : "Yes"}</p>
           </AnswerContainer>
 

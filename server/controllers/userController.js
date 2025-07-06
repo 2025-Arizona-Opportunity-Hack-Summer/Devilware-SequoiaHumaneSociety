@@ -95,7 +95,7 @@ const Shelter = require("../models/shelter");
 // }
 
 async function createUser(req, res, next) {
-  const { password, email, address, name, dob, gender, pronounce } = req.body;
+  const { password, email, address, name, dob, gender } = req.body;
 
   const salt = bcrypt.genSaltSync(Number(process.env.SALT_ROUNDS));
   const hashPassword = bcrypt.hashSync(password, salt);

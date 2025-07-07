@@ -131,7 +131,7 @@ async function createUser(req, res, next) {
 }
 
 async function findUserByEmail(req, res, next) {
-  const { email, password } = req.query;
+  const { email, password } = req.body;
 
   try {
     const user = await mongoClient.getDB().collection("users").findOne({ email: email });

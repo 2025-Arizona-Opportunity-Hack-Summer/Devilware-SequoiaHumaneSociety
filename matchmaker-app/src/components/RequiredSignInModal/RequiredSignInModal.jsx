@@ -2,7 +2,6 @@ import Modal from "../Modal/Modal";
 
 import womanHoldingPet from "../../assets/images/woman-holding-pet.jpg";
 import shsLogo from "../../assets/images/shs-logo.png";
-import cancel from "../../assets/images/cancel-com.svg";
 
 import "./RequiredSignInModal.css";
 
@@ -13,7 +12,7 @@ function RequiredSignInModal({ visible, setVisible }) {
   return (
     <Modal visible={visible}>
       <div className="absolute -translate-1/2 top-1/2 left-1/2 bg-white flex rounded-md border-t-[#7C0F0F] border-t-8 required-sign-in-modal">
-        <div>
+        <div className="w-max">
           <img src={womanHoldingPet} alt="SequoiaAdoption" className="h-[600px] w-auto" />
         </div>
         <div className="flex flex-col items-center p-12 xl:w-xl">

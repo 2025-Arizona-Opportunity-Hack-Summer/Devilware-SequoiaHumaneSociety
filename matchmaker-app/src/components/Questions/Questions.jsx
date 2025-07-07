@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import ProgressBar from "./ProgressBar/ProgressBar";
+import MatchBanner from "../MatchBanner/MatchBanner";
 
 import HousingEnvironmentQuestions from "./HousingEnvironmentQuestions/HousingEnvironemntQuestions";
 import HouseholdCompositionQuestions from "./HouseholdCompositionQuestions/HouseholdCompositionQuestions";
@@ -20,7 +21,7 @@ import SessionStorage from "../../features/sessionStorage";
 
 import "./Questions.css";
 
-export default function Questions({ visible, setIsQuestionPage }) {
+export default function Questions({ visible, setIsQuestionPage, setIsLoading }) {
   const dispatch = useDispatch();
   const finishHE = useSelector((store) => store[finishHESlice.name]); // true when the user have answered all housing environment question
   const finishHC = useSelector((store) => store[finishHCSlice.name]); // true when the user have answered all household composition question
@@ -122,6 +123,7 @@ export default function Questions({ visible, setIsQuestionPage }) {
     if (event !== undefined) {
       event.preventDefault();
     }
+    setIsLoading((preState) => true);
     try {
       const jsonResponse = await fetch("http://localhost:4041/pets", {
         method: "GET",
@@ -133,9 +135,12 @@ export default function Questions({ visible, setIsQuestionPage }) {
       const data = await jsonResponse.json();
 
       if (jsonResponse.ok) {
-        setIsQuestionPage((preState) => false);
-        dispatch(petListSlice.actions.assign(data.content));
-        window.scroll(0, 0);
+        setTimeout(() => {
+          setIsQuestionPage((preState) => false);
+          dispatch(petListSlice.actions.assign(data.content));
+          window.scroll(0, 0);
+          setIsLoading((preState) => false);
+        }, 5000);
       }
     } catch (err) {
       console.log(err);
@@ -154,63 +159,68 @@ export default function Questions({ visible, setIsQuestionPage }) {
   }
 
   return (
-    <div className="bg-white py-10" id="form">
-      <form className="flex flex-col min-h-screen xl:w-[65vw] w-[90vw] m-auto rounded-2xl " onSubmit={onSubmitForm}>
-        {/* Question lists */}
-        <ul className="flex flex-col items-end justify-start max-w-screen gap-5 rounded-xl bg-white py-20 xl:pr-12 xl:pl-24 px-6">
-          <ProgressBar currIdx={currQuestions} />
-          {currQuestions === 0 && <HousingEnvironmentQuestions />}
-          {currQuestions === 1 && <HouseholdCompositionQuestions />}
-          {currQuestions === 2 && <LifestyleCommitmentQuestions />}
-          {currQuestions === 3 && <ExperienceExpectationsQuestions />}
-          {currQuestions === 4 && <SpecificPreferencesQuestions />}
-          {currQuestions === 5 && <ReviewQuestions setOpenSubmit={setOpenSubmit} setCurrQuestions={setCurrQuestions} />}
-        </ul>
+    <>
+      <MatchBanner />
+      <div className="bg-white py-10" id="form">
+        <form className="flex flex-col min-h-screen xl:w-[65vw] w-[90vw] m-auto rounded-2xl " onSubmit={onSubmitForm}>
+          {/* Question lists */}
+          <ul className="flex flex-col items-end justify-start max-w-screen gap-5 rounded-xl bg-white py-20 xl:pr-12 xl:pl-24 px-6">
+            <ProgressBar currIdx={currQuestions} />
+            {currQuestions === 0 && <HousingEnvironmentQuestions />}
+            {currQuestions === 1 && <HouseholdCompositionQuestions />}
+            {currQuestions === 2 && <LifestyleCommitmentQuestions />}
+            {currQuestions === 3 && <ExperienceExpectationsQuestions />}
+            {currQuestions === 4 && <SpecificPreferencesQuestions />}
+            {currQuestions === 5 && (
+              <ReviewQuestions setOpenSubmit={setOpenSubmit} setCurrQuestions={setCurrQuestions} />
+            )}
+          </ul>
 
-        {/* Buttons */}
-        <div className="flex justify-between items-center mt-5">
-          <InputButton
-            id="nextButton"
-            inputStyle="hidden"
-            labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
-              currQuestions === 0 ? "disabled-button" : ""
-            }`}
-            disabled={currQuestions === 0}>
-            {/* When button is clicked, move the page to the top again*/}
-            <a href="#form" onClick={onClickBack} className="block px-6 py-3">
-              Back
-            </a>
-          </InputButton>
-          {openSubmit && (
-            /* Submit button */
-            <>
-              <label htmlFor="submitButton" className="submit-label" id="submit-label">
-                <span
-                  style={{
-                    fontFamily: "Koulen, sans-serif",
-                    fontStyle: "normal",
-                    fontWeight: 600,
-                  }}>
-                  Find your matched pets
-                </span>
-              </label>
-              <input type="submit" className="hidden" id="submitButton" />
-            </>
-          )}
-          <InputButton
-            id="backButton"
-            inputStyle="hidden"
-            labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
-              !isNextAble ? "disabled-button" : ""
-            }`}
-            disabled={!isNextAble}>
-            {/* When button is clicked, move the page to the top again*/}
-            <a href="#form" onClick={onClickNext} className="block px-6 py-3">
-              Next
-            </a>
-          </InputButton>
-        </div>
-      </form>
-    </div>
+          {/* Buttons */}
+          <div className="flex justify-between items-center mt-5">
+            <InputButton
+              id="nextButton"
+              inputStyle="hidden"
+              labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
+                currQuestions === 0 ? "disabled-button" : ""
+              }`}
+              disabled={currQuestions === 0}>
+              {/* When button is clicked, move the page to the top again*/}
+              <a href="#form" onClick={onClickBack} className="block px-6 py-3">
+                Back
+              </a>
+            </InputButton>
+            {openSubmit && (
+              /* Submit button */
+              <>
+                <label htmlFor="submitButton" className="submit-label" id="submit-label">
+                  <span
+                    style={{
+                      fontFamily: "Koulen, sans-serif",
+                      fontStyle: "normal",
+                      fontWeight: 600,
+                    }}>
+                    Find your matched pets
+                  </span>
+                </label>
+                <input type="submit" className="hidden" id="submitButton" />
+              </>
+            )}
+            <InputButton
+              id="backButton"
+              inputStyle="hidden"
+              labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
+                !isNextAble ? "disabled-button" : ""
+              }`}
+              disabled={!isNextAble}>
+              {/* When button is clicked, move the page to the top again*/}
+              <a href="#form" onClick={onClickNext} className="block px-6 py-3">
+                Next
+              </a>
+            </InputButton>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }

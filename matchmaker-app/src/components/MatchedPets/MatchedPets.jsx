@@ -30,7 +30,7 @@ function MatchedPets({ visible, setIsQuestionPage }) {
   }
   return (
     <>
-      <div className="flex flex-col min-h-screen xl:w-[80vw] w-[90vw] m-auto rounded-2xl gap-3 bg-white py-10">
+      <div className="flex flex-col min-h-screen xl:w-[80vw] w-[90vw] m-auto rounded-2xl gap-3 bg-white py-10 matched-pet-root">
         <GoBackButton onClickHandler={onClickGoBackQuestionBack} />
         <h2
           className="text-3xl  text-[#C1272D] tracking-tighter"

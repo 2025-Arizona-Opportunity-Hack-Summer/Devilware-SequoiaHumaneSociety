@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 import FilterModal from "../Modal/FilterModal/FilterModal";
 import GoBackButton from "./GoBackButton/GoBackButton";
+import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
 import PetList from "./PetList/PetList";
 import InputText from "../Input/InputText/InputText";
 import InputButton from "../Input/InputButton/InputButton";
@@ -15,6 +16,8 @@ import "./MatchedPets.css";
 
 function MatchedPets({ visible, setIsQuestionPage }) {
   const [visibleFilter, setVisibleFilter] = useState(false);
+  const [visibleSignIn, setVisibleSignIn] = useState(false);
+
   const petList = useSelector((store) => store[petListSlice.name]);
 
   const onClickOpenFilter = () => {
@@ -28,6 +31,7 @@ function MatchedPets({ visible, setIsQuestionPage }) {
   if (visible === false) {
     return <></>;
   }
+
   return (
     <>
       <div className="flex flex-col min-h-screen xl:w-[80vw] w-[90vw] m-auto rounded-2xl gap-3 bg-white py-10 matched-pet-root">
@@ -61,9 +65,10 @@ function MatchedPets({ visible, setIsQuestionPage }) {
             Filter
           </InputButton>
         </div>
-        <PetList petList={petList} className="mt-10" />
+        <PetList petList={petList} className="mt-10" setVisibleSignIn={setVisibleSignIn} />
       </div>
       <FilterModal visible={visibleFilter} setVisibleFilter={setVisibleFilter} />
+      <RequiredSignInModal visible={visibleSignIn} setVisible={setVisibleSignIn} />
     </>
   );
 }

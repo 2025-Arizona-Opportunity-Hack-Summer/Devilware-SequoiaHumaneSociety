@@ -125,7 +125,7 @@ export default function Questions({ visible, setIsQuestionPage, setIsLoading }) 
     }
     setIsLoading((preState) => true);
     try {
-      const jsonResponse = await fetch("http://localhost:4041/pets", {
+      const jsonResponse = await fetch(import.meta.env.VITE_FIND_PETS_API, {
         method: "GET",
         headers: {
           "Content-type": "application/json",
@@ -143,6 +143,7 @@ export default function Questions({ visible, setIsQuestionPage, setIsLoading }) 
         }, 5000);
       }
     } catch (err) {
+      setIsLoading((preState) => false);
       console.log(err);
     }
   };

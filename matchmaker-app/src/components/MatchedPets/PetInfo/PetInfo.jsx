@@ -3,17 +3,24 @@ import InputButton from "../../Input/InputButton/InputButton";
 import noPetImage from "../../../assets/images/no-pet-image.png";
 import heart from "../../../assets/images/heart-com.svg";
 
-function PetInfo({ pet }) {
+function PetInfo({ pet, setVisibleSignIn }) {
   const { imagesURL, name, breed, _id, species } = pet;
 
   const petImage = imagesURL.length === 0 ? noPetImage : imagesURL[0];
+
+  const onClickFavorite = () => {
+    setVisibleSignIn((preState) => true);
+  };
 
   return (
     <div className="rounded-xl border-[#adb5bd] border-2 pb-5 shadow-2xl cursor-pointer hover:shadow-[0_35px_60px_-15px_#000000cc] duration-100">
       <div className="relative">
         <img src={petImage} alt={name} className="w-56 rounded-md" />
         <div className="absolute bottom-2 right-2 flex  justify-center items-center ">
-          <InputButton labelStyle="bg-[#ffffff80] hover:bg-white p-2 rounded-full cursor-pointer duration-200">
+          <InputButton
+            id={`${_id}_favorite`}
+            labelStyle="bg-[#ffffff80] hover:bg-white p-2 rounded-full cursor-pointer duration-200"
+            onClickHandler={onClickFavorite}>
             <img src={heart} alt="favorite" className="w-8" />
           </InputButton>
         </div>

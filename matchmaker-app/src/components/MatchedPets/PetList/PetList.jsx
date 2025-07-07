@@ -1,9 +1,9 @@
 import PetInfo from "../PetInfo/PetInfo";
 
-function PetList({ petList = [], className }) {
+function PetList({ petList = [], className, setVisibleSignIn }) {
   const petsRender = petList.map((pet) => (
     <li key={pet._id}>
-      <PetInfo pet={pet} />
+      <PetInfo pet={pet} setVisibleSignIn={setVisibleSignIn} />
     </li>
   ));
 

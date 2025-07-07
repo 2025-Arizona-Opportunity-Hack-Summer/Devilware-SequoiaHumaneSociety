@@ -1,9 +1,11 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 import MatchFormSlice from "./MatchFormSlice";
+import MatchedPetSlice from "./MatchedPetSlice";
 
 const reducers = {
   ...MatchFormSlice,
+  ...MatchedPetSlice,
 };
 
 const rootReducer = combineReducers(reducers);

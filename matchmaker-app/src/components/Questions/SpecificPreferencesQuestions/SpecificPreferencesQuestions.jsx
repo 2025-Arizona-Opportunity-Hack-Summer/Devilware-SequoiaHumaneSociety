@@ -184,12 +184,12 @@ function QuestionSP2({ getNextQuestion }) {
   const ageToOptions = ["All", 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 24, 36, 48, 60];
 
   const renderedFromOptions = ageFromOptions.map((age) => (
-    <option key={`from_${age}`} disabled={toAge !== "All" && toAge !== "" && age > toAge}>
+    <option key={`from_${age}`} disabled={age !== "All" && toAge !== "" && age > toAge}>
       {age}
     </option>
   ));
   const renderedToOptions = ageToOptions.map((age) => (
-    <option key={`to${age}`} disabled={fromAge !== "All" && fromAge !== "" && age < fromAge}>
+    <option key={`to${age}`} disabled={age !== "All" && fromAge !== "" && age < fromAge}>
       {age}
     </option>
   ));

@@ -10,6 +10,7 @@ import ExperienceExpectationsQuestions from "./ExperienceExpectationsQuestions/E
 import SpecificPreferencesQuestions from "./SpecificPreferencesQuestions/SpecificPreferencesQuestions";
 
 import { finishHCSlice, finishHESlice, finishLCSlice, finishEESlice, finishSPSlice } from "../../redux/MatchFormSlice";
+import { petListSlice } from "../../redux/MatchedPetSlice";
 
 import ReviewQuestions from "./ReviewQuestions/ReviewQuestions";
 
@@ -19,7 +20,7 @@ import SessionStorage from "../../features/sessionStorage";
 
 import "./Questions.css";
 
-export default function Questions({ setIsQuestionPage }) {
+export default function Questions({ visible, setIsQuestionPage }) {
   const dispatch = useDispatch();
   const finishHE = useSelector((store) => store[finishHESlice.name]); // true when the user have answered all housing environment question
   const finishHC = useSelector((store) => store[finishHCSlice.name]); // true when the user have answered all household composition question
@@ -62,6 +63,7 @@ export default function Questions({ setIsQuestionPage }) {
         dispatch(finishLCSlice.actions.assign(true));
         dispatch(finishHCSlice.actions.assign(true));
         dispatch(finishHESlice.actions.assign(true));
+        onSubmitForm();
         return 5;
       }
 
@@ -116,10 +118,28 @@ export default function Questions({ setIsQuestionPage }) {
     setCurrQuestions((preState) => preState - 1);
   };
 
-  const onSubmitForm = (event) => {
-    event.preventDefault();
-    setIsQuestionPage((preState) => false);
-    window.scroll(0, 0);
+  const onSubmitForm = async (event) => {
+    if (event !== undefined) {
+      event.preventDefault();
+    }
+    try {
+      const jsonResponse = await fetch("http://localhost:4041/pets", {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
+
+      const data = await jsonResponse.json();
+
+      if (jsonResponse.ok) {
+        setIsQuestionPage((preState) => false);
+        dispatch(petListSlice.actions.assign(data.content));
+        window.scroll(0, 0);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const isNextAble =
@@ -128,6 +148,10 @@ export default function Questions({ setIsQuestionPage }) {
     (currQuestions === 2 && finishLC === true) ||
     (currQuestions === 3 && finishEE === true) ||
     (currQuestions === 4 && finishSP === true); // true if the next button is clickable
+
+  if (visible === false) {
+    return <></>;
+  }
 
   return (
     <div className="bg-white py-10" id="form">

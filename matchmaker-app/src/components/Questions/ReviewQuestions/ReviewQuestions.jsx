@@ -1,7 +1,11 @@
 import { useEffect } from "react";
-import SessionStorage from "../../../features/sessionStorage";
 
-function ReviewQuestions({ setOpenSubmit }) {
+import SessionStorage from "../../../features/sessionStorage";
+import InputButton from "../../Input/InputButton/InputButton";
+
+import edit from "../../../assets/images/pencil-svgrepo-com.svg";
+
+function ReviewQuestions({ setOpenSubmit, setCurrQuestions }) {
   useEffect(() => {
     setOpenSubmit((preState) => true);
     const scrollUp = () => {
@@ -14,36 +18,49 @@ function ReviewQuestions({ setOpenSubmit }) {
     };
   }, []);
 
+  const onClickBack = (idx) => {
+    setCurrQuestions((preState) => idx);
+    window.scroll(0, 0);
+  };
   return (
     <div className="w-full">
       <h2 className="text-2xl font-bold text-[#7C0F0F]">Review</h2>
       <ol className="flex flex-col gap-5 mt-5">
         <li className="border-t border-t-[#ced4da] pt-2">
-          <HousingEnvironemntQuestions />
+          <HousingEnvironemntQuestions onClickBack={onClickBack.bind(null, 0)} />
         </li>
         <li className="border-t border-t-[#ced4da] pt-2">
-          <HouseholdCompositionReview />
+          <HouseholdCompositionReview onClickBack={onClickBack.bind(null, 1)} />
         </li>
         <li className="border-t border-t-[#ced4da] pt-2">
-          <LifestyleCommitmentReview />
+          <LifestyleCommitmentReview onClickBack={onClickBack.bind(null, 2)} />
         </li>
         <li className="border-t border-t-[#ced4da] pt-2">
-          <ExperienceExpectationsReview />
+          <ExperienceExpectationsReview onClickBack={onClickBack.bind(null, 3)} />
         </li>
         <li className="border-t border-t-[#ced4da] pt-2">
-          <SpecificPreferencesReview />
+          <SpecificPreferencesReview onClickBack={onClickBack.bind(null, 4)} />
         </li>
       </ol>
     </div>
   );
 }
 
-function HousingEnvironemntQuestions() {
+function HousingEnvironemntQuestions({ onClickBack }) {
   const [he1, he2, he3, he4, he5] = ["he1", "he2", "he3", "he4", "he5"].map((id) => SessionStorage.getItem(id));
 
   return (
     <div className="flex flex-col gap-2 text-[16px] text-black">
-      <h3 className="text-xl font-semibold text-[#7C0F0F]">1. Housing Environment</h3>
+      <div className="flex items-center">
+        <h3 className="text-xl font-semibold text-[#7C0F0F]">1. Housing Environment</h3>
+        <InputButton
+          id="edit_he"
+          onClickHandler={onClickBack}
+          inputStyle="hidden"
+          labelStyle="ml-2 cursor-pointer hover:bg-[#fae0e4] p-2 rounded-full">
+          <img src={edit} alt={"back"} className="w-5 h-5" />
+        </InputButton>
+      </div>
       <p>
         <span className="font-semibold">Type: </span>
         {he2}
@@ -81,12 +98,21 @@ function HousingEnvironemntQuestions() {
   );
 }
 
-function HouseholdCompositionReview() {
+function HouseholdCompositionReview({ onClickBack }) {
   const [hc1, hc2, hc3, hc4] = ["hc1", "hc2", "hc3", "hc4"].map((id) => SessionStorage.getItem(id));
 
   return (
     <div className="flex flex-col gap-2 text-[16px] text-black">
-      <h3 className="text-xl font-semibold text-[#7C0F0F]">2. Household Composition</h3>
+      <div className="flex items-center">
+        <h3 className="text-xl font-semibold text-[#7C0F0F]">2. Household Composition</h3>
+        <InputButton
+          id="edit_hc"
+          onClickHandler={onClickBack}
+          inputStyle="hidden"
+          labelStyle="ml-2 cursor-pointer hover:bg-[#fae0e4] p-2 rounded-full">
+          <img src={edit} alt={"back"} className="w-5 h-5" />
+        </InputButton>
+      </div>
 
       {/* HC1 */}
       <div className="flex flex-col gap-2">
@@ -141,12 +167,21 @@ function HouseholdCompositionReview() {
   );
 }
 
-function LifestyleCommitmentReview() {
+function LifestyleCommitmentReview({ onClickBack }) {
   const [lc1, lc2, lc3, lc4, lc5] = ["lc1", "lc2", "lc3", "lc4", "lc5"].map((id) => SessionStorage.getItem(id));
 
   return (
     <div className="flex flex-col gap-2 text-[16px] text-black">
-      <h3 className="text-xl font-semibold text-[#7C0F0F]">3. Lifestyle & Commitment</h3>
+      <div className="flex items-center">
+        <h3 className="text-xl font-semibold text-[#7C0F0F]">3. Lifestyle & Commitment</h3>
+        <InputButton
+          id="edit_lc"
+          onClickHandler={onClickBack}
+          inputStyle="hidden"
+          labelStyle="ml-2 cursor-pointer hover:bg-[#fae0e4] p-2 rounded-full">
+          <img src={edit} alt={"back"} className="w-5 h-5" />
+        </InputButton>
+      </div>
 
       {/* LC1 */}
       <p>
@@ -197,12 +232,21 @@ function LifestyleCommitmentReview() {
   );
 }
 
-function ExperienceExpectationsReview() {
+function ExperienceExpectationsReview({ onClickBack }) {
   const [ee1, ee2, ee3, ee4] = ["ee1", "ee2", "ee3", "ee4"].map((id) => SessionStorage.getItem(id));
 
   return (
     <div className="flex flex-col gap-2 text-[16px] text-black">
-      <h3 className="text-xl font-semibold text-[#7C0F0F]">4. Experience & Expectatation</h3>
+      <div className="flex items-center">
+        <h3 className="text-xl font-semibold text-[#7C0F0F]">4. Experience & Expectatation</h3>
+        <InputButton
+          id="edit_ee"
+          onClickHandler={onClickBack}
+          inputStyle="hidden"
+          labelStyle="ml-2 cursor-pointer hover:bg-[#fae0e4] p-2 rounded-full">
+          <img src={edit} alt={"back"} className="w-5 h-5" />
+        </InputButton>
+      </div>
 
       {/* EE1 */}
       <p>
@@ -239,14 +283,23 @@ function ExperienceExpectationsReview() {
   );
 }
 
-function SpecificPreferencesReview() {
+function SpecificPreferencesReview({ onClickBack }) {
   const [sp1, sp2, sp3, sp4, sp5, sp6] = ["sp1", "sp2", "sp3", "sp4", "sp5", "sp6"].map((id) =>
     SessionStorage.getItem(id)
   );
 
   return (
     <div className="flex flex-col gap-2 text-[16px] text-black">
-      <h3 className="text-xl font-semibold text-[#7C0F0F]">5. Specific Preferences</h3>
+      <div className="flex items-center">
+        <h3 className="text-xl font-semibold text-[#7C0F0F]">5. Specific Preferences</h3>
+        <InputButton
+          id="edit_sp"
+          onClickHandler={onClickBack}
+          inputStyle="hidden"
+          labelStyle="ml-2 cursor-pointer hover:bg-[#fae0e4] p-2 rounded-full">
+          <img src={edit} alt={"back"} className="w-5 h-5" />
+        </InputButton>
+      </div>
       {/* SP1 */}
       <div>
         <p className="font-semibold">Prefer types: </p>

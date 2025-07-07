@@ -54,7 +54,7 @@ function ProgressBar({ currIdx }) {
           } rounded-full transition-all duration-700`}></div>
         <div className="hidden xl:block">
           <p className={`text-center ${currIdx < 2 ? "text-[#adb5bd]" : "text-[#7C0F0F]"} font-semibold`}>
-            Lifestyle & Commitment
+            Lifestyle Commitment
           </p>
         </div>
       </div>
@@ -65,7 +65,7 @@ function ProgressBar({ currIdx }) {
           } rounded-full transition-all duration-700`}></div>
         <div className="hidden xl:block">
           <p className={`text-center ${currIdx < 3 ? "text-[#adb5bd]" : "text-[#7C0F0F]"} font-semibold`}>
-            Experience & Expectations
+            Experience Expectations
           </p>
         </div>
       </div>

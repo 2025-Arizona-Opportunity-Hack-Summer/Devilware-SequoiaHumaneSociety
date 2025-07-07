@@ -75,6 +75,7 @@ export default function HousingEnvironmentQuestions() {
 
 function QuestionHE1({ getNextQuestion }) {
   const [hasAnswer, setHasAnswer] = useState(false);
+  const [edit, setEdit] = useState(false);
   const [answer, setAnswer] = useState("");
 
   useEffect(() => {
@@ -96,18 +97,23 @@ function QuestionHE1({ getNextQuestion }) {
     getNextQuestion();
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the question */}
       <QuestionContainer>
         {/* Running text */}
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden chatbox-text`}>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden chatbox-text`}>
           Do you own or rent your house? If renting, do you have written permission from your landloard to have pets?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex flex-row gap-2 flex-wrap">
@@ -133,7 +139,7 @@ function QuestionHE1({ getNextQuestion }) {
           </div>
         </OptionContainer>
         {/* If the answer is NOT empty string ==> Display answer */}
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="he1" onClickEdit={onClickEdit}>
           <p>
             {answer == "own-home"
               ? "I have my own home"
@@ -153,6 +159,7 @@ function QuestionHE1({ getNextQuestion }) {
 
 function QuestionHE2({ getNextQuestion }) {
   const [house, setHouse] = useState("");
+  const [edit, setEdit] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
   const [other, setOther] = useState(false);
 
@@ -190,16 +197,24 @@ function QuestionHE2({ getNextQuestion }) {
   const onChangeText = (event) => {
     setHouse((prevState) => event.target.value);
   };
+
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
         {/* Running text */}
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>What type of housing do you live in?</p>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
+          What type of housing do you live in?
+        </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="flex flex-row gap-2 items-end flex-wrap">
@@ -268,7 +283,7 @@ function QuestionHE2({ getNextQuestion }) {
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="he2" onClickEdit={onClickEdit}>
           <p>{house}</p>
         </AnswerContainer>
         <UserLogo src={user} />
@@ -285,6 +300,7 @@ function QuestionHE3({ getNextQuestion }) {
   const [height, setHeight] = useState(0);
   const [hasFence, setHasFence] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("he3");
@@ -323,17 +339,22 @@ function QuestionHE3({ getNextQuestion }) {
     SessionStorage.setItem("he3", { type: type, height: height });
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
           Do you have a fenced yard? If so, what type and height of fencing?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
         <OptionContainer visible={!hasAnswer}>
           <div className="flex flex-row gap-2 flex-wrap">
             {!hasFence && (
@@ -385,7 +406,7 @@ function QuestionHE3({ getNextQuestion }) {
             </>
           )}
         </OptionContainer>
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="he3" onClickEdit={onClickEdit}>
           <p>{type == "None" ? "No" : `I have ${type.toLowerCase()} fence with ${height} meters`}</p>
         </AnswerContainer>
         <UserLogo src={user} />
@@ -400,6 +421,7 @@ function QuestionHE3({ getNextQuestion }) {
 function QuestionHE4({ getNextQuestion }) {
   const [hour, setHour] = useState("");
   const [hasAnswer, setHasAnswer] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   const hours = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17];
 
@@ -414,6 +436,18 @@ function QuestionHE4({ getNextQuestion }) {
     }
   }, []);
 
+  const onSelect = (event) => {
+    getNextQuestion();
+    setHour((preState) => event.target.value);
+    setHasAnswer((preState) => true);
+    SessionStorage.setItem("he4", event.target.value);
+  };
+
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   const Options = hours.map((val) => {
     return (
       <option key={val} value={val}>
@@ -422,24 +456,17 @@ function QuestionHE4({ getNextQuestion }) {
     );
   });
 
-  const onSelect = (event) => {
-    getNextQuestion();
-    setHour((preState) => event.target.value);
-    setHasAnswer((preState) => true);
-    SessionStorage.setItem("he4", event.target.value);
-  };
-
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
           Hour may hours per day will the pet be left alone?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
         <OptionContainer visible={!hasAnswer}>
           <select
             name="he4"
@@ -451,7 +478,7 @@ function QuestionHE4({ getNextQuestion }) {
           </select>
         </OptionContainer>
 
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="he4" onClickEdit={onClickEdit}>
           <p>{hour}</p>
         </AnswerContainer>
 
@@ -468,6 +495,7 @@ function QuestionHE5({ getNextQuestion }) {
   const [answer, setAnswer] = useState("");
   const [hasOther, setHasOther] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
+  const [edit, setEdit] = useState(false);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("he5");
@@ -503,17 +531,22 @@ function QuestionHE5({ getNextQuestion }) {
     setAnswer((prevState) => event.target.value);
   };
 
+  const onClickEdit = () => {
+    setHasAnswer((preState) => false);
+    setEdit((preState) => true);
+  };
+
   return (
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
           Where will the pet sleep and spend most of its time?
         </p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+      <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
         <OptionContainer visible={!hasAnswer}>
           <div className="flex flex-row gap-2 flex-wrap">
             <InputRadio
@@ -578,7 +611,7 @@ function QuestionHE5({ getNextQuestion }) {
           )}
         </OptionContainer>
 
-        <AnswerContainer visible={hasAnswer}>
+        <AnswerContainer visible={hasAnswer} id="he5" onClickEdit={onClickEdit}>
           <p>{answer}</p>
         </AnswerContainer>
 

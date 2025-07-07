@@ -39,11 +39,11 @@
 }
 
 .disabled-button {
-  @apply bg-white text-[#ced4da] cursor-default;
+  @apply bg-[#e9ecef] text-[#ced4da] cursor-default;
 }
 
 .radio-question-label {
-  @apply block xl:px-6 px-3 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300;
+  @apply block p-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300;
 }
 
 .radio-question-input {
@@ -97,4 +97,11 @@
   100% {
     width: 100%;
   }
+}
+
+.answer-box label {
+  display: none;
+}
+.answer-box:hover label {
+  display: block;
 }

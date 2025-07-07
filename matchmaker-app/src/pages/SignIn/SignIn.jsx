@@ -7,6 +7,30 @@ function SignIn() {
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
 
+    const handleSubmit = async () => {
+    
+      console.log('Submitting form with:', { email, password, rememberMe });
+    try {
+      const response = await fetch('http://localhost:4041/users/sign-in', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email, password}),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Sign in successful:', data);
+      // Handle successful registration (e.g., redirect to login or dashboard)
+    }catch(error) {
+      console.error('Error submitting form:', error);
+    }
+  }; 
+
   const mobileStyle = {
     borderRadius: '24px',
     boxShadow: '0px 4px 20px 15px rgba(0, 0, 0, 0.25)'
@@ -57,7 +81,7 @@ function SignIn() {
               </label>
               <a href="#" className="text-sm text-[#7c0f0f] hover:text-[#4F1818]">Forgot password?</a>
             </div>
-            <button className="w-full bg-gray-800 text-white py-3 px-4 rounded-lg hover:bg-gray-900 transition duration-200 font-medium mb-4">
+            <button className="w-full bg-gray-800 text-white py-3 px-4 rounded-lg hover:bg-gray-900 transition duration-200 font-medium mb-4" onClick={handleSubmit}>
               Continue
             </button>
             <p className="text-center text-sm text-gray-700 mb-4">
@@ -130,7 +154,7 @@ function SignIn() {
                 Forgot password?
               </a>
             </div>
-            <button className="w-full bg-gray-800 text-white py-3 px-4 rounded-lg hover:bg-gray-900 transition duration-200 font-medium mb-4">
+            <button className="w-full bg-gray-800 text-white py-3 px-4 rounded-lg hover:bg-gray-900 transition duration-200 font-medium mb-4" onClick={handleSubmit}>
               Continue
             </button>
             <p className="text-center text-sm text-gray-700 mb-4">

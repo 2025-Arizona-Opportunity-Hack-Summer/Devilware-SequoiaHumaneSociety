@@ -95,7 +95,7 @@ const Shelter = require("../models/shelter");
 // }
 
 async function createUser(req, res, next) {
-  const { password, email, address, name, dob, gender } = req.body;
+  const { password, email, address, firstName, lastName, dateOfBirth, gender } = req.body;
 
   const salt = bcrypt.genSaltSync(Number(process.env.SALT_ROUNDS));
   const hashPassword = bcrypt.hashSync(password, salt);
@@ -107,19 +107,19 @@ async function createUser(req, res, next) {
       .insertOne({
         email: email,
         password: hashPassword,
-        address: {
-          addressLine1: address.addressLine1,
-          addressLine2: address.addressLine2,
-          city: address.city,
-          state: address.state,
-          zipCode: address.zipCode,
-        },
+        // address: {
+        //   addressLine1: address.addressLine1,
+        //   addressLine2: address.addressLine2,
+        //   city: address.city,
+        //   state: address.state,
+        //   zipCode: address.zipCode,
+        // },
         name: {
-          firstName: name.firstName,
-          middleName: name.middleName,
-          lastName: name.lastName,
+          firstName: firstName,
+          // middleName: name.middleName,
+          lastName: lastName,
         },
-        dob: dob,
+        dob: dateOfBirth,
         gender: gender,
         pet: [],
       });

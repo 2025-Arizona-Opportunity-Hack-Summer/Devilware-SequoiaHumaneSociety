@@ -39,8 +39,27 @@ function Register() {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     console.log('Form submitted:', formData);
+    try {
+      const response = await fetch('http://localhost:4041/users/sign-up', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Registration successful:', data);
+      // Handle successful registration (e.g., redirect to login or dashboard)
+    }catch(error) {
+      console.error('Error submitting form:', error);
+    }
   };
 
   const handleGoogleRegister = () => {

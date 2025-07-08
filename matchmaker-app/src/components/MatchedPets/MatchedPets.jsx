@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 import FilterModal from "../Modal/FilterModal/FilterModal";
@@ -15,10 +15,15 @@ import searchImg from "../../assets/images/search-com.svg";
 import "./MatchedPets.css";
 
 function MatchedPets({ visible, setIsQuestionPage }) {
+  const petListRedux = useSelector((store) => store[petListSlice.name]);
   const [visibleFilter, setVisibleFilter] = useState(false);
   const [visibleSignIn, setVisibleSignIn] = useState(false);
+  const [searchPet, setSearchPet] = useState("");
+  const [petList, setPetList] = useState(petListRedux);
 
-  const petList = useSelector((store) => store[petListSlice.name]);
+  useEffect(() => {
+    setPetList((preState) => petListRedux);
+  }, [petListRedux]);
 
   const onClickOpenFilter = () => {
     setVisibleFilter((preState) => true);
@@ -32,6 +37,21 @@ function MatchedPets({ visible, setIsQuestionPage }) {
     return <></>;
   }
 
+  const onChangeSearchPet = (event) => {
+    const nextText = event.target.value;
+    setSearchPet((preState) => event.target.value);
+
+    if (nextText === "") {
+      setPetList((preState) => petListRedux);
+    } else {
+      setPetList((preState) => petListRedux.filter((pet) => pet.name.toLowerCase().includes(nextText.toLowerCase())));
+    }
+  };
+
+  const onClickResetSearchPet = () => {
+    setSearchPet((preState) => "");
+    setPetList((preState) => petListRedux);
+  };
   return (
     <>
       <div className="flex flex-col min-h-screen xl:w-[80vw] w-[90vw] m-auto rounded-2xl gap-3 bg-white py-10 matched-pet-root">
@@ -52,8 +72,14 @@ function MatchedPets({ visible, setIsQuestionPage }) {
               id="searchMachtedPet"
               inputStyle="w-full focus:border-0 focus:outline-0"
               placeholder="Search for a pet"
+              value={searchPet}
+              onChangeHandler={onChangeSearchPet}
             />
-            <InputButton id="clearText" inputStyle="hidden" labelStyle="cursor-pointer font-semibold">
+            <InputButton
+              id="clearText"
+              inputStyle="hidden"
+              labelStyle="cursor-pointer font-semibold"
+              onClickHandler={onClickResetSearchPet}>
               x
             </InputButton>
           </div>

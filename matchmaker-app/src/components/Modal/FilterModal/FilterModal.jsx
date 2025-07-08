@@ -1,21 +1,35 @@
+import { useState } from "react";
+
 import Modal from "../Modal";
 import InputCheckbox from "../../Input/InputCheckbox/InputCheckbox";
 import InputButton from "../../Input/InputButton/InputButton";
 
 function FilterModal({ visible, setVisibleFilter }) {
+  const [speciesFilter, setSpeciesFilter] = useState([]);
+
   const species = ["Cat", "Dog", "Bird", "Hamster"];
 
   const onClickCloseFilter = () => {
     setVisibleFilter((preState) => false);
   };
 
+  const onChangeSpeciesFilter = (event) => {
+    const currSpecies = event.target.value;
+
+    if (speciesFilter.includes(currSpecies) === false) {
+      setSpeciesFilter((preState) => [...preState, currSpecies]);
+    } else {
+      setSpeciesFilter((preState) => preState.filter((speciesItem) => speciesItem != currSpecies));
+    }
+  };
   const SpeciesCheckboxes = species.map((animal) => (
     <InputCheckbox
       id={`filter_${animal}`}
       value={animal}
       inputStyle="hidden checkbox-question-input"
-      labelStyle={`checkbox-question-label flex-grow text-center`}
-      checked={false}
+      labelStyle="checkbox-question-label text-center"
+      checked={speciesFilter.includes(animal)}
+      onChangeHandler={onChangeSpeciesFilter}
       key={`filter_${animal}`}>
       {animal}
     </InputCheckbox>
@@ -28,8 +42,9 @@ function FilterModal({ visible, setVisibleFilter }) {
       id={`filter_${level}`}
       value={level}
       inputStyle="hidden checkbox-question-input"
-      labelStyle={`checkbox-question-label flex-grow text-center`}
+      labelStyle="checkbox-question-label text-center"
       checked={false}
+      onChangeHandler={null}
       key={`filter_${level}`}>
       {level}
     </InputCheckbox>
@@ -44,6 +59,7 @@ function FilterModal({ visible, setVisibleFilter }) {
       inputStyle="hidden checkbox-question-input"
       labelStyle={`checkbox-question-label flex-grow text-center`}
       checked={false}
+      onChangeHandler={null}
       key={`filter_${size}`}>
       {size}
     </InputCheckbox>
@@ -58,7 +74,8 @@ function FilterModal({ visible, setVisibleFilter }) {
       inputStyle="hidden checkbox-question-input"
       labelStyle={`checkbox-question-label flex-grow text-center`}
       checked={false}
-      key={`filter_${item}`}>
+      key={`filter_${item}`}
+      onChangeHandler={null}>
       {item}
     </InputCheckbox>
   ));
@@ -79,14 +96,17 @@ function FilterModal({ visible, setVisibleFilter }) {
           <p className="cursor-pointer hover:text-[#7C0F0F]">Clear All</p>
         </div>
         <div className="flex flex-col gap-2">
-          <div className="flex flex-col gap-2">
-            <p className="font-medium text-md">Species</p>
-            <div className="flex justify-between gap-1 flex-wrap">{SpeciesCheckboxes}</div>
+          <div className="flex flex-col justify-start gap-5">
+            <div className="flex items-center gap-2">
+              <p className="font-medium text-md">Species</p>
+              <div className="flex justify-start gap-3 flex-wrap">{SpeciesCheckboxes}</div>
+            </div>
+            <div className="flex items-center gap-2">
+              <p className="font-medium text-md">Active levels</p>
+              <div className="flex justify-start gap-3 flex-wrap">{ActiveLevelsCheckboxes}</div>
+            </div>
           </div>
-          <div className="flex flex-col gap-2">
-            <p className="font-medium text-md">Active levels</p>
-            <div className="flex justify-between gap-1 flex-wrap">{ActiveLevelsCheckboxes}</div>
-          </div>
+
           <div className="flex flex-col gap-2">
             <p className="font-medium text-md">Sizes</p>
             <div className="flex justify-between gap-1 flex-wrap">{SizesCheckboxes}</div>
@@ -101,7 +121,7 @@ function FilterModal({ visible, setVisibleFilter }) {
           inputStyle="hidden"
           labelStyle="bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block text-center mt-10 py-2 text-lg">
           {/* When button is clicked, move the page to the top again*/}
-          Done
+          Apply
         </InputButton>
       </div>
     </Modal>

@@ -8,8 +8,8 @@ function PetList({ petList = [], className, setVisibleSignIn }) {
   ));
 
   return (
-    <div className={`flex flex-col items-center ${className}`}>
-      <ul className="flex flex-wrap gap-20">{petsRender}</ul>
+    <div className={`flex flex-col items-start ${className}`}>
+      <ul className="flex flex-wrap gap-20 justify-start">{petsRender}</ul>
     </div>
   );
 }

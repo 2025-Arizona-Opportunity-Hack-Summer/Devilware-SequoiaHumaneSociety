@@ -3,14 +3,19 @@ const { GetObjectCommand } = require("@aws-sdk/client-s3");
 
 const s3Client = require("../s3");
 const mongoClient = require("../database");
+const mongodb = require("mongodb");
+const { ObjectId } = require("mongodb");
 
 const Pet = require("../models/pet");
 
 require("dotenv").config();
 
 async function findPets(req, res, next) {
+  const { pet_id } = req.query;
+  const filter = pet_id !== undefined ? { _id: ObjectId.createFromHexString(pet_id) } : {};
+
   try {
-    const pets = await mongoClient.getDB().collection("pets").find({}).toArray();
+    const pets = await mongoClient.getDB().collection("pets").find(filter).toArray();
 
     for (const pet of pets) {
       // const imagesUrl = [];

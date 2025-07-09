@@ -1,3 +1,6 @@
+import { useNavigate } from "react-router";
+import { createSearchParams } from "react-router";
+
 import InputButton from "../../Input/InputButton/InputButton";
 
 import noPetImage from "../../../assets/images/no-pet-image.png";
@@ -5,6 +8,7 @@ import heart from "../../../assets/images/heart-com.svg";
 
 function PetInfo({ pet, setVisibleSignIn }) {
   const { imagesURL, name, breed, _id, species } = pet;
+  const navigate = useNavigate();
 
   const petImage = imagesURL.length === 0 ? noPetImage : imagesURL[0];
 
@@ -12,10 +16,17 @@ function PetInfo({ pet, setVisibleSignIn }) {
     setVisibleSignIn((preState) => true);
   };
 
+  const onClickNavigateToDetails = () => {
+    const searchQueryString = createSearchParams({ pet_id: _id }).toString();
+    navigate({
+      pathname: "/adopt/pet",
+      search: `?${searchQueryString}`,
+    });
+  };
   return (
     <div className="rounded-xl border-[#adb5bd] border-2 pb-5 shadow-2xl cursor-pointer hover:shadow-[0_35px_60px_-15px_#000000cc] duration-100">
       <div className="relative">
-        <img src={petImage} alt={name} className="w-56 rounded-md" />
+        <img src={petImage} alt={name} className="w-56 rounded-md" onClick={onClickNavigateToDetails} />
         <div className="absolute bottom-2 right-2 flex  justify-center items-center ">
           <InputButton
             id={`${_id}_favorite`}
@@ -25,7 +36,7 @@ function PetInfo({ pet, setVisibleSignIn }) {
           </InputButton>
         </div>
       </div>
-      <div className="flex flex-col items-center mt-10 gap-2">
+      <div className="flex flex-col items-center mt-10 gap-2" onClick={onClickNavigateToDetails}>
         <p className="text-[#C1272D] text-2xl font-semibold">{name.toUpperCase()}</p>
         <p
           style={{

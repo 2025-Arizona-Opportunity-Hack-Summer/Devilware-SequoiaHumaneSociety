@@ -1,7 +1,9 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { createSearchParams } from "react-router-dom";
+
 import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
+import AttributeList from "./AttributeList/AttributeList";
 
 import noPetImage from "../../assets/images/no-pet-image.png";
 
@@ -36,6 +38,7 @@ function PetDescriptions() {
 
   const { age, adoption_fee, characteristics, breed, imagesURL, species, sex, name, weight, about } = data;
 
+  console.log(characteristics);
   const onClickApplyForAdoption = () => {
     setVisibleRequireModal((preState) => true);
   };
@@ -70,7 +73,6 @@ function PetDescriptions() {
     transform: `translateX(-${288 * imageIndex}px)`,
   };
 
-  console.log(translateImageStyle);
   return (
     <>
       <div className="px-40 flex flex-col gap-10">
@@ -136,6 +138,17 @@ function PetDescriptions() {
                 <p className="pet-data">${adoption_fee}</p>
               </div>
             </div>
+            {characteristics.length > 0 && (
+              <>
+                <h2 className="uppercase text-[#343a40] text-3xl pet-name border-t border-[#dee2e6] mt-5 pt-5">
+                  Attributes
+                </h2>
+                <div className="mt-5 max-w-full whitespace-pre-wrap">
+                  <AttributeList attributes={characteristics} />
+                </div>
+              </>
+            )}
+
             <h2 className="uppercase text-[#343a40] text-3xl pet-name border-t border-[#dee2e6] mt-5 pt-5">About</h2>
             <div className="mt-5 max-w-full whitespace-pre-wrap">
               <p className="about-text text-wrap">{about}</p>

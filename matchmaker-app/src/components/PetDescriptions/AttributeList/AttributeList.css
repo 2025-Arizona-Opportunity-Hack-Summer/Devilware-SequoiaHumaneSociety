@@ -1,0 +1,8 @@
+.attribute-item {
+  clip-path: polygon(20px 0%, 100% 0%, 100% 100%, 20px 100%, 0% 50%);
+  background-color: #ced4da;
+  padding: 10px 30px 10px 50px;
+  font-family: "Delius", cursive;
+  font-weight: 400;
+  font-style: normal;
+}

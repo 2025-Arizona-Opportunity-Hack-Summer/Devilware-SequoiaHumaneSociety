@@ -1,20 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
+import SessionStorage from "../../../../features/sessionStorage";
 
-function SpeciesFilter({ setFilter }) {
-  const [speciesFilter, setSpeciesFilter] = useState([]);
+import { speciesFilterSlice } from "../../../../redux/MatchedFilterSlice";
 
+function SpeciesFilter({ speciesFilter = [], setSpeciesFilter }) {
+  const dispatch = useDispatch();
   const species = ["Cat", "Dog", "Bird", "Hamster"];
 
   const onChangeSpeciesFilter = (event) => {
     const currSpecies = event.target.value;
+    let updatedFilter = [];
 
     if (speciesFilter.includes(currSpecies) === false) {
-      setSpeciesFilter((preState) => [...preState, currSpecies]);
+      updatedFilter = [...speciesFilter, currSpecies];
+      setSpeciesFilter((preState) => updatedFilter);
     } else {
-      setSpeciesFilter((preState) => preState.filter((speciesItem) => speciesItem != currSpecies));
+      updatedFilter = speciesFilter.filter((item) => item !== currSpecies);
+      setSpeciesFilter((preState) => updatedFilter);
     }
+
+    dispatch(speciesFilterSlice.actions.assign(updatedFilter));
+    SessionStorage.setItem("match-species-filter", updatedFilter);
   };
 
   const SpeciesCheckboxes = species.map((animal) => (

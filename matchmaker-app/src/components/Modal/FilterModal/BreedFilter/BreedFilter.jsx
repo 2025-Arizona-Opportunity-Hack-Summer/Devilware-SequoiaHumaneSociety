@@ -2,38 +2,26 @@ import { useEffect, useState } from "react";
 
 import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
 
-function BreedFilter() {
+function BreedFilter({ petList }) {
   const [breeds, setBreeds] = useState([]);
   const [breedFilter, setBreedFilter] = useState([]);
 
   useEffect(() => {
-    const API_BASE_URL = import.meta.env.VITE_API_URL;
-    const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
+    const st = new Set();
+    for (const pet of petList) {
+      for (const breed of pet.breed) {
+        st.add(breed);
+      }
+    }
 
-    const url = `${API_BASE_URL}/${PETS_ENDPOINT}`;
+    const uniqueBreed = [];
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        const st = new Set();
-        for (const pet of data.content) {
-          for (const breed of pet.breed) {
-            st.add(breed);
-          }
-        }
+    for (const pet of st) {
+      uniqueBreed.push(pet);
+    }
 
-        const uniqueBreed = [];
-
-        for (const pet of st) {
-          uniqueBreed.push(pet);
-        }
-
-        setBreeds((preState) => uniqueBreed);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+    setBreeds((preState) => uniqueBreed);
+  }, [petList]);
 
   if (breeds.length === 0) {
     return <></>;

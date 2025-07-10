@@ -86,3 +86,30 @@ mongoClient
 //   .catch((err) => {
 //     console.log(err);
 //   });
+
+const session = require('express-session');
+const passport = require('passport');
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Initialize Passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Add these routes
+app.get('/users/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+app.get(
+  '/users/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => {
+    // Successful authentication, redirect to frontend.
+    res.redirect('http://localhost:5173');
+  }
+);

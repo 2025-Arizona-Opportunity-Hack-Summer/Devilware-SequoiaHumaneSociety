@@ -1,5 +1,5 @@
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { GetObjectCommand } = require("@aws-sdk/client-s3");
+const { GetObjectCommand, $Command } = require("@aws-sdk/client-s3");
 
 const s3Client = require("../s3");
 const mongoClient = require("../database");
@@ -11,13 +11,25 @@ const Pet = require("../models/pet");
 require("dotenv").config();
 
 async function findPets(req, res, next) {
-  const { pet_id } = req.query;
+  let { pet_id, page, pageSize } = req.query;
   const filter = pet_id !== undefined ? { _id: ObjectId.createFromHexString(pet_id) } : {};
 
+  page = parseInt(page, 10) || 1; // pagination
+  pageSize = parseInt(pageSize, 10) || 100;
   try {
-    const pets = await mongoClient.getDB().collection("pets").find(filter).toArray();
+    const pipeline = [
+      { $match: filter },
+      {
+        $facet: {
+          metadata: [{ $count: "totalCount" }],
+          data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize }],
+        },
+      },
+    ];
 
-    for (const pet of pets) {
+    const pets = await mongoClient.getDB().collection("pets").aggregate(pipeline).toArray();
+
+    for (const pet of pets[0].data) {
       // const imagesUrl = [];
       const imagesUrlPromises = [];
 
@@ -31,12 +43,10 @@ async function findPets(req, res, next) {
         imagesUrlPromises.push(url);
       }
       pet.imagesURL = await Promise.all(imagesUrlPromises);
-      // await pet.save({ timestamps: false });
     }
 
-    res.status(200).json({ description: "Find pet successfully", content: pets });
+    res.status(200).json({ description: "Find pet successfully", content: pets[0].data, metadata: pets[0].metadata });
   } catch (err) {
-    console.log(err);
     res.status(400).json({ description: "Cannot find pet" });
   }
 }

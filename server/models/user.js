@@ -1,24 +1,41 @@
 const mongoose = require("mongoose");
 
-const Schema = mongoose.Schema;
-
-const UserSchema = new Schema(
+const UserSchema = new mongoose.Schema(
   {
+    googleId: {
+      type: String,
+      required: false,
+    },
+    displayName: {
+      type: String,
+      required: false,
+    },
+    firstName: {
+      type: String,
+      required: false,
+    },
+    lastName: {
+      type: String,
+      required: false,
+    },
+    image: {
+      type: String,
+    },
     email: {
       type: String,
-      require: true,
+      required: true,
       unique: true,
     },
     password: {
       type: String,
-      require: true,
+      required: false,
     },
     address: {
-      addressLine1: { type: String, require: true },
+      addressLine1: { type: String, required: false },
       addressLine2: { type: String },
-      city: { type: String, require: true },
-      state: { type: String, require: true },
-      zipCode: { type: String, require: true },
+      city: { type: String, required: false },
+      state: { type: String, required: false },
+      zipCode: { type: String, required: false },
     },
   },
   {

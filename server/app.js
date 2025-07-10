@@ -5,11 +5,17 @@ const path = require("path");
 // const { spawn } = require("child_process");
 const mongoose = require("mongoose");
 
+const passport = require('passport');
+const session = require('express-session');
+
 const mongoClient = require("./database");
 const userRoute = require("./routes/userRoute");
 const petRoute = require("./routes/petRoute");
 
 require("dotenv").config();
+
+// Passport config
+require('./config/passport')(passport);
 
 const app = express();
 
@@ -17,6 +23,19 @@ app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// Sessions
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
 
 const PYTHON_SCRIPTS_DIR = path.join(__dirname, "..", "ai");
 const SCRIPT_NAME = "python.py";

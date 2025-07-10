@@ -160,10 +160,10 @@ function SignIn() {
             <p className="text-center text-sm text-gray-700 mb-4">
               Don't have an account? <a href="" className="text-[#7c0f0f] hover:text-[#4F1818]">Sign up here.</a>
             </p>
-            <button className="w-full border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition duration-200 font-medium flex items-center justify-center">
-              <img src={googleLogo} alt="Google" className="w-5 h-5 mr-2" />
-              Sign in with Google
-            </button>
+            <a href="http://localhost:4041/users/auth/google" className="w-full border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition duration-200 font-medium flex items-center justify-center">
+                <img src={googleLogo} alt="Google" className="w-5 h-5 mr-2" />
+                Sign in with Google
+            </a>
           </div>
         </div>
       </div>

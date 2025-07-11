@@ -15,7 +15,7 @@ async function findPets(req, res, next) {
 
   if (pet_id !== undefined) {
     filter["_id"] = ObjectId.createFromHexString(pet_id);
-  } else if (species !== null) {
+  } else if (species !== undefined) {
     filter["species"] = species;
   }
 

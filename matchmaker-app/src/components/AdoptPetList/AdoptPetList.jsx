@@ -11,6 +11,8 @@ import catNav from "../../assets/images/cat-com.svg";
 import PetList from "../MatchedPets/PetList/PetList";
 import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
 
+import "./AdoptPetList.css";
+
 function AdoptPetList() {
   const { species } = useParams();
   const [petList, setPetList] = useState([]);
@@ -44,9 +46,17 @@ function AdoptPetList() {
 
   return (
     <>
-      <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-5 adopt-pet-list-root">
         <nav>
           <ul className="flex bg-[#7C0F0F] p-4 gap-2">
+            <li>
+              <Link
+                to="/adopt"
+                className="bg-[#adb5bd] text-white flex gap-2 px-6 py-2 font-bold hover:bg-black rounded-md duration-700">
+                <ArrowSVG />
+                <p>Back</p>
+              </Link>
+            </li>
             <li>
               <NavLink to="/adopt/cat" className={navLinkClass}>
                 <img src={catNav} alt="cat" className="w-6" />
@@ -100,4 +110,25 @@ function AdoptPetList() {
   );
 }
 
+function ArrowSVG() {
+  return (
+    <svg
+      className="w-6 h-6"
+      viewBox="-1 0 10 10"
+      id="meteor-icon-kit__regular-long-arrow-down-xs"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      transform="rotate(90)">
+      <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
+      <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
+      <g id="SVGRepo_iconCarrier">
+        <path
+          fillRule="evenodd"
+          clipRule="evenodd"
+          d="M5 6.5858L6.2929 5.2929C6.6834 4.9024 7.3166 4.9024 7.7071 5.2929C8.0976 5.6834 8.0976 6.3166 7.7071 6.7071L4.7071 9.7071C4.3166 10.0976 3.6834 10.0976 3.2929 9.7071L0.29289 6.7071C-0.09763 6.3166 -0.09763 5.6834 0.29289 5.2929C0.68342 4.9024 1.31658 4.9024 1.70711 5.2929L3 6.5858V1C3 0.44772 3.4477 0 4 0C4.5523 0 5 0.44772 5 1V6.5858z"
+          fill="#fff"></path>
+      </g>
+    </svg>
+  );
+}
 export default AdoptPetList;

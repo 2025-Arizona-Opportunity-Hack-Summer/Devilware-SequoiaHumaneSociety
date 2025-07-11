@@ -2,15 +2,14 @@ import { useState } from "react";
 
 import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
 
-function ActiveLevelsFilter() {
-  const [activeLevelsFilter, setActiveLevelsFilter] = useState([]);
+function ActiveLevelsFilter({ activeLevelFilter, setActiveLevelFilter }) {
   const onChangeActiveLevelsFilter = (event) => {
     const currActiveLevel = event.target.value;
 
-    if (activeLevelsFilter.includes(currActiveLevel) === false) {
-      setActiveLevelsFilter((preState) => [...preState, currActiveLevel]);
+    if (activeLevelFilter.includes(currActiveLevel) === false) {
+      setActiveLevelFilter((preState) => [...preState, currActiveLevel]);
     } else {
-      setActiveLevelsFilter((preState) => preState.filter((speciesItem) => speciesItem != currActiveLevel));
+      setActiveLevelFilter((preState) => preState.filter((speciesItem) => speciesItem != currActiveLevel));
     }
   };
 
@@ -22,7 +21,7 @@ function ActiveLevelsFilter() {
       value={level}
       inputStyle="hidden checkbox-question-input"
       labelStyle="checkbox-question-label text-center flex-grow"
-      checked={activeLevelsFilter.includes(level)}
+      checked={activeLevelFilter.includes(level)}
       onChangeHandler={onChangeActiveLevelsFilter}
       key={`filter_${level}`}>
       {level}

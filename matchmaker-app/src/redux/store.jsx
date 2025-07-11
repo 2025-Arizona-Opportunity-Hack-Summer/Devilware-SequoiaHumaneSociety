@@ -2,12 +2,12 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 
 import MatchFormSlice from "./MatchFormSlice";
 import MatchedPetSlice from "./MatchedPetSlice";
-import MatchedFilterSlice from "./MatchedFilterSlice";
+// import MatchedFilterSlice from "./MatchedFilterSlice";
 
 const reducers = {
   ...MatchFormSlice,
   ...MatchedPetSlice,
-  ...MatchedFilterSlice,
+  // ...MatchedFilterSlice,
 };
 
 const rootReducer = combineReducers(reducers);

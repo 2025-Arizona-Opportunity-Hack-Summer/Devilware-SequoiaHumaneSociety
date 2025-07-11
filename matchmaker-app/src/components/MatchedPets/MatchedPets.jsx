@@ -5,6 +5,8 @@ import FilterModal from "../Modal/FilterModal/FilterModal";
 import GoBackButton from "./GoBackButton/GoBackButton";
 import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
 import PetList from "./PetList/PetList";
+import FilterList from "./FilterList/FilterList";
+
 import InputText from "../Input/InputText/InputText";
 import InputButton from "../Input/InputButton/InputButton";
 
@@ -20,6 +22,11 @@ function MatchedPets({ visible, setIsQuestionPage }) {
   const [visibleSignIn, setVisibleSignIn] = useState(false);
   const [searchPet, setSearchPet] = useState("");
   const [petList, setPetList] = useState(petListRedux);
+  const [speciesFilter, setSpeciesFilter] = useState([]);
+  const [breedFilter, setBreedFilter] = useState([]);
+  const [activeLevelFilter, setActiveLevelFilter] = useState([]);
+  const [sizeFilter, setSizeFilter] = useState([]);
+  const [sortFilter, setSortFilter] = useState("");
 
   useEffect(() => {
     setPetList((preState) => petListRedux);
@@ -51,6 +58,22 @@ function MatchedPets({ visible, setIsQuestionPage }) {
   const onClickResetSearchPet = () => {
     setSearchPet((preState) => "");
     setPetList((preState) => petListRedux);
+  };
+
+  const filterValue = {
+    speciesFilter,
+    breedFilter,
+    activeLevelFilter,
+    sizeFilter,
+    sortFilter,
+  };
+
+  const setFilterValue = {
+    setSpeciesFilter,
+    setBreedFilter,
+    setActiveLevelFilter,
+    setSizeFilter,
+    setSortFilter,
   };
   return (
     <>
@@ -91,9 +114,15 @@ function MatchedPets({ visible, setIsQuestionPage }) {
             Filter
           </InputButton>
         </div>
+        <FilterList filterValue={filterValue} />
         <PetList petList={petList} className="mt-10" setVisibleSignIn={setVisibleSignIn} />
       </div>
-      <FilterModal visible={visibleFilter} setVisibleFilter={setVisibleFilter} />
+      <FilterModal
+        visible={visibleFilter}
+        setVisibleFilter={setVisibleFilter}
+        filterValue={filterValue}
+        setFilterValue={setFilterValue}
+      />
       <RequiredSignInModal visible={visibleSignIn} setVisible={setVisibleSignIn} />
     </>
   );

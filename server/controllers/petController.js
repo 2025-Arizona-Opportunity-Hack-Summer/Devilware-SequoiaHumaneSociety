@@ -1,9 +1,8 @@
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { GetObjectCommand, $Command } = require("@aws-sdk/client-s3");
+const { GetObjectCommand } = require("@aws-sdk/client-s3");
 
 const s3Client = require("../s3");
 const mongoClient = require("../database");
-const mongodb = require("mongodb");
 const { ObjectId } = require("mongodb");
 
 const Pet = require("../models/pet");

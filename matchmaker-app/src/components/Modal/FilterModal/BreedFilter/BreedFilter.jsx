@@ -2,9 +2,8 @@ import { useEffect, useState } from "react";
 
 import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
 
-function BreedFilter({ petList }) {
+function BreedFilter({ petList, breedFilter, setBreedFilter }) {
   const [breeds, setBreeds] = useState([]);
-  const [breedFilter, setBreedFilter] = useState([]);
 
   useEffect(() => {
     const st = new Set();
@@ -31,10 +30,12 @@ function BreedFilter({ petList }) {
     const currBreed = event.target.value;
 
     if (breedFilter.includes(currBreed) === false) {
-      setBreedFilter((preState) => [...preState, currBreed]);
+      setBreedFilter((preState) => [...breedFilter, currBreed]);
     } else {
-      setBreedFilter((preState) => preState.filter((speciesItem) => speciesItem != currBreed));
+      setBreedFilter((preState) => preState.filter((item) => item !== currBreed));
     }
+
+    // dispatch(speciesFilterSlice.actions.assign(updatedFilter));
   };
 
   const BreedCheckboxes = breeds.map((breed) => (
@@ -43,6 +44,7 @@ function BreedFilter({ petList }) {
       value={breed}
       inputStyle="hidden checkbox-question-input"
       labelStyle="checkbox-question-label text-center flex-grow"
+      style={{ fontFamily: "Delius, cursive", fontWeight: 400 }}
       checked={breedFilter.includes(breed)}
       onChangeHandler={onChangeBreedFilter}
       key={`filter_${breed}`}>

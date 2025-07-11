@@ -2,9 +2,7 @@ import { useState } from "react";
 
 import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
 
-function SizeFilter() {
-  const [sizeFilter, setSizeFilter] = useState([]);
-
+function SizeFilter({ sizeFilter, setSizeFilter }) {
   const onChangSizeFilter = (event) => {
     const currActiveLevel = event.target.value;
 

@@ -2,7 +2,7 @@ import { useState } from "react";
 
 import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
 
-function SortFilter() {
+function SortFilter({ sortFilter, setSortFilter }) {
   const [stay, setStay] = useState("");
   const [alphabetical, setAlphabetical] = useState("");
 
@@ -17,10 +17,10 @@ function SortFilter() {
   };
 
   const onChangAlphabetical = (value = "") => {
-    if (value === alphabetical) {
-      setAlphabetical((preState) => "");
+    if (value === sortFilter) {
+      setSortFilter((preState) => "");
     } else {
-      setAlphabetical((preState) => value);
+      setSortFilter((preState) => value);
     }
   };
 
@@ -38,7 +38,7 @@ function SortFilter() {
     if (item === "Shortest Stay" || item === "Longest Stay") {
       return stay === item;
     } else {
-      return alphabetical === item;
+      return sortFilter === item;
     }
   }
   const SortsCheckboxes = sorts.map((item) => (

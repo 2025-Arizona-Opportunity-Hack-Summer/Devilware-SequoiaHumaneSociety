@@ -15,10 +15,13 @@ import { petListSlice } from "../../../redux/MatchedPetSlice";
 
 import { filterPet } from "../../../features/filterPet";
 
-function FilterModal({ visible, setVisibleFilter }) {
+function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue }) {
   const dispatch = useDispatch();
-  const [speciesFilter, setSpeciesFilter] = useState([]);
+
   const [petList, setPetList] = useState([]); // only use for filter not for display
+
+  const { speciesFilter, breedFilter, activeLevelFilter, sizeFilter, sortFilter } = filterValue;
+  const { setSpeciesFilter, setBreedFilter, setActiveLevelFilter, setSizeFilter, setSortFilter } = setFilterValue;
 
   useEffect(() => {
     const API_BASE_URL = import.meta.env.VITE_API_URL;
@@ -37,7 +40,38 @@ function FilterModal({ visible, setVisibleFilter }) {
           setSpeciesFilter((preState) => storedSpeciesFilter);
         }
 
-        const updatedList = filterPet(data.content, storedSpeciesFilter, null);
+        const storedBreedFilter = SessionStorage.getItem("match-breed-filter");
+
+        if (storedBreedFilter !== null) {
+          setBreedFilter((preState) => storedBreedFilter);
+        }
+
+        const storedActiveLevelFilter = SessionStorage.getItem("match-active-level-filter");
+
+        if (storedActiveLevelFilter !== null) {
+          setActiveLevelFilter((preState) => storedActiveLevelFilter);
+        }
+
+        const storedSizeFilter = SessionStorage.getItem("match-size-filter");
+
+        if (storedSizeFilter !== null) {
+          setSizeFilter((preState) => storedSizeFilter);
+        }
+
+        const storedSortFilter = SessionStorage.getItem("match-sort-filter");
+
+        if (storedSortFilter !== null) {
+          setSortFilter((preState) => storedSortFilter);
+        }
+
+        const updatedList = filterPet(
+          data.content,
+          storedSpeciesFilter,
+          storedBreedFilter,
+          storedActiveLevelFilter,
+          sizeFilter,
+          storedSortFilter
+        );
         dispatch(petListSlice.actions.assign(updatedList));
       })
       .catch((err) => {
@@ -49,36 +83,58 @@ function FilterModal({ visible, setVisibleFilter }) {
     setVisibleFilter((preState) => false);
   };
 
-  // xl:w-[80vw] xl:left-1/2 xl:-translate-x-1/2
-
   const onClickApplyFilter = () => {
-    const updatedList = filterPet(petList, speciesFilter, null);
+    const updatedList = filterPet(petList, speciesFilter, breedFilter, activeLevelFilter, sizeFilter, sortFilter);
+    SessionStorage.setItem("match-species-filter", speciesFilter);
+    SessionStorage.setItem("match-breed-filter", breedFilter);
+    SessionStorage.setItem("match-active-level-filter", activeLevelFilter);
+    SessionStorage.setItem("match-size-filter", sizeFilter);
+    SessionStorage.setItem("match-sort-filter", sortFilter);
     dispatch(petListSlice.actions.assign(updatedList));
     onClickCloseFilter();
   };
 
+  const onClickClearAll = () => {
+    const updatedList = filterPet(petList, [], [], [], [], "");
+    setSpeciesFilter((preState) => []);
+    setBreedFilter((preState) => []);
+    setActiveLevelFilter((preState) => []);
+    setSizeFilter((preState) => []);
+    setSortFilter((preState) => "");
+    SessionStorage.removeItem("match-species-filter");
+    SessionStorage.removeItem("match-breed-filter");
+    SessionStorage.removeItem("match-active-level-filter");
+    SessionStorage.removeItem("match-size-filter");
+    SessionStorage.removeItem("match-sort-filter");
+    dispatch(petListSlice.actions.assign(updatedList));
+    onClickCloseFilter();
+  };
   return (
     <Modal visible={visible} className={"root-modal-close"}>
       <div className="bg-white absolute w-full bottom-0 p-6 px-20 filter-modal">
         <div className="flex justify-between items-center">
-          <InputButton
-            id="closeFilterModal"
-            onClickHandler={onClickCloseFilter}
-            inputStyle="hidden"
-            labelStyle="text-[#7C0F0F] font-semibold cursor-pointer hover:text-[#C1272D]">
+          <button
+            className="cursor-pointer hover:bg-[#7C0F0F] bg-[#adb5bd] py-1 px-2 rounded-md text-white font-semibold"
+            onClick={onClickCloseFilter}>
             x
-          </InputButton>
+          </button>
 
-          <h3 className="text-xl font-semibold">Filter</h3>
-          <p className="cursor-pointer hover:text-[#7C0F0F]">Clear All</p>
+          <h3 className="text-3xl font-semibold" style={{ fontFamily: "Delius, cursive", fontWeight: 400 }}>
+            Filter
+          </h3>
+          <button
+            className="cursor-pointer hover:bg-[#7C0F0F] bg-[#adb5bd] px-4 py-2 rounded-md text-white font-semibold"
+            onClick={onClickClearAll}>
+            Clear All
+          </button>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col gap-2 mt-5">
           <div className="flex flex-col justify-start gap-5">
             <SpeciesFilter speciesFilter={speciesFilter} setSpeciesFilter={setSpeciesFilter} />
-            <BreedFilter petList={petList} />
-            <ActiveLevelsFilter />
-            <SizeFilter />
-            <SortFilter />
+            <BreedFilter petList={petList} breedFilter={breedFilter} setBreedFilter={setBreedFilter} />
+            <ActiveLevelsFilter activeLevelFilter={activeLevelFilter} setActiveLevelFilter={setActiveLevelFilter} />
+            <SizeFilter sizeFilter={sizeFilter} setSizeFilter={setSizeFilter} />
+            <SortFilter sortFilter={sortFilter} setSortFilter={setSortFilter} />
           </div>
         </div>
         <InputButton

@@ -10,8 +10,14 @@ const Pet = require("../models/pet");
 require("dotenv").config();
 
 async function findPets(req, res, next) {
-  let { pet_id, page, pageSize } = req.query;
-  const filter = pet_id !== undefined ? { _id: ObjectId.createFromHexString(pet_id) } : {};
+  let { pet_id, page, pageSize, species } = req.query;
+  const filter = {};
+
+  if (pet_id !== undefined) {
+    filter["_id"] = ObjectId.createFromHexString(pet_id);
+  } else if (species !== null) {
+    filter["species"] = species;
+  }
 
   page = parseInt(page, 10) || 1; // pagination
   pageSize = parseInt(pageSize, 10) || 100;

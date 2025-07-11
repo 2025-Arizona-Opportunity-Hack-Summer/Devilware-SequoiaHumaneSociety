@@ -44,7 +44,6 @@ function BreedFilter({ petList, breedFilter, setBreedFilter }) {
       value={breed}
       inputStyle="hidden checkbox-question-input"
       labelStyle="checkbox-question-label text-center flex-grow"
-      style={{ fontFamily: "Delius, cursive", fontWeight: 400 }}
       checked={breedFilter.includes(breed)}
       onChangeHandler={onChangeBreedFilter}
       key={`filter_${breed}`}>

@@ -3,12 +3,13 @@ import { useState } from "react";
 import InputCheckboxSelection from "./InputCheckboxSelection/InputCheckboxSelection";
 
 function AdoptFilter({ breedList = [], setFilter, filterValue }) {
-  const { breedFilter, activeLevelFiter } = filterValue;
-  const { setBreedFilter, setActiveLevelFilter } = setFilter;
+  const { breedFilter, activeLevelFiter, sizeFilter } = filterValue;
+  const { setBreedFilter, setActiveLevelFilter, setSizeFilter } = setFilter;
   const [visibleBreedSelection, setVisibleBreedSelection] = useState(false);
   const [visibleActiveLevelSelection, setActiveLevelSelection] = useState(false);
+  const [visibleSizeSelection, setVisibleSizeSelection] = useState(false);
 
-  const visibleSelection = [setVisibleBreedSelection, setActiveLevelSelection];
+  const visibleSelection = [setVisibleBreedSelection, setActiveLevelSelection, setVisibleSizeSelection];
 
   const openSelection = (type, value) => {
     visibleSelection.forEach((selection) => {
@@ -42,6 +43,15 @@ function AdoptFilter({ breedList = [], setFilter, filterValue }) {
         setValues={setActiveLevelFilter}
         visibleList={visibleActiveLevelSelection}
         onClickButton={openSelection.bind(null, setActiveLevelSelection, visibleActiveLevelSelection)}
+      />
+      <InputCheckboxSelection
+        title="sizes"
+        dataList={["Large", "Medium", "Small"]}
+        id="size"
+        values={sizeFilter}
+        setValues={setSizeFilter}
+        visibleList={visibleSizeSelection}
+        onClickButton={openSelection.bind(null, setVisibleSizeSelection, visibleSizeSelection)}
       />
     </div>
   );

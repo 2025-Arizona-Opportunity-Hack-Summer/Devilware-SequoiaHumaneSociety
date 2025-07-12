@@ -24,7 +24,10 @@ function AdoptPetList() {
   const [breedList, setBreedList] = useState([]);
   const [breedFilter, setBreedFilter] = useState([]);
   const [activeLevelFiter, setActiveLevelFilter] = useState([]);
+  const [sizeFilter, setSizeFilter] = useState([]);
+
   const [visibleRequiredSignIn, setVisibleRequiredSignIn] = useState(false);
+  const [visibleNavList, setVisibleNavList] = useState(false);
 
   useEffect(() => {
     const API_BASE_URL = import.meta.env.VITE_API_URL;
@@ -44,15 +47,18 @@ function AdoptPetList() {
         setBreedList((preState) => data.breeds);
         setBreedFilter((preState) => []);
         setActiveLevelFilter((preState) => []);
+        setSizeFilter((preState) => []);
         const storedSpecies = SessionStorage.getItem("adopt-pet-species");
 
         if (storedSpecies === null || storedSpecies !== species) {
           SessionStorage.setItem("adopt-pet-species", species);
           SessionStorage.setItem("adopt-pet-breed", []);
           SessionStorage.setItem("adopt-pet-active-level", []);
+          SessionStorage.setItem("adopt-pet-size", []);
         } else {
           setBreedFilter((preState) => SessionStorage.getItem("adopt-pet-breed"));
           setActiveLevelFilter((preState) => SessionStorage.getItem("adopt-pet-active-level"));
+          setSizeFilter((preState) => SessionStorage.getItem("adopt-pet-size"));
         }
       })
       .catch((err) => {
@@ -62,41 +68,62 @@ function AdoptPetList() {
 
   useEffect(() => {
     setPetList((preState) => filterPet(originalPetList, [], breedFilter));
-  }, [breedFilter, activeLevelFiter]);
+  }, [breedFilter, activeLevelFiter, sizeFilter]);
   const navLinkClass = ({ isActive }) =>
-    `flex gap-2 px-6 py-2 font-bold border-2 rounded-3xl hover:bg-white hover:border-black ${
-      isActive ? "bg-white border-black " : "border-transparent"
-    }`;
+    `flex gap-2 px-6 py-2 font-bold border-2 rounded-md hover:bg-white hover:border-black border-transparent`;
 
-  const filterValue = { breedFilter, activeLevelFiter };
-  const setFilter = { setBreedFilter, setActiveLevelFilter };
+  const filterValue = { breedFilter, activeLevelFiter, sizeFilter };
+  const setFilter = { setBreedFilter, setActiveLevelFilter, setSizeFilter };
 
+  const onClickToggle = () => {
+    setVisibleNavList((preState) => !preState);
+  };
   return (
     <>
       <div className="flex flex-col gap-5 adopt-pet-list-root">
         <nav>
-          <ul className="flex bg-[#7C0F0F] p-4 gap-2">
-            <li>
-              <Link
-                to="/adopt"
-                className="bg-[#7C0F0F] text-[#495057] flex gap-2 px-6 py-2 font-bold rounded-md hover:text-[#fff] group hover:bg-[#C1272D]">
-                <ArrowSVG />
-                <p>Back</p>
-              </Link>
-            </li>
-            <li>
-              <NavLink to="/adopt/cat" className={navLinkClass}>
-                <img src={catNav} alt="cat" className="w-6" />
-                <p>Cat</p>
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/adopt/dog" className={navLinkClass}>
-                <img src={dogNav} alt="dog" className="w-6" />
-                <p>Dog</p>
-              </NavLink>
-            </li>
-          </ul>
+          <div className="flex bg-[#7C0F0F] p-4 gap-2">
+            <Link
+              to="/adopt"
+              className="bg-[#7C0F0F] text-[#495057] flex gap-2 px-6 py-2 font-bold rounded-md hover:text-[#fff] group hover:bg-[#C1272D]">
+              <ArrowSVG />
+              <p>Adopt page</p>
+            </Link>
+            <div className="relative w-max">
+              <button
+                className="flex gap-2 px-6 py-2 font-bold border-2 rounded-md bg-white border-black w-full cursor-pointer"
+                onClick={onClickToggle}>
+                {species === "cat" && (
+                  <>
+                    <img src={catNav} alt="cat" className="w-6" />
+                    <p>Cat</p>
+                  </>
+                )}
+                {species === "dog" && (
+                  <>
+                    <img src={dogNav} alt="dog" className="w-6" />
+                    <p>Dog</p>
+                  </>
+                )}
+              </button>
+              {visibleNavList && (
+                <div className="absolute bg-[#7C0F0F] rounded-md w-full">
+                  {species !== "cat" && (
+                    <NavLink to="/adopt/cat" className={navLinkClass} onClick={() => setVisibleNavList(false)}>
+                      <img src={catNav} alt="cat" className="w-6" />
+                      <p>Cat</p>
+                    </NavLink>
+                  )}
+                  {species !== "dog" && (
+                    <NavLink to="/adopt/dog" className={navLinkClass} onClick={() => setVisibleNavList(false)}>
+                      <img src={dogNav} alt="dog" className="w-6" />
+                      <p>Dog</p>
+                    </NavLink>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
         </nav>
         <div className="flex gap-10 mx-20">
           <div className="flex flex-col gap-20">
@@ -132,7 +159,7 @@ function AdoptPetList() {
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <AdoptFilterList breedFilter={breedFilter} activeLevelFilter={activeLevelFiter} />
+            <AdoptFilterList breedFilter={breedFilter} activeLevelFilter={activeLevelFiter} sizeFilter={sizeFilter} />
             <PetList petList={petList} setVisibleSignIn={setVisibleRequiredSignIn} />
           </div>
         </div>

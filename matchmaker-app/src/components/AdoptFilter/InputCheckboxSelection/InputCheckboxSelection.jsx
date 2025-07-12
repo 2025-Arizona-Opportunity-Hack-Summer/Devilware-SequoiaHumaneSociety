@@ -20,6 +20,8 @@ function InputCheckboxSelection({ dataList = [], id, setValues, values = [], tit
       SessionStorage.setItem("adopt-pet-breed", updatedValues);
     } else if (title === "active levels") {
       SessionStorage.setItem("adopt-pet-active-level", updatedValues);
+    } else if (title === "sizes") {
+      SessionStorage.setItem("adopt-pet-size", updatedValues);
     }
   };
   const dataListCheckBox = dataList.map((item) => (

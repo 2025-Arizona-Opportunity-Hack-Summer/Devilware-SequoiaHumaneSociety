@@ -1,8 +1,9 @@
-function AdoptFilterList({ breedFilter, activeLevelFilter }) {
+function AdoptFilterList({ breedFilter, activeLevelFilter, sizeFilter }) {
   return (
     <div className="flex gap-2">
       <AdopterFilterItem filterList={breedFilter} />
       <AdopterFilterItem filterList={activeLevelFilter} />
+      <AdopterFilterItem filterList={sizeFilter} />
     </div>
   );
 }

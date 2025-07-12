@@ -1,7 +1,7 @@
 function AdoptFilterList({ breedFilter }) {
   return (
     <div>
-      <AdopterFilterItem filterList={breedFilter} title="Breeds" />
+      <AdopterFilterItem filterList={breedFilter} />
     </div>
   );
 }
@@ -19,7 +19,6 @@ function AdopterFilterItem({ filterList = [], title }) {
 
   return (
     <div className="flex gap-2 items-center">
-      <p className="font-semibold">{title}</p>
       <ul className="flex gap-2">{filterItem}</ul>
     </div>
   );

@@ -12,12 +12,15 @@ import PetList from "../MatchedPets/PetList/PetList";
 import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
 import AdoptFilterList from "../AdoptFilterList/AdoptFilterList";
 import AdoptFilter from "../AdoptFilter/AdoptFilter";
+import SessionStorage from "../../features/sessionStorage";
+import { filterPet } from "../../features/filterPet";
 
 import "./AdoptPetList.css";
 
 function AdoptPetList() {
   const { species } = useParams();
-  const [petList, setPetList] = useState([]);
+  const [originalPetList, setOriginalPetList] = useState([]);
+  const [petList, setPetList] = useState();
   const [breedList, setBreedList] = useState([]);
   const [breedFilter, setBreedFilter] = useState([]);
   const [visibleRequiredSignIn, setVisibleRequiredSignIn] = useState(false);
@@ -36,15 +39,26 @@ function AdoptPetList() {
     fetch(url)
       .then((response) => response.json())
       .then((data) => {
-        setPetList((preState) => data.content);
+        setOriginalPetList((preState) => data.content);
         setBreedList((preState) => data.breeds);
         setBreedFilter((preState) => []);
+        const storedSpecies = SessionStorage.getItem("adopt-pet-species");
+
+        if (storedSpecies !== null && storedSpecies !== species) {
+          SessionStorage.setItem("adopt-pet-species", species);
+          SessionStorage.setItem("adopt-pet-breed", []);
+        } else {
+          setBreedFilter((preState) => SessionStorage.getItem("adopt-pet-breed"));
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   }, [species]);
 
+  useEffect(() => {
+    setPetList((preState) => filterPet(originalPetList, [], breedFilter));
+  }, [breedFilter]);
   const navLinkClass = ({ isActive }) =>
     `flex gap-2 px-6 py-2 font-bold border-2 rounded-3xl hover:bg-white hover:border-black ${
       isActive ? "bg-white border-black " : "border-transparent"

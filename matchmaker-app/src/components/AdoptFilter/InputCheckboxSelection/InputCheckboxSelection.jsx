@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import "./InputCheckboxSelection.css";
+import SessionStorage from "../../../features/sessionStorage";
 
 function InputCheckboxSelection({ dataList = [], id, setValues, values = [], title }) {
   const [visibleList, setVisibleList] = useState(false);
@@ -8,11 +9,16 @@ function InputCheckboxSelection({ dataList = [], id, setValues, values = [], tit
   const onChangeValue = (event) => {
     const currValue = event.target.value;
 
+    let updatedValues = [];
     if (values.includes(currValue) === false) {
-      setValues((preState) => [...preState, currValue]);
+      updatedValues = [...values, currValue];
+      setValues((preState) => updatedValues);
     } else {
+      updatedValues = values.filter((item) => item !== currValue);
       setValues((preState) => preState.filter((item) => item !== currValue));
     }
+
+    SessionStorage.setItem("adopt-pet-breed", updatedValues);
   };
   const dataListCheckBox = dataList.map((item) => (
     <li className="flex flex-row justify-between cursor-pointer">

@@ -23,6 +23,7 @@ function AdoptPetList() {
   const [petList, setPetList] = useState();
   const [breedList, setBreedList] = useState([]);
   const [breedFilter, setBreedFilter] = useState([]);
+  const [activeLevelFiter, setActiveLevelFilter] = useState([]);
   const [visibleRequiredSignIn, setVisibleRequiredSignIn] = useState(false);
 
   useEffect(() => {
@@ -42,13 +43,16 @@ function AdoptPetList() {
         setOriginalPetList((preState) => data.content);
         setBreedList((preState) => data.breeds);
         setBreedFilter((preState) => []);
+        setActiveLevelFilter((preState) => []);
         const storedSpecies = SessionStorage.getItem("adopt-pet-species");
 
-        if (storedSpecies !== null && storedSpecies !== species) {
+        if (storedSpecies === null || storedSpecies !== species) {
           SessionStorage.setItem("adopt-pet-species", species);
           SessionStorage.setItem("adopt-pet-breed", []);
+          SessionStorage.setItem("adopt-pet-active-level", []);
         } else {
           setBreedFilter((preState) => SessionStorage.getItem("adopt-pet-breed"));
+          setActiveLevelFilter((preState) => SessionStorage.getItem("adopt-pet-active-level"));
         }
       })
       .catch((err) => {
@@ -58,14 +62,15 @@ function AdoptPetList() {
 
   useEffect(() => {
     setPetList((preState) => filterPet(originalPetList, [], breedFilter));
-  }, [breedFilter]);
+  }, [breedFilter, activeLevelFiter]);
   const navLinkClass = ({ isActive }) =>
     `flex gap-2 px-6 py-2 font-bold border-2 rounded-3xl hover:bg-white hover:border-black ${
       isActive ? "bg-white border-black " : "border-transparent"
     }`;
 
-  const filterValue = { breedFilter };
-  const setFilter = { setBreedFilter };
+  const filterValue = { breedFilter, activeLevelFiter };
+  const setFilter = { setBreedFilter, setActiveLevelFilter };
+
   return (
     <>
       <div className="flex flex-col gap-5 adopt-pet-list-root">
@@ -127,7 +132,7 @@ function AdoptPetList() {
             </div>
           </div>
           <div className="flex flex-col gap-5">
-            <AdoptFilterList breedFilter={breedFilter} />
+            <AdoptFilterList breedFilter={breedFilter} activeLevelFilter={activeLevelFiter} />
             <PetList petList={petList} setVisibleSignIn={setVisibleRequiredSignIn} />
           </div>
         </div>

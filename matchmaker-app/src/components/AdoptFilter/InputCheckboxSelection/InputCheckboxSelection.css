@@ -68,3 +68,16 @@
 .checkbox-wrapper input[type="checkbox"]:checked + label p {
   color: #4f2edc;
 }
+
+.list-option {
+  animation: open-list 500ms ease;
+}
+
+@keyframes open-list {
+  from {
+    opacity: 0%;
+  }
+  to {
+    opacity: 100%;
+  }
+}

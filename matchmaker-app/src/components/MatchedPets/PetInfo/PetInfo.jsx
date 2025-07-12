@@ -55,7 +55,7 @@ function PetInfo({ pet, setVisibleSignIn }) {
             fontStyle: "normal",
             fontWeight: 600,
           }}
-          className="max-w-50 overflow-hidden whitespace-nowrap text-ellipsis text-[#a06cd5]">
+          className="max-w-50 overflow-hidden whitespace-nowrap text-ellipsis text-[#4f2edc]">
           {species} &#x2022; {breed.join(" ")}
         </p>
       </div>

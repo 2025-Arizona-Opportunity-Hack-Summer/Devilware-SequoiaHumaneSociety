@@ -1,0 +1,28 @@
+function AdoptFilterList({ breedFilter }) {
+  return (
+    <div>
+      <AdopterFilterItem filterList={breedFilter} title="Breeds" />
+    </div>
+  );
+}
+
+function AdopterFilterItem({ filterList = [], title }) {
+  const filterItem = filterList.map((item) => (
+    <li key={item} className="bg-[#7C0F0F] text-white px-3 py-2 rounded-md">
+      {item}
+    </li>
+  ));
+
+  if (filterList.length === 0) {
+    return <></>;
+  }
+
+  return (
+    <div className="flex gap-2 items-center">
+      <p className="font-semibold">{title}</p>
+      <ul className="flex gap-2">{filterItem}</ul>
+    </div>
+  );
+}
+
+export default AdoptFilterList;

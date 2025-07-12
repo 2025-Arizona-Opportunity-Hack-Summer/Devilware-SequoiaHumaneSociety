@@ -28,6 +28,12 @@ async function findPets(req, res, next) {
         $facet: {
           metadata: [{ $count: "totalCount" }],
           data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize }],
+          breeds: [
+            { $unwind: "$breed" },
+            { $group: { _id: "$breed" } },
+            { $group: { _id: null, values: { $addToSet: "$_id" } } },
+            { $project: { _id: 0, values: 1 } },
+          ],
         },
       },
     ];
@@ -50,8 +56,14 @@ async function findPets(req, res, next) {
       pet.imagesURL = await Promise.all(imagesUrlPromises);
     }
 
-    res.status(200).json({ description: "Find pet successfully", content: pets[0].data, metadata: pets[0].metadata });
+    res.status(200).json({
+      description: "Find pet successfully",
+      content: pets[0].data,
+      metadata: pets[0].metadata,
+      breeds: pets[0].breeds[0].values,
+    });
   } catch (err) {
+    console.log(err);
     res.status(400).json({ description: "Cannot find pet" });
   }
 }

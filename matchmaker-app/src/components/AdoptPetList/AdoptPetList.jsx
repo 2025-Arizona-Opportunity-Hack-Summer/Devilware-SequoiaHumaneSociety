@@ -10,12 +10,16 @@ import catNav from "../../assets/images/cat-com.svg";
 
 import PetList from "../MatchedPets/PetList/PetList";
 import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
+import AdoptFilterList from "../AdoptFilterList/AdoptFilterList";
+import AdoptFilter from "../AdoptFilter/AdoptFilter";
 
 import "./AdoptPetList.css";
 
 function AdoptPetList() {
   const { species } = useParams();
   const [petList, setPetList] = useState([]);
+  const [breedList, setBreedList] = useState([]);
+  const [breedFilter, setBreedFilter] = useState([]);
   const [visibleRequiredSignIn, setVisibleRequiredSignIn] = useState(false);
 
   useEffect(() => {
@@ -33,6 +37,8 @@ function AdoptPetList() {
       .then((response) => response.json())
       .then((data) => {
         setPetList((preState) => data.content);
+        setBreedList((preState) => data.breeds);
+        setBreedFilter((preState) => []);
       })
       .catch((err) => {
         console.log(err);
@@ -44,6 +50,8 @@ function AdoptPetList() {
       isActive ? "bg-white border-black " : "border-transparent"
     }`;
 
+  const filterValue = { breedFilter };
+  const setFilter = { setBreedFilter };
   return (
     <>
       <div className="flex flex-col gap-5 adopt-pet-list-root">
@@ -52,7 +60,7 @@ function AdoptPetList() {
             <li>
               <Link
                 to="/adopt"
-                className="bg-[#adb5bd] text-white flex gap-2 px-6 py-2 font-bold hover:bg-black rounded-md duration-700">
+                className="bg-[#7C0F0F] text-[#495057] flex gap-2 px-6 py-2 font-bold rounded-md hover:text-[#fff] group hover:bg-[#C1272D]">
                 <ArrowSVG />
                 <p>Back</p>
               </Link>
@@ -72,7 +80,7 @@ function AdoptPetList() {
           </ul>
         </nav>
         <div className="flex gap-10 mx-20">
-          <div>
+          <div className="flex flex-col gap-20">
             <div className="w-max shadow-2xl border-2 border-[#adb5bd] rounded-md flex flex-col items-center pt-6">
               <div className="rounded-2xl px-6">
                 <p
@@ -100,9 +108,14 @@ function AdoptPetList() {
                 </Link>
               </button>
             </div>
-            <div></div>
+            <div>
+              <AdoptFilter breedList={breedList} filterValue={filterValue} setFilter={setFilter} />
+            </div>
           </div>
-          <PetList petList={petList} setVisibleSignIn={setVisibleRequiredSignIn} />
+          <div className="flex flex-col gap-5">
+            <AdoptFilterList breedFilter={breedFilter} />
+            <PetList petList={petList} setVisibleSignIn={setVisibleRequiredSignIn} />
+          </div>
         </div>
       </div>
       <RequiredSignInModal visible={visibleRequiredSignIn} setVisible={setVisibleRequiredSignIn} />
@@ -126,7 +139,8 @@ function ArrowSVG() {
           fillRule="evenodd"
           clipRule="evenodd"
           d="M5 6.5858L6.2929 5.2929C6.6834 4.9024 7.3166 4.9024 7.7071 5.2929C8.0976 5.6834 8.0976 6.3166 7.7071 6.7071L4.7071 9.7071C4.3166 10.0976 3.6834 10.0976 3.2929 9.7071L0.29289 6.7071C-0.09763 6.3166 -0.09763 5.6834 0.29289 5.2929C0.68342 4.9024 1.31658 4.9024 1.70711 5.2929L3 6.5858V1C3 0.44772 3.4477 0 4 0C4.5523 0 5 0.44772 5 1V6.5858z"
-          fill="#fff"></path>
+          fill="#6c757d"
+          className="group-hover:fill-white"></path>
       </g>
     </svg>
   );

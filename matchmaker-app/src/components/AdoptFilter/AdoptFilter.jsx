@@ -34,6 +34,7 @@ function AdoptFilter({ breedList = [], setFilter, filterValue }) {
         setValues={setBreedFilter}
         visibleList={visibleBreedSelection}
         onClickButton={openSelection.bind(null, setVisibleBreedSelection, visibleBreedSelection)}
+        openDataList={visibleBreedSelection === true}
       />
       <InputCheckboxSelection
         title="active levels"
@@ -43,6 +44,7 @@ function AdoptFilter({ breedList = [], setFilter, filterValue }) {
         setValues={setActiveLevelFilter}
         visibleList={visibleActiveLevelSelection}
         onClickButton={openSelection.bind(null, setActiveLevelSelection, visibleActiveLevelSelection)}
+        openDataList={visibleActiveLevelSelection === true}
       />
       <InputCheckboxSelection
         title="sizes"
@@ -52,6 +54,7 @@ function AdoptFilter({ breedList = [], setFilter, filterValue }) {
         setValues={setSizeFilter}
         visibleList={visibleSizeSelection}
         onClickButton={openSelection.bind(null, setVisibleSizeSelection, visibleSizeSelection)}
+        openDataList={visibleSizeSelection === true}
       />
     </div>
   );

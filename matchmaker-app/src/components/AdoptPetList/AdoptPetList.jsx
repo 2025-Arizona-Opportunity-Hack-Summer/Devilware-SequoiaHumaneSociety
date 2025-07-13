@@ -25,7 +25,9 @@ function AdoptPetList() {
   const [breedFilter, setBreedFilter] = useState([]);
   const [activeLevelFiter, setActiveLevelFilter] = useState([]);
   const [sizeFilter, setSizeFilter] = useState([]);
+  const [sortFilter, setSortFilter] = useState("");
 
+  const [visibleSort, setVisibleSort] = useState(false);
   const [visibleRequiredSignIn, setVisibleRequiredSignIn] = useState(false);
   const [visibleNavList, setVisibleNavList] = useState(false);
 
@@ -48,6 +50,7 @@ function AdoptPetList() {
         setBreedFilter((preState) => []);
         setActiveLevelFilter((preState) => []);
         setSizeFilter((preState) => []);
+        setSortFilter((preState) => "");
         const storedSpecies = SessionStorage.getItem("adopt-pet-species");
 
         if (storedSpecies === null || storedSpecies !== species) {
@@ -55,10 +58,12 @@ function AdoptPetList() {
           SessionStorage.setItem("adopt-pet-breed", []);
           SessionStorage.setItem("adopt-pet-active-level", []);
           SessionStorage.setItem("adopt-pet-size", []);
+          SessionStorage.setItem("adopt-pet-sort", "");
         } else {
           setBreedFilter((preState) => SessionStorage.getItem("adopt-pet-breed"));
           setActiveLevelFilter((preState) => SessionStorage.getItem("adopt-pet-active-level"));
           setSizeFilter((preState) => SessionStorage.getItem("adopt-pet-size"));
+          setSortFilter((preState) => SessionStorage.getItem("adopt-pet-sort"));
         }
       })
       .catch((err) => {
@@ -67,8 +72,8 @@ function AdoptPetList() {
   }, [species]);
 
   useEffect(() => {
-    setPetList((preState) => filterPet(originalPetList, [], breedFilter));
-  }, [breedFilter, activeLevelFiter, sizeFilter]);
+    setPetList((preState) => filterPet(originalPetList, [], breedFilter, activeLevelFiter, sizeFilter, sortFilter));
+  }, [breedFilter, activeLevelFiter, sizeFilter, sortFilter]);
   const navLinkClass = ({ isActive }) =>
     `flex gap-2 px-6 py-2 font-bold border-2 rounded-md hover:bg-white hover:border-black border-transparent`;
 
@@ -77,6 +82,27 @@ function AdoptPetList() {
 
   const onClickToggle = () => {
     setVisibleNavList((preState) => !preState);
+  };
+
+  const onClickSortToggle = () => {
+    setVisibleSort((preState) => !preState);
+  };
+
+  const onClickSortFilter = (value) => {
+    setSortFilter((preState) => value);
+    setVisibleSort((preState) => false);
+    SessionStorage.setItem("adopt-pet-sort", value);
+  };
+
+  const onClickClearAll = () => {
+    setBreedFilter((preState) => []);
+    setActiveLevelFilter((preState) => []);
+    setSizeFilter((preState) => []);
+    setSortFilter((preState) => "");
+    SessionStorage.setItem("adopt-pet-breed", []);
+    SessionStorage.setItem("adopt-pet-active-level", []);
+    SessionStorage.setItem("adopt-pet-size", []);
+    SessionStorage.setItem("adopt-pet-sort", "");
   };
   return (
     <>
@@ -87,7 +113,7 @@ function AdoptPetList() {
               to="/adopt"
               className="bg-[#7C0F0F] text-[#495057] flex gap-2 px-6 py-2 font-bold rounded-md hover:text-[#fff] group hover:bg-[#C1272D]">
               <ArrowSVG />
-              <p>Adopt page</p>
+              <p>Adopt</p>
             </Link>
             <div className="relative w-max">
               <button
@@ -158,9 +184,53 @@ function AdoptPetList() {
               <AdoptFilter breedList={breedList} filterValue={filterValue} setFilter={setFilter} />
             </div>
           </div>
-          <div className="flex flex-col gap-5">
-            <AdoptFilterList breedFilter={breedFilter} activeLevelFilter={activeLevelFiter} sizeFilter={sizeFilter} />
-            <PetList petList={petList} setVisibleSignIn={setVisibleRequiredSignIn} />
+          <div className="w-full">
+            <div className="flex justify-between">
+              <AdoptFilterList
+                breedFilter={breedFilter}
+                activeLevelFilter={activeLevelFiter}
+                sizeFilter={sizeFilter}
+                onClickClearAll={onClickClearAll}
+              />
+              <div className="flex gap-3 items-center w-max">
+                <p className="font-semibold">Sort by</p>
+                <div className="relative">
+                  <button
+                    className="min-w-[139px] text-left px-2 py-2 cursor-pointer shadow-xl bg-[#ff] text-[#4f2edc] font-semibold border-[#4f2edc] border"
+                    onClick={onClickSortToggle}>
+                    {sortFilter === "" ? "Most relevance" : sortFilter}
+                  </button>
+                  {visibleSort && (
+                    <ul className="flex flex-col xl:max-h-52 overflow-y-auto overflow-x-hidden absolute z-20 shadow-2xl list-option w-max">
+                      <li className="flex flex-row justify-between cursor-pointer w-max">
+                        <button
+                          className="w-[139px] text-left border border-[#adb5bd] first:border-t p-2 bg-[#fff] cursor-pointer text-[#6c757d] font-semibold hover:text-[#4f2edc] hover:border-l-2 hover:border-l-[#4f2edc]"
+                          onClick={onClickSortFilter.bind(null, "")}>
+                          Most relevance
+                        </button>
+                      </li>
+                      <li className="flex flex-row justify-between cursor-pointer w-max">
+                        <button
+                          className="border border-[#adb5bd] first:border-t p-2 w-full bg-[#fff] cursor-pointer text-[#6c757d] font-semibold hover:text-[#4f2edc] hover:border-l-2 hover:border-l-[#4f2edc]"
+                          onClick={onClickSortFilter.bind(null, "Alphabetical A-Z")}>
+                          Alphabetical A-Z
+                        </button>
+                      </li>
+                      <li className="flex flex-row justify-between cursor-pointer">
+                        <button
+                          className="border border-[#adb5bd] first:border-t p-2 w-full bg-[#fff] cursor-pointer text-[#6c757d] font-semibold hover:text-[#4f2edc] hover:border-l-2 hover:border-l-[#4f2edc]"
+                          onClick={onClickSortFilter.bind(null, "Alphabetical Z-A")}>
+                          Alphabetical Z-A
+                        </button>
+                      </li>
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="mt-10">
+              <PetList petList={petList} setVisibleSignIn={setVisibleRequiredSignIn} />
+            </div>
           </div>
         </div>
       </div>

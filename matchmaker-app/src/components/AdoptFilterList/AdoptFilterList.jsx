@@ -1,9 +1,14 @@
-function AdoptFilterList({ breedFilter, activeLevelFilter, sizeFilter }) {
+function AdoptFilterList({ breedFilter, activeLevelFilter, sizeFilter, onClickClearAll }) {
   return (
     <div className="flex gap-2">
       <AdopterFilterItem filterList={breedFilter} />
       <AdopterFilterItem filterList={activeLevelFilter} />
       <AdopterFilterItem filterList={sizeFilter} />
+      {(breedFilter.length !== 0 || activeLevelFilter.length !== 0 || sizeFilter.length !== 0) && (
+        <button onClick={onClickClearAll} className="font-semibold text-[#7C0F0F] text-lg cursor-pointer">
+          Clear all
+        </button>
+      )}
     </div>
   );
 }

@@ -50,6 +50,10 @@
   pointer-events: none;
 }
 
+.checkbox-wrapper input[type="checkbox"]:checked + label {
+  border-left: #4f2edc 2px solid;
+}
+
 .checkbox-wrapper input[type="checkbox"]:checked + label .toggle:before {
   background: #947ada;
 }
@@ -81,3 +85,8 @@
     opacity: 100%;
   }
 }
+
+/*
+4f2edc
+947ada
+*/

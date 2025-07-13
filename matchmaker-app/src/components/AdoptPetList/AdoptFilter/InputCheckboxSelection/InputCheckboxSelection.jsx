@@ -1,6 +1,6 @@
 import "./InputCheckboxSelection.css";
-import SessionStorage from "../../../features/sessionStorage";
 
+import SessionStorage from "../../../../features/sessionStorage";
 /**
  * support selection of input[type=checkbox]
  * @param {[string]} dataList represents the list of options

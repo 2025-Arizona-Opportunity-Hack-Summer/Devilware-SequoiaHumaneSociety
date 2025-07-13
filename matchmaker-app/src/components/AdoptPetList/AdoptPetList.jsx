@@ -5,10 +5,10 @@ import PetList from "../MatchedPets/PetList/PetList";
 import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
 import GetToMatchPage from "./GetToMatchPage/GetToMatchPage";
 
-import AdoptFilter from "../AdoptFilter/AdoptFilter";
 import AdoptNavBar from "./AdoptNavBar/AdoptNavBar";
 import AdoptSortButton from "./AdoptSortButton/AdoptSortButton";
 import AdoptFilterResult from "./AdoptFilterResult/AdoptFilterResult";
+import AdoptFilter from "./AdoptFilter/AdoptFilter";
 
 import SessionStorage from "../../features/sessionStorage";
 import { filterPet } from "../../features/filterPet";

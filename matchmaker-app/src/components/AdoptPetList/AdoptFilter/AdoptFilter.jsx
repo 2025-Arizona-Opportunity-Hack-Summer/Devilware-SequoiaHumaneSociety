@@ -3,14 +3,21 @@ import { useState } from "react";
 import InputCheckboxSelection from "./InputCheckboxSelection/InputCheckboxSelection";
 
 function AdoptFilter({ breedList = [], setFilter, filterValue }) {
-  const { breedFilter, activeLevelFiter, sizeFilter } = filterValue;
-  const { setBreedFilter, setActiveLevelFilter, setSizeFilter } = setFilter;
-  const [visibleBreedSelection, setVisibleBreedSelection] = useState(false);
-  const [visibleActiveLevelSelection, setActiveLevelSelection] = useState(false);
-  const [visibleSizeSelection, setVisibleSizeSelection] = useState(false);
+  const { breedFilter, activeLevelFiter, sizeFilter } = filterValue; // destructing filter values
+  const { setBreedFilter, setActiveLevelFilter, setSizeFilter } = setFilter; // destructing set filter values
+  const [visibleBreedSelection, setVisibleBreedSelection] = useState(false); // represents visibility of breed filter selection
+  const [visibleActiveLevelSelection, setActiveLevelSelection] = useState(false); // represents visibility of active level filter selection
+  const [visibleSizeSelection, setVisibleSizeSelection] = useState(false); // represents visibility of size filter selection
 
-  const visibleSelection = [setVisibleBreedSelection, setActiveLevelSelection, setVisibleSizeSelection];
+  const visibleSelection = [setVisibleBreedSelection, setActiveLevelSelection, setVisibleSizeSelection]; // contains all the visibility of filter selection
 
+  /*
+    openSelection:
+    - handler when one of the selection is visible
+    - all visibility of other filer will be set to false -> close
+    - if the visibility of current filter is true, will be set to false -> also close
+    - otherwise set the visiblity of the current filter to true -> open
+  */
   const openSelection = (type, value) => {
     visibleSelection.forEach((selection) => {
       if (type === selection) {

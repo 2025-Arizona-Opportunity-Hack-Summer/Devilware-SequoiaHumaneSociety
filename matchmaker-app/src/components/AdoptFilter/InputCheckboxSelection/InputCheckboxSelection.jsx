@@ -1,21 +1,28 @@
-import { useState } from "react";
-
 import "./InputCheckboxSelection.css";
 import SessionStorage from "../../../features/sessionStorage";
 
-function InputCheckboxSelection({
-  dataList = [],
-  id,
-  setValues,
-  values = [],
-  title,
-  onClickButton,
-  visibleList,
-  openDataList,
-}) {
+/**
+ * support selection of input[type=checkbox]
+ * @param {[string]} dataList represents the list of options
+ * @param {fuction():void} setValues set the list of chosen options
+ * @param {[string]} values represents the list of chosen options
+ * @param {string} title id and reprensts the title of filter
+ * @param {function():void} onClickButton handler the visibibility of option list
+ * @param {boolean} visibleList represents visibility of option list
+ */
+function InputCheckboxSelection({ dataList = [], setValues, values = [], title, onClickButton, visibleList }) {
+  /*
+    onChangeValue:
+    - handler when one of the filter option is clicked
+  */
   const onChangeValue = (event) => {
     const currValue = event.target.value;
 
+    /*
+      when an option is clicked
+      - if it have been chosen, remove it from chosen options
+      - otherwise, append it to chosen options
+    */
     let updatedValues = [];
     if (values.includes(currValue) === false) {
       updatedValues = [...values, currValue];
@@ -25,6 +32,9 @@ function InputCheckboxSelection({
       setValues((preState) => preState.filter((item) => item !== currValue));
     }
 
+    /*
+      store the update to session storages
+    */
     if (title === "breeds") {
       SessionStorage.setItem("adopt-pet-breed", updatedValues);
     } else if (title === "active levels") {
@@ -33,21 +43,6 @@ function InputCheckboxSelection({
       SessionStorage.setItem("adopt-pet-size", updatedValues);
     }
   };
-  const dataListCheckBox = dataList.map((item) => (
-    <li className="flex flex-row justify-between cursor-pointer group" key={item}>
-      <div className="checkbox-wrapper w-full">
-        <input type="checkbox" id={item} onChange={onChangeValue} value={item} checked={values.includes(item)} />
-        <label
-          htmlFor={item}
-          className="flex justify-between border border-[#adb5bd] first:border-t p-2 w-full bg-[#fff] cursor-pointer text-[#6c757d]">
-          <p className="font-semibold">{item}</p>
-          <div className="toggle">
-            <span></span>
-          </div>
-        </label>
-      </div>
-    </li>
-  ));
 
   if (dataList.length === 0) {
     return <></>;
@@ -61,19 +56,40 @@ function InputCheckboxSelection({
           className="flex gap-10 justify-between p-3 cursor-pointer shadow-xl bg-[#ced4da] group-hover:bg-[#4f2edc] items-center"
           onClick={onClickButton}>
           <p className="text-[#6c757d] font-semibold group-hover:text-white w-max">Choose {title.toLowerCase()}</p>
-          <ArrowUpSVG openDataList={openDataList} />
+          <ArrowUpSVG visibleList={visibleList} />
         </div>
-        {visibleList && (
-          <ul className="flex flex-col xl:max-h-52 overflow-y-auto overflow-x-hidden absolute w-full z-20 shadow-2xl list-option">
-            {dataListCheckBox}
-          </ul>
-        )}
+        <CheckBoxList dataList={dataList} visibleList={visibleList} onChangeValue={onChangeValue} values={values} />
       </div>
     </div>
   );
 }
 
-function ArrowUpSVG({ openDataList }) {
+function CheckBoxList({ dataList, visibleList, onChangeValue, values }) {
+  if (visibleList === false) {
+    return <></>;
+  }
+
+  return (
+    <ul>
+      {dataList.map((item) => (
+        <li className="flex flex-row justify-between cursor-pointer group" key={item}>
+          <div className="checkbox-wrapper w-full">
+            <input type="checkbox" id={item} onChange={onChangeValue} value={item} checked={values.includes(item)} />
+            <label
+              htmlFor={item}
+              className="flex justify-between border border-[#adb5bd] first:border-t p-2 w-full bg-[#fff] cursor-pointer text-[#6c757d]">
+              <p className="font-semibold">{item}</p>
+              <div className="toggle">
+                <span></span>
+              </div>
+            </label>
+          </div>
+        </li>
+      ))}
+    </ul>
+  );
+}
+function ArrowUpSVG({ visibleList }) {
   return (
     <svg
       viewBox="0 -0.5 17 17"
@@ -82,7 +98,7 @@ function ArrowUpSVG({ openDataList }) {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       className="si-glyph si-glyph-arrow-up w-6 arrow duration-300"
       fill="#000000"
-      style={{ rotate: openDataList === false ? "0deg" : "180deg" }}>
+      style={{ rotate: visibleList === false ? "0deg" : "180deg" }}>
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
       <g id="SVGRepo_iconCarrier">

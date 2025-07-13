@@ -29,32 +29,26 @@ function AdoptFilter({ breedList = [], setFilter, filterValue }) {
       <InputCheckboxSelection
         title="breeds"
         dataList={breedList}
-        id="breed"
         values={breedFilter}
         setValues={setBreedFilter}
         visibleList={visibleBreedSelection}
         onClickButton={openSelection.bind(null, setVisibleBreedSelection, visibleBreedSelection)}
-        openDataList={visibleBreedSelection === true}
       />
       <InputCheckboxSelection
         title="active levels"
         dataList={["Very Active", "Moderately Active", "Slightly actives"]}
-        id="activeLevel"
         values={activeLevelFiter}
         setValues={setActiveLevelFilter}
         visibleList={visibleActiveLevelSelection}
         onClickButton={openSelection.bind(null, setActiveLevelSelection, visibleActiveLevelSelection)}
-        openDataList={visibleActiveLevelSelection === true}
       />
       <InputCheckboxSelection
         title="sizes"
         dataList={["Large", "Medium", "Small"]}
-        id="size"
         values={sizeFilter}
         setValues={setSizeFilter}
         visibleList={visibleSizeSelection}
         onClickButton={openSelection.bind(null, setVisibleSizeSelection, visibleSizeSelection)}
-        openDataList={visibleSizeSelection === true}
       />
     </div>
   );

@@ -2,7 +2,7 @@ import { withAuthInfo } from "@propelauth/react";
 import { useLogoutFunction } from "@propelauth/react";
 
 import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 import Modal from "../Modal/Modal";
 import shsLogo from "../../assets/images/shs-logo.png";
 
@@ -99,12 +99,17 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
         )}
         {isLoggedIn && (
           <div className="hidden xl:flex flex-col relative items-center">
-            <button
-              style={{ fontFamily: "Koh Santepheap, serif" }}
-              className="bg-[#7C0F0F] p-2 rounded-md cursor-pointer"
-              onClick={toggleProfile}>
-              <UserSVG />
-            </button>
+            <div className="flex items-center gap-2">
+              <Link to="/favorite">
+                <HeartSVG />
+              </Link>
+              <button
+                style={{ fontFamily: "Koh Santepheap, serif" }}
+                className="bg-[#7C0F0F] p-2 rounded-md cursor-pointer"
+                onClick={toggleProfile}>
+                <UserSVG />
+              </button>
+            </div>
             {profileOpen && (
               <div className="absolute w-max top-[40px] right-0 flex flex-col items-start shadow-2xl z-50 bg-[#dee2e6] p-6 text-[#495057] rounded-lg gap-3 profile-menu">
                 <div className="flex flex-col items-center">
@@ -117,12 +122,12 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
                     Manage your Sequioa account
                   </button>
                 </div>
-                <NavLink
-                  to="/"
+                <Link
+                  to="/favorite"
                   className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md"
                   style={{ fontFamily: "Koh Santepheap, serif" }}>
                   Favorites
-                </NavLink>
+                </Link>
                 <button
                   onClick={onClickLogout}
                   className="cursor-pointer w-full p-2 text-left hover:bg-[#7C0F0F] hover:text-white rounded-md"
@@ -249,6 +254,18 @@ function UserSVG() {
           />
         </g>
       </g>
+    </svg>
+  );
+}
+
+function HeartSVG() {
+  return (
+    <svg className="w-10 group" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M2 9.1371C2 14 6.01943 16.5914 8.96173 18.9109C10 19.7294 11 20.5 12 20.5C13 20.5 14 19.7294 15.0383 18.9109C17.9806 16.5914 22 14 22 9.1371C22 4.27416 16.4998 0.825464 12 5.50063C7.50016 0.825464 2 4.27416 2 9.1371Z"
+        fill="#adb5bd"
+        className="group-hover:fill-[#C1272D]"
+      />
     </svg>
   );
 }

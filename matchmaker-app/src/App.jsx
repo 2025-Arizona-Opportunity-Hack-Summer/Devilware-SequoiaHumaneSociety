@@ -15,6 +15,7 @@ import Register from "./pages/Register/Register";
 import PetDescriptions from "./components/PetDescriptions/PetDescriptions";
 import AdoptPetList from "./components/AdoptPetList/AdoptPetList";
 import AdoptRoot from "./components/AdoptRoot/AdoptRoot";
+import FavoritePet from "./pages/FavoritePet/FavoritePet";
 
 import store from "./redux/store";
 
@@ -33,6 +34,7 @@ const router = createBrowserRouter(
         <Route path="match" element={<Match />} />
         <Route path="sign-in" element={<SignIn />} />
         <Route path="register" element={<Register />} />
+        <Route path="favorite" element={<FavoritePet />} />
       </Route>
     </>
   )

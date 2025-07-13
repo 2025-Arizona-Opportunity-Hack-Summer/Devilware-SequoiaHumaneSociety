@@ -58,9 +58,9 @@ function InputCheckboxSelection({
       <p className="text-lg font-semibold">{title.toUpperCase()}</p>
       <div className="w-full relative group">
         <div
-          className="flex justify-between p-3 cursor-pointer shadow-xl bg-[#ced4da] group-hover:bg-[#4f2edc] items-center"
+          className="flex gap-10 justify-between p-3 cursor-pointer shadow-xl bg-[#ced4da] group-hover:bg-[#4f2edc] items-center"
           onClick={onClickButton}>
-          <p className="text-[#6c757d] font-semibold group-hover:text-white">Choose {title.toLowerCase()}</p>
+          <p className="text-[#6c757d] font-semibold group-hover:text-white w-max">Choose {title.toLowerCase()}</p>
           <ArrowUpSVG openDataList={openDataList} />
         </div>
         {visibleList && (

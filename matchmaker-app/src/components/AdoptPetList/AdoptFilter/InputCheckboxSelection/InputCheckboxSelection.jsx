@@ -70,7 +70,7 @@ function CheckBoxList({ dataList, visibleList, onChangeValue, values }) {
   }
 
   return (
-    <ul>
+    <ul className="flex flex-col xl:max-h-52 overflow-y-auto overflow-x-hidden absolute w-full z-20 shadow-2xl list-option">
       {dataList.map((item) => (
         <li className="flex flex-row justify-between cursor-pointer group" key={item}>
           <div className="checkbox-wrapper w-full">

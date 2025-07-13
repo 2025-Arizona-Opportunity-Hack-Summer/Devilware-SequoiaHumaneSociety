@@ -1,8 +1,9 @@
+import { useAuthInfo, withAuthInfo } from "@propelauth/react";
 import { Outlet, useLocation } from "react-router-dom";
 
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 
-function Root() {
+export default withAuthInfo(function Root({ isLoggedIn }) {
   const location = useLocation();
   const isMatchPage = location.pathname === "/match";
   const isAdoptPage = location.pathname.includes("/adopt");
@@ -16,6 +17,4 @@ function Root() {
       </main>
     </div>
   );
-}
-
-export default Root;
+});

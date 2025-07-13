@@ -1,0 +1,12 @@
+.profile-menu {
+  animation: profile-menu 300ms linear;
+}
+
+@keyframes profile-menu {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

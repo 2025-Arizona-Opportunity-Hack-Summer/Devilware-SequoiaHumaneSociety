@@ -5,5 +5,6 @@ const userRoute = express.Router();
 
 userRoute.get("/find-user", userController.findUserByEmail);
 userRoute.post("/sign-up", userController.createUser);
+userRoute.put("/update/favorite-pets", userController.updateUserFavoritesPet);
 
 module.exports = userRoute;

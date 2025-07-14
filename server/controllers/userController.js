@@ -40,11 +40,39 @@ async function findUserByEmail(req, res, next) {
 
     res.status(200).json({ description: "Sign in successfully", content: user });
   } catch (err) {
-    res.status(400).json({ description: "Problem occurs at server. Please contact for help" });
+    res.status(400).json({
+      description: "Problem occurs at server. Please contact for help",
+    });
+  }
+}
+
+async function updateUserFavoritesPet(req, res, next) {
+  const { pet_id, email } = req.body;
+
+  try {
+    const usersCollection = mongoClient.getDB().collection("users");
+    const user = await usersCollection.findOne({ email: email });
+
+    if (user === null) {
+      res.status(400).json({ description: "User does not exist" });
+      return;
+    }
+
+    if (user.favoritePets === undefined || !user.favoritePets.includes(pet_id)) {
+      usersCollection.updateOne({ email: email }, { $addToSet: { favoritePets: pet_id } });
+    } else {
+      usersCollection.updateOne({ email: email }, { $pull: { favoritePets: pet_id } });
+    }
+
+    res.status(200).json({ description: "User update sucessfully" });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ description: "Soemthing wrong with server" });
   }
 }
 
 module.exports = {
   createUser,
   findUserByEmail,
+  updateUserFavoritesPet,
 };

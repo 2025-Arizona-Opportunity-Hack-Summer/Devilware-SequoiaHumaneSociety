@@ -1,10 +1,28 @@
 import { useAuthFrontendApis } from "@propelauth/frontend-apis-react";
 import { useLogoutFunction, withAuthInfo } from "@propelauth/react";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router";
+
 import shsLogo from "../../assets/images/shs-logo.png";
+import { useEffect } from "react";
 
 export default withAuthInfo(function ConfirmEmail({ isLoggedIn, user, accessToken }) {
   const { resendEmailConfirmation } = useAuthFrontendApis();
   const logout = useLogoutFunction();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/");
+    } else if (Cookies.get("email-auth") === undefined) {
+      navigate("/");
+    }
+  }, []);
+
+  const onClickLogOut = () => {
+    Cookies.remove("email-auth");
+    logout(true);
+  };
 
   const onClickResendEmailConfirmation = async () => {
     try {
@@ -42,7 +60,7 @@ export default withAuthInfo(function ConfirmEmail({ isLoggedIn, user, accessToke
       </div>
 
       <button
-        onClick={logout}
+        onClick={onClickLogOut}
         className="text-lg cursor-pointer font-semibold text-[#7c0f0f] hover:bg-[#ffdbda] rounded-md p-2 duration-300">
         Log out
       </button>

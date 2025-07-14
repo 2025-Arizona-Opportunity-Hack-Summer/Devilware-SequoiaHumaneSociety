@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useAuthFrontendApis } from "@propelauth/frontend-apis-react";
 import googleLogo from "../../assets/images/GOOGLE.png";
 import cat from "./sittingcat.png";
+import Cookies from "js-cookie";
 // import SessionStorage from "../../features/sessionStorage";
 
 function SignIn() {
@@ -26,6 +27,7 @@ function SignIn() {
       });
 
       if (response.ok) {
+        Cookies.set("email-auth", email, { expires: 30 });
         if (response.data.login_state === "ConfirmEmailRequired") {
           navigate("/confirm-email");
           // SessionStorage.setItem("email-confirmation", email);

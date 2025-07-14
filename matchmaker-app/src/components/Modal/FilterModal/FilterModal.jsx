@@ -1,107 +1,149 @@
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
 import Modal from "../Modal";
-import InputCheckbox from "../../Input/InputCheckbox/InputCheckbox";
 import InputButton from "../../Input/InputButton/InputButton";
 
-function FilterModal({ visible, setVisibleFilter }) {
-  const species = ["Cat", "Dog", "Bird", "Hamster"];
+import SpeciesFilter from "./SpeciesFilter/SpeciesFilter";
+import ActiveLevelsFilter from "./ActiveLevelsFilter/ActiveLevelsFilter";
+import SizeFilter from "./SizesFilter/SizeFilter";
+import SortFilter from "./SortFilter/SortFilter";
+import BreedFilter from "./BreedFilter/BreedFilter";
+import SessionStorage from "../../../features/sessionStorage";
+
+import { petListSlice } from "../../../redux/MatchedPetSlice";
+
+import { filterPet } from "../../../features/filterPet";
+
+function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue }) {
+  const dispatch = useDispatch();
+
+  const [petList, setPetList] = useState([]); // only use for filter not for display
+
+  const { speciesFilter, breedFilter, activeLevelFilter, sizeFilter, sortFilter } = filterValue;
+  const { setSpeciesFilter, setBreedFilter, setActiveLevelFilter, setSizeFilter, setSortFilter } = setFilterValue;
+
+  useEffect(() => {
+    const API_BASE_URL = import.meta.env.VITE_API_URL;
+    const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
+
+    const url = `${API_BASE_URL}/${PETS_ENDPOINT}`;
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => {
+        setPetList((preState) => data.content);
+
+        const storedSpeciesFilter = SessionStorage.getItem("match-species-filter");
+
+        if (storedSpeciesFilter !== null) {
+          setSpeciesFilter((preState) => storedSpeciesFilter);
+        }
+
+        const storedBreedFilter = SessionStorage.getItem("match-breed-filter");
+
+        if (storedBreedFilter !== null) {
+          setBreedFilter((preState) => storedBreedFilter);
+        }
+
+        const storedActiveLevelFilter = SessionStorage.getItem("match-active-level-filter");
+
+        if (storedActiveLevelFilter !== null) {
+          setActiveLevelFilter((preState) => storedActiveLevelFilter);
+        }
+
+        const storedSizeFilter = SessionStorage.getItem("match-size-filter");
+
+        if (storedSizeFilter !== null) {
+          setSizeFilter((preState) => storedSizeFilter);
+        }
+
+        const storedSortFilter = SessionStorage.getItem("match-sort-filter");
+
+        if (storedSortFilter !== null) {
+          setSortFilter((preState) => storedSortFilter);
+        }
+
+        const updatedList = filterPet(
+          data.content,
+          storedSpeciesFilter,
+          storedBreedFilter,
+          storedActiveLevelFilter,
+          sizeFilter,
+          storedSortFilter
+        );
+        dispatch(petListSlice.actions.assign(updatedList));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   const onClickCloseFilter = () => {
     setVisibleFilter((preState) => false);
   };
 
-  const SpeciesCheckboxes = species.map((animal) => (
-    <InputCheckbox
-      id={`filter_${animal}`}
-      value={animal}
-      inputStyle="hidden checkbox-question-input"
-      labelStyle={`checkbox-question-label flex-grow text-center`}
-      checked={false}
-      key={`filter_${animal}`}>
-      {animal}
-    </InputCheckbox>
-  ));
+  const onClickApplyFilter = () => {
+    const updatedList = filterPet(petList, speciesFilter, breedFilter, activeLevelFilter, sizeFilter, sortFilter);
+    SessionStorage.setItem("match-species-filter", speciesFilter);
+    SessionStorage.setItem("match-breed-filter", breedFilter);
+    SessionStorage.setItem("match-active-level-filter", activeLevelFilter);
+    SessionStorage.setItem("match-size-filter", sizeFilter);
+    SessionStorage.setItem("match-sort-filter", sortFilter);
+    dispatch(petListSlice.actions.assign(updatedList));
+    onClickCloseFilter();
+  };
 
-  const activeLevels = ["Very Active", "Moderately Active", "Quietly Active"];
-
-  const ActiveLevelsCheckboxes = activeLevels.map((level) => (
-    <InputCheckbox
-      id={`filter_${level}`}
-      value={level}
-      inputStyle="hidden checkbox-question-input"
-      labelStyle={`checkbox-question-label flex-grow text-center`}
-      checked={false}
-      key={`filter_${level}`}>
-      {level}
-    </InputCheckbox>
-  ));
-
-  const sizes = ["Large", "Medium", "Small"];
-
-  const SizesCheckboxes = sizes.map((size) => (
-    <InputCheckbox
-      id={`filter_${size}`}
-      value={size}
-      inputStyle="hidden checkbox-question-input"
-      labelStyle={`checkbox-question-label flex-grow text-center`}
-      checked={false}
-      key={`filter_${size}`}>
-      {size}
-    </InputCheckbox>
-  ));
-
-  const sorts = ["Shortest Stay", "Longest Stay", "Alphabetical A-Z", "Alphabetical Z-A"];
-
-  const SortsCheckboxes = sorts.map((item) => (
-    <InputCheckbox
-      id={`filter_${item}`}
-      value={item}
-      inputStyle="hidden checkbox-question-input"
-      labelStyle={`checkbox-question-label flex-grow text-center`}
-      checked={false}
-      key={`filter_${item}`}>
-      {item}
-    </InputCheckbox>
-  ));
-  // xl:w-[80vw] xl:left-1/2 xl:-translate-x-1/2
+  const onClickClearAll = () => {
+    const updatedList = filterPet(petList, [], [], [], [], "");
+    setSpeciesFilter((preState) => []);
+    setBreedFilter((preState) => []);
+    setActiveLevelFilter((preState) => []);
+    setSizeFilter((preState) => []);
+    setSortFilter((preState) => "");
+    SessionStorage.removeItem("match-species-filter");
+    SessionStorage.removeItem("match-breed-filter");
+    SessionStorage.removeItem("match-active-level-filter");
+    SessionStorage.removeItem("match-size-filter");
+    SessionStorage.removeItem("match-sort-filter");
+    dispatch(petListSlice.actions.assign(updatedList));
+    onClickCloseFilter();
+  };
   return (
     <Modal visible={visible} className={"root-modal-close"}>
       <div className="bg-white absolute w-full bottom-0 p-6 px-20 filter-modal">
         <div className="flex justify-between items-center">
-          <InputButton
-            id="closeFilterModal"
-            onClickHandler={onClickCloseFilter}
-            inputStyle="hidden"
-            labelStyle="text-[#7C0F0F] font-semibold cursor-pointer hover:text-[#C1272D]">
+          <button
+            className="cursor-pointer hover:bg-[#7C0F0F] bg-[#adb5bd] py-1 px-2 rounded-md text-white font-semibold"
+            onClick={onClickCloseFilter}>
             x
-          </InputButton>
+          </button>
 
-          <h3 className="text-xl font-semibold">Filter</h3>
-          <p className="cursor-pointer hover:text-[#7C0F0F]">Clear All</p>
+          <h3 className="text-3xl font-semibold" style={{ fontFamily: "Delius, cursive", fontWeight: 400 }}>
+            Filter
+          </h3>
+          <button
+            className="cursor-pointer hover:bg-[#7C0F0F] bg-[#adb5bd] px-4 py-2 rounded-md text-white font-semibold"
+            onClick={onClickClearAll}>
+            Clear All
+          </button>
         </div>
-        <div className="flex flex-col gap-2">
-          <div className="flex flex-col gap-2">
-            <p className="font-medium text-md">Species</p>
-            <div className="flex justify-between gap-1 flex-wrap">{SpeciesCheckboxes}</div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="font-medium text-md">Active levels</p>
-            <div className="flex justify-between gap-1 flex-wrap">{ActiveLevelsCheckboxes}</div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="font-medium text-md">Sizes</p>
-            <div className="flex justify-between gap-1 flex-wrap">{SizesCheckboxes}</div>
-          </div>
-          <div className="flex flex-col gap-2">
-            <p className="font-medium text-md">Sorts</p>
-            <div className="flex justify-between gap-1 flex-wrap">{SortsCheckboxes}</div>
+        <div className="flex flex-col gap-2 mt-5">
+          <div className="flex flex-col justify-start gap-5">
+            <SpeciesFilter speciesFilter={speciesFilter} setSpeciesFilter={setSpeciesFilter} />
+            <BreedFilter petList={petList} breedFilter={breedFilter} setBreedFilter={setBreedFilter} />
+            <ActiveLevelsFilter activeLevelFilter={activeLevelFilter} setActiveLevelFilter={setActiveLevelFilter} />
+            <SizeFilter sizeFilter={sizeFilter} setSizeFilter={setSizeFilter} />
+            <SortFilter sortFilter={sortFilter} setSortFilter={setSortFilter} />
           </div>
         </div>
         <InputButton
-          id="backButton"
+          id="applyFilterButton"
           inputStyle="hidden"
-          labelStyle="bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block text-center mt-10 py-2 text-lg">
+          labelStyle="bg-[#adb5bd] hover:bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block text-center mt-10 py-2 text-lg"
+          onClickHandler={onClickApplyFilter}>
           {/* When button is clicked, move the page to the top again*/}
-          Done
+          Apply
         </InputButton>
       </div>
     </Modal>

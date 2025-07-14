@@ -139,6 +139,7 @@ function QuestionHC1({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -301,6 +302,7 @@ function QuestionHC2({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -413,6 +415,7 @@ function QuestionHC3({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -569,6 +572,7 @@ function QuestionHC4({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (

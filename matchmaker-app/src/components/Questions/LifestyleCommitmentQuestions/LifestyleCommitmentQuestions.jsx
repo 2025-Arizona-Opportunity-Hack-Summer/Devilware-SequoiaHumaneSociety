@@ -104,6 +104,7 @@ function QuestionLC1({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -181,6 +182,7 @@ function QuestionLC2({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -247,6 +249,7 @@ function QuestionLC3({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   const activityLevelOptions = ["Very active", "Moderately active", "Quiet Active"];
@@ -332,6 +335,7 @@ function QuestionLC4({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -491,6 +495,7 @@ function QuestionLC5({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (

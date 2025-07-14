@@ -100,6 +100,7 @@ function QuestionHE1({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -201,6 +202,7 @@ function QuestionHE2({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -342,6 +344,7 @@ function QuestionHE3({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -446,6 +449,7 @@ function QuestionHE4({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   const Options = hours.map((val) => {
@@ -534,6 +538,7 @@ function QuestionHE5({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (

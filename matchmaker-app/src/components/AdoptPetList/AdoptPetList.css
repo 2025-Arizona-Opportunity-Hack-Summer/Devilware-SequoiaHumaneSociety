@@ -1,0 +1,12 @@
+.adopt-pet-list-root {
+  animation: fade-in linear 2s;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

@@ -1,5 +1,7 @@
 import { withAuthInfo } from "@propelauth/react";
 import { useLogoutFunction } from "@propelauth/react";
+import { useSelector } from "react-redux";
+import { userSlice } from "../../redux/UserInfoSlice";
 
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
@@ -9,6 +11,7 @@ import shsLogo from "../../assets/images/shs-logo.png";
 import "./NavigationBar.css";
 
 export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
+  const userInfo = useSelector((store) => store[userSlice.name]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
 
@@ -114,7 +117,9 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
               <div className="absolute w-max top-[40px] right-0 flex flex-col items-start shadow-2xl z-50 bg-[#dee2e6] p-6 text-[#495057] rounded-lg gap-3 profile-menu">
                 <div className="flex flex-col items-center">
                   <img src={shsLogo} alt="shs" className="w-24" />
-                  <p className=" border-[#ced4da] font-semibold text-xl">Khoa Nguyen</p>
+                  <p className=" border-[#ced4da] font-semibold text-xl">
+                    {userInfo === null ? "" : `${userInfo.name.firstName} ${userInfo.name.lastName}`}
+                  </p>
                   <p style={{ fontFamily: "'Koulen', sans-serif" }} className="border-[#ced4da] text-sm">
                     {user.email}
                   </p>

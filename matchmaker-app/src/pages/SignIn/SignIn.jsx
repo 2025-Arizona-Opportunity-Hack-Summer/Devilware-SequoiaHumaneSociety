@@ -3,6 +3,7 @@ import { useNavigate } from "react-router";
 import { useAuthFrontendApis } from "@propelauth/frontend-apis-react";
 import googleLogo from "../../assets/images/GOOGLE.png";
 import cat from "./sittingcat.png";
+// import SessionStorage from "../../features/sessionStorage";
 
 function SignIn() {
   const navigate = useNavigate();
@@ -25,12 +26,24 @@ function SignIn() {
       });
 
       if (response.ok) {
-        console.log(response.data);
-        navigate("/");
-        location.reload();
+        if (response.data.login_state === "ConfirmEmailRequired") {
+          navigate("/confirm-email");
+          // SessionStorage.setItem("email-confirmation", email);
+        } else if (response.data.login_state === "Finished") {
+          navigate("/");
+          location.reload();
+        }
+      } else {
+        if (response.error === "user_not_found") {
+        }
       }
       response.handle({
-        success: () => {},
+        success: () => {
+          console.log("YES");
+        },
+        badRequest: () => {
+          console.log("NO");
+        },
       });
     } catch (err) {
       console.log(err);
@@ -42,7 +55,7 @@ function SignIn() {
       {/* MOBILE VIEW */}
       <div className="md:hidden fixed inset-0 flex items-center justify-center p-4">
         <div className="bg-white w-full max-w-sm" style={mobileStyle}>
-          <div className="p-8">
+          <form className="p-8">
             <div className="text-center mb-8">
               <h1 className="text-2xl font-bold text-gray-800 tracking-wider mb-2">WELCOME!</h1>
               <div className="w-full h-px bg-gray-300 mb-2"></div>
@@ -65,6 +78,7 @@ function SignIn() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                autoComplete="off"
               />
             </div>
             <div className="flex items-center justify-between mb-6">
@@ -94,7 +108,7 @@ function SignIn() {
               <img src={googleLogo} alt="Google" className="w-5 h-5 mr-2" />
               Sign in with Google
             </button>
-          </div>
+          </form>
         </div>
       </div>
 
@@ -134,6 +148,7 @@ function SignIn() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                autoComplete="off"
               />
             </div>
 

@@ -6,7 +6,7 @@ import { Outlet, useLocation } from "react-router-dom";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import { userSlice } from "../../redux/UserInfoSlice";
 
-export default withAuthInfo(function Root({ isLoggedIn, user }) {
+export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const isMatchPage = location.pathname === "/match";
@@ -29,7 +29,7 @@ export default withAuthInfo(function Root({ isLoggedIn, user }) {
           console.log(err);
         });
     }
-  }, [user.email]);
+  }, [isLoggedIn]);
 
   return (
     <div className="root">

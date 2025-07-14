@@ -11,6 +11,7 @@ import Match from "./pages/Match/Match";
 
 import SignIn from "./pages/SignIn/SignIn";
 import Register from "./pages/Register/Register";
+import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
 
 import PetDescriptions from "./components/PetDescriptions/PetDescriptions";
 import AdoptPetList from "./components/AdoptPetList/AdoptPetList";
@@ -36,6 +37,7 @@ const router = createBrowserRouter(
         <Route path="register" element={<Register />} />
         <Route path="favorite" element={<FavoritePet />} />
       </Route>
+      <Route path="/confirm-email" element={<ConfirmEmail />} />
     </>
   )
 );

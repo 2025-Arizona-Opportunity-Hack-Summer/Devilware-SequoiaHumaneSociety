@@ -110,6 +110,7 @@ function QuestionSP1({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -214,6 +215,7 @@ function QuestionSP2({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -320,6 +322,7 @@ function QuestionSP3({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -430,6 +433,7 @@ function QuestionSP4({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -536,6 +540,7 @@ function QuestionSP5({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (
@@ -621,6 +626,7 @@ function QuestionSP6({ getNextQuestion }) {
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
+    SessionStorage.removeItem("petList");
   };
 
   return (

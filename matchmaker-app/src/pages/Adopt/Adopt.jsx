@@ -1,7 +1,9 @@
+import { Outlet } from "react-router";
+
 function Adopt() {
   return (
     <div className="adopt">
-      <p>This is adopt</p>
+      <Outlet />
     </div>
   );
 }

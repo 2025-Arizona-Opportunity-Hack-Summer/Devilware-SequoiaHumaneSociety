@@ -1,0 +1,36 @@
+Animal_ID,Name,Species,Age,Weight,Sex,Breed,Characteristics,Adopter_ID,Adopter_Housing_Type,Adopter_Allergies,Adopter_Activity_Level,Adopter_Size_Pref,Adopter_Energy_Pref,Adopter_Age_Min,Adopter_Age_Max,Adopter_Daily_Hours,Adopter_Animal_Pref,Match_Quality,Match_Type
+SEQ-A-61602,Sushi,Cat,4,10.2,Male,Domestic_Shorthair,None,A001,apartment,no,moderately-active,small_medium,medium_low,2,8,3-4,Cat,85,correct
+SEQ-A-5969,Canelo,Dog,2,77.8,Male,"Husky, Siberian","Active, Calm",A002,house,no,very-active,medium_large,high,1,5,5,Dog,92,correct
+SEQ-A-6029,Latte,Cat,1,10.2,Female,Domestic_Shorthair,"Bonded, Shy",A003,house,no,quiet,small,low_medium,0,3,1-2,Cat,78,correct
+SEQ-A-6138,Lala,Cat,6,10.1,Female,Domestic_Shorthair,None,A004,condo,no,moderately-active,small_medium,medium,4,10,2-3,Cat,83,correct
+SEQ-A-61623,Odie,Dog,5,76.8,Male,"Shepherd, German, Mix",None,A005,house,no,moderately-active,large,medium,3,8,3-4,Dog,88,correct
+SEQ-A-61625,Blackjack,Dog,6,80.0,Male,"Terrier, Pit_Bull","Gentle, Obedient, Active, Friendly",A006,house,no,very-active,large,medium_high,4,10,4-5,Dog,90,correct
+SEQ-A-61627,Callie,Dog,1,63.2,Female,"Terrier, Pit_Bull","Energetic, Active",A007,apartment,no,quiet,medium,high,1,3,1-2,Bird,35,incorrect
+SEQ-A-61631,Stormi,Cat,7,10.11,Female,Domestic_Shorthair,None,A008,house,yes,moderately-active,small,low,5,12,2-3,Snake,45,incorrect
+SEQ-A-6061,Brownie,Dog,1,72.2,Female,"Rottweiler, Mix","Energetic, Active",A009,apartment,no,very-active,large,high,0,2,5,Dog,75,incorrect
+SEQ-A-61663,Boomer,Dog,1,17.0,Male,"Collie, Border",None,A010,house,no,very-active,small_medium,high,0,3,4-5,Dog,89,correct
+SEQ-A-61675,Mayfly,Dog,1,12.6,Female,"Terrier, Cairn",None,A011,condo,no,moderately-active,small,medium,1,4,2-3,Dog,81,correct
+SEQ-A-61680,Tanner,Dog,1,46.4,Male,"Boxer, Mix","Spunky, Spritited",A012,house,no,very-active,medium,high,0,3,5,Dog,87,correct
+SEQ-A-6030,Frappe,Cat,1,8.9,Male,Domestic_Shorthair,"Bonded, Shy",A013,apartment,no,quiet,small,low,0,3,1-2,Cat,79,correct
+SEQ-A-61696,Maddy,Dog,5,77.4,Female,Akita,Shy,A014,house,no,quiet,large,low,3,8,2-3,Dog,84,correct
+SEQ-A-61701,Sam,Cat,2,7.15,Male,"Domestic_Shorthair, Siamese",None,A015,apartment,no,moderately-active,small,medium,1,5,2-3,Cat,86,correct
+SEQ-A-61706,Spot,Cat,1,9.0,Male,"Domestic_Shorthair, Siamese",None,A016,condo,no,moderately-active,small,medium,0,3,3-4,Cat,82,correct
+SEQ-A-61707,Pitch,Cat,1,9.12,Male,"Domestic_Shorthair, Siamese",None,A017,house,no,quiet,small,medium,0,2,1-2,Cat,77,correct
+SEQ-A-61711,Eve,Cat,2,7.1,Female,Domestic_Shorthair,"Friendly, Lap_cat",A018,apartment,no,quiet,small,low,1,5,2-3,Cat,91,correct
+SEQ-A-61712,Eclipse,Cat,1,9.4,Female,Domestic_Medium_Hair,None,A019,house,no,moderately-active,small_medium,medium,0,3,3-4,Cat,83,correct
+SEQ-A-61714,Wyatt,Cat,1,8.7,Male,Domestic_Long_Hair,Shy,A020,apartment,no,quiet,small,low,0,3,1-2,Cat,76,correct
+SEQ-A-61715,Momo,Cat,2,9.15,Female,"Domestic_Shorthair, Siamese","Calm, Gentle",A021,condo,no,quiet,small,low,1,6,2-3,Cat,88,correct
+SEQ-A-61717,Luke,Cat,0,3.1,Male,Domestic_Shorthair,None,A022,house,no,moderately-active,small,medium,0,1,4-5,Cat,85,correct
+SEQ-A-61718,Han_Solo,Cat,0,3.1,Male,Domestic_Medium_Hair,None,A023,apartment,no,moderately-active,small,medium,0,2,2-3,Cat,80,correct
+SEQ-A-61728,Zoey,Dog,2,43.2,Female,"Terrir, Jack_Russel, Sheepdog","Energetic, Active, Shy",A024,house,no,very-active,medium,high,1,4,5,Dog,86,correct
+SEQ-A-5919,Jack,Dog,2,70.4,Male,"Retriever, Labrador",None,A025,house,no,moderately-active,large,medium,1,5,3-4,Dog,89,correct
+SEQ-A-61602,Sushi,Cat,4,10.2,Male,Domestic_Shorthair,None,A026,house,no,very-active,large,high,0,2,5,Null,25,incorrect
+SEQ-A-5969,Canelo,Dog,2,77.8,Male,"Husky, Siberian","Active, Calm",A027,apartment,yes,quiet,small,low,5,10,less-than-1,Null,20,incorrect
+SEQ-A-6029,Latte,Cat,1,10.2,Female,Domestic_Shorthair,"Bonded, Shy",A028,apartment,no,very-active,medium,high,3,8,1-2,Null,15,incorrect
+SEQ-A-61625,Blackjack,Dog,6,80.0,Male,"Terrier, Pit_Bull","Gentle, Obedient, Active, Friendly",A029,apartment,yes,quiet,small,low,0,3,less-than-1,Null,10,incorrect
+SEQ-A-61627,Callie,Dog,1,63.2,Female,"Terrier, Pit_Bull","Energetic, Active",A030,house,no,very-active,medium_large,high,1,3,5,Null,95,incorrect
+SEQ-A-6061,Brownie,Dog,1,72.2,Female,"Rottweiler, Mix","Energetic, Active",A031,condo,no,quiet,small,low,4,8,2-3,Null,30,incorrect
+SEQ-A-61696,Maddy,Dog,5,77.4,Female,Akita,Shy,A032,apartment,no,very-active,small,high,0,2,1-2,Null,22,incorrect
+SEQ-A-61714,Wyatt,Cat,1,8.7,Male,Domestic_Long_Hair,Shy,A033,house,no,very-active,small,high,0,1,5,Dog,40,incorrect
+SEQ-A-61717,Luke,Cat,0,3.1,Male,Domestic_Shorthair,None,A034,apartment,no,quiet,large,low,5,10,less-than-1,Dog,35,incorrect
+SEQ-A-61728,Zoey,Dog,2,43.2,Female,"Terrir, Jack_Russel, Sheepdog","Energetic, Active, Shy",A035,apartment,yes,quiet,small,low,6,10,less-than-1,Cat,8,incorrect

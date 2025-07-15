@@ -1,3 +1,5 @@
+// import { compareTwoArrays, compareTwoObjects } from "./comparisonData";
+
 class SessionStorage {
   /**
   * Store data in session storage
@@ -16,9 +18,25 @@ class SessionStorage {
   **/
   static getItem(id) {
     const data = JSON.parse(sessionStorage.getItem(id));
-
     return data;
   }
+
+  static removeItem(id) {
+    sessionStorage.removeItem(id);
+  }
+
+  // static detectChanges(id, updatedData) {
+  //   const data = JSON.parse(sessionStorage.getItem(id));
+  //   if (typeof data === "object") {
+  //     if (Array.isArray(data) == true) {
+  //       return compareTwoArrays(data, updatedData);
+  //     } else {
+  //       return compareTwoObjects(data, updatedData);
+  //     }
+  //   } else {
+  //     return data === updatedData;
+  //   }
+  // }
 }
 
 export default SessionStorage;

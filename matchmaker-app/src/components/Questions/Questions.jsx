@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import ProgressBar from "./ProgressBar/ProgressBar";
 import MatchBanner from "../MatchBanner/MatchBanner";
+import ReviewQuestions from "./ReviewQuestions/ReviewQuestions";
 
 import HousingEnvironmentQuestions from "./HousingEnvironmentQuestions/HousingEnvironemntQuestions";
 import HouseholdCompositionQuestions from "./HouseholdCompositionQuestions/HouseholdCompositionQuestions";
@@ -12,8 +13,6 @@ import SpecificPreferencesQuestions from "./SpecificPreferencesQuestions/Specifi
 
 import { finishHCSlice, finishHESlice, finishLCSlice, finishEESlice, finishSPSlice } from "../../redux/MatchFormSlice";
 import { petListSlice } from "../../redux/MatchedPetSlice";
-
-import ReviewQuestions from "./ReviewQuestions/ReviewQuestions";
 
 import InputButton from "../Input/InputButton/InputButton";
 
@@ -123,28 +122,43 @@ export default function Questions({ visible, setIsQuestionPage, setIsLoading }) 
     if (event !== undefined) {
       event.preventDefault();
     }
-    setIsLoading((preState) => true);
-    try {
-      const jsonResponse = await fetch(import.meta.env.VITE_FIND_PETS_API, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
 
-      const data = await jsonResponse.json();
+    const petList = SessionStorage.getItem("petList");
 
-      if (jsonResponse.ok) {
-        setTimeout(() => {
-          setIsQuestionPage((preState) => false);
-          dispatch(petListSlice.actions.assign(data.content));
-          window.scroll(0, 0);
-          setIsLoading((preState) => false);
-        }, 5000);
+    if (petList === null) {
+      setIsLoading((preState) => true);
+      try {
+        const API_BASE_URL = import.meta.env.VITE_API_URL;
+        const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
+
+        const url = `${API_BASE_URL}/${PETS_ENDPOINT}`;
+
+        const jsonResponse = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        });
+
+        const data = await jsonResponse.json();
+
+        if (jsonResponse.ok) {
+          setTimeout(() => {
+            setIsQuestionPage((preState) => false);
+            dispatch(petListSlice.actions.assign(data.content));
+            SessionStorage.setItem("petList", data.content);
+            window.scroll(0, 0);
+            setIsLoading((preState) => false);
+          }, 5000);
+        }
+      } catch (err) {
+        setIsLoading((preState) => false);
+        console.log(err);
       }
-    } catch (err) {
+    } else {
       setIsLoading((preState) => false);
-      console.log(err);
+      setIsQuestionPage((preState) => false);
+      dispatch(petListSlice.actions.assign(petList));
     }
   };
 

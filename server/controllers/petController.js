@@ -3,16 +3,44 @@ const { GetObjectCommand } = require("@aws-sdk/client-s3");
 
 const s3Client = require("../s3");
 const mongoClient = require("../database");
+const { ObjectId } = require("mongodb");
 
 const Pet = require("../models/pet");
 
 require("dotenv").config();
 
 async function findPets(req, res, next) {
-  try {
-    const pets = await mongoClient.getDB().collection("pets").find({}).toArray();
+  let { pet_id, page, pageSize, species } = req.query;
+  const filter = {};
 
-    for (const pet of pets) {
+  if (pet_id !== undefined) {
+    filter["_id"] = ObjectId.createFromHexString(pet_id);
+  } else if (species !== undefined) {
+    filter["species"] = species;
+  }
+
+  page = parseInt(page, 10) || 1; // pagination
+  pageSize = parseInt(pageSize, 10) || 100;
+  try {
+    const pipeline = [
+      { $match: filter },
+      {
+        $facet: {
+          metadata: [{ $count: "totalCount" }],
+          data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize }],
+          breeds: [
+            { $unwind: "$breed" },
+            { $group: { _id: "$breed" } },
+            { $group: { _id: null, values: { $addToSet: "$_id" } } },
+            { $project: { _id: 0, values: 1 } },
+          ],
+        },
+      },
+    ];
+
+    const pets = await mongoClient.getDB().collection("pets").aggregate(pipeline).toArray();
+
+    for (const pet of pets[0].data) {
       // const imagesUrl = [];
       const imagesUrlPromises = [];
 
@@ -26,10 +54,14 @@ async function findPets(req, res, next) {
         imagesUrlPromises.push(url);
       }
       pet.imagesURL = await Promise.all(imagesUrlPromises);
-      // await pet.save({ timestamps: false });
     }
 
-    res.status(200).json({ description: "Find pet successfully", content: pets });
+    res.status(200).json({
+      description: "Find pet successfully",
+      content: pets[0].data,
+      metadata: pets[0].metadata,
+      breeds: pets[0].breeds[0].values,
+    });
   } catch (err) {
     console.log(err);
     res.status(400).json({ description: "Cannot find pet" });

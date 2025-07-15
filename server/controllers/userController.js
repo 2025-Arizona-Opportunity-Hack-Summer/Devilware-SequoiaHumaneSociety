@@ -19,6 +19,7 @@ async function createUser(req, res, next) {
         gender: gender,
         favoritePets: [],
         adoptedPets: [],
+        matchQuestions: {},
       });
 
     res.status(201).json({ description: "Create user successfully" });
@@ -71,8 +72,33 @@ async function updateUserFavoritesPet(req, res, next) {
   }
 }
 
+async function updateUserQuestionnaire(req, res, next) {
+  const { questionnaire, email } = req.body;
+
+  try {
+    const usersCollection = mongoClient.getDB().collection("users");
+
+    const updatedUser = await usersCollection.findOneAndUpdate(
+      { email: email },
+      { $set: { matchQuestions: questionnaire } },
+      { returnDocument: "after" }
+    );
+
+    if (updatedUser === null) {
+      res.status(400).json({ description: "User does not exist" });
+      return;
+    }
+
+    res.status(200).json({ description: "User update sucessfully", content: updatedUser });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ description: "Soemthing wrong with server" });
+  }
+}
+
 module.exports = {
   createUser,
   findUserByEmail,
   updateUserFavoritesPet,
+  updateUserQuestionnaire,
 };

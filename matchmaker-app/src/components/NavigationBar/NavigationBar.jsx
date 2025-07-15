@@ -1,13 +1,14 @@
 import { withAuthInfo } from "@propelauth/react";
 import { useLogoutFunction } from "@propelauth/react";
 import { useSelector } from "react-redux";
-import { userSlice } from "../../redux/UserInfoSlice";
 import Cookies from "js-cookie";
-
 import { useState } from "react";
 import { NavLink, Link } from "react-router-dom";
+
+import { userSlice } from "../../redux/UserInfoSlice";
 import Modal from "../Modal/Modal";
 import shsLogo from "../../assets/images/shs-logo.png";
+import SessionStorage from "../../features/sessionStorage";
 
 import "./NavigationBar.css";
 
@@ -38,6 +39,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
   const toggleProfile = () => setProfileOpen((prev) => !prev);
 
   const onClickLogout = () => {
+    SessionStorage.clear();
     Cookies.remove("email-auth");
     logout(true);
   };

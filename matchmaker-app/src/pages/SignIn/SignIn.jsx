@@ -76,7 +76,7 @@ function SignIn() {
         {/* MOBILE VIEW */}
         <div className="md:hidden fixed inset-0 flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-sm" style={mobileStyle}>
-            <form className="p-8">
+            <form className="p-8" onSubmit={onSubmitHandler}>
               <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold text-gray-800 tracking-wider mb-2">WELCOME!</h1>
                 <div className="w-full h-px bg-gray-300 mb-2"></div>

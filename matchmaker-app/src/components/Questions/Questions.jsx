@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { withAuthInfo } from "@propelauth/react";
 
 import ProgressBar from "./ProgressBar/ProgressBar";
 import MatchBanner from "../MatchBanner/MatchBanner";
@@ -13,6 +14,7 @@ import SpecificPreferencesQuestions from "./SpecificPreferencesQuestions/Specifi
 
 import { finishHCSlice, finishHESlice, finishLCSlice, finishEESlice, finishSPSlice } from "../../redux/MatchFormSlice";
 import { petListSlice } from "../../redux/MatchedPetSlice";
+import { userSlice } from "../../redux/UserInfoSlice";
 
 import InputButton from "../Input/InputButton/InputButton";
 
@@ -20,8 +22,9 @@ import SessionStorage from "../../features/sessionStorage";
 
 import "./Questions.css";
 
-export default function Questions({ visible, setIsQuestionPage, setIsLoading }) {
+export default withAuthInfo(function Questions({ visible, setIsQuestionPage, setIsLoading, isLoggedIn }) {
   const dispatch = useDispatch();
+  const user = useSelector((store) => store[userSlice.name]);
   const finishHE = useSelector((store) => store[finishHESlice.name]); // true when the user have answered all housing environment question
   const finishHC = useSelector((store) => store[finishHCSlice.name]); // true when the user have answered all household composition question
   const finishLC = useSelector((store) => store[finishLCSlice.name]); // true when the user have answered all lifesytle and commitmnet question
@@ -47,13 +50,14 @@ export default function Questions({ visible, setIsQuestionPage, setIsLoading }) 
      * get which list of questions will display when the page is first reload
      * @returns {number} index of list of questions
      **/
-    const getQuestionNumber = () => {
-      const spId = ["sp1", "sp2", "sp3", "sp4", "sp5", "sp6"];
-      const eeId = ["ee1", "ee2", "ee3", "ee4"];
-      const lcId = ["lc1", "lc2", "lc3", "lc4", "lc5"];
-      const hcId = ["hc1", "hc2", "hc3", "hc4"];
-      const heId = ["he1", "he2", "he3", "he4"];
 
+    const spId = ["sp1", "sp2", "sp3", "sp4", "sp5", "sp6"];
+    const eeId = ["ee1", "ee2", "ee3", "ee4"];
+    const lcId = ["lc1", "lc2", "lc3", "lc4", "lc5"];
+    const hcId = ["hc1", "hc2", "hc3", "hc4"];
+    const heId = ["he1", "he2", "he3", "he4"];
+
+    const getQuestionNumber = () => {
       const SPAnswers = spId.map((id) => SessionStorage.getItem(id) !== null);
 
       if (!SPAnswers.includes(false)) {
@@ -238,4 +242,4 @@ export default function Questions({ visible, setIsQuestionPage, setIsLoading }) 
       </div>
     </>
   );
-}
+});

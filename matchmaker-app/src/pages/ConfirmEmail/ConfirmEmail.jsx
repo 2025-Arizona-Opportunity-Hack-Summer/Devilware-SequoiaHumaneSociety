@@ -21,6 +21,7 @@ export default withAuthInfo(function ConfirmEmail({ isLoggedIn, user, accessToke
 
   const onClickLogOut = () => {
     Cookies.remove("email-auth");
+    // SessionStorage.clear();
     logout(true);
   };
 

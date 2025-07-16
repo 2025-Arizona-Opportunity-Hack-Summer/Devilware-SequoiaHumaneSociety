@@ -206,13 +206,15 @@ function SignIn() {
                 </a>
               </p>
               <div>
-                <input type="button" id="sign-in-google-button" className="hidden" />
-                <label
-                  htmlFor="sign-in-google-button"
-                  className="w-full border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition duration-200 font-medium flex items-center justify-center cursor-pointer">
-                  <img src={googleLogo} alt="Google" className="w-5 h-5 mr-2" />
-                  Sign in with Google
-                </label>
+                <a href="https://93365406010.propelauthtest.com/google/login">
+                  <input type="button" id="sign-in-google-button" className="hidden" />
+                  <label
+                    htmlFor="sign-in-google-button"
+                    className="w-full border border-gray-300 text-gray-700 py-3 px-4 rounded-lg hover:bg-gray-50 transition duration-200 font-medium flex items-center justify-center cursor-pointer">
+                    <img src={googleLogo} alt="Google" className="w-5 h-5 mr-2" />
+                    Sign in with Google
+                  </label>
+                </a>
               </div>
             </form>
           </div>

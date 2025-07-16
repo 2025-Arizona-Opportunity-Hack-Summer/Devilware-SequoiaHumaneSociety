@@ -4,7 +4,7 @@ const spId = ["sp1", "sp2", "sp3", "sp4", "sp5", "sp6"];
 const eeId = ["ee1", "ee2", "ee3", "ee4"];
 const lcId = ["lc1", "lc2", "lc3", "lc4", "lc5"];
 const hcId = ["hc1", "hc2", "hc3", "hc4"];
-const heId = ["he1", "he2", "he3", "he4"];
+const heId = ["he1", "he2", "he3", "he4", "he5"];
 
 function saveUserQuesionnaire(user) {
   if (user === null) {
@@ -14,7 +14,7 @@ function saveUserQuesionnaire(user) {
   const { matchQuestions } = user;
   let updatedMatchQuestions = {};
 
-  const questionsId = [spId, eeId, lcId, hcId, heId].flat();
+  const questionsId = [heId, hcId, lcId, eeId, spId].flat();
 
   for (const questionItem of questionsId) {
     if (matchQuestions[questionItem] !== undefined) {

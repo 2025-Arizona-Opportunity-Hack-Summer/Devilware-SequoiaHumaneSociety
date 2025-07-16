@@ -22,9 +22,8 @@ import SessionStorage from "../../features/sessionStorage";
 
 import "./Questions.css";
 
-export default withAuthInfo(function Questions({ visible, setIsQuestionPage, setIsLoading, isLoggedIn }) {
+export default withAuthInfo(function Questions({ visible, setIsQuestionPage, setIsLoading }) {
   const dispatch = useDispatch();
-  const user = useSelector((store) => store[userSlice.name]);
   const finishHE = useSelector((store) => store[finishHESlice.name]); // true when the user have answered all housing environment question
   const finishHC = useSelector((store) => store[finishHCSlice.name]); // true when the user have answered all household composition question
   const finishLC = useSelector((store) => store[finishLCSlice.name]); // true when the user have answered all lifesytle and commitmnet question
@@ -42,7 +41,6 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     4 --> specific perferences
     5 --> review
   */
-
   useEffect(() => {
     // only called when the page is first reload
 
@@ -127,6 +125,7 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
       event.preventDefault();
     }
 
+    setCurrQuestions((prev) => 5);
     const petList = SessionStorage.getItem("petList");
 
     if (petList === null) {

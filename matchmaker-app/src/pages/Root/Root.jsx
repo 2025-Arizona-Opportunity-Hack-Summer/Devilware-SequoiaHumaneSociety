@@ -18,7 +18,7 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
     if (isLoggedIn) {
       const API_BASE_URL = import.meta.env.VITE_API_URL;
       const FIND_USER_ENDPOINT = import.meta.env.VITE_FIND_USER_ENDPOINT;
-      const UPDATE_USER_QUESTIONNAIRE_ENDPOINT = import.meta.env.VITE_UPDATE_USER_QUESTIONNAIRE_ENDPOINT;
+      const USER_QUESTIONNAIRE_ENDPOINT = import.meta.env.VITE_USER_QUESTIONNAIRE_ENDPOINT;
 
       const endpoint = `${API_BASE_URL}/${FIND_USER_ENDPOINT}?email=${user.email}`;
       fetch(endpoint, {
@@ -28,7 +28,7 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
         .then((data) => {
           console.log(data.content);
           const updatedMatchQuestions = saveUserQuesionnaire(data.content);
-          const endpointUpdate = `${API_BASE_URL}/${UPDATE_USER_QUESTIONNAIRE_ENDPOINT}`;
+          const endpointUpdate = `${API_BASE_URL}/${USER_QUESTIONNAIRE_ENDPOINT}`;
           fetch(endpointUpdate, {
             method: "PUT",
             body: JSON.stringify({ email: user.email, questionnaire: updatedMatchQuestions }),

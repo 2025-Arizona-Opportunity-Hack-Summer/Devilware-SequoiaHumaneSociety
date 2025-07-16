@@ -96,9 +96,37 @@ async function updateUserQuestionnaire(req, res, next) {
   }
 }
 
+async function updateUserQuestionnaireById(req, res, next) {
+  const { questionId } = req.params;
+  const { email, value } = req.body;
+
+  try {
+    const usersCollection = mongoClient.getDB().collection("users");
+
+    const fieldToUpdate = `matchQuestions.${questionId}`;
+
+    const updatedUser = await usersCollection.findOneAndUpdate(
+      { email: email },
+      { $set: { [fieldToUpdate]: value } },
+      { returnDocument: "after" }
+    );
+
+    if (updatedUser === null) {
+      res.status(400).json({ description: "User does not exist" });
+      return;
+    }
+
+    res.status(200).json({ description: "User update sucessfully", content: updatedUser });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ description: "Soemthing wrong with server" });
+  }
+}
+
 module.exports = {
   createUser,
   findUserByEmail,
   updateUserFavoritesPet,
   updateUserQuestionnaire,
+  updateUserQuestionnaireById,
 };

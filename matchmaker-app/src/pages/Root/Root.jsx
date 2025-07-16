@@ -11,7 +11,7 @@ function Root() {
     <div className="root">
       <NavigationBar />
       {/* If match page, then no styling. Otherwise, have padding and margins for any text below navbar */}
-      <main className={isMatchPage || isAdoptPage ? "" : "pt-10 mx-20"}>
+      <main className={isMatchPage || isAdoptPage ? "" : "pt-10 mx-10 md:mx-20"}>
         <Outlet />
       </main>
     </div>

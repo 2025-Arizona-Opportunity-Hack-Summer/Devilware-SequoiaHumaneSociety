@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { withAuthInfo } from "@propelauth/react";
 
-import user from "../../../assets/images/user.png";
+import userImage from "../../../assets/images/user.png";
 
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
@@ -12,10 +13,11 @@ import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 import InputRadio from "../../Input/InputRadio/InputRadio";
 
 import { finishLCSlice } from "../../../redux/MatchFormSlice";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserQuestionnaire";
 
 import SessionStorage from "../../../features/sessionStorage";
 
-export default function LifestyleCommitmentQuestions() {
+export default withAuthInfo(function LifestyleCommitmentQuestions({ isLoggedIn, user }) {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
   /** 
@@ -29,19 +31,19 @@ export default function LifestyleCommitmentQuestions() {
 
   const questions = [
     <li key={"LC1"} className="w-full">
-      <QuestionLC1 getNextQuestion={getNextQuestion} />
+      <QuestionLC1 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"LC2"} className="w-full">
-      <QuestionLC2 getNextQuestion={getNextQuestion} />
+      <QuestionLC2 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"LC3"} className="w-full">
-      <QuestionLC3 getNextQuestion={getNextQuestion} />
+      <QuestionLC3 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"LC4"} className="w-full">
-      <QuestionLC4 getNextQuestion={getNextQuestion} />
+      <QuestionLC4 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"LC5"} className="w-full">
-      <QuestionLC5 getNextQuestion={getNextQuestion} />
+      <QuestionLC5 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
   ];
 
@@ -68,9 +70,9 @@ export default function LifestyleCommitmentQuestions() {
       {questions.slice(0, currQuestions)}
     </>
   );
-}
+});
 
-function QuestionLC1({ getNextQuestion }) {
+function QuestionLC1({ getNextQuestion, isLoggedIn, user }) {
   const [reason, setReason] = useState("");
   const [hasAnswer, setHasAnswer] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -91,6 +93,11 @@ function QuestionLC1({ getNextQuestion }) {
     SessionStorage.setItem("lc1", event.target.value);
     setHasAnswer((prevState) => true);
     getNextQuestion();
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("lc1", user.email, event.target.value).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const options = ["Save a live", "Find companion"];
@@ -137,7 +144,7 @@ function QuestionLC1({ getNextQuestion }) {
           </AnswerContainer>
 
           {/* Whether the answer is empty string or NOT, ALWAYS display user logo */}
-          <UserLogo src={user} />
+          <UserLogo src={userImage} />
         </div>
       </div>
 
@@ -146,7 +153,7 @@ function QuestionLC1({ getNextQuestion }) {
   );
 }
 
-function QuestionLC2({ getNextQuestion }) {
+function QuestionLC2({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [hour, setHour] = useState("");
   const [edit, setEdit] = useState(false);
@@ -162,10 +169,16 @@ function QuestionLC2({ getNextQuestion }) {
     }
   }, []);
 
+  console.log(isLoggedIn);
   const onClickOption = (event) => {
     setHasAnswer((preState) => true);
     setHour((hour) => Number(event.target.value));
     SessionStorage.setItem("lc2", Number(event.target.value));
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("lc2", user.email, Number(event.target.value)).catch((err) => {
+        console.log(err);
+      });
+    }
     getNextQuestion();
   };
 
@@ -214,7 +227,7 @@ function QuestionLC2({ getNextQuestion }) {
           <p>{hour}</p>
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -223,7 +236,7 @@ function QuestionLC2({ getNextQuestion }) {
   );
 }
 
-function QuestionLC3({ getNextQuestion }) {
+function QuestionLC3({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [activityLevel, setActivityLevel] = useState("");
   const [edit, setEdit] = useState(false);
@@ -243,6 +256,11 @@ function QuestionLC3({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     setActivityLevel((preState) => event.target.value);
     SessionStorage.setItem("lc3", event.target.value);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("lc3", user.email, Number(event.target.value)).catch((err) => {
+        console.log(err);
+      });
+    }
     getNextQuestion();
   };
 
@@ -287,7 +305,7 @@ function QuestionLC3({ getNextQuestion }) {
           <p>I am {activityLevel.toLowerCase()}</p>
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -296,7 +314,7 @@ function QuestionLC3({ getNextQuestion }) {
   );
 }
 
-function QuestionLC4({ getNextQuestion }) {
+function QuestionLC4({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [plan, setPlan] = useState("");
   const [frequency, setFrequency] = useState("");
@@ -318,6 +336,11 @@ function QuestionLC4({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     setFrequency((preState) => event.target.value);
     SessionStorage.setItem("lc4", { frequency: "Never", plan: "" });
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("lc4", user.email, { frequency: "Never", plan: "" }).catch((err) => {
+        console.log(err);
+      });
+    }
     getNextQuestion();
   };
 
@@ -330,6 +353,13 @@ function QuestionLC4({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     SessionStorage.setItem("lc4", { frequency: frequency, plan: event.target.value });
     getNextQuestion();
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("lc4", user.email, { frequency: frequency, plan: event.target.value }).catch(
+        (err) => {
+          console.log(err);
+        }
+      );
+    }
   };
 
   const onClickEdit = () => {
@@ -402,7 +432,7 @@ function QuestionLC4({ getNextQuestion }) {
             </p>
           </AnswerContainer>
 
-          <UserLogo src={user} />
+          <UserLogo src={userImage} />
         </div>
       </div>
       {frequency !== "Never" && frequency !== "" && !hasAnswer && (
@@ -456,13 +486,13 @@ function QuestionLC4a({ onSelectPlan, plan, edit }) {
           </select>
         </OptionContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
     </div>
   );
 }
 
-function QuestionLC5({ getNextQuestion }) {
+function QuestionLC5({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [answer, setAnswer] = useState("");
   const [edit, setEdit] = useState(false);
@@ -483,6 +513,11 @@ function QuestionLC5({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     setAnswer((preState) => false);
     SessionStorage.setItem("lc5", false);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("lc5", user.email, false).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickYes = () => {
@@ -490,6 +525,11 @@ function QuestionLC5({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     setAnswer((preState) => true);
     SessionStorage.setItem("lc5", true);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("lc5", user.email, true).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickEdit = () => {
@@ -503,13 +543,13 @@ function QuestionLC5({ getNextQuestion }) {
       <div className="xl:max-w-screen">
         {/* Question container - contains the questions */}
         <QuestionContainer>
-          <p className={`${!hasAnswer ? "typewriter" : ""} overflow-hidden`}>
+          <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
             {/* Running text */}
             Are you prepared for the 10-20 year commitment of pet ownership?
           </p>
         </QuestionContainer>
         {/* Answer or Options conatiner - contains the answer or options depends on @answer */}
-        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer ? "option" : ""}`}>
+        <div className={`flex items-end justify-end xl:mt-3 mt-5 ${!hasAnswer && !edit ? "option" : ""}`}>
           {/* If the answer is empty string ==> Display list of options */}
           <OptionContainer visible={!hasAnswer}>
             <div className="flex flex-row gap-2 flex-wrap">
@@ -537,7 +577,7 @@ function QuestionLC5({ getNextQuestion }) {
             <p>{answer === false ? "No" : "Yes"}</p>
           </AnswerContainer>
 
-          <UserLogo src={user} />
+          <UserLogo src={userImage} />
         </div>
       </div>
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}

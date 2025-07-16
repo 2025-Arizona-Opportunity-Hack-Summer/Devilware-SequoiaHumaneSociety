@@ -167,7 +167,7 @@ function Homepage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-[#252525] mb-4">
-              Why Choose <span className="text-[#C1272D]">Sequoia</span>?
+              ABOUT OUR SHELTER
             </h2>
             <p className="text-base sm:text-lg text-[#888888] max-w-3xl mx-auto">
               We're more than just a shelter - we're a community dedicated to animal welfare and responsible pet ownership.
@@ -221,7 +221,7 @@ function Homepage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-12">
                 <h2 className="text-[#7C0F0F] font-bold uppercase text-3xl sm:text-4xl mb-4 tracking-wide" style={{ fontFamily: 'Koulen, sans-serif' }}>
-                    About Our Shelter
+                    Why Choose <span className="text-[#C1272D]">Sequoia</span>?
                 </h2>
                 <div className="w-24 h-1 bg-[#C1272D] mx-auto rounded-full"></div>
             </div>
@@ -265,7 +265,7 @@ function Homepage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12 lg:mb-16">
             <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-              Stories of Hope
+              STORIES OF HOPE
             </h2>
             <p className="text-base sm:text-lg text-white/80 max-w-3xl mx-auto">
               Hear from families who found their perfect companions through Sequoia Humane Society.

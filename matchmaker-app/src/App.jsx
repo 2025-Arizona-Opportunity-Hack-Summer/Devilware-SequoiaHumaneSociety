@@ -4,7 +4,7 @@ import "react-router-dom";
 
 import Root from "./pages/Root/Root";
 import Homepage from "./pages/Homepage/Homepage";
-import About from "./pages/About/About";
+import Foster from "./pages/Foster/Foster";
 import Volunteer from "./pages/Volunteer/Volunteer";
 import Adopt from "./pages/Adopt/Adopt";
 import Match from "./pages/Match/Match";
@@ -23,7 +23,7 @@ const router = createBrowserRouter(
     <>
       <Route path="/" element={<Root />}>
         <Route index element={<Homepage />} />
-        <Route path="about" element={<About />} />
+        <Route path="foster" element={<Foster />} />
         <Route path="volunteer" element={<Volunteer />} />
         <Route path="adopt" element={<Adopt />}>
           <Route index element={<AdoptRoot />} />

@@ -51,8 +51,8 @@ function NavigationBar() {
             style={{ fontFamily: 'Koh Santepheap, serif' }}
           >
             <li><NavLink to="/" className={navLinkClass}>Home</NavLink></li>
-            <li><NavLink to="/about" className={navLinkClass}>About</NavLink></li>
-            <li><NavLink to="/contact" className={navLinkClass}>Contact</NavLink></li>
+            <li><NavLink to="/foster" className={navLinkClass}>Foster</NavLink></li>
+            <li><NavLink to="/volunteer" className={navLinkClass}>Volunteer</NavLink></li>
             <li><NavLink to="/adopt" className={navLinkClass}>Adopt</NavLink></li>
             <li><NavLink to="/match" className={navLinkClass}>Match</NavLink></li>
           </ul>
@@ -125,8 +125,9 @@ function NavigationBar() {
               style={{ fontFamily: 'Koh Santepheap, serif' }}
             >
               <li><NavLink to="/" className={mobileNavLinkClass}>Home</NavLink></li>
-              <li><NavLink to="/about" className={mobileNavLinkClass}>About</NavLink></li>
-              <li><NavLink to="/contact" className={mobileNavLinkClass}>Contact</NavLink></li>
+              <li><NavLink to="/foster" className={mobileNavLinkClass}>Foster</NavLink></li>
+              <li><NavLink to="/volunteer" className={mobileNavLinkClass}>Volunteer</NavLink></li>
+              <li><NavLink to="/donate" className={mobileNavLinkClass}>Donate</NavLink></li>
               <li><NavLink to="/adopt" className={mobileNavLinkClass}>Adopt</NavLink></li>
               <li><NavLink to="/match" className={mobileNavLinkClass}>Match</NavLink></li>
               <li><NavLink to="/sign-in" className={mobileNavLinkClass}>Sign In</NavLink></li>

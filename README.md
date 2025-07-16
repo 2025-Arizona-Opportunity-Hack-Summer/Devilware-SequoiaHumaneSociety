@@ -23,10 +23,10 @@ Brief description of your project and its goals.
 
 ## Tech Stack
 
-- Frontend: React.js, Node.js, Tailwind CSS
-- Backend: Python, Flask
-- Database: MongoDB, AWS
-- APIs:
+- Frontend: React.js, Tailwind CSS
+- Backend: Python, Node.js, Express.js
+- Database: MongoDB, AWS, Passport.js
+- APIs: AWS S3
 <!-- Add/modify as needed -->
 
 ## Getting Started

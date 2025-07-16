@@ -1,5 +1,6 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { ScrollRestoration } from "react-router-dom";
 
+import { Outlet, useLocation } from "react-router-dom";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 
 function Root() {
@@ -9,6 +10,7 @@ function Root() {
 
   return (
     <div className="root">
+      <ScrollRestoration />
       <NavigationBar />
       {/* If match page, then no styling. Otherwise, have padding and margins for any text below navbar */}
       <main>

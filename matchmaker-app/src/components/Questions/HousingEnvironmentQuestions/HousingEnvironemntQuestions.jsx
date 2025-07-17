@@ -18,7 +18,7 @@ import SessionStorage from "../../../features/sessionStorage";
 import userImage from "../../../assets/images/user.png";
 
 import { finishHESlice } from "../../../redux/MatchFormSlice";
-import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserQuestionnaire";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
 
 export default withAuthInfo(function HousingEnvironmentQuestions({ isLoggedIn, user }) {
   const dispatch = useDispatch();

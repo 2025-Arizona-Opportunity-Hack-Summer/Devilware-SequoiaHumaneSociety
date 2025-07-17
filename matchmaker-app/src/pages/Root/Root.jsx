@@ -6,7 +6,12 @@ import { Outlet, useLocation } from "react-router-dom";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import { userSlice } from "../../redux/UserInfoSlice";
 import { saveUserQuesionnaire } from "../../features/saveUserPreferences";
-import SessionStorage from "../../features/sessionStorage";
+
+import {
+  fetchFindUserByEmail,
+  fetchCreateUser,
+  fetchUpdateUserQuesionnaireBySessionStorage,
+} from "../../features/fetchUserRoutes";
 
 export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
   const location = useLocation();
@@ -15,41 +20,36 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
   const isAdoptPage = location.pathname.includes("/adopt");
 
   useEffect(() => {
-    if (isLoggedIn) {
-      const API_BASE_URL = import.meta.env.VITE_API_URL;
-      const FIND_USER_ENDPOINT = import.meta.env.VITE_FIND_USER_ENDPOINT;
-      const USER_QUESTIONNAIRE_ENDPOINT = import.meta.env.VITE_USER_QUESTIONNAIRE_ENDPOINT;
+    async function loadUser() {
+      if (!isLoggedIn) {
+        return;
+      }
+      let userInfo;
 
-      const endpoint = `${API_BASE_URL}/${FIND_USER_ENDPOINT}?email=${user.email}`;
-      fetch(endpoint, {
-        method: "GET",
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data.content);
-          const updatedMatchQuestions = saveUserQuesionnaire(data.content);
-          const endpointUpdate = `${API_BASE_URL}/${USER_QUESTIONNAIRE_ENDPOINT}`;
-          fetch(endpointUpdate, {
-            method: "PUT",
-            body: JSON.stringify({ email: user.email, questionnaire: updatedMatchQuestions }),
-            headers: {
-              "Content-type": "application/json",
-            },
-          })
-            .then((response) => response.json())
-            .then((data) => {
-              dispatch(userSlice.actions.assign(data.content));
-            })
-            .catch((err) => {
-              console.log(err);
-            });
+      try {
+        userInfo = await fetchFindUserByEmail(user.email);
+      } catch (err) {
+        throw Error(err);
+      }
 
-          console.log(SessionStorage.getItem("sp1"));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      if (userInfo === null) {
+        try {
+          userInfo = await fetchCreateUser(user.email, user.firstName, user.lastName, null, null);
+        } catch (err) {
+          throw Error(err);
+        }
+      }
+
+      const updatedMatchQuestions = saveUserQuesionnaire(userInfo);
+
+      userInfo = await fetchUpdateUserQuesionnaireBySessionStorage(user.email, updatedMatchQuestions);
+
+      dispatch(userSlice.actions.assign(userInfo));
     }
+
+    loadUser().catch((err) => {
+      console.log(err);
+    });
   }, [isLoggedIn]);
 
   return (

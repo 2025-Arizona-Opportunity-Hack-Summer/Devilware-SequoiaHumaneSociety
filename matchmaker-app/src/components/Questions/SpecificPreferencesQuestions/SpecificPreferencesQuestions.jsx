@@ -18,7 +18,7 @@ import InputCheckbox from "../../Input/InputCheckbox/InputCheckbox";
 import SessionStorage from "../../../features/sessionStorage";
 
 import { finishSPSlice } from "../../../redux/MatchFormSlice";
-import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserQuestionnaire";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
 
 export default withAuthInfo(function SpecificPreferencesQuestions({ isLoggedIn, user }) {
   const dispatch = useDispatch();

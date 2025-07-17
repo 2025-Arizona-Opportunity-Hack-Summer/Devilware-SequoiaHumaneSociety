@@ -9,6 +9,7 @@ import Modal from "../../components/Modal/Modal";
 import shsLogo from "../../assets/images/shs-logo.png";
 
 import "./Match.css";
+import { Link } from "react-router";
 
 export default withAuthInfo(function Match({ isLoggedIn }) {
   const [isQuestionPage, setIsQuestionPage] = useState(true);
@@ -58,8 +59,12 @@ export default withAuthInfo(function Match({ isLoggedIn }) {
               <img src={shsLogo} alt="shs" className="w-40" />
               <p className="font-medium">Become Sequoia user and access to your preferences</p>
               <div className="flex flex-col gap-2 w-full items-center">
-                <button className="sign-in-button">Create an account</button>
-                <button className="sign-in-button">Sign in with Sequoia</button>
+                <Link to="/register">
+                  <button className="sign-in-button">Create an account</button>
+                </Link>
+                <Link to="/sign-in">
+                  <button className="sign-in-button">Sign in with Sequoia</button>
+                </Link>
               </div>
             </div>
             <div className="flex flex-col gap-2 items-center">

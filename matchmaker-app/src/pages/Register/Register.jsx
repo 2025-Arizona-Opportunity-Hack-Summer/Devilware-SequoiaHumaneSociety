@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useAuthFrontendApis } from "@propelauth/frontend-apis-react";
+import { SocialLoginProvider } from "@propelauth/frontend-apis";
 
 import googleLogo from "../../assets/images/GOOGLE.png";
+import puppy from "../../assets/images/Puppy.png";
+
 import Modal from "../../components/Modal/Modal";
 
 import "./Register.css";
@@ -35,7 +38,7 @@ function Register() {
   const [getError, setError] = useState(null);
   const [visibleModal, setVisibleModal] = useState(false);
 
-  const { signup } = useAuthFrontendApis();
+  const { signup, loginWithSocialProvider } = useAuthFrontendApis();
   const handleInputChange = (e) => {
     const { name, value, type, checked, options } = e.target;
 
@@ -83,6 +86,8 @@ function Register() {
       const response = await signup({
         email: formData.email,
         password: formData.password,
+        first_name: formData.firstName,
+        last_name: formData.lastName,
       });
 
       response.handle({
@@ -159,7 +164,6 @@ function Register() {
   };
   return (
     <>
-      {" "}
       <div className="min-h-screen bg-white py-6 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl w-full mx-auto">
           <div className="text-center mb-8">
@@ -172,13 +176,20 @@ function Register() {
           </div>
 
           {/* Google Register Button */}
-          <button
-            onClick={handleGoogleRegister}
-            className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors mb-4">
-            <img src={googleLogo} alt="Google" className="w-4 h-4 mr-2" />
-            Register with Google
-          </button>
-
+          <div>
+            <input
+              type="button"
+              id="sign-up-google-button"
+              className="hidden"
+              onClick={() => loginWithSocialProvider(SocialLoginProvider.GOOGLE)}
+            />
+            <label
+              htmlFor="sign-up-google-button"
+              className="w-full flex items-center justify-center px-4 py-2 border border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors mb-4">
+              <img src={googleLogo} alt="Google" className="w-5 h-5 mr-2" />
+              Register with Google
+            </label>
+          </div>
           <div className="relative my-6">
             <div className="absolute inset-0 flex items-center">
               <div className="w-full border-t border-gray-300" />
@@ -480,6 +491,9 @@ function Register() {
               </p>
             </div>
           </form>
+          <div className="float-left bottom-0 right-0 rotate-y-180 absolute">
+            <img src={puppy} alt="dog" className="relative w-2xl" />
+          </div>
         </div>
       </div>
       <Modal visible={visibleModal} className="!w-max !h-max !right-0 !top-1/8 !bg-transparent ">

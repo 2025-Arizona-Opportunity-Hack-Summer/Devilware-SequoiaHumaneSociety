@@ -16,7 +16,7 @@ import InputButton from "../../Input/InputButton/InputButton";
 
 import SessionStorage from "../../../features/sessionStorage.jsx";
 
-import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserQuestionnaire.jsx";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes.jsx";
 import { finishEESlice } from "../../../redux/MatchFormSlice.jsx";
 
 export default withAuthInfo(function ExperienceExpectationsQuestions({ isLoggedIn, user }) {

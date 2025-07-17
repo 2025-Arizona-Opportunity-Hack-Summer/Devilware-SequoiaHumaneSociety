@@ -13,7 +13,7 @@ import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 import InputRadio from "../../Input/InputRadio/InputRadio";
 
 import { finishLCSlice } from "../../../redux/MatchFormSlice";
-import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserQuestionnaire";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
 
 import SessionStorage from "../../../features/sessionStorage";
 

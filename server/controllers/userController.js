@@ -5,24 +5,28 @@ const mongoClient = require("../database");
 async function createUser(req, res, next) {
   const { email, name, dob, gender } = req.body;
 
+  const newUser = {
+    email: email,
+    name: {
+      firstName: name.firstName,
+      lastName: name.lastName,
+    },
+    dob: dob,
+    gender: gender,
+    favoritePets: [],
+    adoptedPets: [],
+    matchQuestions: {},
+  };
   try {
-    await mongoClient
+    const user = await mongoClient
       .getDB()
       .collection("users")
-      .insertOne({
-        email: email,
-        name: {
-          firstName: name.firstName,
-          lastName: name.lastName,
-        },
-        dob: dob,
-        gender: gender,
-        favoritePets: [],
-        adoptedPets: [],
-        matchQuestions: {},
-      });
+      .insertOne({ ...newUser });
 
-    res.status(201).json({ description: "Create user successfully" });
+    res.status(201).json({
+      description: "Create user successfully",
+      content: { ...newUser },
+    });
   } catch (err) {
     res.status(400).json({ description: "Cannot create user", error: err });
   }
@@ -41,7 +45,7 @@ async function findUserByEmail(req, res, next) {
 
     res.status(200).json({ description: "Sign in successfully", content: user });
   } catch (err) {
-    res.status(400).json({
+    res.status(500).json({
       description: "Problem occurs at server. Please contact for help",
     });
   }

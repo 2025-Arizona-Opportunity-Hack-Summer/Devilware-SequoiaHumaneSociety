@@ -19,7 +19,7 @@ import InputText from "../../Input/InputText/InputText";
 import SessionStorage from "../../../features/sessionStorage";
 
 import { finishHCSlice } from "../../../redux/MatchFormSlice";
-import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserQuestionnaire";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
 
 export default withAuthInfo(function HouseholdCompositionQuestions({ isLoggedIn, user }) {
   const dispatch = useDispatch();

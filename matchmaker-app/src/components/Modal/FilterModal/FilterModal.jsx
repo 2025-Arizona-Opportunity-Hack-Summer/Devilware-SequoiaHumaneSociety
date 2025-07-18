@@ -11,8 +11,6 @@ import SortFilter from "./SortFilter/SortFilter";
 import BreedFilter from "./BreedFilter/BreedFilter";
 import SessionStorage from "../../../features/sessionStorage";
 
-import { petListSlice } from "../../../redux/MatchedPetSlice";
-
 import { filterPet } from "../../../features/filterPet";
 
 function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue, originalPetList, setPetList }) {
@@ -86,7 +84,7 @@ function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue, o
   };
 
   const onClickClearAll = () => {
-    const updatedList = filterPet(petList, [], [], [], [], "");
+    const updatedPetList = filterPet(originalPetList, [], [], [], [], "");
     setSpeciesFilter((preState) => []);
     setBreedFilter((preState) => []);
     setActiveLevelFilter((preState) => []);
@@ -97,7 +95,7 @@ function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue, o
     SessionStorage.removeItem("match-active-level-filter");
     SessionStorage.removeItem("match-size-filter");
     SessionStorage.removeItem("match-sort-filter");
-    dispatch(petListSlice.actions.assign(updatedList));
+    setPetList((prev) => updatedPetList);
     onClickCloseFilter();
   };
   return (
@@ -122,7 +120,7 @@ function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue, o
         <div className="flex flex-col gap-2 mt-5">
           <div className="flex flex-col justify-start gap-5">
             <SpeciesFilter speciesFilter={speciesFilter} setSpeciesFilter={setSpeciesFilter} />
-            <BreedFilter petList={petList} breedFilter={breedFilter} setBreedFilter={setBreedFilter} />
+            <BreedFilter petList={originalPetList} breedFilter={breedFilter} setBreedFilter={setBreedFilter} />
             <ActiveLevelsFilter activeLevelFilter={activeLevelFilter} setActiveLevelFilter={setActiveLevelFilter} />
             <SizeFilter sizeFilter={sizeFilter} setSizeFilter={setSizeFilter} />
             <SortFilter sortFilter={sortFilter} setSortFilter={setSortFilter} />

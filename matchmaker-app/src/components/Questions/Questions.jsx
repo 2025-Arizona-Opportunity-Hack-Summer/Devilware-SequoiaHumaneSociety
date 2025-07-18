@@ -13,7 +13,7 @@ import ExperienceExpectationsQuestions from "./ExperienceExpectationsQuestions/E
 import SpecificPreferencesQuestions from "./SpecificPreferencesQuestions/SpecificPreferencesQuestions";
 
 import { finishHCSlice, finishHESlice, finishLCSlice, finishEESlice, finishSPSlice } from "../../redux/MatchFormSlice";
-import { petListSlice } from "../../redux/MatchedPetSlice";
+import { matchedPetListSlice } from "../../redux/MatchedPetSlice";
 import { userSlice } from "../../redux/UserInfoSlice";
 
 import InputButton from "../Input/InputButton/InputButton";
@@ -161,7 +161,7 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     } else {
       setIsLoading((preState) => false);
       setIsQuestionPage((preState) => false);
-      dispatch(petListSlice.actions.assign(petList));
+      dispatch(matchedPetListSlice.actions.assign(petList));
     }
   };
 

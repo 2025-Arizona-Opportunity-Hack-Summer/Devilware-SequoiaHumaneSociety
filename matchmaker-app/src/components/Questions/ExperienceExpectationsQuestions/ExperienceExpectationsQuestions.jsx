@@ -9,15 +9,15 @@ import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContaine
 import OptionContainer from "../QuestionComponent/OptionContainer/OptionContainer";
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 
-import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner/WaitingAnswerSpinner.jsx";
-import InputDatalist from "../../Input/InputDataList/InputDataList.jsx";
-import InputRadio from "../../Input/InputRadio/InputRadio.jsx";
-import InputButton from "../../Input/InputButton/InputButton.jsx";
+import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner/WaitingAnswerSpinner";
+import InputDatalist from "../../Input/InputDataList/InputDataList";
+import InputRadio from "../../Input/InputRadio/InputRadio";
+import InputButton from "../../Input/InputButton/InputButton";
 
-import SessionStorage from "../../../features/sessionStorage.jsx";
+import SessionStorage from "../../../features/sessionStorage";
 
-import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes.jsx";
-import { finishEESlice } from "../../../redux/MatchFormSlice.jsx";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
+import { finishEESlice } from "../../../redux/MatchFormSlice";
 
 export default withAuthInfo(function ExperienceExpectationsQuestions({ isLoggedIn, user }) {
   const dispatch = useDispatch();

@@ -169,7 +169,6 @@ function QuestionLC2({ getNextQuestion, isLoggedIn, user }) {
     }
   }, []);
 
-  console.log(isLoggedIn);
   const onClickOption = (event) => {
     setHasAnswer((preState) => true);
     setHour((hour) => Number(event.target.value));

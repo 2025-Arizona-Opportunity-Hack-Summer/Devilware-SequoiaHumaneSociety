@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
 import FilterModal from "../Modal/FilterModal/FilterModal";
 import GoBackButton from "./GoBackButton/GoBackButton";
@@ -9,19 +9,20 @@ import FilterList from "./FilterList/FilterList";
 
 import InputText from "../Input/InputText/InputText";
 import InputButton from "../Input/InputButton/InputButton";
+import SessionStorage from "../../features/sessionStorage";
 
-import { petListSlice } from "../../redux/MatchedPetSlice";
-
+import { matchedPetListSlice } from "../../redux/MatchedPetSlice";
+import { filterPet } from "../../features/filterPet";
 import searchImg from "../../assets/images/search-com.svg";
 
 import "./MatchedPets.css";
 
 function MatchedPets({ visible, setIsQuestionPage }) {
-  const petListRedux = useSelector((store) => store[petListSlice.name]);
+  const matchPetList = useSelector((store) => store[matchedPetListSlice.name]);
   const [visibleFilter, setVisibleFilter] = useState(false);
   const [visibleSignIn, setVisibleSignIn] = useState(false);
   const [searchPet, setSearchPet] = useState("");
-  const [petList, setPetList] = useState(petListRedux);
+  const [petList, setPetList] = useState(matchPetList);
   const [speciesFilter, setSpeciesFilter] = useState([]);
   const [breedFilter, setBreedFilter] = useState([]);
   const [activeLevelFilter, setActiveLevelFilter] = useState([]);
@@ -29,8 +30,8 @@ function MatchedPets({ visible, setIsQuestionPage }) {
   const [sortFilter, setSortFilter] = useState("");
 
   useEffect(() => {
-    setPetList((preState) => petListRedux);
-  }, [petListRedux]);
+    setPetList((preState) => matchPetList);
+  }, [matchPetList]);
 
   const onClickOpenFilter = () => {
     setVisibleFilter((preState) => true);
@@ -75,6 +76,19 @@ function MatchedPets({ visible, setIsQuestionPage }) {
     setSizeFilter,
     setSortFilter,
   };
+
+  const onClickRemoveItem = (title, value) => {
+    if (title == "Species") {
+      let updatedFilter = [...speciesFilter.filter((item) => item !== value)];
+      setSpeciesFilter((prev) => updatedFilter);
+      SessionStorage.setItem("match-species-filter", updatedFilter);
+    }
+    if (title == "Breed") {
+      let updatedFilter = [...breedFilter.filter((item) => item !== value)];
+      setBreedFilter((prev) => updatedFilter);
+      SessionStorage.setItem("match-breed-filter", updatedFilter);
+    }
+  };
   return (
     <>
       <div className="flex flex-col min-h-screen xl:w-[80vw] w-[90vw] m-auto rounded-2xl gap-3 bg-white py-10 matched-pet-root">
@@ -86,7 +100,7 @@ function MatchedPets({ visible, setIsQuestionPage }) {
             fontStyle: "normal",
             fontWeight: 600,
           }}>
-          Results
+          Matched Results
         </h2>
         <div className="flex flex-wrap w-full justify-between">
           <div className="flex w-[80%] px-3 p-2 items-center shadow-[5px_5px_5px_#00000040] filter-text-container border-2 border-transparent">
@@ -114,7 +128,7 @@ function MatchedPets({ visible, setIsQuestionPage }) {
             Filter
           </InputButton>
         </div>
-        <FilterList filterValue={filterValue} />
+        <FilterList filterValue={filterValue} onClickRemoveItem={onClickRemoveItem} />
         <PetList petList={petList} className="mt-10" setVisibleSignIn={setVisibleSignIn} />
       </div>
       <FilterModal
@@ -122,6 +136,8 @@ function MatchedPets({ visible, setIsQuestionPage }) {
         setVisibleFilter={setVisibleFilter}
         filterValue={filterValue}
         setFilterValue={setFilterValue}
+        originalPetList={matchPetList}
+        setPetList={setPetList}
       />
       <RequiredSignInModal visible={visibleSignIn} setVisible={setVisibleSignIn} />
     </>

@@ -15,68 +15,52 @@ import { petListSlice } from "../../../redux/MatchedPetSlice";
 
 import { filterPet } from "../../../features/filterPet";
 
-function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue }) {
+function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue, originalPetList, setPetList }) {
   const dispatch = useDispatch();
-
-  const [petList, setPetList] = useState([]); // only use for filter not for display
 
   const { speciesFilter, breedFilter, activeLevelFilter, sizeFilter, sortFilter } = filterValue;
   const { setSpeciesFilter, setBreedFilter, setActiveLevelFilter, setSizeFilter, setSortFilter } = setFilterValue;
 
   useEffect(() => {
-    const API_BASE_URL = import.meta.env.VITE_API_URL;
-    const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
+    const storedSpeciesFilter = SessionStorage.getItem("match-species-filter");
 
-    const url = `${API_BASE_URL}/${PETS_ENDPOINT}`;
+    if (storedSpeciesFilter !== null) {
+      setSpeciesFilter((preState) => storedSpeciesFilter);
+    }
 
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setPetList((preState) => data.content);
+    const storedBreedFilter = SessionStorage.getItem("match-breed-filter");
 
-        const storedSpeciesFilter = SessionStorage.getItem("match-species-filter");
+    if (storedBreedFilter !== null) {
+      setBreedFilter((preState) => storedBreedFilter);
+    }
 
-        if (storedSpeciesFilter !== null) {
-          setSpeciesFilter((preState) => storedSpeciesFilter);
-        }
+    const storedActiveLevelFilter = SessionStorage.getItem("match-active-level-filter");
 
-        const storedBreedFilter = SessionStorage.getItem("match-breed-filter");
+    if (storedActiveLevelFilter !== null) {
+      setActiveLevelFilter((preState) => storedActiveLevelFilter);
+    }
 
-        if (storedBreedFilter !== null) {
-          setBreedFilter((preState) => storedBreedFilter);
-        }
+    const storedSizeFilter = SessionStorage.getItem("match-size-filter");
 
-        const storedActiveLevelFilter = SessionStorage.getItem("match-active-level-filter");
+    if (storedSizeFilter !== null) {
+      setSizeFilter((preState) => storedSizeFilter);
+    }
 
-        if (storedActiveLevelFilter !== null) {
-          setActiveLevelFilter((preState) => storedActiveLevelFilter);
-        }
+    const storedSortFilter = SessionStorage.getItem("match-sort-filter");
 
-        const storedSizeFilter = SessionStorage.getItem("match-size-filter");
+    if (storedSortFilter !== null) {
+      setSortFilter((preState) => storedSortFilter);
+    }
 
-        if (storedSizeFilter !== null) {
-          setSizeFilter((preState) => storedSizeFilter);
-        }
-
-        const storedSortFilter = SessionStorage.getItem("match-sort-filter");
-
-        if (storedSortFilter !== null) {
-          setSortFilter((preState) => storedSortFilter);
-        }
-
-        const updatedList = filterPet(
-          data.content,
-          storedSpeciesFilter,
-          storedBreedFilter,
-          storedActiveLevelFilter,
-          sizeFilter,
-          storedSortFilter
-        );
-        dispatch(petListSlice.actions.assign(updatedList));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    const updatedPetList = filterPet(
+      originalPetList,
+      storedSpeciesFilter,
+      storedBreedFilter,
+      storedActiveLevelFilter,
+      storedSizeFilter,
+      storedSortFilter
+    );
+    setPetList((prev) => updatedPetList);
   }, []);
 
   const onClickCloseFilter = () => {
@@ -84,13 +68,20 @@ function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue })
   };
 
   const onClickApplyFilter = () => {
-    const updatedList = filterPet(petList, speciesFilter, breedFilter, activeLevelFilter, sizeFilter, sortFilter);
     SessionStorage.setItem("match-species-filter", speciesFilter);
     SessionStorage.setItem("match-breed-filter", breedFilter);
     SessionStorage.setItem("match-active-level-filter", activeLevelFilter);
     SessionStorage.setItem("match-size-filter", sizeFilter);
     SessionStorage.setItem("match-sort-filter", sortFilter);
-    dispatch(petListSlice.actions.assign(updatedList));
+    const updatedPetList = filterPet(
+      originalPetList,
+      speciesFilter,
+      breedFilter,
+      activeLevelFilter,
+      sizeFilter,
+      sortFilter
+    );
+    setPetList((prev) => updatedPetList);
     onClickCloseFilter();
   };
 
@@ -114,7 +105,7 @@ function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue })
       <div className="bg-white absolute w-full bottom-0 p-6 px-20 filter-modal">
         <div className="flex justify-between items-center">
           <button
-            className="cursor-pointer hover:bg-[#7C0F0F] bg-[#adb5bd] py-1 px-2 rounded-md text-white font-semibold"
+            className="cursor-pointer hover:bg-[#7C0F0F] bg-[#adb5bd] py-1 px-3 rounded-md text-white font-semibold"
             onClick={onClickCloseFilter}>
             x
           </button>

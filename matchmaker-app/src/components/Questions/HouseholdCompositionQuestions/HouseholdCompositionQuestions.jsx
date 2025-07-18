@@ -11,7 +11,7 @@ import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner/Wait
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 import AnimalList from "../AnimalList/AnimalList";
 
-import InputDatalist from "../../Input/InputDataList/InputDataList";
+import InputDatalist from "../../Input/InputDatalist/InputDatalist";
 import InputRadio from "../../Input/InputRadio/InputRadio";
 
 import InputButton from "../../Input/InputButton/InputButton";

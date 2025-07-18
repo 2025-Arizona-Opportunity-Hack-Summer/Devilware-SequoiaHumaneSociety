@@ -10,7 +10,7 @@ import OptionContainer from "../QuestionComponent/OptionContainer/OptionContaine
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 
 import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner/WaitingAnswerSpinner";
-import InputDatalist from "../../Input/InputDataList/InputDataList";
+import InputDatalist from "../../Input/InputDatalist/InputDatalist";
 import InputRadio from "../../Input/InputRadio/InputRadio";
 import InputButton from "../../Input/InputButton/InputButton";
 

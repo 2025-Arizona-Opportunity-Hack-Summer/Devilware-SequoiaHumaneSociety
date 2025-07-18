@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { withAuthInfo, useAuthInfo } from "@propelauth/react";
 
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import OptionContainer from "../QuestionComponent/OptionContainer/OptionContainer";
@@ -14,11 +15,12 @@ import InputButton from "../../Input/InputButton/InputButton";
 
 import SessionStorage from "../../../features/sessionStorage";
 
-import user from "../../../assets/images/user.png";
+import userImage from "../../../assets/images/user.png";
 
 import { finishHESlice } from "../../../redux/MatchFormSlice";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
 
-export default function HousingEnvironmentQuestions() {
+export default withAuthInfo(function HousingEnvironmentQuestions({ isLoggedIn, user }) {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
   /** 
@@ -32,19 +34,19 @@ export default function HousingEnvironmentQuestions() {
 
   const questions = [
     <li key={"HE1"} className="w-full">
-      <QuestionHE1 getNextQuestion={getNextQuestion} />
+      <QuestionHE1 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"HE2"} className="w-full">
-      <QuestionHE2 getNextQuestion={getNextQuestion} />
+      <QuestionHE2 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"HE3"} className="w-full">
-      <QuestionHE3 getNextQuestion={getNextQuestion} />
+      <QuestionHE3 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"HE4"} className="w-full">
-      <QuestionHE4 getNextQuestion={getNextQuestion} />
+      <QuestionHE4 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"HE5"} className="w-full">
-      <QuestionHE5 getNextQuestion={getNextQuestion} />
+      <QuestionHE5 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
   ];
 
@@ -71,9 +73,9 @@ export default function HousingEnvironmentQuestions() {
       {questions.slice(0, currQuestions)}
     </>
   );
-}
+});
 
-function QuestionHE1({ getNextQuestion }) {
+function QuestionHE1({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [edit, setEdit] = useState(false);
   const [answer, setAnswer] = useState("");
@@ -90,10 +92,17 @@ function QuestionHE1({ getNextQuestion }) {
     }
   }, []);
 
-  const onClickOption = (event) => {
+  const onClickOption = async (event) => {
     setHasAnswer((preAnser) => true);
     setAnswer((preAnser) => event.target.value);
     SessionStorage.setItem("he1", event.target.value);
+
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("he1", user.email, event.target.value).catch((err) => {
+        console.log(err);
+      });
+    }
+
     getNextQuestion();
   };
 
@@ -149,7 +158,7 @@ function QuestionHE1({ getNextQuestion }) {
         </AnswerContainer>
 
         {/* Whether the answer is empty string or NOT, ALWAYS display user logo */}
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -158,7 +167,7 @@ function QuestionHE1({ getNextQuestion }) {
   );
 }
 
-function QuestionHE2({ getNextQuestion }) {
+function QuestionHE2({ getNextQuestion, isLoggedIn, user }) {
   const [house, setHouse] = useState("");
   const [edit, setEdit] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
@@ -184,6 +193,11 @@ function QuestionHE2({ getNextQuestion }) {
     setHouse((prevAnswer) => event.target.value);
     getNextQuestion();
     SessionStorage.setItem("he2", event.target.value);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("he2", user.email, event.target.value).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickNext = () => {
@@ -191,7 +205,11 @@ function QuestionHE2({ getNextQuestion }) {
       getNextQuestion();
       setHasAnswer((prevState) => true);
       SessionStorage.setItem("he2", house);
-      SessionStorage.setItem("he2", house);
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("he2", user.email, house).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
 
@@ -288,7 +306,7 @@ function QuestionHE2({ getNextQuestion }) {
         <AnswerContainer visible={hasAnswer} id="he2" onClickEdit={onClickEdit}>
           <p>{house}</p>
         </AnswerContainer>
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -297,7 +315,7 @@ function QuestionHE2({ getNextQuestion }) {
   );
 }
 
-function QuestionHE3({ getNextQuestion }) {
+function QuestionHE3({ getNextQuestion, isLoggedIn, user }) {
   const [type, setType] = useState("");
   const [height, setHeight] = useState(0);
   const [hasFence, setHasFence] = useState(false);
@@ -332,6 +350,11 @@ function QuestionHE3({ getNextQuestion }) {
     setHasAnswer((prevState) => true);
     SessionStorage.setItem("he3", { type: "None", height: 0 });
     setType((prevState) => "None");
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("he3", user.email, { type: "None", height: 0 }).catch((err) => {
+        console.log(err);
+      });
+    }
     getNextQuestion();
   };
 
@@ -339,6 +362,11 @@ function QuestionHE3({ getNextQuestion }) {
     getNextQuestion();
     setHasAnswer((prevState) => true);
     SessionStorage.setItem("he3", { type: type, height: height });
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("he3", user.email, { type: type, height: height }).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickEdit = () => {
@@ -412,7 +440,7 @@ function QuestionHE3({ getNextQuestion }) {
         <AnswerContainer visible={hasAnswer} id="he3" onClickEdit={onClickEdit}>
           <p>{type == "None" ? "No" : `I have ${type.toLowerCase()} fence with ${height} meters`}</p>
         </AnswerContainer>
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -421,7 +449,7 @@ function QuestionHE3({ getNextQuestion }) {
   );
 }
 
-function QuestionHE4({ getNextQuestion }) {
+function QuestionHE4({ getNextQuestion, isLoggedIn, user }) {
   const [hour, setHour] = useState("");
   const [hasAnswer, setHasAnswer] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -444,6 +472,11 @@ function QuestionHE4({ getNextQuestion }) {
     setHour((preState) => event.target.value);
     setHasAnswer((preState) => true);
     SessionStorage.setItem("he4", event.target.value);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("he4", user.email, event.target.value).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickEdit = () => {
@@ -486,7 +519,7 @@ function QuestionHE4({ getNextQuestion }) {
           <p>{hour}</p>
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -495,7 +528,7 @@ function QuestionHE4({ getNextQuestion }) {
   );
 }
 
-function QuestionHE5({ getNextQuestion }) {
+function QuestionHE5({ getNextQuestion, isLoggedIn, user }) {
   const [answer, setAnswer] = useState("");
   const [hasOther, setHasOther] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
@@ -520,6 +553,11 @@ function QuestionHE5({ getNextQuestion }) {
     setAnswer((prevAnswer) => event.target.value);
     setHasAnswer((preState) => true);
     SessionStorage.setItem("he5", event.target.value);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("he5", user.email, event.target.value).catch((err) => {
+        console.log(err);
+      });
+    }
     getNextQuestion();
   };
 
@@ -528,6 +566,11 @@ function QuestionHE5({ getNextQuestion }) {
       SessionStorage.setItem("he5", answer);
       getNextQuestion();
       setHasAnswer((preState) => true);
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("he5", user.email, answer).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
 
@@ -620,7 +663,7 @@ function QuestionHE5({ getNextQuestion }) {
           <p>{answer}</p>
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}

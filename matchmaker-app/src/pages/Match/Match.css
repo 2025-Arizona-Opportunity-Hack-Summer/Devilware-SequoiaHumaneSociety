@@ -1,0 +1,46 @@
+.sign-in-button {
+  border: 2px solid #7c0f0f;
+  cursor: pointer;
+  width: max-content;
+  padding: 10px;
+  position: relative;
+  text-align: left;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.sign-in-button:hover {
+  color: white;
+  background: #7c0f0f;
+  transition-duration: 100ms;
+}
+
+.keep-logout-button {
+  border: 2px solid #e77728;
+  cursor: pointer;
+  width: max-content;
+  padding: 10px;
+  position: relative;
+  text-align: left;
+  font-size: 1rem;
+  border-radius: 5px;
+}
+
+.keep-logout-button:hover {
+  color: white;
+  background: #e77728;
+  transition-duration: 100ms;
+}
+
+.warning-modal {
+  animation: fade-in 500ms linear;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

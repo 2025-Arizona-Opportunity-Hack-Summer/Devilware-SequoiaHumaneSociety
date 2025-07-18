@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { withAuthInfo } from "@propelauth/react";
 
-import user from "../../../assets/images/user.png";
+import userImage from "../../../assets/images/user.png";
 
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
@@ -15,9 +16,10 @@ import InputButton from "../../Input/InputButton/InputButton";
 
 import SessionStorage from "../../../features/sessionStorage.jsx";
 
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes.jsx";
 import { finishEESlice } from "../../../redux/MatchFormSlice.jsx";
 
-export default function ExperienceExpectationsQuestions() {
+export default withAuthInfo(function ExperienceExpectationsQuestions({ isLoggedIn, user }) {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
 
@@ -31,16 +33,16 @@ export default function ExperienceExpectationsQuestions() {
 
   const questions = [
     <li key={"EE1"} className="w-full">
-      <QuestionEE1 getNextQuestion={getNextQuestion} />
+      <QuestionEE1 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"EE2"} className="w-full">
-      <QuestionEE2 getNextQuestion={getNextQuestion} />
+      <QuestionEE2 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"EE3"} className="w-full">
-      <QuestionEE3 getNextQuestion={getNextQuestion} />
+      <QuestionEE3 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"EE4"} className="w-full">
-      <QuestionEE4 getNextQuestion={getNextQuestion} />
+      <QuestionEE4 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
   ];
 
@@ -60,9 +62,9 @@ export default function ExperienceExpectationsQuestions() {
       {questions.slice(0, currQuestions)}
     </>
   );
-}
+});
 
-function QuestionEE1({ getNextQuestion }) {
+function QuestionEE1({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [answer, setAnswer] = useState("");
   const [edit, setEdit] = useState(false);
@@ -83,6 +85,11 @@ function QuestionEE1({ getNextQuestion }) {
     SessionStorage.setItem("ee1", false);
     setAnswer((preState) => false);
     getNextQuestion();
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("ee1", user.email, false).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickYes = () => {
@@ -90,6 +97,11 @@ function QuestionEE1({ getNextQuestion }) {
     SessionStorage.setItem("ee1", true);
     setAnswer((preState) => true);
     getNextQuestion();
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("ee1", user.email, true).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickEdit = () => {
@@ -136,7 +148,7 @@ function QuestionEE1({ getNextQuestion }) {
           <p>{answer === false ? "No" : "Yes"}</p>
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -145,7 +157,7 @@ function QuestionEE1({ getNextQuestion }) {
   );
 }
 
-function QuestionEE2({ getNextQuestion }) {
+function QuestionEE2({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [answers, setAnswers] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -173,6 +185,11 @@ function QuestionEE2({ getNextQuestion }) {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("ee2", answers);
       getNextQuestion();
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("ee2", user.email, answers).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
 
@@ -228,7 +245,7 @@ function QuestionEE2({ getNextQuestion }) {
           )}
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -237,7 +254,7 @@ function QuestionEE2({ getNextQuestion }) {
   );
 }
 
-function QuestionEE3({ getNextQuestion }) {
+function QuestionEE3({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [answers, setAnswers] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -265,6 +282,11 @@ function QuestionEE3({ getNextQuestion }) {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("ee3", answers);
       getNextQuestion();
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("ee3", user.email, answers).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
 
@@ -320,7 +342,7 @@ function QuestionEE3({ getNextQuestion }) {
           )}
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -329,7 +351,7 @@ function QuestionEE3({ getNextQuestion }) {
   );
 }
 
-function QuestionEE4({ getNextQuestion }) {
+function QuestionEE4({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [answer, setAnswer] = useState("");
   const [edit, setEdit] = useState(false);
@@ -350,6 +372,11 @@ function QuestionEE4({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     setAnswer((preState) => false);
     SessionStorage.setItem("ee4", false);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("ee4", user.email, false).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickYes = () => {
@@ -357,6 +384,11 @@ function QuestionEE4({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     setAnswer((preState) => true);
     SessionStorage.setItem("ee4", true);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("ee4", user.email, true).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickEdit = () => {
@@ -404,7 +436,7 @@ function QuestionEE4({ getNextQuestion }) {
             <p>{answer === false ? "No" : "Yes"}</p>
           </AnswerContainer>
 
-          <UserLogo src={user} />
+          <UserLogo src={userImage} />
         </div>
       </div>
 

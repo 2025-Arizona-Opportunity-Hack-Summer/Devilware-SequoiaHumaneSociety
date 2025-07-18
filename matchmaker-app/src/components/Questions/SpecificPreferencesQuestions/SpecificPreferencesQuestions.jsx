@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { withAuthInfo } from "@propelauth/react";
 
-import user from "../../../assets/images/user.png";
+import userImage from "../../../assets/images/user.png";
 
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
@@ -17,8 +18,9 @@ import InputCheckbox from "../../Input/InputCheckbox/InputCheckbox";
 import SessionStorage from "../../../features/sessionStorage";
 
 import { finishSPSlice } from "../../../redux/MatchFormSlice";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
 
-export default function SpecificPreferencesQuestions() {
+export default withAuthInfo(function SpecificPreferencesQuestions({ isLoggedIn, user }) {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
   /** 
@@ -32,22 +34,22 @@ export default function SpecificPreferencesQuestions() {
 
   const questions = [
     <li key={"SP1"} className="w-full">
-      <QuestionSP1 getNextQuestion={getNextQuestion} />
+      <QuestionSP1 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"SP2"} className="w-full">
-      <QuestionSP2 getNextQuestion={getNextQuestion} />
+      <QuestionSP2 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"SP3"} className="w-full">
-      <QuestionSP3 getNextQuestion={getNextQuestion} />
+      <QuestionSP3 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"SP4"} className="w-full">
-      <QuestionSP4 getNextQuestion={getNextQuestion} />
+      <QuestionSP4 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"SP5"} className="w-full">
-      <QuestionSP5 getNextQuestion={getNextQuestion} />
+      <QuestionSP5 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"SP6"} className="w-full">
-      <QuestionSP6 getNextQuestion={getNextQuestion} />
+      <QuestionSP6 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
   ];
 
@@ -74,9 +76,9 @@ export default function SpecificPreferencesQuestions() {
       {questions.slice(0, currQuestions)}
     </>
   );
-}
+});
 
-function QuestionSP1({ getNextQuestion }) {
+function QuestionSP1({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [animalTypes, setAnimalTypes] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -104,6 +106,11 @@ function QuestionSP1({ getNextQuestion }) {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("sp1", animalTypes);
       getNextQuestion();
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("sp1", user.email, animalTypes).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
 
@@ -154,7 +161,7 @@ function QuestionSP1({ getNextQuestion }) {
           </p>
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -163,7 +170,7 @@ function QuestionSP1({ getNextQuestion }) {
   );
 }
 
-function QuestionSP2({ getNextQuestion }) {
+function QuestionSP2({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [fromAge, setFromAge] = useState("");
   const [toAge, setToAge] = useState("");
@@ -209,6 +216,11 @@ function QuestionSP2({ getNextQuestion }) {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("sp2", { fromAge: fromAge, toAge: toAge });
       getNextQuestion();
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("sp2", user.email, { fromAge: fromAge, toAge: toAge }).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
 
@@ -277,7 +289,7 @@ function QuestionSP2({ getNextQuestion }) {
           )}
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -286,7 +298,7 @@ function QuestionSP2({ getNextQuestion }) {
   );
 }
 
-function QuestionSP3({ getNextQuestion }) {
+function QuestionSP3({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [sizes, setSizes] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -308,6 +320,11 @@ function QuestionSP3({ getNextQuestion }) {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("sp3", sizes);
       getNextQuestion();
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("sp3", user.email, sizes).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
   const onChangeSize = (event) => {
@@ -387,7 +404,7 @@ function QuestionSP3({ getNextQuestion }) {
           </ul>
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -396,7 +413,7 @@ function QuestionSP3({ getNextQuestion }) {
   );
 }
 
-function QuestionSP4({ getNextQuestion }) {
+function QuestionSP4({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [levels, setLevels] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -419,6 +436,11 @@ function QuestionSP4({ getNextQuestion }) {
 
       SessionStorage.setItem("sp4", levels);
       getNextQuestion();
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("sp4", user.email, levels).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
   const onChangeLevel = (event) => {
@@ -498,7 +520,7 @@ function QuestionSP4({ getNextQuestion }) {
           </ul>
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -507,7 +529,7 @@ function QuestionSP4({ getNextQuestion }) {
   );
 }
 
-function QuestionSP5({ getNextQuestion }) {
+function QuestionSP5({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [answer, setAnswer] = useState("");
   const [edit, setEdit] = useState(false);
@@ -528,6 +550,11 @@ function QuestionSP5({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     setAnswer((preState) => false);
     SessionStorage.setItem("sp5", false);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("sp5", user.email, false).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickYes = () => {
@@ -535,6 +562,11 @@ function QuestionSP5({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     setAnswer((preState) => true);
     SessionStorage.setItem("sp5", true);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("sp5", user.email, true).catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickEdit = () => {
@@ -582,7 +614,7 @@ function QuestionSP5({ getNextQuestion }) {
             <p>{answer === false ? "No" : "Yes"}</p>
           </AnswerContainer>
 
-          <UserLogo src={user} />
+          <UserLogo src={userImage} />
         </div>
       </div>
 
@@ -592,7 +624,7 @@ function QuestionSP5({ getNextQuestion }) {
   );
 }
 
-function QuestionSP6({ getNextQuestion }) {
+function QuestionSP6({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [answers, setAnswers] = useState([]);
   const [edit, setEdit] = useState(false);
@@ -620,6 +652,11 @@ function QuestionSP6({ getNextQuestion }) {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("sp6", answers);
       getNextQuestion();
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("sp6", user.email, answers).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
 
@@ -675,7 +712,7 @@ function QuestionSP6({ getNextQuestion }) {
           )}
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}

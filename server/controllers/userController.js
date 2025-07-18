@@ -1,137 +1,39 @@
-const bcrypt = require("bcrypt");
+// const bcrypt = require("bcrypt");
 
 const mongoClient = require("../database");
-const User = require("../models/user");
-const Adopter = require("../models/adopter");
-const Shelter = require("../models/shelter");
-
-// async function createUser(req, res, next) {
-//   const { role, password, email, address } = req.body;
-
-//   const salt = bcrypt.genSaltSync(Number(process.env.SALT_ROUNDS));
-//   const hashPassword = bcrypt.hashSync(password, salt);
-
-//   if (role === "shelter") {
-//     const { name } = req.body;
-
-//     try {
-//       const newShelter = new Shelter({
-//         email: email,
-//         password: hashPassword,
-//         address: {
-//           addressLine1: address.addressLine1,
-//           addressLine2: address.addressLine2,
-//           city: address.city,
-//           state: address.state,
-//           zipCode: address.zipCode,
-//         },
-//         name: name,
-//         pet: [],
-//       });
-
-//       await newShelter.save();
-
-//       res.status(201).json({ description: "Create user successfully" });
-//     } catch (err) {
-//       res.status(400).json({ description: "Cannot create user", error: err });
-//     }
-//   } else if (role === "adopter") {
-//     const { name, dob, gender, pronounce } = req.body;
-
-//     // try {
-//     //   const newAdopter = new Adopter({
-//     //     email: email,
-//     //     password: hashPassword,
-//     //     address: {
-//     //       addressLine1: address.addressLine1,
-//     //       addressLine2: address.addressLine2,
-//     //       city: address.city,
-//     //       state: address.state,
-//     //       zipCode: address.zipCode,
-//     //     },
-//     //     name: {
-//     //       firstName: name.firstName,
-//     //       middleName: name.middleName,
-//     //       lastName: name.lastName,
-//     //     },
-//     //     dob: dob,
-//     //     gender: gender,
-//     //     pet: [],
-//     //   });
-
-//     //   await newAdopter.save();
-
-//     //   res.status(201).json({ description: "Create user successfully" });
-//     // } catch (err) {
-//     //   res.status(400).json({ description: "Cannot create user", error: err });
-//     // }
-//   } else {
-//     res.status(400).json({ description: "Role does not exist", error: err });
-//   }
-// }
-
-// async function findUserByEmail(req, res, next) {
-//   const { email, password } = req.query;
-
-//   try {
-//     const user = await User.findOne({ email: email });
-
-//     if (user === null) {
-//       res.status(400).json({ description: "User does not exist" });
-//       return;
-//     }
-
-//     const isMatch = bcrypt.compareSync(password, user.password);
-
-//     if (isMatch == false) {
-//       res.status(400).json({ description: "Password does not correct" });
-//       return;
-//     }
-
-//     res.status(200).json({ description: "Sign in successfully", content: user });
-//   } catch (err) {
-//     res.status(400).json({ description: "Problem occurs at server. Please contact for help" });
-//   }
-// }
 
 async function createUser(req, res, next) {
-  const { password, email, address, firstName, lastName, dateOfBirth, gender } = req.body;
+  const { email, name, dob, gender } = req.body;
 
-  const salt = bcrypt.genSaltSync(Number(process.env.SALT_ROUNDS));
-  const hashPassword = bcrypt.hashSync(password, salt);
-
+  const newUser = {
+    email: email,
+    name: {
+      firstName: name.firstName,
+      lastName: name.lastName,
+    },
+    dob: dob,
+    gender: gender,
+    favoritePets: [],
+    adoptedPets: [],
+    matchQuestions: {},
+  };
   try {
-    await mongoClient
+    const user = await mongoClient
       .getDB()
       .collection("users")
-      .insertOne({
-        email: email,
-        password: hashPassword,
-        // address: {
-        //   addressLine1: address.addressLine1,
-        //   addressLine2: address.addressLine2,
-        //   city: address.city,
-        //   state: address.state,
-        //   zipCode: address.zipCode,
-        // },
-        name: {
-          firstName: firstName,
-          // middleName: name.middleName,
-          lastName: lastName,
-        },
-        dob: dateOfBirth,
-        gender: gender,
-        pet: [],
-      });
+      .insertOne({ ...newUser });
 
-    res.status(201).json({ description: "Create user successfully" });
+    res.status(201).json({
+      description: "Create user successfully",
+      content: { ...newUser },
+    });
   } catch (err) {
     res.status(400).json({ description: "Cannot create user", error: err });
   }
 }
 
 async function findUserByEmail(req, res, next) {
-  const { email, password } = req.body;
+  const { email } = req.query;
 
   try {
     const user = await mongoClient.getDB().collection("users").findOne({ email: email });
@@ -141,20 +43,94 @@ async function findUserByEmail(req, res, next) {
       return;
     }
 
-    const isMatch = bcrypt.compareSync(password, user.password);
+    res.status(200).json({ description: "Sign in successfully", content: user });
+  } catch (err) {
+    res.status(500).json({
+      description: "Problem occurs at server. Please contact for help",
+    });
+  }
+}
 
-    if (isMatch == false) {
-      res.status(400).json({ description: "Password does not correct" });
+async function updateUserFavoritesPet(req, res, next) {
+  const { pet_id, email } = req.body;
+
+  try {
+    const usersCollection = mongoClient.getDB().collection("users");
+    const user = await usersCollection.findOne({ email: email });
+
+    if (user === null) {
+      res.status(400).json({ description: "User does not exist" });
       return;
     }
 
-    res.status(200).json({ description: "Sign in successfully", content: user });
+    if (user.favoritePets === undefined || !user.favoritePets.includes(pet_id)) {
+      usersCollection.updateOne({ email: email }, { $addToSet: { favoritePets: pet_id } });
+    } else {
+      usersCollection.updateOne({ email: email }, { $pull: { favoritePets: pet_id } });
+    }
+
+    res.status(200).json({ description: "User update sucessfully" });
   } catch (err) {
-    res.status(400).json({ description: "Problem occurs at server. Please contact for help" });
+    console.log(err);
+    res.status(500).json({ description: "Soemthing wrong with server" });
+  }
+}
+
+async function updateUserQuestionnaire(req, res, next) {
+  const { questionnaire, email } = req.body;
+
+  try {
+    const usersCollection = mongoClient.getDB().collection("users");
+
+    const updatedUser = await usersCollection.findOneAndUpdate(
+      { email: email },
+      { $set: { matchQuestions: questionnaire } },
+      { returnDocument: "after" }
+    );
+
+    if (updatedUser === null) {
+      res.status(400).json({ description: "User does not exist" });
+      return;
+    }
+
+    res.status(200).json({ description: "User update sucessfully", content: updatedUser });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ description: "Soemthing wrong with server" });
+  }
+}
+
+async function updateUserQuestionnaireById(req, res, next) {
+  const { questionId } = req.params;
+  const { email, value } = req.body;
+
+  try {
+    const usersCollection = mongoClient.getDB().collection("users");
+
+    const fieldToUpdate = `matchQuestions.${questionId}`;
+
+    const updatedUser = await usersCollection.findOneAndUpdate(
+      { email: email },
+      { $set: { [fieldToUpdate]: value } },
+      { returnDocument: "after" }
+    );
+
+    if (updatedUser === null) {
+      res.status(400).json({ description: "User does not exist" });
+      return;
+    }
+
+    res.status(200).json({ description: "User update sucessfully", content: updatedUser });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ description: "Soemthing wrong with server" });
   }
 }
 
 module.exports = {
   createUser,
   findUserByEmail,
+  updateUserFavoritesPet,
+  updateUserQuestionnaire,
+  updateUserQuestionnaireById,
 };

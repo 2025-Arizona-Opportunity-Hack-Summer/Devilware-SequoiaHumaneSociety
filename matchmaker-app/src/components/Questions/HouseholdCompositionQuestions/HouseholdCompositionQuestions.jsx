@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { withAuthInfo } from "@propelauth/react";
 
-import user from "../../../assets/images/user.png";
+import userImage from "../../../assets/images/user.png";
 
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
@@ -9,7 +10,6 @@ import OptionContainer from "../QuestionComponent/OptionContainer/OptionContaine
 import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 import AnimalList from "../AnimalList/AnimalList";
-
 import InputDatalist from "../../Input/InputDataList/InputDataList";
 import InputRadio from "../../Input/InputRadio/InputRadio";
 
@@ -19,8 +19,9 @@ import InputText from "../../Input/InputText/InputText";
 import SessionStorage from "../../../features/sessionStorage";
 
 import { finishHCSlice } from "../../../redux/MatchFormSlice";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
 
-export default function HouseholdCompositionQuestions() {
+export default withAuthInfo(function HouseholdCompositionQuestions({ isLoggedIn, user }) {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
   /** 
@@ -33,16 +34,16 @@ export default function HouseholdCompositionQuestions() {
 
   const questions = [
     <li key={"HC1"} className="w-full">
-      <QuestionHC1 getNextQuestion={getNextQuestion} />
+      <QuestionHC1 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"HC2"} className="w-full">
-      <QuestionHC2 getNextQuestion={getNextQuestion} />
+      <QuestionHC2 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"HC3"} className="w-full">
-      <QuestionHC3 getNextQuestion={getNextQuestion} />
+      <QuestionHC3 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
     <li key={"HC4"} className="w-full">
-      <QuestionHC4 getNextQuestion={getNextQuestion} />
+      <QuestionHC4 getNextQuestion={getNextQuestion} isLoggedIn={isLoggedIn} user={user} />
     </li>,
   ];
 
@@ -69,9 +70,9 @@ export default function HouseholdCompositionQuestions() {
       {questions.slice(0, currQuestions)}
     </>
   );
-}
+});
 
-function QuestionHC1({ getNextQuestion }) {
+function QuestionHC1({ getNextQuestion, isLoggedIn, user }) {
   const [adults, setAdults] = useState("");
   const [children, setChildren] = useState("");
   const [youngestAge, setYoungestAge] = useState("");
@@ -97,6 +98,15 @@ function QuestionHC1({ getNextQuestion }) {
       SessionStorage.setItem("hc1", { adults: adults, children: children, youngestAge: youngestAge });
       getNextQuestion();
       setHasAnswer((preState) => true);
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("hc1", user.email, {
+          adults: adults,
+          children: children,
+          youngestAge: youngestAge,
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
 
@@ -104,7 +114,15 @@ function QuestionHC1({ getNextQuestion }) {
     setChildren((preState) => Number(event.target.value));
     if (adults !== "" && (Number(event.target.value) === 0 || (Number(event.target.value) > 0 && youngestAge !== ""))) {
       SessionStorage.setItem("hc1", { adults: adults, children: Number(event.target.value), youngestAge: youngestAge });
-
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("hc1", user.email, {
+          adults: adults,
+          children: Number(event.target.value),
+          youngestAge: youngestAge,
+        }).catch((err) => {
+          console.log(err);
+        });
+      }
       getNextQuestion();
       setHasAnswer((preState) => true);
     }
@@ -113,6 +131,15 @@ function QuestionHC1({ getNextQuestion }) {
   const onChangeYoungestAge = (event) => {
     setYoungestAge((preState) => event.target.value);
     SessionStorage.setItem("hc1", { adults: adults, children: children, youngestAge: event.target.value });
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("hc1", user.email, {
+        adults: adults,
+        children: children,
+        youngestAge: event.target.value,
+      }).catch((err) => {
+        console.log(err);
+      });
+    }
     getNextQuestion();
     setHasAnswer((preState) => true);
   };
@@ -194,7 +221,7 @@ function QuestionHC1({ getNextQuestion }) {
           </AnswerContainer>
 
           {/* Whether the answer is empty string or NOT, ALWAYS display user logo */}
-          <UserLogo src={user} />
+          <UserLogo src={userImage} />
         </div>
       </div>
       {children !== "" && children > 0 && adults !== "" && !hasAnswer && (
@@ -248,13 +275,13 @@ function QuestionHC1a({ onChangeYoungestAge, hasAnswer, youngestAge, edit }) {
           {ageOptions}
         </select>
         {/* Whether the answer is empty string or NOT, ALWAYS display user logo */}
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
     </div>
   );
 }
 
-function QuestionHC2({ getNextQuestion }) {
+function QuestionHC2({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [hasAllergies, setHasAllergies] = useState(false);
   const [edit, setEdit] = useState(false);
@@ -277,6 +304,11 @@ function QuestionHC2({ getNextQuestion }) {
     setHasAnswer((preState) => true);
     setAllergiesAnimal((preState) => []);
     SessionStorage.setItem("hc2", []);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("hc2", user.email, []).catch((err) => {
+        console.log(err);
+      });
+    }
     getNextQuestion();
   };
 
@@ -296,6 +328,11 @@ function QuestionHC2({ getNextQuestion }) {
       setAllergiesAnimal((preState) => allergiesAnimal);
       SessionStorage.setItem("hc2", allergiesAnimal);
       getNextQuestion();
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("hc2", user.email, allergiesAnimal).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
 
@@ -369,7 +406,7 @@ function QuestionHC2({ getNextQuestion }) {
           </p>
         </AnswerContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
 
       {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -378,7 +415,7 @@ function QuestionHC2({ getNextQuestion }) {
   );
 }
 
-function QuestionHC3({ getNextQuestion }) {
+function QuestionHC3({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnimal, setHasAnimal] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
   const [animalList, setAnimalList] = useState("");
@@ -403,11 +440,21 @@ function QuestionHC3({ getNextQuestion }) {
     setAnimalList((preState) => []);
     SessionStorage.setItem("hc3", []);
     setHasAnswer((preState) => true);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("hc3", user.email, []).catch((err) => {
+        console.log(err);
+      });
+    }
     getNextQuestion();
   };
 
   const onClickNext = () => {
     SessionStorage.setItem("hc3", animalList);
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("hc3", user.email, animalList).catch((err) => {
+        console.log(err);
+      });
+    }
     setHasAnswer((preState) => true);
     getNextQuestion();
   };
@@ -472,7 +519,7 @@ function QuestionHC3({ getNextQuestion }) {
             )}
           </AnswerContainer>
 
-          <UserLogo src={user} />
+          <UserLogo src={userImage} />
         </div>
 
         {/* If the answer is empty string ==> There is spinner represents the company is waiting to user's answer */}
@@ -515,13 +562,13 @@ function QuestionHC3a({ animalList, setAnimalList, onClickNext, edit }) {
             Next
           </InputButton>
         </OptionContainer>
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
     </div>
   );
 }
 
-function QuestionHC4({ getNextQuestion }) {
+function QuestionHC4({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
   const [hasPetBefore, setHasPetBefore] = useState(false);
   const [answer, setAnswer] = useState(null);
@@ -549,6 +596,11 @@ function QuestionHC4({ getNextQuestion }) {
     setHasPetBefore((preState) => false);
     setAnswer((preState) => []);
     SessionStorage.setItem("hc4", "");
+    if (isLoggedIn) {
+      fetchUpdateUserQuestionnaireById("hc4", user.email, "").catch((err) => {
+        console.log(err);
+      });
+    }
   };
 
   const onClickYes = () => {
@@ -562,6 +614,11 @@ function QuestionHC4({ getNextQuestion }) {
       setHasAnswer((preState) => true);
       setAnswer((preState) => answer);
       SessionStorage.setItem("hc4", answer);
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("hc4", user.email, answer).catch((err) => {
+          console.log(err);
+        });
+      }
     }
   };
 
@@ -614,7 +671,7 @@ function QuestionHC4({ getNextQuestion }) {
             <p>{hasPetBefore === false ? "We don't have pet before" : `Yes. ${answer}`}</p>
           </AnswerContainer>
 
-          <UserLogo src={user} />
+          <UserLogo src={userImage} />
         </div>
       </div>
       {hasPetBefore && !hasAnswer && (
@@ -659,7 +716,7 @@ function QuestionHC4a({ onClickNext, onChangeAnswer, edit }) {
           </InputButton>
         </OptionContainer>
 
-        <UserLogo src={user} />
+        <UserLogo src={userImage} />
       </div>
     </div>
   );

@@ -25,6 +25,9 @@ class SessionStorage {
     sessionStorage.removeItem(id);
   }
 
+  static clear() {
+    sessionStorage.clear();
+  }
   // static detectChanges(id, updatedData) {
   //   const data = JSON.parse(sessionStorage.getItem(id));
   //   if (typeof data === "object") {

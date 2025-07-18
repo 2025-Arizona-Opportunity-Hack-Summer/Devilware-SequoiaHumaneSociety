@@ -5,11 +5,13 @@ import Questions from "../../components/Questions/Questions";
 import MatchedPets from "../../components/MatchedPets/MatchedPets";
 import WaitingLoaderFindPets from "../../components/WaitingLoaderFindPets/WaitingLoaderFindPets";
 import Modal from "../../components/Modal/Modal";
+import { Link } from "react-router";
 
 import shsLogo from "../../assets/images/shs-logo.png";
 
 import "./Match.css";
-import { Link } from "react-router";
+
+import SessionStorage from "../../features/sessionStorage";
 
 export default withAuthInfo(function Match({ isLoggedIn }) {
   const [isQuestionPage, setIsQuestionPage] = useState(true);
@@ -18,10 +20,11 @@ export default withAuthInfo(function Match({ isLoggedIn }) {
 
   const onClickCloseWarningModal = () => {
     setVisibleWarningModal((prev) => false);
+    SessionStorage.setItem("keep-logged-out", true);
   };
 
   useEffect(() => {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && SessionStorage.getItem("keep-logged-out") === null) {
       setVisibleWarningModal((prev) => true);
     }
   }, [isLoggedIn]);

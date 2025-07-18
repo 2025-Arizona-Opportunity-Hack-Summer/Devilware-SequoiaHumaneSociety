@@ -15,6 +15,7 @@ export default withAuthInfo(function ConfirmEmail({ isLoggedIn, user, accessToke
     if (isLoggedIn) {
       navigate("/");
     } else if (Cookies.get("email-auth") === undefined) {
+      // Cookes.get("email-auth") to check whether the user have logged but not verify email
       navigate("/");
     }
   }, []);

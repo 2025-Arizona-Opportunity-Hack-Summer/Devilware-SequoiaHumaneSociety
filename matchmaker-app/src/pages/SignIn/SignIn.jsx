@@ -66,7 +66,6 @@ function SignIn() {
         password: password,
       });
 
-      console.log(response);
       if (response.ok) {
         Cookies.set("email-auth", email, { expires: 30 });
         if (response.data.login_state === "ConfirmEmailRequired") {
@@ -77,8 +76,7 @@ function SignIn() {
           location.reload();
         }
       } else {
-        console.log(response.error.user_facing_error);
-        openErrorModal(response.error.user_facing_error);
+        openErrorModal(response.error.user_facing_error + " Recheck your email and password.");
       }
       // response.handle({
       //   success: () => {

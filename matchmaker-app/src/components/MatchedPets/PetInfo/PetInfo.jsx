@@ -12,6 +12,8 @@ import noPetImage from "../../../assets/images/no-pet-image.png";
 import heart from "../../../assets/images/heart-com.svg";
 import loadingImage from "../../../assets/images/loading-image.png";
 
+import { fetchUpdateFavoritePets } from "../../../features/fetchUserRoutes";
+
 export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn, user, isFavorite }) {
   const dispatch = useDispatch();
   const { imagesURL, name, breed, _id, species } = pet;
@@ -24,31 +26,13 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
     if (!isLoggedIn) {
       setVisibleSignIn((preState) => true);
     } else {
-      const API_BASE_URL = import.meta.env.VITE_API_URL;
-      const ADD_FAVORITES_PET_ENDPOINT = import.meta.env.VITE_ADD_FAVORITES_PET_ENDPOINT;
-
-      const body = {
-        email: user.email,
-        pet_id: _id,
-      };
-      const endpoint = `${API_BASE_URL}/${ADD_FAVORITES_PET_ENDPOINT}`;
-
-      try {
-        const response = await fetch(endpoint, {
-          method: "PUT",
-          body: JSON.stringify(body),
-          headers: {
-            "Content-type": "application/json",
-          },
+      fetchUpdateFavoritePets(user.email, _id)
+        .then((response) => {
+          dispatch(userSlice.actions.addFavorites(_id));
+        })
+        .catch((err) => {
+          console.log(err);
         });
-
-        if (!response.ok) {
-        }
-
-        dispatch(userSlice.actions.addFavorites(_id));
-      } catch (err) {
-        console.log(err);
-      }
     }
   };
 

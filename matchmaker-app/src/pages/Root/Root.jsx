@@ -4,8 +4,6 @@ import { withAuthInfo } from "@propelauth/react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 
-
-import { Outlet, useLocation } from "react-router-dom";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import { userSlice } from "../../redux/UserInfoSlice";
 import { saveUserQuesionnaire } from "../../features/saveUserPreferences";

@@ -18,17 +18,15 @@ async function createUser(req, res, next) {
     matchQuestions: {},
   };
   try {
-    const user = await mongoClient
-      .getDB()
-      .collection("users")
-      .insertOne({ ...newUser });
+    await mongoClient.getDB().collection("users").insertOne(newUser);
 
-    res.status(201).json({
-      description: "Create user successfully",
-      content: { ...newUser },
-    });
+    res.status(201).json(newUser);
   } catch (err) {
-    res.status(400).json({ description: "Cannot create user", error: err });
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
   }
 }
 
@@ -39,27 +37,36 @@ async function findUserByEmail(req, res, next) {
     const user = await mongoClient.getDB().collection("users").findOne({ email: email });
 
     if (user === null) {
-      res.status(400).json({ description: "User does not exist" });
+      res.status(400).json({
+        error: "UserNotFound",
+        message: "Cannot find user",
+      });
       return;
     }
 
-    res.status(200).json({ description: "Sign in successfully", content: user });
+    res.status(200).json(user);
   } catch (err) {
     res.status(500).json({
-      description: "Problem occurs at server. Please contact for help",
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
     });
   }
 }
 
 async function updateUserFavoritesPet(req, res, next) {
-  const { pet_id, email } = req.body;
+  const { email } = req.params;
+  const { pet_id } = req.body;
 
   try {
     const usersCollection = mongoClient.getDB().collection("users");
     const user = await usersCollection.findOne({ email: email });
 
     if (user === null) {
-      res.status(400).json({ description: "User does not exist" });
+      res.status(400).json({
+        error: "UserNotFound",
+        message: "Cannot find user",
+      });
       return;
     }
 
@@ -69,15 +76,19 @@ async function updateUserFavoritesPet(req, res, next) {
       usersCollection.updateOne({ email: email }, { $pull: { favoritePets: pet_id } });
     }
 
-    res.status(200).json({ description: "User update sucessfully" });
+    res.status(200).json(user);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ description: "Soemthing wrong with server" });
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
   }
 }
 
 async function updateUserQuestionnaire(req, res, next) {
-  const { questionnaire, email } = req.body;
+  const { email } = req.params;
+  const { questionnaire } = req.body;
 
   try {
     const usersCollection = mongoClient.getDB().collection("users");
@@ -89,20 +100,26 @@ async function updateUserQuestionnaire(req, res, next) {
     );
 
     if (updatedUser === null) {
-      res.status(400).json({ description: "User does not exist" });
+      res.status(400).json({
+        error: "UserNotFound",
+        message: "Cannot find user",
+      });
       return;
     }
 
-    res.status(200).json({ description: "User update sucessfully", content: updatedUser });
+    res.status(200).json(updatedUser);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ description: "Soemthing wrong with server" });
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
   }
 }
 
 async function updateUserQuestionnaireById(req, res, next) {
-  const { questionId } = req.params;
-  const { email, value } = req.body;
+  const { questionId, email } = req.params;
+  const { value } = req.body;
 
   try {
     const usersCollection = mongoClient.getDB().collection("users");
@@ -116,14 +133,20 @@ async function updateUserQuestionnaireById(req, res, next) {
     );
 
     if (updatedUser === null) {
-      res.status(400).json({ description: "User does not exist" });
+      res.status(400).json({
+        error: "UserNotFound",
+        message: "Cannot find user",
+      });
       return;
     }
 
-    res.status(200).json({ description: "User update sucessfully", content: updatedUser });
+    res.status(200).json(updatedUser);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ description: "Soemthing wrong with server" });
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
   }
 }
 

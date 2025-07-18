@@ -1,15 +1,20 @@
 import React, { useState } from "react";
 import { useAuthFrontendApis } from "@propelauth/frontend-apis-react";
 import { SocialLoginProvider } from "@propelauth/frontend-apis";
+import { useNavigate } from "react-router";
+import Cookies from "js-cookie";
+
+import Modal from "../../components/Modal/Modal";
 
 import googleLogo from "../../assets/images/GOOGLE.png";
 import puppy from "../../assets/images/Puppy.png";
 
-import Modal from "../../components/Modal/Modal";
+import { fetchCreateUser } from "../../features/fetchUserRoutes";
 
 import "./Register.css";
 
 function Register() {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -38,7 +43,7 @@ function Register() {
   const [getError, setError] = useState(null);
   const [visibleModal, setVisibleModal] = useState(false);
 
-  const { signup, loginWithSocialProvider } = useAuthFrontendApis();
+  const { signup, loginWithSocialProvider, emailPasswordLogin } = useAuthFrontendApis();
   const handleInputChange = (e) => {
     const { name, value, type, checked, options } = e.target;
 
@@ -72,16 +77,6 @@ function Register() {
         return;
       }
     }
-
-    const endpoint = `${import.meta.env.VITE_API_URL}/${import.meta.env.VITE_REGISTER_ENDPOINT}`;
-
-    const body = {
-      email: formData.email,
-      dob: formData.dateOfBirth,
-      name: { firstName: formData.firstName, lastName: formData.lastName },
-      gender: formData.gender,
-    };
-
     try {
       const response = await signup({
         email: formData.email,
@@ -92,28 +87,35 @@ function Register() {
 
       response.handle({
         success: async () => {
-          const secondResponse = fetch(endpoint, {
-            method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-              "Content-type": "application/json",
-            },
+          await fetchCreateUser(
+            formData.email,
+            formData.firstName,
+            formData.lastName,
+            formData.dateOfBirth,
+            formData.gender
+          );
+
+          const autoLoginAfterRegister = await emailPasswordLogin({
+            email: formData.email,
+            password: formData.password,
           });
 
-          if (!secondResponse.ok) {
+          if (autoLoginAfterRegister.ok) {
+            Cookies.set("email-auth", email, { expires: 30 });
+            navigate("/confirm-email");
+          } else {
+            openVisibleErrorModal(thirdResponse.error.user_facing_error);
           }
-
-          console.log("User create sucessfully");
+        },
+        badRequest(error) {
+          const errorMessage = Object.entries(error.user_facing_errors)[0][1];
+          openVisibleErrorModal(errorMessage);
         },
       });
     } catch (err) {
       console.log(err);
       openVisibleErrorModal(err);
     }
-  };
-
-  const handleGoogleRegister = () => {
-    console.log("Register with Google clicked");
   };
 
   function checkValidation(name, value) {

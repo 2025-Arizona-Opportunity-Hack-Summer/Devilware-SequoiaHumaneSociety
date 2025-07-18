@@ -1,5 +1,3 @@
-import { saveUserQuesionnaire } from "./saveUserPreferences";
-
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 const USER_QUESTIONNAIRE_ENDPOINT = import.meta.env.VITE_USER_QUESTIONNAIRE_ENDPOINT;
 const FIND_USER_ENDPOINT = import.meta.env.VITE_FIND_USER_ENDPOINT;

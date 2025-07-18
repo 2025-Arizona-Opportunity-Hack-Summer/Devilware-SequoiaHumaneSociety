@@ -58,32 +58,15 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
 
         {/* Desktop Navigation - Centered - Hidden at smaller desktop sizes when items would overlap */}
         <div className="hidden xl:flex xl:absolute xl:left-1/2 xl:transform xl:-translate-x-1/2">
-          <ul className="flex flex-row items-center gap-3" style={{ fontFamily: "Koh Santepheap, serif" }}>
-            <li>
-              <NavLink to="/" className={navLinkClass}>
-                Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/about" className={navLinkClass}>
-                About
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/contact" className={navLinkClass}>
-                Contact
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/adopt" className={navLinkClass}>
-                Adopt
-              </NavLink>
-            </li>
-            <li>
-              <NavLink to="/match" className={navLinkClass}>
-                Match
-              </NavLink>
-            </li>
+          <ul 
+            className="flex flex-row items-center gap-3" 
+            style={{ fontFamily: 'Koh Santepheap, serif' }}
+          >
+            <li><NavLink to="/" className={navLinkClass}>Home</NavLink></li>
+            <li><NavLink to="/foster" className={navLinkClass}>Foster</NavLink></li>
+            <li><NavLink to="/volunteer" className={navLinkClass}>Volunteer</NavLink></li>
+            <li><NavLink to="/adopt" className={navLinkClass}>Adopt</NavLink></li>
+            <li><NavLink to="/match" className={navLinkClass}>Match</NavLink></li>
           </ul>
         </div>
 
@@ -198,42 +181,18 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
         {/* Scrollable Mobile Navigation Links Container */}
         <div className="h-full overflow-y-auto pb-20">
           <div className="px-4 py-6">
-            <ul className="flex flex-col items-center gap-4" style={{ fontFamily: "Koh Santepheap, serif" }}>
-              <li>
-                <NavLink to="/" className={mobileNavLinkClass}>
-                  Home
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/about" className={mobileNavLinkClass}>
-                  About
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/contact" className={mobileNavLinkClass}>
-                  Contact
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/adopt" className={mobileNavLinkClass}>
-                  Adopt
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/match" className={mobileNavLinkClass}>
-                  Match
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/sign-in" className={mobileNavLinkClass}>
-                  Sign In
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/register" className={mobileNavLinkClass}>
-                  Register
-                </NavLink>
-              </li>
+            <ul 
+              className="flex flex-col items-center gap-4" 
+              style={{ fontFamily: 'Koh Santepheap, serif' }}
+            >
+              <li><NavLink to="/" className={mobileNavLinkClass}>Home</NavLink></li>
+              <li><NavLink to="/foster" className={mobileNavLinkClass}>Foster</NavLink></li>
+              <li><NavLink to="/volunteer" className={mobileNavLinkClass}>Volunteer</NavLink></li>
+              <li><NavLink to="/donate" className={mobileNavLinkClass}>Donate</NavLink></li>
+              <li><NavLink to="/adopt" className={mobileNavLinkClass}>Adopt</NavLink></li>
+              <li><NavLink to="/match" className={mobileNavLinkClass}>Match</NavLink></li>
+              <li><NavLink to="/sign-in" className={mobileNavLinkClass}>Sign In</NavLink></li>
+              <li><NavLink to="/register" className={mobileNavLinkClass}>Register</NavLink></li>
             </ul>
           </div>
         </div>

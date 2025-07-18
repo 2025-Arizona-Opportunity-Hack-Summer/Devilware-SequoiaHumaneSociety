@@ -16,6 +16,30 @@ function SignIn() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
 
+    const handleSubmit = async () => {
+    
+      console.log('Submitting form with:', { email, password, rememberMe });
+    try {
+      const response = await fetch('http://localhost:4041/users/sign-in', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({email, password}),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log('Sign in successful:', data);
+      // Handle successful registration (e.g., redirect to login or dashboard)
+    }catch(error) {
+      console.error('Error submitting form:', error);
+    }
+  }; 
+
   const mobileStyle = {
     borderRadius: "24px",
     boxShadow: "0px 4px 20px 15px rgba(0, 0, 0, 0.25)",

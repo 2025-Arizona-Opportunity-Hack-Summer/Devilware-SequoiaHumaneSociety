@@ -2,7 +2,10 @@ import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { withAuthInfo } from "@propelauth/react";
 import { Outlet, useLocation } from "react-router-dom";
+import { ScrollRestoration } from "react-router-dom";
 
+
+import { Outlet, useLocation } from "react-router-dom";
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import { userSlice } from "../../redux/UserInfoSlice";
 import { saveUserQuesionnaire } from "../../features/saveUserPreferences";
@@ -54,9 +57,10 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
 
   return (
     <div className="root">
+      <ScrollRestoration />
       <NavigationBar />
       {/* If match page, then no styling. Otherwise, have padding and margins for any text below navbar */}
-      <main className={isMatchPage || isAdoptPage ? "" : "pt-10 mx-20"}>
+      <main>
         <Outlet />
       </main>
     </div>

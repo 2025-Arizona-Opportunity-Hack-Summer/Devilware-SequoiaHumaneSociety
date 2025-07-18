@@ -6,7 +6,7 @@ import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionCo
 import OptionContainer from "../QuestionComponent/OptionContainer/OptionContainer";
 import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
-import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
+import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner/WaitingAnswerSpinner";
 
 import InputRadio from "../../Input/InputRadio/InputRadio";
 import InputText from "../../Input/InputText/InputText";

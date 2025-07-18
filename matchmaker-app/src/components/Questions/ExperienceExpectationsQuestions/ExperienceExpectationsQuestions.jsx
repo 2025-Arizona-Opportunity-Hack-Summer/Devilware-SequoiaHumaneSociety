@@ -7,12 +7,12 @@ import userImage from "../../../assets/images/user.png";
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
 import OptionContainer from "../QuestionComponent/OptionContainer/OptionContainer";
-import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 
-import InputDatalist from "../../Input/InputDataList/InputDataList";
-import InputRadio from "../../Input/InputRadio/InputRadio";
-import InputButton from "../../Input/InputButton/InputButton";
+import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner/WaitingAnswerSpinner.jsx";
+import InputDatalist from "../../Input/InputDataList/InputDataList.jsx";
+import InputRadio from "../../Input/InputRadio/InputRadio.jsx";
+import InputButton from "../../Input/InputButton/InputButton.jsx";
 
 import SessionStorage from "../../../features/sessionStorage.jsx";
 

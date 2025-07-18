@@ -7,7 +7,7 @@ import userImage from "../../../assets/images/user.png";
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
 import OptionContainer from "../QuestionComponent/OptionContainer/OptionContainer";
-import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
+import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner/WaitingAnswerSpinner";
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 
 import InputDatalist from "../../Input/InputDataList/InputDataList";

@@ -1,0 +1,302 @@
+openapi: '3.0.0'
+info:
+  title: Sequoia Humane Society AI Pet Powered Matchmaker APIs Definition
+  description: |
+    # About Us
+  version: '0.0.1'
+  license:
+    name: MIT License
+    url: https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety/blob/main/LICENSE
+servers:
+  - url: http://localhost:{port}
+    variables:
+      port:
+        default: "4041"
+tags:
+  - name: Users
+    description: Users-related operations
+  - name: Pets
+    description: Pets-related operations
+paths:
+  /users/{email}:
+    get:
+      tags: [Users]
+      summary: Find user by email
+      description: |
+        Returns user information stored in Sequoia Humane Soceity given by email
+      parameters:
+        - $ref: "#/components/parameters/emailPathParam"
+      responses:
+        '200':
+          description: Find user successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          $ref: "#/components/responses/UserNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /users:
+    post:
+      tags: [Users]
+      summary: Create user
+      description: |
+        Post user information to Sequoia Humane Society for pet features
+      requestBody:
+        $ref: "#/components/requestBodies/User"
+      responses:
+        '201':
+          description: Create user successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+              example:
+                email: devilware@gmail.com
+                name:
+                  firstName: Khoa
+                  lastName: Nguyen
+                dob: 2025-17-07
+                gender: Male
+                favoritePets: []
+                adoptedPets: []
+                matchQuestions: {}
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /users/{email}/favorite-pets:
+    put:
+      tags: [Users]
+      summary: Update user's favorite pets list
+      description: |
+        If the pet is **NOT** in the favorite pets list then append it to the list. Otherwise, remove it from the original list
+      security: 
+        - BearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/emailPathParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pet_id:
+                  type: string
+                  example: 6868a7c4644c49a33afa421c
+                  description: The ID of the pet to add or remove from favorites
+              required: [pet_id]
+      responses:
+        '200':
+          description: Favorite pets list updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          $ref: "#/components/responses/UserNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /users/{email}/questionnaire:
+    put:
+      tags: [Users]
+      summary: Update user's match questions
+      description: |
+        Assign all the user's in Sequoia Humane Soceity match questions to the new value
+      security: 
+        - BearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/emailPathParam"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                questionnaire:
+                  type: object
+      responses:
+        '200':
+          description: Update user's match questions successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          $ref: "#/components/responses/UserNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /users/{email}/questionnaire/{questionId}:
+    put:
+      tags: [Users]
+      summary: Update user's match question by id
+      description: |
+        Update user's current match question with the id to the new value
+      security: 
+        - BearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/emailPathParam"
+        - name: questionId
+          in: path
+          required: true
+          schema:
+            type: string
+          example: hc1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                value:
+                  type: object
+      responses:
+        '200':
+          description: Update user's match question successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          $ref: "#/components/responses/UserNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+
+components:
+  parameters:
+    emailPathParam:
+      name: email
+      in: path
+      required: true
+      schema:
+        type: string
+      example: devilware@gmail.com
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          example: 68772a9088b3d2e11a758533
+        email:
+          type: string
+          readOnly: true
+          example: devilware@gmail.com
+        name:
+          type: object
+          properties:
+            firstName:
+              type: string
+              example: Khoa
+            lastName:
+              type: string
+              example: Nguyen
+          required: [firstName, lastName]
+        dob:
+          type: string
+          example: 2025-17-07
+        gender:
+          type: string
+          enum: [Male, Female, Other]
+          example: Male
+        favoritePets:
+          type: array
+          items:
+            $ref: "#/components/schemas/Pet"
+        adoptedPets:
+          type: array
+          items:
+            $ref: "#/components/schemas/Pet"
+        matchQuestions:
+          type: object
+      required: [id, name, email]
+    Pet:
+      type: object
+      properties:
+        id:
+          type: string
+          readOnly: true
+          example: 6868a7c4644c49a33afa421c
+        name:
+          type: string
+          example: Brownie
+        species:
+          type: string
+          enum: [Cat, Dog]
+          example: Dog
+        age:
+          type: integer
+          example: 1
+          description: |
+            ***age*** is counted as number of months
+        weight:
+          type: number
+          example: 72.2
+          description: |
+            ***weight*** is measured by lbs
+        sex:
+          type: string
+          enum: [Male, Female]
+          example: Male
+        breed:
+          type: array
+          items:
+            type: string
+          example: [Rottweiler, Mix]
+        characteristic:
+          type: array
+          items:
+            type: string
+          example: [Energetic,Active,High Energy]
+        adoptionFee:
+          type: number
+          example: 150
+          description: |
+            ***adoptionFee*** is measured by dollars
+        images:
+          type: array
+          items:
+            type: string
+          example: [brownie.jpg, brownie_1.png]
+      required: [id, age, species, weight, breed, characteristic, adoptionFee, sex, name]
+  requestBodies:
+    User:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              email:
+                type: string
+                example: devilware@gmail.com
+              name:
+                type: object
+                properties:
+                  firstName:
+                    type: string
+                    example: Khoa
+                  lastName:
+                    type: string
+                    example: Nguyen
+                required: [firstName, lastName]
+              dob:
+                type: string
+                nullable: true
+                example: 2025-17-07
+              gender:
+                type: string
+                nullable: true
+                enum: [Male, Female, Other]
+                example: Male
+            required: [email, name]
+  responses:
+    InternalServerError:
+      description: |
+        Problem occurs at server. Please contact for help
+    UserNotFound:
+      description: User does not exist
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

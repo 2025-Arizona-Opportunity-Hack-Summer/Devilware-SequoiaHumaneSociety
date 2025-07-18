@@ -1,10 +1,10 @@
 const API_BASE_URL = import.meta.env.VITE_API_URL;
+const USER_ENDPOINT = import.meta.env.VITE_USER_ENDPOINT;
 const USER_QUESTIONNAIRE_ENDPOINT = import.meta.env.VITE_USER_QUESTIONNAIRE_ENDPOINT;
-const FIND_USER_ENDPOINT = import.meta.env.VITE_FIND_USER_ENDPOINT;
-const REGISTER_ENDPOINT = import.meta.env.VITE_REGISTER_ENDPOINT;
+const FAVORITE_PET_ENDPOINT = import.meta.env.VITE_FAVORITE_PET_ENDPOINT;
 
 async function fetchFindUserByEmail(email) {
-  const endpoint = `${API_BASE_URL}/${FIND_USER_ENDPOINT}?email=${email}`;
+  const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}`;
 
   let user;
   try {
@@ -17,7 +17,7 @@ async function fetchFindUserByEmail(email) {
     if (!response.ok && data.description === "User does not exist") {
       user = null;
     } else {
-      user = data.content;
+      user = data;
     }
   } catch (err) {
     console.log(err);
@@ -28,7 +28,7 @@ async function fetchFindUserByEmail(email) {
 }
 
 async function fetchCreateUser(email, first_name, last_name, dob, gender) {
-  const endpoint = `${API_BASE_URL}/${REGISTER_ENDPOINT}`;
+  const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}`;
 
   const body = {
     email: email,
@@ -50,10 +50,10 @@ async function fetchCreateUser(email, first_name, last_name, dob, gender) {
     const data = await response.json();
 
     if (!response.ok) {
-      throw Error(data.description);
+      throw Error(data.error);
     }
 
-    user = data.content;
+    user = data;
   } catch (err) {
     console.log(err);
     throw Error(err);
@@ -63,13 +63,13 @@ async function fetchCreateUser(email, first_name, last_name, dob, gender) {
 }
 
 async function fetchUpdateUserQuesionnaireBySessionStorage(email, updatedMatchQuestions) {
-  const endpointUpdate = `${API_BASE_URL}/${USER_QUESTIONNAIRE_ENDPOINT}`;
+  const endpointUpdate = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${USER_QUESTIONNAIRE_ENDPOINT}`;
 
   let user;
   try {
     const response = await fetch(endpointUpdate, {
       method: "PUT",
-      body: JSON.stringify({ email: email, questionnaire: updatedMatchQuestions }),
+      body: JSON.stringify({ questionnaire: updatedMatchQuestions }),
       headers: {
         "Content-type": "application/json",
       },
@@ -78,10 +78,10 @@ async function fetchUpdateUserQuesionnaireBySessionStorage(email, updatedMatchQu
     const data = await response.json();
 
     if (!response.ok) {
-      throw Error(data.description);
+      throw Error(data.error);
     }
 
-    user = data.content;
+    user = data;
   } catch (err) {
     console.log(err);
     throw Error;
@@ -90,13 +90,12 @@ async function fetchUpdateUserQuesionnaireBySessionStorage(email, updatedMatchQu
   return user;
 }
 async function fetchUpdateUserQuestionnaireById(id, email, value) {
-  const endpoint = `${API_BASE_URL}/${USER_QUESTIONNAIRE_ENDPOINT}/${id}`;
+  const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${USER_QUESTIONNAIRE_ENDPOINT}/${id}`;
 
   try {
     const response = await fetch(endpoint, {
       method: "PUT",
       body: JSON.stringify({
-        email: email,
         value: value,
       }),
       headers: {
@@ -104,17 +103,40 @@ async function fetchUpdateUserQuestionnaireById(id, email, value) {
       },
     });
     if (!response.ok) {
-      throw Error("Error has occur");
+      throw Error(data.error);
     }
+  } catch (err) {
+    throw Error(err);
+  }
+}
+
+async function fetchUpdateFavoritePets(email, pet_id) {
+  const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${FAVORITE_PET_ENDPOINT}`;
+  let user;
+  try {
+    const response = await fetch(endpoint, {
+      method: "PUT",
+      body: JSON.stringify({ pet_id: pet_id }),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      throw Error(data.error);
+    }
+    const data = await response.json();
+
+    user = data;
   } catch (err) {
     console.log(err);
     throw Error(err);
   }
 }
-
 export {
   fetchUpdateUserQuestionnaireById,
   fetchFindUserByEmail,
   fetchCreateUser,
   fetchUpdateUserQuesionnaireBySessionStorage,
+  fetchUpdateFavoritePets,
 };

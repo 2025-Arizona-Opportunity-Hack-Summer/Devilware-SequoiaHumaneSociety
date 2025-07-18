@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const petListSlice = createSlice({
-  name: "petListSlice",
+export const matchedPetListSlice = createSlice({
+  name: "matchedPetList",
   initialState: [],
   reducers: {
     assign(state, action) {
@@ -11,7 +11,7 @@ export const petListSlice = createSlice({
 });
 
 const MatchedPetSlice = {
-  [petListSlice.name]: petListSlice.reducer,
+  [matchedPetListSlice.name]: matchedPetListSlice.reducer,
 };
 
 export default MatchedPetSlice;

@@ -6,7 +6,7 @@ import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
 
 function SpeciesFilter({ speciesFilter = [], setSpeciesFilter }) {
   // const dispatch = useDispatch();
-  const species = ["Cat", "Dog", "Bird", "Hamster"];
+  const species = ["Cat", "Dog"];
 
   const onChangeSpeciesFilter = (event) => {
     const currSpecies = event.target.value;

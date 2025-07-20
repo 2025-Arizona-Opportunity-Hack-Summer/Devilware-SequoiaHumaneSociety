@@ -100,19 +100,19 @@ function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue, o
   };
   return (
     <Modal visible={visible} className={"root-modal-close"}>
-      <div className="bg-white absolute w-full bottom-0 p-6 px-20 filter-modal">
+      <div className="bg-white absolute w-full bottom-0 p-6 lg:px-20 filter-modal max-h-screen overflow-auto">
         <div className="flex justify-between items-center">
           <button
-            className="cursor-pointer hover:bg-[#7C0F0F] bg-[#adb5bd] py-1 px-3 rounded-md text-white font-semibold"
+            className="cursor-pointer hover:bg-[#7C0F0F] bg-[#adb5bd] px-2 lg:py-1 lg:px-3 rounded-md text-white font-semibold"
             onClick={onClickCloseFilter}>
             x
           </button>
 
-          <h3 className="text-3xl font-semibold" style={{ fontFamily: "Delius, cursive", fontWeight: 400 }}>
+          <h3 className="text-xl lg:text-3xl font-semibold" style={{ fontFamily: "Delius, cursive", fontWeight: 400 }}>
             Filter
           </h3>
           <button
-            className="cursor-pointer hover:bg-[#7C0F0F] bg-[#adb5bd] px-4 py-2 rounded-md text-white font-semibold"
+            className="cursor-pointer hover:bg-[#7C0F0F] bg-[#adb5bd] p-2 lg:px-4 lg:py-2 rounded-md text-white font-semibold text-sm lg:text-base"
             onClick={onClickClearAll}>
             Clear All
           </button>

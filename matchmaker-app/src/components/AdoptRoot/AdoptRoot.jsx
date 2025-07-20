@@ -8,7 +8,7 @@ import "./AdoptRoot.css";
 
 function AdoptRoot() {
   return (
-    <div className="mx-20 adopt-root">
+    <div className="lg:mx-20 adopt-root mx-5">
       <img src={barn} alt="barn" className="h-96" />
       <div className="pt-10  flex flex-col gap-4">
         <h2

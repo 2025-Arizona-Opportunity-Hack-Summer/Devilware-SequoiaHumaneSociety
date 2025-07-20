@@ -75,7 +75,7 @@ function PetDescriptions() {
 
   return (
     <>
-      <div className="px-40 flex flex-col gap-10">
+      <div className="px-40 py-20 flex flex-col gap-10">
         <div>
           <button
             className="flex gap-2 border-2 border-transparent hover:border-2 hover:border-black cursor-pointer py-1 px-3 rounded-md duration-150 go-back-button"

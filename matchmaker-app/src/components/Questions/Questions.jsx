@@ -148,7 +148,7 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
         if (jsonResponse.ok) {
           setTimeout(() => {
             setIsQuestionPage((preState) => false);
-            dispatch(petListSlice.actions.assign(data.content));
+            dispatch(matchedPetListSlice.actions.assign(data.content));
             SessionStorage.setItem("petList", data.content);
             window.scroll(0, 0);
             setIsLoading((preState) => false);

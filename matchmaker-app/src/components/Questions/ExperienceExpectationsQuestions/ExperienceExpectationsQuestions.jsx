@@ -7,17 +7,17 @@ import userImage from "../../../assets/images/user.png";
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
 import OptionContainer from "../QuestionComponent/OptionContainer/OptionContainer";
-import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 
-import InputDatalist from "../../Input/InputDataList/InputDataList";
+import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner/WaitingAnswerSpinner";
+import InputDatalist from "../../Input/InputDatalist/InputDatalist";
 import InputRadio from "../../Input/InputRadio/InputRadio";
 import InputButton from "../../Input/InputButton/InputButton";
 
-import SessionStorage from "../../../features/sessionStorage.jsx";
+import SessionStorage from "../../../features/sessionStorage";
 
-import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes.jsx";
-import { finishEESlice } from "../../../redux/MatchFormSlice.jsx";
+import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
+import { finishEESlice } from "../../../redux/MatchFormSlice";
 
 export default withAuthInfo(function ExperienceExpectationsQuestions({ isLoggedIn, user }) {
   const dispatch = useDispatch();

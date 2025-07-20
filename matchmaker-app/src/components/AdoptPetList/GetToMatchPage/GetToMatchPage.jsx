@@ -8,7 +8,7 @@ import dogImage2 from "../../../assets/images/dog2.jpg";
 function GetToMatchPage() {
   return (
     <div className="w-max shadow-2xl border-2 border-[#adb5bd] rounded-md flex flex-col items-center pt-6">
-      <div className="rounded-2xl px-6">
+      <div className="rounded-2xl lg:px-6 px-3">
         <p
           className="uppercase text-center text-text text-xl font-bold"
           style={{

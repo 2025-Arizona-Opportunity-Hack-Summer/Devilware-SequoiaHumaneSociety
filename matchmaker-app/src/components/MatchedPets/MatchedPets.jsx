@@ -50,15 +50,15 @@ function MatchedPets({ visible, setIsQuestionPage }) {
     setSearchPet((preState) => event.target.value);
 
     if (nextText === "") {
-      setPetList((preState) => petListRedux);
+      setPetList((preState) => matchPetList);
     } else {
-      setPetList((preState) => petListRedux.filter((pet) => pet.name.toLowerCase().includes(nextText.toLowerCase())));
+      setPetList((preState) => matchPetList.filter((pet) => pet.name.toLowerCase().includes(nextText.toLowerCase())));
     }
   };
 
   const onClickResetSearchPet = () => {
     setSearchPet((preState) => "");
-    setPetList((preState) => petListRedux);
+    setPetList((preState) => matchPetList);
   };
 
   const filterValue = {

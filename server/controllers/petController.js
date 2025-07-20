@@ -14,7 +14,11 @@ async function findPets(req, res, next) {
   const filter = {};
 
   if (pet_id !== undefined) {
-    filter["_id"] = ObjectId.createFromHexString(pet_id);
+    if (Array.isArray(pet_id)) {
+      filter["_id"] = { $in: pet_id.map((id) => ObjectId.createFromHexString(id)) };
+    } else {
+      filter["_id"] = ObjectId.createFromHexString(pet_id);
+    }
   } else if (species !== undefined) {
     filter["species"] = species;
   }

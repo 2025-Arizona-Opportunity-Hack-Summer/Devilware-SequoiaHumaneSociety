@@ -136,7 +136,7 @@ function AdoptPetList() {
       <div className="flex flex-col gap-5 adopt-pet-list-root">
         {/* AdoptNavBar - navigation bar used for switching between species*/}
         <AdoptNavBar species={species} />
-        <div className="flex gap-10 mx-20">
+        <div className="flex flex-col lg:flex-row gap-10 lg:mx-20 mx-5 items-center lg:items-start">
           <div className="flex flex-col gap-20">
             {/* GetToMathcPage - contains buttion to go to user questionnaires */}
             <GetToMatchPage />

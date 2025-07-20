@@ -7,7 +7,7 @@ import userImage from "../../../assets/images/user.png";
 import QuestionContainer from "../QuestionComponent/QuestionContainer/QuestionContainer";
 import AnswerContainer from "../QuestionComponent/AnswerContainer/AnswerContainer";
 import OptionContainer from "../QuestionComponent/OptionContainer/OptionContainer";
-import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner.jsx/WaitingAnswerSpinner";
+import WaitingAnswerSpinner from "../QuestionComponent/WaitingAnswerSpinner/WaitingAnswerSpinner";
 import UserLogo from "../QuestionComponent/UserLogo/UserLogo";
 
 import InputRadio from "../../Input/InputRadio/InputRadio";
@@ -169,7 +169,6 @@ function QuestionLC2({ getNextQuestion, isLoggedIn, user }) {
     }
   }, []);
 
-  console.log(isLoggedIn);
   const onClickOption = (event) => {
     setHasAnswer((preState) => true);
     setHour((hour) => Number(event.target.value));

@@ -12,20 +12,20 @@ import heartImg from "../../assets/images/heart-com.svg";
 
 export default withRequiredAuthInfo(
   function FavoritePage() {
-    const user = useSelector((store) => store[userSlice.name]);
+    const userInfo = useSelector((store) => store[userSlice.name]);
     const [petList, setPetList] = useState([]);
 
     useEffect(() => {
-      if (user !== null && user.favoritePets.length > 0) {
-        fetchGetPet(user.favoritePets, undefined, undefined)
+      if (userInfo !== null && userInfo.favoritePets.length > 0) {
+        fetchGetPet(userInfo.favoritePets, undefined, undefined)
           .then((data) => setPetList(data.content))
           .catch((err) => {
             console.log(err);
           });
-      } else if (user !== null && user.favoritePets.length === 0) {
+      } else if (userInfo !== null && userInfo.favoritePets.length === 0) {
         setPetList((prev) => []);
       }
-    }, [user]);
+    }, [userInfo]);
 
     if (petList.length === 0) {
       return (

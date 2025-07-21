@@ -17,7 +17,6 @@
 }
 
 .pet-description-button {
-  border: 2px solid #7c0f0f;
   cursor: pointer;
   width: 100%;
   padding: 10px 50px;
@@ -57,9 +56,9 @@
   background-color: white;
 }
 
-.pet-description-button:hover span {
+/* .pet-description-button:hover span {
   color: black;
-}
+} */
 
 .go-back-button:hover {
   span {

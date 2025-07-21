@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
+import { withAuthInfo } from "@propelauth/react";
+import { userSlice } from "../../redux/UserInfoSlice";
+import { useSelector, useDispatch } from "react-redux";
+
 import { useSearchParams } from "react-router-dom";
 import { createSearchParams } from "react-router-dom";
 
 import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
 import AttributeList from "./AttributeList/AttributeList";
-
 import noPetImage from "../../assets/images/no-pet-image.png";
 
+import { fetchUpdateFavoritePets } from "../../features/fetchUserRoutes";
 import "./PetDescriptions.css";
 
-function PetDescriptions() {
+export default withAuthInfo(function PetDescriptions({ user, isLoggedIn }) {
+  const dispatch = useDispatch();
   const [searchParams, _] = useSearchParams();
+  const userInfo = useSelector((store) => store[userSlice.name]);
   const [data, setData] = useState(null);
   const [imageIndex, setImageIndex] = useState(0);
-
   const [visibleRequireModal, setVisibleRequireModal] = useState(false);
-
+  const [isFavorite, setIsFavorite] = useState(false);
   const pet_id = searchParams.get("pet_id");
 
   useEffect(() => {
@@ -32,19 +37,43 @@ function PetDescriptions() {
       });
   }, [pet_id]);
 
+  useEffect(() => {
+    if (!isLoggedIn || userInfo === null) {
+      setIsFavorite((prev) => false);
+    } else {
+      console.log(userInfo.favoritePets);
+      if (userInfo.favoritePets.includes(pet_id)) {
+        setIsFavorite((prev) => true);
+      } else {
+        setIsFavorite((prev) => false);
+      }
+    }
+  }, [userInfo]);
   if (data === null) {
     return <></>;
   }
 
   const { age, adoption_fee, characteristics, breed, imagesURL, species, sex, name, weight, about } = data;
 
-  console.log(characteristics);
   const onClickApplyForAdoption = () => {
-    setVisibleRequireModal((preState) => true);
+    if (isLoggedIn) {
+    } else {
+      setVisibleRequireModal((preState) => true);
+    }
   };
 
   const onClickAddToFavorite = () => {
-    setVisibleRequireModal((preState) => true);
+    if (isLoggedIn) {
+      fetchUpdateFavoritePets(user.email, pet_id)
+        .then((response) => {
+          dispatch(userSlice.actions.addFavorites(pet_id));
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setVisibleRequireModal((preState) => true);
+    }
   };
 
   const onClickBack = () => {
@@ -110,7 +139,10 @@ function PetDescriptions() {
 
         <div className="flex justify-between gap-10">
           <div className="flex-grow p-10 rounded-2xl">
-            <h1 className="uppercase text-[#343a40] text-6xl pet-name">{name}</h1>
+            <div>
+              <h1 className="uppercase text-[#343a40] text-6xl pet-name">{name}</h1>
+              {isFavorite && <p className="text-[#adb5bd] font-semibold">{name} is one of your favorites pet</p>}
+            </div>
             <h2 className="uppercase text-[#343a40] text-3xl pet-name border-t border-[#dee2e6] mt-5 pt-5">Info</h2>
             <div className="max-w-96 mt-5">
               <div className="grid grid-cols-2">
@@ -157,11 +189,15 @@ function PetDescriptions() {
 
           <div className="mt-10">
             <div className="flex flex-col gap-2 w-max">
-              <button className="pet-description-button" onClick={onClickApplyForAdoption}>
+              <button
+                className="pet-description-button bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] hover:scale-105 duration-150"
+                onClick={onClickApplyForAdoption}>
                 <span>Apply for adoption</span>
               </button>
-              <button className="pet-description-button" onClick={onClickAddToFavorite}>
-                <span>&#x2764; Add to favorites</span>
+              <button
+                className="pet-description-button bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] hover:scale-105 duration-150"
+                onClick={onClickAddToFavorite}>
+                <span>&#x2764; {!isFavorite ? "Add to favorites" : "Remove from favorites"}</span>
               </button>
             </div>
           </div>
@@ -170,7 +206,7 @@ function PetDescriptions() {
       <RequiredSignInModal visible={visibleRequireModal} setVisible={setVisibleRequireModal} />
     </>
   );
-}
+});
 
 function ArrowSVG() {
   return (
@@ -263,4 +299,3 @@ function LineSVG() {
     </svg>
   );
 }
-export default PetDescriptions;

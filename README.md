@@ -29,27 +29,71 @@ Brief description of your project and its goals.
 - APIs: AWS S3
 <!-- Add/modify as needed -->
 
-## Getting Started
+## Local installation and running
 
 Instructions on how to set up and run your project locally.
+
+### Prerequistes
+
+- git, any version
+- **Node.js >= 20.16.0** and **npm >= 10.8.2** are the minimum required versions that this repo runs on, but we always recommend using the latest version of Node.js.
+
+### Frontend Application `/matchmaker-app`
+
+This section details the installation, running, and environment configurations of the `/matchmaker-app` directory, which houses our entire client-side application.
+
+#### Installation and running
 
 ```bash
 # Clone the repository
 git clone https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety
 
-# Change directory to app folder
+# Change directory to frontend app folder
 cd matchmaker-app
 
 # Install dependencies
 npm install
 
-# Run development server
+# Run development frontend server
 npm run dev
 
 # To run on both mobile devices, run dev server with network access
 npx vite --host
 
 ```
+
+#### Environment variables configure
+
+This project utilizes environment variables for configuration
+
+**Setup:**
+
+1. Create a `.env` file based on `.env.example` and fill in necessary environment variables
+2. Populate it with the following variables:
+
+| Variable Name                      | Description                                                                                                                                     |
+| :--------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `VITE_API_URL`                     | The base URL for the backend API server. All other endpoints will be appended to this URL.                                                      |
+| `VITE_USER_ENDPOINT`               | The relative path for user-related API operations. Used in conjunction with `VITE_API_URL`.                                                     |
+| `VITE_PETS_ENDPOINT`               | The relative path for pet-related API operations. Used in conjunction with `VITE_API_URL`.                                                      |
+| `VITE_USER_QUESTIONNAIRE_ENDPOINT` | The relative path to access a user's questionnaire data. **Must be appended to `VITE_USER_ENDPOINT`**.                                          |
+| `VITE_FAVORITE_PET_ENDPOINT`       | The relative path to access a user's favorited pets. **Must be appended to `VITE_USER_ENDPOINT`**.                                              |
+| `VITE_PROPELAUTH_URL`              | The URL for the [PropelAuth](https://www.propelauth.com/) authentication service, used for user account management (e.g., login, registration). |
+
+**Example `.env` file for local development:**
+
+```env
+VITE_API_URL=http://localhost:3000
+VITE_PETS_ENDPOINT=pets
+VITE_USER_ENDPOINT=users
+VITE_FAVORITE_PET_ENDPOINT=favorite-pets
+VITE_USER_QUESTIONNAIRE_ENDPOINT=questionnaire
+VITE_PROPELAUTH_URL=https://1234567890.propelauthtest.com
+```
+
+**Generate PropelAuth URL**
+
+Follow this [doc](https://docs.propelauth.com/getting-started/quickstart-fe)
 
 ## Your next steps
 

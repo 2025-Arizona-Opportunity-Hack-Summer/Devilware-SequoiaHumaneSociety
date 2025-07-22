@@ -301,8 +301,32 @@ components:
     InternalServerError:
       description: |
         Problem occurs at server. Please contact for help
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error: 
+                type: string
+                example: InternalServerError
+              message:
+                type: string
+                example: Problem occurs at server. Please contact for help
+              detail:
+                type: object
     UserNotFound:
       description: User does not exist
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error: 
+                type: string
+                example: UserNotFound
+              message:
+                type: string
+                example: Cannot find user
   securitySchemes:
     BearerAuth:
       type: http

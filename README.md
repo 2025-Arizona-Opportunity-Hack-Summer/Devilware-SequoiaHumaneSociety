@@ -136,7 +136,7 @@ This project utilizes environment variables for configuration
 
 ```env
 PORT=3000
-DATABASE_CONNECTION=mongodb+srv://something:something.mongodb.net/something
+MONGODB_ATLAS_CONNECTION=mongodb+srv://something:something.mongodb.net/something
 BUCKET_NAME=bucket_name
 BUCKET_REGION=us
 BUCKET_ACCESS_KEY=ABCDEFGHIJKLMNOPQRSTUVWXYZ

@@ -33,6 +33,10 @@ Brief description of your project and its goals.
 
 Instructions on how to set up and run your project locally.
 
+- [Prerequistes](#prerequistes)
+- [Frontend Application](#frontend-application-matchmaker-app)
+- [Backend Application](#backend-application-server)
+
 ### Prerequistes
 
 - git, any version
@@ -59,7 +63,6 @@ npm run dev
 
 # To run on both mobile devices, run dev server with network access
 npx vite --host
-
 ```
 
 #### Environment variables configure
@@ -71,14 +74,14 @@ This project utilizes environment variables for configuration
 1. Create a `.env` file based on `.env.example` and fill in necessary environment variables
 2. Populate it with the following variables:
 
-| Variable Name                      | Description                                                                                                                                     |
-| :--------------------------------- | :---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `VITE_API_URL`                     | The base URL for the backend API server. All other endpoints will be appended to this URL.                                                      |
-| `VITE_USER_ENDPOINT`               | The relative path for user-related API operations. Used in conjunction with `VITE_API_URL`.                                                     |
-| `VITE_PETS_ENDPOINT`               | The relative path for pet-related API operations. Used in conjunction with `VITE_API_URL`.                                                      |
-| `VITE_USER_QUESTIONNAIRE_ENDPOINT` | The relative path to access a user's questionnaire data. **Must be appended to `VITE_USER_ENDPOINT`**.                                          |
-| `VITE_FAVORITE_PET_ENDPOINT`       | The relative path to access a user's favorited pets. **Must be appended to `VITE_USER_ENDPOINT`**.                                              |
-| `VITE_PROPELAUTH_URL`              | The URL for the [PropelAuth](https://www.propelauth.com/) authentication service, used for user account management (e.g., login, registration). |
+| Variable Name                      | Description                                                                                                                                                                                                                                   |
+| :--------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `VITE_API_URL`                     | The base URL for the backend API server. All other endpoints will be appended to this URL.                                                                                                                                                    |
+| `VITE_USER_ENDPOINT`               | The relative path for user-related API operations. Used in conjunction with `VITE_API_URL`.                                                                                                                                                   |
+| `VITE_PETS_ENDPOINT`               | The relative path for pet-related API operations. Used in conjunction with `VITE_API_URL`.                                                                                                                                                    |
+| `VITE_USER_QUESTIONNAIRE_ENDPOINT` | The relative path to access a user's questionnaire data. **Must be appended to `VITE_USER_ENDPOINT`**.                                                                                                                                        |
+| `VITE_FAVORITE_PET_ENDPOINT`       | The relative path to access a user's favorited pets. **Must be appended to `VITE_USER_ENDPOINT`**.                                                                                                                                            |
+| `VITE_PROPELAUTH_URL`              | The URL for the [PropelAuth](https://www.propelauth.com/) authentication service, used for user account management (e.g., login, registration). Follow this [doc](https://docs.propelauth.com/getting-started/quickstart-fe) to generate ones |
 
 **Example `.env` file for local development:**
 
@@ -91,9 +94,60 @@ VITE_USER_QUESTIONNAIRE_ENDPOINT=questionnaire
 VITE_PROPELAUTH_URL=https://1234567890.propelauthtest.com
 ```
 
-**Generate PropelAuth URL**
+### Backend Application `/server`
 
-Follow this [doc](https://docs.propelauth.com/getting-started/quickstart-fe)
+This section details the installation, running, and environment configurations of the `/server` directory, which houses our entire server-side application.
+
+#### Installation and running
+
+```bash
+# If you have clone the github in the frontend, just need to create new terminal
+# git clone https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety
+
+# Change directory to backend app folder
+cd server
+
+# Install dependencies
+npm install
+
+# Run development backend server
+npm run server
+```
+
+#### Environment variables configure
+
+This project utilizes environment variables for configuration
+
+**Setup:**
+
+1. Create a `.env` file based on `.env.example` and fill in necessary environment variables
+2. Populate it with the following variables:
+
+| Variable Name              | Description                                                                                                                                                                           |
+| :------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `PORT`                     | Your Server Port                                                                                                                                                                      |
+| `MONGODB_ATLAS_CONNECTION` | The connection URL for your MongoDB Atlas server. See a step-by-step setup guide in this [video](https://www.youtube.com/watch?v=SMXbGrKe5gM)                                         |
+| `BUCKET_NAME`              | The name of your Amazon S3 bucket. This bucket is used on the server side for storing pet images. For more details, refer to the [Amazon S3 Bucket](#amazon-s3-bucket) section below. |
+| `BUCKET_REGION`            | The AWS Region where your Amazon S3 bucket is located.                                                                                                                                |
+| `BUCKET_ACCESS_KEY`        | Your AWS Access Key ID for programmatic access to the S3 bucket.                                                                                                                      |
+| `BUCKET_SECRET_KEY`        | Your AWS Secret Access Key for programmatic access to the S3 bucket.                                                                                                                  |
+
+**Example `.env` file for local development:**
+
+```env
+PORT=3000
+DATABASE_CONNECTION=mongodb+srv://something:something.mongodb.net/something
+BUCKET_NAME=bucket_name
+BUCKET_REGION=us
+BUCKET_ACCESS_KEY=ABCDEFGHIJKLMNOPQRSTUVWXYZ
+BUCKET_SECRET_KEY=abcdefghijklmnopqrstuvwxyz
+```
+
+#### Amazon S3 Bucket
+
+[Amazon S3](https://aws.amazon.com/s3/) stores data as objects within buckets. An object is a file and any metadata that describes the file. A bucket is a container for objects. To store your data in Amazon S3, you first create a bucket and specify a bucket name and AWS Region. Then, you upload your data to that bucket as objects in Amazon S3. Each object has a key (or key name), which is the unique identifier for the object within the bucket.
+
+In this project specially, we use Amazon S3 Bucket to store pet's images. See this [video](https://www.youtube.com/watch?v=eQAIojcArRY&t=2079s) to understand how to use the bucket to store images.
 
 ## Your next steps
 

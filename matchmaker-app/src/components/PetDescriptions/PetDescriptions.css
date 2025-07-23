@@ -29,6 +29,13 @@
   background-color: #7c0f0f;
 }
 
+@media screen and (max-width: 1024px) {
+  .pet-description-button {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+}
+
 .pet-description-button span {
   position: relative;
   z-index: 2;

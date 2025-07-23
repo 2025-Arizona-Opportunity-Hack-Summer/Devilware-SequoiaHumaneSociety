@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import FilterModal from "../Modal/FilterModal/FilterModal";
 import GoBackButton from "./GoBackButton/GoBackButton";
@@ -30,7 +30,45 @@ function MatchedPets({ visible, setIsQuestionPage }) {
   const [sortFilter, setSortFilter] = useState("");
 
   useEffect(() => {
-    setPetList((preState) => matchPetList);
+    const storedSpeciesFilter = SessionStorage.getItem("match-species-filter");
+
+    if (storedSpeciesFilter !== null) {
+      setSpeciesFilter((preState) => storedSpeciesFilter);
+    }
+
+    const storedBreedFilter = SessionStorage.getItem("match-breed-filter");
+
+    if (storedBreedFilter !== null) {
+      setBreedFilter((preState) => storedBreedFilter);
+    }
+
+    const storedActiveLevelFilter = SessionStorage.getItem("match-active-level-filter");
+
+    if (storedActiveLevelFilter !== null) {
+      setActiveLevelFilter((preState) => storedActiveLevelFilter);
+    }
+
+    const storedSizeFilter = SessionStorage.getItem("match-size-filter");
+
+    if (storedSizeFilter !== null) {
+      setSizeFilter((preState) => storedSizeFilter);
+    }
+
+    const storedSortFilter = SessionStorage.getItem("match-sort-filter");
+
+    if (storedSortFilter !== null) {
+      setSortFilter((preState) => storedSortFilter);
+    }
+
+    const updatedPetList = filterPet(
+      matchPetList,
+      storedSpeciesFilter,
+      storedBreedFilter,
+      storedActiveLevelFilter,
+      storedSizeFilter,
+      storedSortFilter
+    );
+    setPetList((prev) => updatedPetList);
   }, [matchPetList]);
 
   const onClickOpenFilter = () => {
@@ -82,6 +120,15 @@ function MatchedPets({ visible, setIsQuestionPage }) {
       let updatedFilter = [...speciesFilter.filter((item) => item !== value)];
       setSpeciesFilter((prev) => updatedFilter);
       SessionStorage.setItem("match-species-filter", updatedFilter);
+      const updatedPetList = filterPet(
+        matchPetList,
+        updatedFilter,
+        breedFilter,
+        activeLevelFilter,
+        sizeFilter,
+        sortFilter
+      );
+      setPetList((prev) => updatedPetList);
     }
     if (title == "Breed") {
       let updatedFilter = [...breedFilter.filter((item) => item !== value)];

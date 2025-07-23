@@ -3,9 +3,6 @@ const mongoClient = require("../database");
 async function createUser(req, res, next) {
   const { email, name, dob, gender } = req.body;
 
-  /*
-    New user properties
-  */
   const newUser = {
     email: email,
     name: {
@@ -77,9 +74,7 @@ async function updateUserFavoritesPet(req, res, next) {
       return;
     }
 
-    /*
-      The user exists
-    */
+    // The user exists
     if (user.favoritePets === undefined || !user.favoritePets.includes(pet_id)) {
       // if the user does not have the pet in favorited pet list, add them in
       user = await usersCollection.findOneAndUpdate(

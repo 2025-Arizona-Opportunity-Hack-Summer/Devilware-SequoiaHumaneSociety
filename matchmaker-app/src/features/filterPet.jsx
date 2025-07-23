@@ -19,6 +19,19 @@ function filterPet(petList = [], species = [], breed = [], activeLevel = [], siz
 
   // Create filter for active level
 
+  if (size !== null && size.length !== 0) {
+    result = [...result].filter((pet) => {
+      if (size.includes("Large") && pet.weight > 60) {
+        return true;
+      } else if (size.includes("Medium") && pet.weight >= 25 && pet.weight <= 60) {
+        return true;
+      } else if (size.includes("Small") && pet.weight < 25) {
+        return true;
+      }
+
+      return false;
+    });
+  }
   if (sortFilter !== null && sortFilter === "Alphabetical A-Z") {
     result = [...result].sort((pet1, pet2) => pet1.name.localeCompare(pet2.name));
   } else if (sortFilter !== null && sortFilter === "Alphabetical Z-A") {

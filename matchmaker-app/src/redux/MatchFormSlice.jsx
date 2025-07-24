@@ -20,6 +20,18 @@ export const finishPetQuestionsSlice = createSlice({
   },
 });
 
+export const numAnsweredQuestionSlice = createSlice({
+  name: "numAnsweredQuestions",
+  initialState: 0,
+  reducers: {
+    assign(state, action) {
+      return action.payload;
+    },
+    increase(state) {
+      return state + 1;
+    },
+  },
+});
 // export const finishHHSlice = createSlice({
 //   name: "finishHH",
 //   initialState: false,
@@ -89,6 +101,7 @@ const MatchFormSlice = {
   // [finishHHSlice.name]: finishHHSlice.reducer,
   [finishAdopterQuestionsSlice.name]: finishAdopterQuestionsSlice.reducer,
   [finishPetQuestionsSlice.name]: finishPetQuestionsSlice.reducer,
+  [numAnsweredQuestionSlice.name]: numAnsweredQuestionSlice.reducer,
 };
 
 export default MatchFormSlice;

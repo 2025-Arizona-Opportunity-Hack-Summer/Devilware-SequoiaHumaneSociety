@@ -2,16 +2,20 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withAuthInfo } from "@propelauth/react";
 
-import ProgressBar from "./ProgressBar/ProgressBar";
 import MatchBanner from "../MatchBanner/MatchBanner";
 import ReviewQuestions from "./ReviewQuestions/ReviewQuestions";
 
-import { finishAdopterQuestionsSlice, finishPetQuestionsSlice } from "../../redux/MatchFormSlice";
+import {
+  finishAdopterQuestionsSlice,
+  finishPetQuestionsSlice,
+  numAnsweredQuestionSlice,
+} from "../../redux/MatchFormSlice";
 import { matchedPetListSlice } from "../../redux/MatchedPetSlice";
 
 import AdopterQuestions from "./QuestionsList/AdopterQuestions";
 import IdealPetQuestions from "./QuestionsList/IdealPetQuestions";
 import InputButton from "../Input/InputButton/InputButton";
+import ProgressBar from "./ProgressBar/ProgressBar";
 
 import SessionStorage from "../../features/sessionStorage";
 
@@ -21,9 +25,11 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
   const dispatch = useDispatch();
   const finishAdopterQuestion = useSelector((store) => store[finishAdopterQuestionsSlice.name]);
   const finishPetQuestion = useSelector((store) => store[finishPetQuestionsSlice.name]);
+  const totalQuestions = 8;
 
   const [openSubmit, setOpenSubmit] = useState(false); // the submit buttion only displays when openSubmit = true
   const [currQuestions, setCurrQuestions] = useState(0);
+  const [numberOfAnswers, setNumbersOfAnswers] = useState(0);
   /*
     currQuestions represents the index of current list of questions
     0 --> housing environment
@@ -41,39 +47,39 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
      * @returns {number} index of list of questions
      **/
 
-    const adopterQuestionId = ["a1", "a2", "a3", "a4"];
-    const petQuestionId = ["p1", "p2", "p3", "p4"];
+    const petList = SessionStorage.getItem("petList");
 
-    const getQuestionNumber = () => {
-      const petAnswers = petQuestionId.map((id) => SessionStorage.getItem(id) !== null);
+    if (petList !== null) {
+      setCurrQuestions((prev) => 1);
+      setIsQuestionPage((preState) => false);
+      dispatch(matchedPetListSlice.actions.assign(petList));
+    } else {
+      const petQuestionId = ["p1", "p2", "p3", "p4"];
 
-      if (!petAnswers.includes(false)) {
-        // if the session storage store all SP answers then all other questions from EE, LC, HC, and HE have also been answered
-        dispatch(finishAdopterQuestionsSlice.actions.assign(true));
-        dispatch(finishPetQuestionsSlice.actions.assign(true));
-        onSubmitForm();
-        return 1;
-      }
+      const getQuestionNumber = () => {
+        const petAnswers = petQuestionId.map((id) => SessionStorage.getItem(id) !== null);
 
-      const adopterAnswers = adopterQuestionId.map((id) => SessionStorage.getItem(id) !== null);
+        if (!petAnswers.includes(false)) {
+          setNumbersOfAnswers((prev) => 8);
+          onSubmitForm();
+          return 1;
+        }
 
-      if (!adopterAnswers.includes(false)) {
-        // if the session storage store all EE answers then all other questions from LC, HC, and HE have also been answered
-        dispatch(finishAdopterQuestionsSlice.actions.assign(true));
-      }
+        return 0; // Default value if none are true
+      };
 
-      return 0; // Default value if none are true
-    };
-
-    setCurrQuestions((prev) => 0);
+      setCurrQuestions((prev) => getQuestionNumber());
+    }
   }, []);
 
   const onClickNext = () => {
     setCurrQuestions((preState) => preState + 1);
+    setNumbersOfAnswers((prev) => 8);
   };
 
   const onClickBack = () => {
     setCurrQuestions((preState) => preState - 1);
+    setNumbersOfAnswers((prev) => 0);
   };
 
   const onSubmitForm = async (event) => {
@@ -82,42 +88,35 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     }
 
     setCurrQuestions((prev) => 1);
-    const petList = SessionStorage.getItem("petList");
+    setIsLoading((preState) => true);
 
-    if (petList === null) {
-      setIsLoading((preState) => true);
-      try {
-        const API_BASE_URL = import.meta.env.VITE_API_URL;
-        const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
+    try {
+      const API_BASE_URL = import.meta.env.VITE_API_URL;
+      const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
 
-        const url = `${API_BASE_URL}/${PETS_ENDPOINT}`;
+      const url = `${API_BASE_URL}/${PETS_ENDPOINT}`;
 
-        const jsonResponse = await fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json",
-          },
-        });
+      const jsonResponse = await fetch(url, {
+        method: "GET",
+        headers: {
+          "Content-type": "application/json",
+        },
+      });
 
-        const data = await jsonResponse.json();
+      const data = await jsonResponse.json();
 
-        if (jsonResponse.ok) {
-          setTimeout(() => {
-            setIsQuestionPage((preState) => false);
-            dispatch(matchedPetListSlice.actions.assign(data.content));
-            SessionStorage.setItem("petList", data.content);
-            window.scroll(0, 0);
-            setIsLoading((preState) => false);
-          }, 5000);
-        }
-      } catch (err) {
-        setIsLoading((preState) => false);
-        console.log(err);
+      if (jsonResponse.ok) {
+        setTimeout(() => {
+          setIsQuestionPage((preState) => false);
+          dispatch(matchedPetListSlice.actions.assign(data.content));
+          SessionStorage.setItem("petList", data.content);
+          window.scroll(0, 0);
+          setIsLoading((preState) => false);
+        }, 5000);
       }
-    } else {
+    } catch (err) {
       setIsLoading((preState) => false);
-      setIsQuestionPage((preState) => false);
-      dispatch(matchedPetListSlice.actions.assign(petList));
+      console.log(err);
     }
   };
 
@@ -136,10 +135,12 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
           <p className="font-semibold text-xl">
             Answering the following questions will help us better understand you in finding your ideal pet
           </p>
-          <ul className="flex flex-col items-end justify-start max-w-screen gap-5 rounded-xl bg-white py-20 xl:pr-12 xl:pl-24 px-6">
-            {/* <ProgressBar currIdx={currQuestions} /> */}
-            {currQuestions === 0 && <AdopterQuestions />}
-            {currQuestions === 0 && finishAdopterQuestion && <IdealPetQuestions />}
+          <ul className="flex flex-col items-end justify-start max-w-screen gap-3 rounded-xl bg-white py-20 px-6 xl:px-12 xl:py-10">
+            <ProgressBar percentage={Math.floor(2 / totalQuestions, 2)} />
+            {currQuestions === 0 && <AdopterQuestions setNumbersOfAnswers={setNumbersOfAnswers} />}
+            {currQuestions === 0 && finishAdopterQuestion && (
+              <IdealPetQuestions setNumbersOfAnswers={setNumbersOfAnswers} />
+            )}
             {currQuestions === 1 && (
               <ReviewQuestions setOpenSubmit={setOpenSubmit} setCurrQuestions={setCurrQuestions} />
             )}

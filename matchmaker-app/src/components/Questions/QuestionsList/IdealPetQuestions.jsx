@@ -17,9 +17,9 @@ import SessionStorage from "../../../features/sessionStorage";
 import userImage from "../../../assets/images/user.png";
 
 import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
-import { finishPetQuestionsSlice } from "../../../redux/MatchFormSlice";
+import { finishPetQuestionsSlice, numAnsweredQuestionSlice } from "../../../redux/MatchFormSlice";
 
-export default withAuthInfo(function IdealPetQuestions({ isLoggedIn, user }) {
+export default withAuthInfo(function IdealPetQuestions({ isLoggedIn, user, setNumbersOfAnswers }) {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
 
@@ -47,6 +47,9 @@ export default withAuthInfo(function IdealPetQuestions({ isLoggedIn, user }) {
   ];
 
   function getNextQuestion() {
+    // dispatch(numAnsweredQuestionSlice.actions.increase());
+    setNumbersOfAnswers((prev) => prev + 1);
+
     if (currQuestions < questions.length) {
       setCurrQuestions(currQuestions + 1);
     } else {
@@ -57,7 +60,7 @@ export default withAuthInfo(function IdealPetQuestions({ isLoggedIn, user }) {
   return (
     <>
       <div className="flex justify-start w-full">
-        <h2 className="text-2xl font-semibold text-[#7C0F0F]">About your ideal pets</h2>
+        <h2 className="text-xl font-semibold text-[#7C0F0F]">About your ideal pets</h2>
       </div>
       {questions.slice(0, currQuestions)}
     </>
@@ -382,7 +385,18 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
 
         {/* If the answer is NOT empty string ==> Display answer */}
         <AnswerContainer visible={hasAnswer} id="p3" onClickEdit={onClickEdit}>
-          <p>I'm looking for a pet with sizes: {sizes.map((size) => size.toLowerCase()).join(", ")}</p>
+          <p>I'm looking for a pet with sizes:</p>
+          <ul>
+            {sizes.map((size) => (
+              <li key={size}>
+                {size === "Large"
+                  ? "large (over 60 lbs)"
+                  : size === "Medium"
+                  ? "medium (25 - 60 lbs)"
+                  : "small (less than 25 lbs)"}
+              </li>
+            ))}
+          </ul>
         </AnswerContainer>
 
         <UserLogo src={userImage} />
@@ -493,7 +507,7 @@ function QuestionP4({ getNextQuestion, isLoggedIn, user }) {
 
         {/* If the answer is NOT empty string ==> Display answer */}
         <AnswerContainer visible={hasAnswer} id="p4" onClickEdit={onClickEdit}>
-          <p>I like the pet pet with active level: {levels.map((item) => item.toLowerCase()).join(", ")}</p>
+          <p>I like a pet with active level: {levels.map((item) => item.toLowerCase()).join(", ")}</p>
         </AnswerContainer>
 
         <UserLogo src={userImage} />

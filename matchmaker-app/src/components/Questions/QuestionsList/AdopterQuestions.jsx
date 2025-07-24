@@ -18,10 +18,10 @@ import AnimalList from "../AnimalList/AnimalList";
 
 import userImage from "../../../assets/images/user.png";
 
-import { finishAdopterQuestionsSlice } from "../../../redux/MatchFormSlice";
+import { finishAdopterQuestionsSlice, numAnsweredQuestionSlice } from "../../../redux/MatchFormSlice";
 import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
 
-export default withAuthInfo(function AdopterQuestions({ isLoggedIn, user }) {
+export default withAuthInfo(function AdopterQuestions({ isLoggedIn, user, setNumbersOfAnswers }) {
   const dispatch = useDispatch();
   const [currQuestions, setCurrQuestions] = useState(1);
   /** 
@@ -48,17 +48,11 @@ export default withAuthInfo(function AdopterQuestions({ isLoggedIn, user }) {
   ];
 
   function getNextQuestion() {
-    /*
-      if currQuestions < question.length
-        - increase the number of quetions by 1
-      else
-        - set finishHE is true  
-      
-    */
+    // dispatch(numAnsweredQuestionSlice.actions.increase());
+    setNumbersOfAnswers((prev) => prev + 1);
     if (currQuestions < questions.length) {
       setCurrQuestions(currQuestions + 1);
     } else {
-      // dispatch(finishHHSlice.actions.assign(true));
       dispatch(finishAdopterQuestionsSlice.actions.assign(true));
     }
   }
@@ -66,7 +60,7 @@ export default withAuthInfo(function AdopterQuestions({ isLoggedIn, user }) {
   return (
     <>
       <div className="flex justify-start w-full">
-        <h2 className="text-2xl font-semibold text-[#7C0F0F]">About yourself</h2>
+        <h2 className="text-xl font-semibold text-[#7C0F0F]">About yourself</h2>
       </div>
       {questions.slice(0, currQuestions)}
     </>

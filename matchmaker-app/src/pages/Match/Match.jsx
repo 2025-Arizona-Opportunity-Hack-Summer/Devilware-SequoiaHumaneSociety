@@ -32,12 +32,6 @@ export default withAuthInfo(function Match({ isLoggedIn }) {
   return (
     <>
       <div className="match">
-        {/* <MatchBanner /> */}
-        {/* {isQuestionPage && <Questions setIsQuestionPage={setIsQuestionPage} />}
-      {!isQuestionPage && <MatchedPets setIsQuestionPage={setIsQuestionPage} />} */}
-        {/* <Questions setIsQuestionPage={setIsQuestionPage} visible={isQuestionPage} />
-      <WaitingLoaderFindPets />
-      <MatchedPets setIsQuestionPage={setIsQuestionPage} visible={!isQuestionPage} /> */}
         <Questions
           setIsQuestionPage={setIsQuestionPage}
           visible={!isLoading && isQuestionPage}

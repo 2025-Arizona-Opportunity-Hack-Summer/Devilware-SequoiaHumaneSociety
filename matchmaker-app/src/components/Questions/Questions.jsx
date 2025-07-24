@@ -6,16 +6,11 @@ import ProgressBar from "./ProgressBar/ProgressBar";
 import MatchBanner from "../MatchBanner/MatchBanner";
 import ReviewQuestions from "./ReviewQuestions/ReviewQuestions";
 
-import HousingEnvironmentQuestions from "./HousingEnvironmentQuestions/HousingEnvironemntQuestions";
-import HouseholdCompositionQuestions from "./HouseholdCompositionQuestions/HouseholdCompositionQuestions";
-import LifestyleCommitmentQuestions from "./LifestyleCommitmentQuestions/LifestyleCommitmentQuestions";
-import ExperienceExpectationsQuestions from "./ExperienceExpectationsQuestions/ExperienceExpectationsQuestions";
-import SpecificPreferencesQuestions from "./SpecificPreferencesQuestions/SpecificPreferencesQuestions";
-
-import { finishHCSlice, finishHESlice, finishLCSlice, finishEESlice, finishSPSlice } from "../../redux/MatchFormSlice";
+import { finishAdopterQuestionsSlice, finishPetQuestionsSlice } from "../../redux/MatchFormSlice";
 import { matchedPetListSlice } from "../../redux/MatchedPetSlice";
-import { userSlice } from "../../redux/UserInfoSlice";
 
+import AdopterQuestions from "./QuestionsList/AdopterQuestions";
+import IdealPetQuestions from "./QuestionsList/IdealPetQuestions";
 import InputButton from "../Input/InputButton/InputButton";
 
 import SessionStorage from "../../features/sessionStorage";
@@ -24,11 +19,8 @@ import "./Questions.css";
 
 export default withAuthInfo(function Questions({ visible, setIsQuestionPage, setIsLoading }) {
   const dispatch = useDispatch();
-  const finishHE = useSelector((store) => store[finishHESlice.name]); // true when the user have answered all housing environment question
-  const finishHC = useSelector((store) => store[finishHCSlice.name]); // true when the user have answered all household composition question
-  const finishLC = useSelector((store) => store[finishLCSlice.name]); // true when the user have answered all lifesytle and commitmnet question
-  const finishEE = useSelector((store) => store[finishEESlice.name]); // true when the user have answered all experience and expectation question
-  const finishSP = useSelector((store) => store[finishSPSlice.name]); // true when the user have answered all specific perferences question
+  const finishAdopterQuestion = useSelector((store) => store[finishAdopterQuestionsSlice.name]);
+  const finishPetQuestion = useSelector((store) => store[finishPetQuestionsSlice.name]);
 
   const [openSubmit, setOpenSubmit] = useState(false); // the submit buttion only displays when openSubmit = true
   const [currQuestions, setCurrQuestions] = useState(0);
@@ -49,67 +41,31 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
      * @returns {number} index of list of questions
      **/
 
-    const spId = ["sp1", "sp2", "sp3", "sp4", "sp5", "sp6"];
-    const eeId = ["ee1", "ee2", "ee3", "ee4"];
-    const lcId = ["lc1", "lc2", "lc3", "lc4", "lc5"];
-    const hcId = ["hc1", "hc2", "hc3", "hc4"];
-    const heId = ["he1", "he2", "he3", "he4"];
+    const adopterQuestionId = ["a1", "a2", "a3", "a4"];
+    const petQuestionId = ["p1", "p2", "p3", "p4"];
 
     const getQuestionNumber = () => {
-      const SPAnswers = spId.map((id) => SessionStorage.getItem(id) !== null);
+      const petAnswers = petQuestionId.map((id) => SessionStorage.getItem(id) !== null);
 
-      if (!SPAnswers.includes(false)) {
+      if (!petAnswers.includes(false)) {
         // if the session storage store all SP answers then all other questions from EE, LC, HC, and HE have also been answered
-        dispatch(finishSPSlice.actions.assign(true));
-        dispatch(finishEESlice.actions.assign(true));
-        dispatch(finishLCSlice.actions.assign(true));
-        dispatch(finishHCSlice.actions.assign(true));
-        dispatch(finishHESlice.actions.assign(true));
+        dispatch(finishAdopterQuestionsSlice.actions.assign(true));
+        dispatch(finishPetQuestionsSlice.actions.assign(true));
         onSubmitForm();
-        return 5;
-      }
-
-      const EEAnswers = eeId.map((id) => SessionStorage.getItem(id) !== null);
-
-      if (!EEAnswers.includes(false)) {
-        // if the session storage store all EE answers then all other questions from LC, HC, and HE have also been answered
-        dispatch(finishEESlice.actions.assign(true));
-        dispatch(finishLCSlice.actions.assign(true));
-        dispatch(finishHCSlice.actions.assign(true));
-        dispatch(finishHESlice.actions.assign(true));
-        return 4;
-      }
-
-      const LCAnswers = lcId.map((id) => SessionStorage.getItem(id) !== null);
-
-      if (!LCAnswers.includes(false)) {
-        // if the session storage store all LC answers then all other questions from HC, and HE have also been answered
-        dispatch(finishLCSlice.actions.assign(true));
-        dispatch(finishHCSlice.actions.assign(true));
-        dispatch(finishHESlice.actions.assign(true));
-        return 3;
-      }
-
-      const HCAnswers = hcId.map((id) => SessionStorage.getItem(id) !== null);
-
-      if (!HCAnswers.includes(false)) {
-        // if the session storage store all HC answers then all other questions from and HE have also been answered
-        dispatch(finishHCSlice.actions.assign(true));
-        dispatch(finishHESlice.actions.assign(true));
-        return 2;
-      }
-
-      const HEAnswers = heId.map((id) => SessionStorage.getItem(id) !== null);
-
-      if (!HEAnswers.includes(false)) {
-        dispatch(finishHESlice.actions.assign(true));
         return 1;
+      }
+
+      const adopterAnswers = adopterQuestionId.map((id) => SessionStorage.getItem(id) !== null);
+
+      if (!adopterAnswers.includes(false)) {
+        // if the session storage store all EE answers then all other questions from LC, HC, and HE have also been answered
+        dispatch(finishAdopterQuestionsSlice.actions.assign(true));
       }
 
       return 0; // Default value if none are true
     };
 
-    setCurrQuestions(getQuestionNumber());
+    setCurrQuestions((prev) => getQuestionNumber());
   }, []);
 
   const onClickNext = () => {
@@ -125,7 +81,7 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
       event.preventDefault();
     }
 
-    setCurrQuestions((prev) => 5);
+    setCurrQuestions((prev) => 1);
     const petList = SessionStorage.getItem("petList");
 
     if (petList === null) {
@@ -165,12 +121,7 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     }
   };
 
-  const isNextAble =
-    (currQuestions === 0 && finishHE === true) ||
-    (currQuestions === 1 && finishHC === true) ||
-    (currQuestions === 2 && finishLC === true) ||
-    (currQuestions === 3 && finishEE === true) ||
-    (currQuestions === 4 && finishSP === true); // true if the next button is clickable
+  const isNextAble = finishAdopterQuestion && finishPetQuestion && currQuestions == 0;
 
   if (visible === false) {
     return <></>;
@@ -182,14 +133,12 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
       <div className="bg-white py-10" id="form">
         <form className="flex flex-col min-h-screen xl:w-[65vw] w-[90vw] m-auto rounded-2xl " onSubmit={onSubmitForm}>
           {/* Question lists */}
+          <p>Answering the following questions will help us better understand you in finding your ideal pet</p>
           <ul className="flex flex-col items-end justify-start max-w-screen gap-5 rounded-xl bg-white py-20 xl:pr-12 xl:pl-24 px-6">
-            <ProgressBar currIdx={currQuestions} />
-            {currQuestions === 0 && <HousingEnvironmentQuestions />}
-            {currQuestions === 1 && <HouseholdCompositionQuestions />}
-            {currQuestions === 2 && <LifestyleCommitmentQuestions />}
-            {currQuestions === 3 && <ExperienceExpectationsQuestions />}
-            {currQuestions === 4 && <SpecificPreferencesQuestions />}
-            {currQuestions === 5 && (
+            {/* <ProgressBar currIdx={currQuestions} /> */}
+            {currQuestions === 0 && <AdopterQuestions />}
+            {currQuestions === 0 && finishAdopterQuestion && <IdealPetQuestions />}
+            {currQuestions === 1 && (
               <ReviewQuestions setOpenSubmit={setOpenSubmit} setCurrQuestions={setCurrQuestions} />
             )}
           </ul>

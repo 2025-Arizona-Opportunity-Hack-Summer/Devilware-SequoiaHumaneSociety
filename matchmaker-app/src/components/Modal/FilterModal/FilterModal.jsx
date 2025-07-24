@@ -19,48 +19,6 @@ function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue, o
   const { speciesFilter, breedFilter, activeLevelFilter, sizeFilter, sortFilter } = filterValue;
   const { setSpeciesFilter, setBreedFilter, setActiveLevelFilter, setSizeFilter, setSortFilter } = setFilterValue;
 
-  useEffect(() => {
-    const storedSpeciesFilter = SessionStorage.getItem("match-species-filter");
-
-    if (storedSpeciesFilter !== null) {
-      setSpeciesFilter((preState) => storedSpeciesFilter);
-    }
-
-    const storedBreedFilter = SessionStorage.getItem("match-breed-filter");
-
-    if (storedBreedFilter !== null) {
-      setBreedFilter((preState) => storedBreedFilter);
-    }
-
-    const storedActiveLevelFilter = SessionStorage.getItem("match-active-level-filter");
-
-    if (storedActiveLevelFilter !== null) {
-      setActiveLevelFilter((preState) => storedActiveLevelFilter);
-    }
-
-    const storedSizeFilter = SessionStorage.getItem("match-size-filter");
-
-    if (storedSizeFilter !== null) {
-      setSizeFilter((preState) => storedSizeFilter);
-    }
-
-    const storedSortFilter = SessionStorage.getItem("match-sort-filter");
-
-    if (storedSortFilter !== null) {
-      setSortFilter((preState) => storedSortFilter);
-    }
-
-    const updatedPetList = filterPet(
-      originalPetList,
-      storedSpeciesFilter,
-      storedBreedFilter,
-      storedActiveLevelFilter,
-      storedSizeFilter,
-      storedSortFilter
-    );
-    setPetList((prev) => updatedPetList);
-  }, []);
-
   const onClickCloseFilter = () => {
     setVisibleFilter((preState) => false);
   };

@@ -41,8 +41,8 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
         }
       }
 
-      const updatedMatchQuestions = saveUserQuesionnaire(userInfo);
-
+      // const updatedMatchQuestions = saveUserQuesionnaire(userInfo);
+      const updatedMatchQuestions = {};
       userInfo = await fetchUpdateUserQuesionnaireBySessionStorage(user.email, updatedMatchQuestions);
 
       dispatch(userSlice.actions.assign(userInfo));

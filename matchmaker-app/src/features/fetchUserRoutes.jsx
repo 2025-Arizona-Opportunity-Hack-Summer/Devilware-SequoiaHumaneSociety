@@ -14,7 +14,7 @@ async function fetchFindUserByEmail(email) {
 
     const data = await response.json();
 
-    if (!response.ok && data.description === "User does not exist") {
+    if (!response.ok && data.error === "UserNotFound") {
       user = null;
     } else {
       user = data;

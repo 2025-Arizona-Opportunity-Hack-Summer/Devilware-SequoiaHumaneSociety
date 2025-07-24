@@ -53,10 +53,26 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn }) {
     return <></>;
   }
 
-  const { age, adoption_fee, characteristics, breed, imagesURL, species, sex, name, weight, about } = data;
+  const {
+    age,
+    adoption_fee,
+    characteristics,
+    breed,
+    imagesURL,
+    species,
+    sex,
+    name,
+    weight,
+    about,
+    animal_id,
+    activeLevel,
+  } = data;
 
   const onClickApplyForAdoption = () => {
     if (isLoggedIn) {
+      window.open(
+        "https://docs.google.com/forms/d/e/1FAIpQLSei203c7izJdVQx21_Qf99AMD3YxaGN_fjpr0wuVq6sm3rhxg/viewform?usp=dialog"
+      );
     } else {
       setVisibleRequireModal((preState) => true);
     }
@@ -147,6 +163,10 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn }) {
             </h2>
             <div className="max-w-96 mt-5 text-sm lg:text-base">
               <div className="grid grid-cols-2">
+                <p className="uppercase text-[#495057] pet-category">pet id</p>
+                <p className="pet-data">{animal_id}</p>
+              </div>
+              <div className="grid grid-cols-2">
                 <p className="uppercase text-[#495057] pet-category">species</p>
                 <p className="pet-data">{species}</p>
               </div>
@@ -157,6 +177,10 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn }) {
               <div className="grid grid-cols-2">
                 <p className="uppercase text-[#495057] pet-category">sex</p>
                 <p className="pet-data">{sex}</p>
+              </div>
+              <div className="grid grid-cols-2">
+                <p className="uppercase text-[#495057] pet-category">active level</p>
+                <p className="pet-data">{activeLevel}</p>
               </div>
               <div className="grid grid-cols-2">
                 <p className="uppercase text-[#495057] pet-category">weight</p>

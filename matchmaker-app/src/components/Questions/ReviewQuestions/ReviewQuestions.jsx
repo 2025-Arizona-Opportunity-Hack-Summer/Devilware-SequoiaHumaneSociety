@@ -90,7 +90,9 @@ function AdopterReview({ onClickBack }) {
             <p className="font-semibold">Other pets: </p>
             <ul>
               {a4.map((pet, idx) => (
-                <li key={idx}>{pet.type}</li>
+                <li key={idx} className="list-decimal list-inside">
+                  {pet.type} - {pet.age} months
+                </li>
               ))}
             </ul>
           </>

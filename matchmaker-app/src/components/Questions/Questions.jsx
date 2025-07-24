@@ -65,7 +65,7 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
       return 0; // Default value if none are true
     };
 
-    setCurrQuestions((prev) => getQuestionNumber());
+    setCurrQuestions((prev) => 0);
   }, []);
 
   const onClickNext = () => {
@@ -133,7 +133,9 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
       <div className="bg-white py-10" id="form">
         <form className="flex flex-col min-h-screen xl:w-[65vw] w-[90vw] m-auto rounded-2xl " onSubmit={onSubmitForm}>
           {/* Question lists */}
-          <p>Answering the following questions will help us better understand you in finding your ideal pet</p>
+          <p className="font-semibold text-xl">
+            Answering the following questions will help us better understand you in finding your ideal pet
+          </p>
           <ul className="flex flex-col items-end justify-start max-w-screen gap-5 rounded-xl bg-white py-20 xl:pr-12 xl:pl-24 px-6">
             {/* <ProgressBar currIdx={currQuestions} /> */}
             {currQuestions === 0 && <AdopterQuestions />}

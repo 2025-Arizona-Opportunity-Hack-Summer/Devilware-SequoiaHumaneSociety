@@ -382,12 +382,7 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
 
         {/* If the answer is NOT empty string ==> Display answer */}
         <AnswerContainer visible={hasAnswer} id="p3" onClickEdit={onClickEdit}>
-          <p>I'm looking for a pet with sizes:</p>
-          <ul>
-            {sizes.map((size) => (
-              <li key={size}>{size}</li>
-            ))}
-          </ul>
+          <p>I'm looking for a pet with sizes: {sizes.map((size) => size.toLowerCase()).join(", ")}</p>
         </AnswerContainer>
 
         <UserLogo src={userImage} />
@@ -481,9 +476,9 @@ function QuestionP4({ getNextQuestion, isLoggedIn, user }) {
               value="Quiet Active"
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
-              checked={levels.includes("Quiet Active")}
+              checked={levels.includes("Quietly Active")}
               onChangeHandler={onChangeLevel}>
-              Quiet Active
+              Quietly Active
             </InputCheckbox>
           </div>
           <InputButton
@@ -498,12 +493,7 @@ function QuestionP4({ getNextQuestion, isLoggedIn, user }) {
 
         {/* If the answer is NOT empty string ==> Display answer */}
         <AnswerContainer visible={hasAnswer} id="p4" onClickEdit={onClickEdit}>
-          <p>I'm looking for a pet with active level:</p>
-          <ul>
-            {levels.map((level) => (
-              <li key={level}>{level}</li>
-            ))}
-          </ul>
+          <p>I like the pet pet with active level: {levels.map((item) => item.toLowerCase()).join(", ")}</p>
         </AnswerContainer>
 
         <UserLogo src={userImage} />

@@ -621,8 +621,8 @@ function QuestionA4({ getNextQuestion, isLoggedIn, user }) {
                 </p>
                 <ol start={1}>
                   {animalList.map((animal, idx) => (
-                    <li key={idx}>
-                      {animal.type}, {animal.age} months, {animal.isNeutered === true ? "Neutered" : "Spayed"}
+                    <li key={idx} className="list-decimal list-inside">
+                      {animal.type} - {animal.age} months - {animal.isNeutered === true ? "Neutered" : "Spayed"}
                     </li>
                   ))}
                 </ol>

@@ -17,7 +17,7 @@ import SessionStorage from "../../../features/sessionStorage";
 import userImage from "../../../assets/images/user.png";
 
 import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
-import { finishPetQuestionsSlice, numAnsweredQuestionSlice } from "../../../redux/MatchFormSlice";
+import { finishPetQuestionsSlice } from "../../../redux/MatchFormSlice";
 
 export default withAuthInfo(function IdealPetQuestions({ isLoggedIn, user, setNumbersOfAnswers }) {
   const dispatch = useDispatch();
@@ -47,7 +47,6 @@ export default withAuthInfo(function IdealPetQuestions({ isLoggedIn, user, setNu
   ];
 
   function getNextQuestion() {
-    // dispatch(numAnsweredQuestionSlice.actions.increase());
     setNumbersOfAnswers((prev) => prev + 1);
 
     if (currQuestions < questions.length) {
@@ -487,7 +486,7 @@ function QuestionP4({ getNextQuestion, isLoggedIn, user }) {
             </InputCheckbox>
             <InputCheckbox
               id="p4c"
-              value="Quiet Active"
+              value="Quietly Active"
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
               checked={levels.includes("Quietly Active")}

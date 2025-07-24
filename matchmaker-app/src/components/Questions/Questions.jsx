@@ -5,11 +5,7 @@ import { withAuthInfo } from "@propelauth/react";
 import MatchBanner from "../MatchBanner/MatchBanner";
 import ReviewQuestions from "./ReviewQuestions/ReviewQuestions";
 
-import {
-  finishAdopterQuestionsSlice,
-  finishPetQuestionsSlice,
-  numAnsweredQuestionSlice,
-} from "../../redux/MatchFormSlice";
+import { finishAdopterQuestionsSlice, finishPetQuestionsSlice } from "../../redux/MatchFormSlice";
 import { matchedPetListSlice } from "../../redux/MatchedPetSlice";
 
 import AdopterQuestions from "./QuestionsList/AdopterQuestions";
@@ -50,9 +46,9 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     const petList = SessionStorage.getItem("petList");
 
     if (petList !== null) {
-      setCurrQuestions((prev) => 1);
-      setIsQuestionPage((preState) => false);
-      dispatch(matchedPetListSlice.actions.assign(petList));
+      // setCurrQuestions((prev) => 1);
+      // setIsQuestionPage((preState) => false);
+      // dispatch(matchedPetListSlice.actions.assign(petList));
     } else {
       const petQuestionId = ["p1", "p2", "p3", "p4"];
 
@@ -90,33 +86,42 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     setCurrQuestions((prev) => 1);
     setIsLoading((preState) => true);
 
-    try {
-      const API_BASE_URL = import.meta.env.VITE_API_URL;
-      const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
+    const petList = SessionStorage.getItem("petList");
 
-      const url = `${API_BASE_URL}/${PETS_ENDPOINT}`;
+    if (petList !== null) {
+      setCurrQuestions((prev) => 1);
+      setIsQuestionPage((preState) => false);
+      setIsLoading((prev) => false);
+      dispatch(matchedPetListSlice.actions.assign(petList));
+    } else {
+      try {
+        const API_BASE_URL = import.meta.env.VITE_API_URL;
+        const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
 
-      const jsonResponse = await fetch(url, {
-        method: "GET",
-        headers: {
-          "Content-type": "application/json",
-        },
-      });
+        const url = `${API_BASE_URL}/${PETS_ENDPOINT}`;
 
-      const data = await jsonResponse.json();
+        const jsonResponse = await fetch(url, {
+          method: "GET",
+          headers: {
+            "Content-type": "application/json",
+          },
+        });
 
-      if (jsonResponse.ok) {
-        setTimeout(() => {
-          setIsQuestionPage((preState) => false);
-          dispatch(matchedPetListSlice.actions.assign(data.content));
-          SessionStorage.setItem("petList", data.content);
-          window.scroll(0, 0);
-          setIsLoading((preState) => false);
-        }, 5000);
+        const data = await jsonResponse.json();
+
+        if (jsonResponse.ok) {
+          setTimeout(() => {
+            setIsQuestionPage((preState) => false);
+            dispatch(matchedPetListSlice.actions.assign(data.content));
+            SessionStorage.setItem("petList", data.content);
+            window.scroll(0, 0);
+            setIsLoading((preState) => false);
+          }, 5000);
+        }
+      } catch (err) {
+        setIsLoading((preState) => false);
+        console.log(err);
       }
-    } catch (err) {
-      setIsLoading((preState) => false);
-      console.log(err);
     }
   };
 
@@ -129,14 +134,13 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
   return (
     <>
       <MatchBanner />
-      <div className="bg-white py-10" id="form">
+      <div className="bg-white py-10 pb-40" id="form">
         <form className="flex flex-col min-h-screen xl:w-[65vw] w-[90vw] m-auto rounded-2xl " onSubmit={onSubmitForm}>
           {/* Question lists */}
           <p className="font-semibold text-xl">
             Answering the following questions will help us better understand you in finding your ideal pet
           </p>
           <ul className="flex flex-col items-end justify-start max-w-screen gap-3 rounded-xl bg-white py-20 px-6 xl:px-12 xl:py-10">
-            <ProgressBar percentage={Math.floor(2 / totalQuestions, 2)} />
             {currQuestions === 0 && <AdopterQuestions setNumbersOfAnswers={setNumbersOfAnswers} />}
             {currQuestions === 0 && finishAdopterQuestion && (
               <IdealPetQuestions setNumbersOfAnswers={setNumbersOfAnswers} />
@@ -157,7 +161,7 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
               disabled={currQuestions === 0}>
               {/* When button is clicked, move the page to the top again*/}
               <a href="#form" onClick={onClickBack} className="block px-6 py-3">
-                Back
+                Question
               </a>
             </InputButton>
             {openSubmit && (
@@ -185,11 +189,19 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
               disabled={!isNextAble}>
               {/* When button is clicked, move the page to the top again*/}
               <a href="#form" onClick={onClickNext} className="block px-6 py-3">
-                Next
+                Review
               </a>
             </InputButton>
           </div>
         </form>
+        <div className="fixed bottom-0 w-screen -translate-x-1/2 left-1/2 z-50 bg-[#dee2e680] flex flex-col justify-center items-center p-3 gap-2">
+          <p className="font-semibold text-xl">
+            Process complete {Math.floor((numberOfAnswers / totalQuestions) * 100, 2)}%
+          </p>
+          <div className="xl:w-[65vw] w-[90vw] h-max">
+            <ProgressBar percentage={Math.floor((numberOfAnswers / totalQuestions) * 100, 2)} />
+          </div>
+        </div>
       </div>
     </>
   );

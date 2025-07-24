@@ -18,7 +18,7 @@ import AnimalList from "../AnimalList/AnimalList";
 
 import userImage from "../../../assets/images/user.png";
 
-import { finishAdopterQuestionsSlice, numAnsweredQuestionSlice } from "../../../redux/MatchFormSlice";
+import { finishAdopterQuestionsSlice } from "../../../redux/MatchFormSlice";
 import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
 
 export default withAuthInfo(function AdopterQuestions({ isLoggedIn, user, setNumbersOfAnswers }) {
@@ -48,7 +48,6 @@ export default withAuthInfo(function AdopterQuestions({ isLoggedIn, user, setNum
   ];
 
   function getNextQuestion() {
-    // dispatch(numAnsweredQuestionSlice.actions.increase());
     setNumbersOfAnswers((prev) => prev + 1);
     if (currQuestions < questions.length) {
       setCurrQuestions(currQuestions + 1);

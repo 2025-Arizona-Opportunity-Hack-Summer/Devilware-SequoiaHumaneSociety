@@ -3,7 +3,14 @@ info:
   title: Sequoia Humane Society AI Pet Powered Matchmaker APIs Definition
   description: |
     # About Us
+      **The Sequoia Humane Society** is a non-profit with the mission of providing shelter and humane care for animals. We work vigorously to reduce the tragedy of euthanasia caused by too many animals, and not enough homes.<br></br>
+      **The "AI-Powered Pet Matchmaker"** streamlines pet adoption by using intelligent algorithms to match potential adopters with compatible animals based on lifestyle, living situation, experience level, and preferences.<br></br>
+      This document outlines our **REST APIs**, detailing the requests and responses for seamless communication with the `React` frontend. This should help other developers understand our integration points clearly.
   version: '0.0.1'
+  termsOfService:  https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety
+  contact:
+    name: API Support
+    url:  https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety
   license:
     name: MIT License
     url: https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety/blob/main/LICENSE
@@ -12,6 +19,7 @@ servers:
     variables:
       port:
         default: "4041"
+  - url: https://devilware-sequoiahumanesociety-server.onrender.com
 tags:
   - name: Users
     description: Users-related operations
@@ -293,8 +301,32 @@ components:
     InternalServerError:
       description: |
         Problem occurs at server. Please contact for help
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error: 
+                type: string
+                example: InternalServerError
+              message:
+                type: string
+                example: Problem occurs at server. Please contact for help
+              detail:
+                type: object
     UserNotFound:
       description: User does not exist
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error: 
+                type: string
+                example: UserNotFound
+              message:
+                type: string
+                example: Cannot find user
   securitySchemes:
     BearerAuth:
       type: http

@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
 
 function SizeFilter({ sizeFilter, setSizeFilter }) {

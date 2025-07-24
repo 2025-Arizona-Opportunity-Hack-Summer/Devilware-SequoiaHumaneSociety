@@ -2,21 +2,16 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withAuthInfo } from "@propelauth/react";
 
-import ProgressBar from "./ProgressBar/ProgressBar";
 import MatchBanner from "../MatchBanner/MatchBanner";
 import ReviewQuestions from "./ReviewQuestions/ReviewQuestions";
 
-import HousingEnvironmentQuestions from "./HousingEnvironmentQuestions/HousingEnvironemntQuestions";
-import HouseholdCompositionQuestions from "./HouseholdCompositionQuestions/HouseholdCompositionQuestions";
-import LifestyleCommitmentQuestions from "./LifestyleCommitmentQuestions/LifestyleCommitmentQuestions";
-import ExperienceExpectationsQuestions from "./ExperienceExpectationsQuestions/ExperienceExpectationsQuestions";
-import SpecificPreferencesQuestions from "./SpecificPreferencesQuestions/SpecificPreferencesQuestions";
-
-import { finishHCSlice, finishHESlice, finishLCSlice, finishEESlice, finishSPSlice } from "../../redux/MatchFormSlice";
+import { finishAdopterQuestionsSlice, finishPetQuestionsSlice } from "../../redux/MatchFormSlice";
 import { matchedPetListSlice } from "../../redux/MatchedPetSlice";
-import { userSlice } from "../../redux/UserInfoSlice";
 
+import AdopterQuestions from "./QuestionsList/AdopterQuestions";
+import IdealPetQuestions from "./QuestionsList/IdealPetQuestions";
 import InputButton from "../Input/InputButton/InputButton";
+import ProgressBar from "./ProgressBar/ProgressBar";
 
 import SessionStorage from "../../features/sessionStorage";
 
@@ -24,14 +19,13 @@ import "./Questions.css";
 
 export default withAuthInfo(function Questions({ visible, setIsQuestionPage, setIsLoading }) {
   const dispatch = useDispatch();
-  const finishHE = useSelector((store) => store[finishHESlice.name]); // true when the user have answered all housing environment question
-  const finishHC = useSelector((store) => store[finishHCSlice.name]); // true when the user have answered all household composition question
-  const finishLC = useSelector((store) => store[finishLCSlice.name]); // true when the user have answered all lifesytle and commitmnet question
-  const finishEE = useSelector((store) => store[finishEESlice.name]); // true when the user have answered all experience and expectation question
-  const finishSP = useSelector((store) => store[finishSPSlice.name]); // true when the user have answered all specific perferences question
+  const finishAdopterQuestion = useSelector((store) => store[finishAdopterQuestionsSlice.name]);
+  const finishPetQuestion = useSelector((store) => store[finishPetQuestionsSlice.name]);
+  const totalQuestions = 8;
 
   const [openSubmit, setOpenSubmit] = useState(false); // the submit buttion only displays when openSubmit = true
   const [currQuestions, setCurrQuestions] = useState(0);
+  const [numberOfAnswers, setNumbersOfAnswers] = useState(0);
   /*
     currQuestions represents the index of current list of questions
     0 --> housing environment
@@ -49,75 +43,39 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
      * @returns {number} index of list of questions
      **/
 
-    const spId = ["sp1", "sp2", "sp3", "sp4", "sp5", "sp6"];
-    const eeId = ["ee1", "ee2", "ee3", "ee4"];
-    const lcId = ["lc1", "lc2", "lc3", "lc4", "lc5"];
-    const hcId = ["hc1", "hc2", "hc3", "hc4"];
-    const heId = ["he1", "he2", "he3", "he4"];
+    const petList = SessionStorage.getItem("petList");
 
-    const getQuestionNumber = () => {
-      const SPAnswers = spId.map((id) => SessionStorage.getItem(id) !== null);
+    if (petList !== null) {
+      // setCurrQuestions((prev) => 1);
+      // setIsQuestionPage((preState) => false);
+      // dispatch(matchedPetListSlice.actions.assign(petList));
+    } else {
+      const petQuestionId = ["p1", "p2", "p3", "p4"];
 
-      if (!SPAnswers.includes(false)) {
-        // if the session storage store all SP answers then all other questions from EE, LC, HC, and HE have also been answered
-        dispatch(finishSPSlice.actions.assign(true));
-        dispatch(finishEESlice.actions.assign(true));
-        dispatch(finishLCSlice.actions.assign(true));
-        dispatch(finishHCSlice.actions.assign(true));
-        dispatch(finishHESlice.actions.assign(true));
-        onSubmitForm();
-        return 5;
-      }
+      const getQuestionNumber = () => {
+        const petAnswers = petQuestionId.map((id) => SessionStorage.getItem(id) !== null);
 
-      const EEAnswers = eeId.map((id) => SessionStorage.getItem(id) !== null);
+        if (!petAnswers.includes(false)) {
+          setNumbersOfAnswers((prev) => 8);
+          onSubmitForm();
+          return 1;
+        }
 
-      if (!EEAnswers.includes(false)) {
-        // if the session storage store all EE answers then all other questions from LC, HC, and HE have also been answered
-        dispatch(finishEESlice.actions.assign(true));
-        dispatch(finishLCSlice.actions.assign(true));
-        dispatch(finishHCSlice.actions.assign(true));
-        dispatch(finishHESlice.actions.assign(true));
-        return 4;
-      }
+        return 0; // Default value if none are true
+      };
 
-      const LCAnswers = lcId.map((id) => SessionStorage.getItem(id) !== null);
-
-      if (!LCAnswers.includes(false)) {
-        // if the session storage store all LC answers then all other questions from HC, and HE have also been answered
-        dispatch(finishLCSlice.actions.assign(true));
-        dispatch(finishHCSlice.actions.assign(true));
-        dispatch(finishHESlice.actions.assign(true));
-        return 3;
-      }
-
-      const HCAnswers = hcId.map((id) => SessionStorage.getItem(id) !== null);
-
-      if (!HCAnswers.includes(false)) {
-        // if the session storage store all HC answers then all other questions from and HE have also been answered
-        dispatch(finishHCSlice.actions.assign(true));
-        dispatch(finishHESlice.actions.assign(true));
-        return 2;
-      }
-
-      const HEAnswers = heId.map((id) => SessionStorage.getItem(id) !== null);
-
-      if (!HEAnswers.includes(false)) {
-        dispatch(finishHESlice.actions.assign(true));
-        return 1;
-      }
-
-      return 0; // Default value if none are true
-    };
-
-    setCurrQuestions(getQuestionNumber());
+      setCurrQuestions((prev) => getQuestionNumber());
+    }
   }, []);
 
   const onClickNext = () => {
     setCurrQuestions((preState) => preState + 1);
+    setNumbersOfAnswers((prev) => 8);
   };
 
   const onClickBack = () => {
     setCurrQuestions((preState) => preState - 1);
+    setNumbersOfAnswers((prev) => 0);
   };
 
   const onSubmitForm = async (event) => {
@@ -125,11 +83,17 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
       event.preventDefault();
     }
 
-    setCurrQuestions((prev) => 5);
+    setCurrQuestions((prev) => 1);
+    setIsLoading((preState) => true);
+
     const petList = SessionStorage.getItem("petList");
 
-    if (petList === null) {
-      setIsLoading((preState) => true);
+    if (petList !== null) {
+      setCurrQuestions((prev) => 1);
+      setIsQuestionPage((preState) => false);
+      setIsLoading((prev) => false);
+      dispatch(matchedPetListSlice.actions.assign(petList));
+    } else {
       try {
         const API_BASE_URL = import.meta.env.VITE_API_URL;
         const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
@@ -158,19 +122,10 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
         setIsLoading((preState) => false);
         console.log(err);
       }
-    } else {
-      setIsLoading((preState) => false);
-      setIsQuestionPage((preState) => false);
-      dispatch(matchedPetListSlice.actions.assign(petList));
     }
   };
 
-  const isNextAble =
-    (currQuestions === 0 && finishHE === true) ||
-    (currQuestions === 1 && finishHC === true) ||
-    (currQuestions === 2 && finishLC === true) ||
-    (currQuestions === 3 && finishEE === true) ||
-    (currQuestions === 4 && finishSP === true); // true if the next button is clickable
+  const isNextAble = finishAdopterQuestion && finishPetQuestion && currQuestions == 0;
 
   if (visible === false) {
     return <></>;
@@ -179,17 +134,18 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
   return (
     <>
       <MatchBanner />
-      <div className="bg-white py-10" id="form">
+      <div className="bg-white py-10 pb-40" id="form">
         <form className="flex flex-col min-h-screen xl:w-[65vw] w-[90vw] m-auto rounded-2xl " onSubmit={onSubmitForm}>
           {/* Question lists */}
-          <ul className="flex flex-col items-end justify-start max-w-screen gap-5 rounded-xl bg-white py-20 xl:pr-12 xl:pl-24 px-6">
-            <ProgressBar currIdx={currQuestions} />
-            {currQuestions === 0 && <HousingEnvironmentQuestions />}
-            {currQuestions === 1 && <HouseholdCompositionQuestions />}
-            {currQuestions === 2 && <LifestyleCommitmentQuestions />}
-            {currQuestions === 3 && <ExperienceExpectationsQuestions />}
-            {currQuestions === 4 && <SpecificPreferencesQuestions />}
-            {currQuestions === 5 && (
+          <p className="font-semibold text-xl">
+            Answering the following questions will help us better understand you in finding your ideal pet
+          </p>
+          <ul className="flex flex-col items-end justify-start max-w-screen gap-3 rounded-xl bg-white py-20 px-6 xl:px-12 xl:py-10">
+            {currQuestions === 0 && <AdopterQuestions setNumbersOfAnswers={setNumbersOfAnswers} />}
+            {currQuestions === 0 && finishAdopterQuestion && (
+              <IdealPetQuestions setNumbersOfAnswers={setNumbersOfAnswers} />
+            )}
+            {currQuestions === 1 && (
               <ReviewQuestions setOpenSubmit={setOpenSubmit} setCurrQuestions={setCurrQuestions} />
             )}
           </ul>
@@ -205,7 +161,7 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
               disabled={currQuestions === 0}>
               {/* When button is clicked, move the page to the top again*/}
               <a href="#form" onClick={onClickBack} className="block px-6 py-3">
-                Back
+                Question
               </a>
             </InputButton>
             {openSubmit && (
@@ -233,11 +189,19 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
               disabled={!isNextAble}>
               {/* When button is clicked, move the page to the top again*/}
               <a href="#form" onClick={onClickNext} className="block px-6 py-3">
-                Next
+                Review
               </a>
             </InputButton>
           </div>
         </form>
+        <div className="fixed bottom-0 w-screen -translate-x-1/2 left-1/2 z-50 bg-[#dee2e680] flex flex-col justify-center items-center p-3 gap-2">
+          <p className="font-semibold text-xl">
+            Process complete {Math.floor((numberOfAnswers / totalQuestions) * 100, 2)}%
+          </p>
+          <div className="xl:w-[65vw] w-[90vw] h-max">
+            <ProgressBar percentage={Math.floor((numberOfAnswers / totalQuestions) * 100, 2)} />
+          </div>
+        </div>
       </div>
     </>
   );

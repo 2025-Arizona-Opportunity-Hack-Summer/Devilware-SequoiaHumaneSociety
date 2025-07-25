@@ -11,7 +11,7 @@ function ImageList({ images, onClickDeleteImage }) {
 
   return (
     <div>
-      <ul>{imagesListRender}</ul>
+      <ul className="flex flex-wrap gap-10">{imagesListRender}</ul>
     </div>
   );
 }

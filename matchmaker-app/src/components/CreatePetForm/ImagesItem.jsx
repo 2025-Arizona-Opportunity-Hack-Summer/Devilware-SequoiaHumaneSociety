@@ -4,7 +4,7 @@ function ImageItem({ url, fileName, onClickDeleteImage }) {
       <label
         htmlFor={`delete-${fileName}`}
         className="block bg-red-500 h-max px-2 rounded-md text-white cursor-pointer font-semibold">
-        x
+        R
       </label>
       <input
         type="button"
@@ -13,7 +13,7 @@ function ImageItem({ url, fileName, onClickDeleteImage }) {
         onClick={onClickDeleteImage.bind(null, url, fileName)}
         className="hidden"
       />
-      <img src={url} alt={fileName} className="w-72" />
+      <img src={url} alt={fileName} className="w-72 rounded-md" />
     </div>
   );
 }

@@ -413,7 +413,9 @@ function QuestionA3({ getNextQuestion, isLoggedIn, user }) {
         console.log(err);
       });
     }
-    getNextQuestion();
+    if (edit === false) {
+      getNextQuestion();
+    }
   };
 
   const onClickYes = () => {
@@ -431,7 +433,9 @@ function QuestionA3({ getNextQuestion, isLoggedIn, user }) {
 
       setAllergiesAnimal((preState) => allergiesAnimal);
       SessionStorage.setItem("a3", allergiesAnimal);
-      getNextQuestion();
+      if (edit === false) {
+        getNextQuestion();
+      }
       if (isLoggedIn) {
         fetchUpdateUserQuestionnaireById("a3", user.email, allergiesAnimal).catch((err) => {
           console.log(err);
@@ -483,7 +487,7 @@ function QuestionA3({ getNextQuestion, isLoggedIn, user }) {
               <InputDatalist
                 id="a3c"
                 children=""
-                placeholder="Choose animal"
+                placeholder="Choose animal or type"
                 defaultOptions={animalOptions}
                 defaultAnswers={allergiesAnimal}
                 onSubmitAnswer={onClickOption}
@@ -549,7 +553,9 @@ function QuestionA4({ getNextQuestion, isLoggedIn, user }) {
         console.log(err);
       });
     }
-    getNextQuestion();
+    if (edit === false) {
+      getNextQuestion();
+    }
   };
 
   const onClickNext = () => {
@@ -560,7 +566,9 @@ function QuestionA4({ getNextQuestion, isLoggedIn, user }) {
       });
     }
     setHasAnswer((preState) => true);
-    getNextQuestion();
+    if (edit === false) {
+      getNextQuestion();
+    }
   };
 
   const onClickEdit = () => {

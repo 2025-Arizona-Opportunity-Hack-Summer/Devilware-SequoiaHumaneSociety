@@ -93,7 +93,9 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
     } else {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("p1", animalTypes);
-      getNextQuestion();
+      if (edit === false) {
+        getNextQuestion();
+      }
       if (isLoggedIn) {
         fetchUpdateUserQuestionnaireById("p1", user.email, animalTypes).catch((err) => {
           console.log(err);
@@ -125,7 +127,7 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
             <InputDatalist
               id={"p1"}
               children={""}
-              placeholder={"Choose animal"}
+              placeholder={"Choose animal or type"}
               defaultOptions={animalOptions}
               onSubmitAnswer={onClickOption}
               defaultAnswers={animalTypes}
@@ -203,7 +205,9 @@ function QuestionP2({ getNextQuestion, isLoggedIn, user }) {
     } else {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("p2", { fromAge: fromAge, toAge: toAge });
-      getNextQuestion();
+      if (edit === false) {
+        getNextQuestion();
+      }
       if (isLoggedIn) {
         fetchUpdateUserQuestionnaireById("p2", user.email, { fromAge: fromAge, toAge: toAge }).catch((err) => {
           console.log(err);
@@ -307,7 +311,9 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
     } else {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("p3", sizes);
-      getNextQuestion();
+      if (edit === false) {
+        getNextQuestion();
+      }
       if (isLoggedIn) {
         fetchUpdateUserQuestionnaireById("p3", user.email, sizes).catch((err) => {
           console.log(err);
@@ -429,7 +435,9 @@ function QuestionP4({ getNextQuestion, isLoggedIn, user }) {
       setHasAnswer((preState) => true);
 
       SessionStorage.setItem("p4", levels);
-      getNextQuestion();
+      if (edit === false) {
+        getNextQuestion();
+      }
       if (isLoggedIn) {
         fetchUpdateUserQuestionnaireById("p4", user.email, levels).catch((err) => {
           console.log(err);

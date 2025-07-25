@@ -351,7 +351,7 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
               labelStyle="checkbox-question-label"
               onChangeHandler={onChangeSize}
               checked={sizes.includes("Large")}>
-              Large
+              Large (over 60 lbs)
             </InputCheckbox>
             <InputCheckbox
               id="p3b"
@@ -360,7 +360,7 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
               labelStyle="checkbox-question-label"
               onChangeHandler={onChangeSize}
               checked={sizes.includes("Medium")}>
-              Medium
+              Medium (25 - 60 lbs)
             </InputCheckbox>
             <InputCheckbox
               id="p3c"
@@ -369,7 +369,7 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
               labelStyle="checkbox-question-label"
               onChangeHandler={onChangeSize}
               checked={sizes.includes("Small")}>
-              Small
+              Small (less than 25 lbs)
             </InputCheckbox>
           </div>
           <InputButton

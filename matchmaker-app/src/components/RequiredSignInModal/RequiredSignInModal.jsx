@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router";
+
 import Modal from "../Modal/Modal";
 
 import womanHoldingPet from "../../assets/images/woman-holding-pet.jpg";
@@ -6,9 +8,11 @@ import shsLogo from "../../assets/images/shs-logo.png";
 import "./RequiredSignInModal.css";
 
 function RequiredSignInModal({ visible, setVisible }) {
+  const navigate = useNavigate();
   const onClickCloseModal = () => {
     setVisible((preState) => false);
   };
+
   return (
     <Modal visible={visible}>
       <div className="absolute -translate-1/2 top-1/2 left-1/2 bg-white flex rounded-md border-t-[#7C0F0F] border-t-8 required-sign-in-modal">
@@ -27,10 +31,10 @@ function RequiredSignInModal({ visible, setVisible }) {
           <p className="text-2xl font-bold">Welcome to Sequoia</p>
           <p className="text-[#6c757d]">Sign in to access your Sequoia account</p>
           <div className="mt-10 flex flex-col items-center w-full gap-5">
-            <button className="required-modal-button">
+            <button className="required-modal-button" onClick={() => navigate("/register")}>
               <span>Create an account</span>
             </button>
-            <button className="required-modal-button">
+            <button className="required-modal-button" onClick={() => navigate("/sign-in")}>
               <span>Sign in with Sequoia</span>
             </button>
           </div>

@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { withAuthInfo } from "@propelauth/react";
+import { UserClass, withAuthInfo } from "@propelauth/react";
 import { Outlet, useLocation } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 
@@ -14,7 +14,7 @@ import {
   fetchUpdateUserQuesionnaireBySessionStorage,
 } from "../../features/fetchUserRoutes";
 
-export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
+export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHelper, userClass }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const isMatchPage = location.pathname === "/match";
@@ -27,25 +27,30 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
       }
       let userInfo;
 
-      try {
-        userInfo = await fetchFindUserByEmail(user.email);
-      } catch (err) {
-        throw Error(err);
-      }
-
-      if (userInfo === null) {
+      if (userClass.getOrgs().length > 0) {
+        // They are admin
+        console.log(userClass.getOrgs()[0].orgName);
+      } else {
         try {
-          userInfo = await fetchCreateUser(user.email, user.firstName, user.lastName, null, null);
+          userInfo = await fetchFindUserByEmail(user.email);
         } catch (err) {
           throw Error(err);
         }
+
+        if (userInfo === null) {
+          try {
+            userInfo = await fetchCreateUser(user.email, user.firstName, user.lastName, null, null);
+          } catch (err) {
+            throw Error(err);
+          }
+        }
+
+        // const updatedMatchQuestions = saveUserQuesionnaire(userInfo);
+        const updatedMatchQuestions = {};
+        userInfo = await fetchUpdateUserQuesionnaireBySessionStorage(user.email, updatedMatchQuestions);
+
+        dispatch(userSlice.actions.assign(userInfo));
       }
-
-      // const updatedMatchQuestions = saveUserQuesionnaire(userInfo);
-      const updatedMatchQuestions = {};
-      userInfo = await fetchUpdateUserQuesionnaireBySessionStorage(user.email, updatedMatchQuestions);
-
-      dispatch(userSlice.actions.assign(userInfo));
     }
 
     loadUser().catch((err) => {

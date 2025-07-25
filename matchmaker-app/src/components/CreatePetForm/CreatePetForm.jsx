@@ -1,10 +1,46 @@
 import { withAuthInfo } from "@propelauth/react";
 import InputDatalist from "../Input/InputDatalist/InputDatalist";
+import { useState } from "react";
+import ImageList from "./ImagesList";
 
 export default withAuthInfo(function CreatePetForm() {
+  const [renderedImages, setRenderedImages] = useState([]);
+  const [storedImages, setStoredImages] = useState([]);
+
   const textInputStyles = "border rounded-lg p-2 focus:border-orange-500 focus:border-2 outline-0 w-full max-w-[720px]";
+
+  const onChangeDeleteImage = (fileUrl, fileName) => {
+    setStoredImages((state) => state.filter((image) => image.name !== fileName));
+    setRenderedImages((state) => state.filter((image) => image.url !== fileUrl));
+  };
+
+  const onChangeInsertImage = (event) => {
+    const newImageUrl = [];
+    const newFiles = event.target.files;
+    const selectedFiles = [];
+
+    for (const originalFile of newFiles) {
+      const newFileName = `${getRandomString(32)}_${originalFile.name}`;
+      const newFile = new File([originalFile], newFileName, {
+        type: originalFile.type,
+        lastModified: originalFile.lastModified,
+      });
+
+      newImageUrl.push({
+        url: URL.createObjectURL(newFile),
+        fileName: newFile.name,
+      });
+      selectedFiles.push(newFile);
+    }
+
+    setRenderedImages((prevFiles) => [...prevFiles, ...newImageUrl]);
+    setStoredImages((prevFiles) => [...prevFiles, ...selectedFiles]);
+    event.target.value = "";
+  };
+
   return (
     <div className="m-20 px-40">
+      <h2 className="text-5xl mb-10 text-[#7C0F0F] font-semibold">Upload Pet</h2>
       <form className="flex flex-col gap-10">
         <div className="flex flex-col gap-2">
           <div>
@@ -77,6 +113,23 @@ export default withAuthInfo(function CreatePetForm() {
         </div>
         <div>
           <h3 className="text-3xl border-b-2">Photos</h3>
+          <div>
+            <label htmlFor="pet-images" className="cursor-pointer">
+              Upload images
+            </label>
+            <input
+              type="file"
+              multiple
+              id="pet-images"
+              name="pet-images"
+              className="hidden"
+              accept=".jpg, .jpeg, .png"
+              onChange={onChangeInsertImage}
+            />
+          </div>
+          <div>
+            <ImageList images={renderedImages} onClickDeleteImage={onChangeDeleteImage} />
+          </div>
         </div>
         <div className="flex flex-col gap-2">
           <h3 className="text-3xl border-b-2">Adoption Fee</h3>
@@ -91,3 +144,18 @@ export default withAuthInfo(function CreatePetForm() {
     </div>
   );
 });
+
+function getRandomString(length) {
+  const characters = "abcdefghijklmnopqrstuvwxyz0123456789";
+  const charLength = 36;
+
+  let randomString = "";
+
+  for (let i = 0; i < length; ++i) {
+    let idx = Math.floor(Math.random() * charLength);
+    if (idx === 36) idx--;
+    randomString += characters[idx];
+  }
+
+  return randomString;
+}

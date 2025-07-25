@@ -5,9 +5,17 @@ import ImageList from "./ImagesList";
 export default withAuthInfo(function CreatePetForm() {
   const [renderedImages, setRenderedImages] = useState([]);
   const [storedImages, setStoredImages] = useState([]);
+  const [petName, setPetName] = useState("");
+  const [petId, setPetId] = useState("");
+  const [petAge, setPetAge] = useState(0);
+  const [petWeight, setPetWeight] = useState(0);
+  const [petSex, setPetSex] = useState("Male");
   const [petSpecies, setPetSpecies] = useState("Cat");
   const [petBreeds, setPetBreeds] = useState([]);
+  const [petActiveLevel, setPetActiveLevel] = useState("Very active");
   const [petCharacteristics, setPetCharacteristicss] = useState([]);
+  const [petAdoptionFee, setPetAdoptionFee] = useState([]);
+  const [petAbout, setPetAbout] = useState("");
 
   const textInputStyles =
     "border rounded-lg p-2 focus:border-orange-500  outline-0 w-full max-w-[720px]  [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300";
@@ -82,22 +90,59 @@ export default withAuthInfo(function CreatePetForm() {
   const onClickCharacteristicOptions = (optionList) => {
     setPetCharacteristicss((prev) => optionList);
   };
+
+  const handlerSubmit = (event) => {
+    event.preventDefault();
+    const body = {
+      name: petName,
+      animal_id: petId,
+      species: petSpecies,
+      age: petAge,
+      weight: petWeight,
+      sex: petSex,
+      breed: petBreeds,
+      characteristics: petCharacteristics,
+      adoption_fee: 0,
+      images: storedImages,
+      active_level: petActiveLevel,
+    };
+
+    console.log(body);
+  };
   return (
     <div className="m-20 px-40">
       <h2 className="text-5xl mb-10 text-[#7C0F0F] font-semibold uppercase">Upload Pet</h2>
-      <form className="flex flex-col gap-10">
+      <form className="flex flex-col gap-10" onSubmit={handlerSubmit}>
         <div className="flex flex-col gap-2">
           <div>
             <label htmlFor="pet-name" className="block">
               Pet Name
             </label>
-            <input type="text" id="pet-name" name="pet-name" required className={textInputStyles} />
+            <input
+              type="text"
+              id="pet-name"
+              name="pet-name"
+              required
+              className={textInputStyles}
+              onChange={(event) => {
+                setPetName((prev) => event.target.value);
+              }}
+            />
           </div>
           <div>
             <label htmlFor="pet-id" className="block">
               Pet ID
             </label>
-            <input type="text" id="pet-id" name="pet-id" required className={textInputStyles} />
+            <input
+              type="text"
+              id="pet-id"
+              name="pet-id"
+              required
+              className={textInputStyles}
+              onChange={(event) => {
+                setPetId((prev) => event.target.value);
+              }}
+            />
           </div>
         </div>
 
@@ -108,22 +153,45 @@ export default withAuthInfo(function CreatePetForm() {
               <label htmlFor="pet-age" className="block">
                 Age (months)
               </label>
-              <input type="number" id="pet-age" name="pet-age" className={textInputStyles} min={0} />
+              <input
+                type="number"
+                id="pet-age"
+                name="pet-age"
+                className={textInputStyles}
+                min={0}
+                onChange={(event) => {
+                  setPetAge((prev) => event.target.value);
+                }}
+              />
             </div>
             <div>
               <label htmlFor="pet-weight" className="block">
                 Weight (lbs)
               </label>
-              <input type="number" id="pet-weight" name="pet-weight" className={textInputStyles} />
+              <input
+                type="number"
+                id="pet-weight"
+                name="pet-weight"
+                className={textInputStyles}
+                onChange={(event) => {
+                  setPetWeight((prev) => event.target.value);
+                }}
+              />
             </div>
           </div>
           <div>
             <label htmlFor="pet-sex" className="block">
               Sex
             </label>
-            <select id="pet-sex" name="pet-sex" className={textInputStyles}>
-              <option>Male</option>
-              <option>Female</option>
+            <select
+              id="pet-sex"
+              name="pet-sex"
+              className={textInputStyles}
+              onChange={(event) => {
+                setPetSex((prev) => event.target.value);
+              }}>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
             </select>
           </div>
           <div>
@@ -131,8 +199,8 @@ export default withAuthInfo(function CreatePetForm() {
               Species
             </label>
             <select id="pet-species" name="pet-species" className={textInputStyles} onChange={onChangeSpecies}>
-              <option>Cat</option>
-              <option>Dog</option>
+              <option value="Cat">Cat</option>
+              <option value="Dog">Dog</option>
             </select>
           </div>
           <div>
@@ -151,9 +219,9 @@ export default withAuthInfo(function CreatePetForm() {
               Active level
             </label>
             <select id="pet-active-level" name="pet-active-level" className={textInputStyles}>
-              <option>High</option>
-              <option>Mediums</option>
-              <option>Small</option>
+              <option value="Very active">Very active</option>
+              <option value="Moderately active">Moderately active</option>
+              <option value="Quietly active">Quietly acitve</option>
             </select>
           </div>
           <div>
@@ -192,16 +260,28 @@ export default withAuthInfo(function CreatePetForm() {
         <div className="flex flex-col gap-2">
           <h3 className="text-3xl border-b-2">Adoption Fee</h3>
           <div>
-            <label htmlFor="pet-age" className="block">
+            <label htmlFor="pet-fee" className="block">
               Fee ($)
             </label>
-            <input type="number" id="pet-age" name="pet-age" className={textInputStyles} min={0} />
+            <input
+              type="number"
+              id="pet-fee"
+              name="pet-fee"
+              className={textInputStyles}
+              min={0}
+              onChange={(event) => setPetAdoptionFee((prev) => event.target.value)}
+            />
           </div>
         </div>
         <div className="flex flex-col gap-2">
           <h3 className="text-3xl border-b-2">About Pet</h3>
           <div>
-            <textarea className={`border resize-y ${textInputStyles} min-h-36`} />
+            <textarea
+              id="pet-about"
+              className={`border resize-y ${textInputStyles} min-h-36`}
+              onChange={(event) => setPetAbout(event.target.value)}
+              placeholder="About the pet..."
+            />
           </div>
         </div>
         <div>

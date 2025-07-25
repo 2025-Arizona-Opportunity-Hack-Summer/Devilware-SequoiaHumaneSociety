@@ -147,7 +147,7 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
         {/* If the answer is NOT empty string ==> Display answer */}
         <AnswerContainer visible={hasAnswer} id="p1" onClickEdit={onClickEdit}>
           <p>
-            {animalTypes !== "" && `I am looking for ${animalTypes.map((animal) => animal.toLowerCase()).join(", ")}`}
+            {animalTypes !== "" && `I am looking for a ${animalTypes.map((animal) => animal.toLowerCase()).join(", ")}`}
           </p>
         </AnswerContainer>
 
@@ -464,9 +464,7 @@ function QuestionP4({ getNextQuestion, isLoggedIn, user }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
-          What animal energy level are you looking for?
-        </p>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>What energy level do you prefer?</p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}

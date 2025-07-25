@@ -526,7 +526,7 @@ function QuestionA3({ getNextQuestion, isLoggedIn, user }) {
 function QuestionA4({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnimal, setHasAnimal] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [animalList, setAnimalList] = useState("");
+  const [animalList, setAnimalList] = useState([]);
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
@@ -559,15 +559,27 @@ function QuestionA4({ getNextQuestion, isLoggedIn, user }) {
   };
 
   const onClickNext = () => {
-    SessionStorage.setItem("a4", animalList);
-    if (isLoggedIn) {
-      fetchUpdateUserQuestionnaireById("a4", user.email, animalList).catch((err) => {
-        console.log(err);
-      });
-    }
-    setHasAnswer((preState) => true);
-    if (edit === false) {
-      getNextQuestion();
+    // Check validation
+
+    let validAnimalList = true;
+
+    animalList.forEach((animal) => {
+      if (animal.age === "" || animal.type === "") {
+        validAnimalList = false;
+      }
+    });
+
+    if (validAnimalList) {
+      SessionStorage.setItem("a4", animalList);
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("a4", user.email, animalList).catch((err) => {
+          console.log(err);
+        });
+      }
+      setHasAnswer((preState) => true);
+      if (edit === false) {
+        getNextQuestion();
+      }
     }
   };
 

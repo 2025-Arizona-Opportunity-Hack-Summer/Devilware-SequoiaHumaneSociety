@@ -27,7 +27,10 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn }) {
     const searchQuery = createSearchParams({ pet_id: pet_id }).toString();
 
     setImageIndex(0);
-    fetch(`http://localhost:4041/pets?${searchQuery}`, { method: "GET" })
+    const BASE_API_URL = import.meta.env.VITE_API_URL;
+    const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
+
+    fetch(`${BASE_API_URL}/${PETS_ENDPOINT}?${searchQuery}`, { method: "GET" })
       .then((response) => response.json())
       .then((data) => {
         setData((preState) => data.content[0]);

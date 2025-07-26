@@ -1,7 +1,7 @@
 import { withAuthInfo } from "@propelauth/react";
 import { useEffect, useState } from "react";
-import { fetchCreatePet } from "../../features/fetchPetRoutes";
-import ImageList from "./ImagesList";
+import { fetchCreatePet } from "../../../features/fetchPetRoutes";
+import ImageList from "../ImagesList";
 
 export default withAuthInfo(function CreatePetForm() {
   const [renderedImages, setRenderedImages] = useState([]);
@@ -144,7 +144,7 @@ export default withAuthInfo(function CreatePetForm() {
     }
   };
   return (
-    <div className="m-20 px-40">
+    <div>
       <h2 className="text-5xl mb-10 text-[#7C0F0F] font-semibold uppercase">Upload Pet</h2>
       <form className="flex flex-col gap-10" onSubmit={handlerSubmit}>
         <div className="flex flex-col gap-2">

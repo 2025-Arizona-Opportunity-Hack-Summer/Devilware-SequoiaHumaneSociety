@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
-import { useDispatch } from "react-redux";
 
 import noPetImage from "../../../assets/images/no-pet-image.png";
 import loadingImage from "../../../assets/images/loading-image.png";
 
-function PetInfo({ pet }) {
+function AdminPetInfo({ pet }) {
   const navigate = useNavigate();
   const { imagesURL, name, breed, _id, species } = pet;
   const [imageLoading, setImageLoading] = useState(false);
@@ -14,7 +13,7 @@ function PetInfo({ pet }) {
 
   const onClickNavigateToDetails = () => {
     navigate({
-      pathname: "pet",
+      pathname: "/petadmin/edit",
       search: `?pet_id=${_id}`,
     });
   };
@@ -48,4 +47,4 @@ function PetInfo({ pet }) {
   );
 }
 
-export default PetInfo;
+export default AdminPetInfo;

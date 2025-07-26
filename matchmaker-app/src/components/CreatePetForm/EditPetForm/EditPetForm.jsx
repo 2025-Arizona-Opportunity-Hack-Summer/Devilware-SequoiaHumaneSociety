@@ -178,7 +178,7 @@ export default withAuthInfo(function EditPetForm() {
     }
   };
   return (
-    <div className="m-20 px-40">
+    <div>
       <h2 className="text-5xl mb-10 text-[#7C0F0F] font-semibold uppercase">Edit Pet</h2>
       <form className="flex flex-col gap-10" onSubmit={handlerSubmit}>
         <div className="flex flex-col gap-2">

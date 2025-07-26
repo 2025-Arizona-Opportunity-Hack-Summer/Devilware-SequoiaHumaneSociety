@@ -8,7 +8,7 @@ const mongoClient = require("./database");
 const userRoute = require("./routes/userRoute");
 const petRoute = require("./routes/petRoute");
 const s3Client = require("./s3");
-const { PutObjectCommand } = require("@aws-sdk/client-s3");
+const { PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 
 require("dotenv").config();
 
@@ -96,6 +96,36 @@ app.post("/images", upload.array("images"), async (req, res) => {
   } catch (err) {
     console.log(err);
     res.status(400).json({ messsage: "Cannot upload images" });
+  }
+});
+
+app.delete("/images", async (req, res) => {
+  let { deleteImages } = req.query;
+
+  if (Array.isArray(deleteImages) === false) {
+    deleteImages = [deleteImages];
+  }
+
+  const deletePromises = deleteImages.map(async (image) => {
+    const command = new DeleteObjectCommand({
+      Bucket: process.env.BUCKET_NAME,
+      Key: image,
+    });
+
+    try {
+      await s3Client.send(command);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  });
+
+  try {
+    await Promise.all(deletePromises);
+    res.status(200).json({ deleteImages });
+  } catch (err) {
+    console.log(err);
+    res.status(400).json({ messsage: "Cannot delete images" });
   }
 });
 mongoClient

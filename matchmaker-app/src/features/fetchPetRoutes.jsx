@@ -29,6 +29,27 @@ async function fetchGetPet(pet_id, species, size) {
   return data;
 }
 
+async function fetchGetAllPets() {
+  let data;
+
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}`;
+
+  try {
+    const response = await fetch(endpoint);
+
+    if (!response.ok) {
+      throw Error("Error");
+    }
+
+    data = await response.json();
+  } catch (err) {
+    console.log(err);
+    throw Error(err);
+  }
+
+  return data;
+}
+
 async function fetchCreatePet(body) {
   let data;
 
@@ -55,4 +76,4 @@ async function fetchCreatePet(body) {
   return data;
 }
 
-export { fetchGetPet, fetchCreatePet };
+export { fetchGetPet, fetchCreatePet, fetchGetAllPets };

@@ -29,4 +29,30 @@ async function fetchGetPet(pet_id, species, size) {
   return data;
 }
 
-export { fetchGetPet };
+async function fetchCreatePet(body) {
+  let data;
+
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+
+    data = await response.json();
+
+    if (!response.ok) {
+      throw Error(data.message);
+    }
+  } catch (err) {
+    throw Error(err);
+  }
+
+  return data;
+}
+
+export { fetchGetPet, fetchCreatePet };

@@ -68,7 +68,7 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn }) {
     weight,
     about,
     animal_id,
-    activeLevel,
+    active_level,
   } = data;
 
   const onClickApplyForAdoption = () => {
@@ -183,7 +183,7 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn }) {
               </div>
               <div className="grid grid-cols-2">
                 <p className="uppercase text-[#495057] pet-category">active level</p>
-                <p className="pet-data">{activeLevel}</p>
+                <p className="pet-data">{active_level}</p>
               </div>
               <div className="grid grid-cols-2">
                 <p className="uppercase text-[#495057] pet-category">weight</p>

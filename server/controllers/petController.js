@@ -1,5 +1,5 @@
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { GetObjectCommand } = require("@aws-sdk/client-s3");
+const { GetObjectCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
 
 const s3Client = require("../s3");
 const mongoClient = require("../database");
@@ -72,6 +72,32 @@ async function findPets(req, res, next) {
   }
 }
 
+async function createPet(req, res, next) {
+  const { active_level, adoption_fee, age, animal_id, breed, characteristics, name, sex, species, weight, images } =
+    req.body;
+
+  try {
+    const newPet = {
+      name: name,
+      animal_id: animal_id,
+      species: species,
+      breed: breed,
+      active_level: active_level,
+      adoption_fee: adoption_fee,
+      characteristics: characteristics,
+      age: age,
+      sex: sex,
+      weight: weight,
+      images: images,
+    };
+    await mongoClient.getDB().collection("pets").insertOne(newPet);
+
+    res.status(201).json(newPet);
+  } catch (err) {
+    res.status(400).json({ message: "Cannot create pet" });
+  }
+}
 module.exports = {
   findPets,
+  createPet,
 };

@@ -1,5 +1,6 @@
 import { withAuthInfo } from "@propelauth/react";
 import { useEffect, useState } from "react";
+import { fetchCreatePet } from "../../features/fetchPetRoutes";
 import ImageList from "./ImagesList";
 
 export default withAuthInfo(function CreatePetForm() {
@@ -91,8 +92,23 @@ export default withAuthInfo(function CreatePetForm() {
     setPetCharacteristicss((prev) => optionList);
   };
 
-  const handlerSubmit = (event) => {
+  const handlerSubmit = async (event) => {
     event.preventDefault();
+
+    if (storedImages.length !== 0) {
+      const formData = new FormData();
+
+      for (const file of storedImages) {
+        formData.append("images", file);
+      }
+      fetch("http://localhost:4041/images", {
+        method: "POST",
+        body: formData,
+      });
+    }
+
+    const imagesOrignialName = storedImages.map((image) => image.name);
+
     const body = {
       name: petName,
       animal_id: petId,
@@ -102,12 +118,30 @@ export default withAuthInfo(function CreatePetForm() {
       sex: petSex,
       breed: petBreeds,
       characteristics: petCharacteristics,
-      adoption_fee: 0,
-      images: storedImages,
+      adoption_fee: petAdoptionFee,
+      images: imagesOrignialName,
       active_level: petActiveLevel,
+      about: petAbout,
     };
 
-    console.log(body);
+    try {
+      const data = await fetchCreatePet(body);
+      setPetName((prev) => "");
+      setPetId((prev) => "");
+      setRenderedImages((prev) => []);
+      setStoredImages((prev) => []);
+      setPetAge((prev) => 0);
+      setPetWeight((prev) => 0);
+      setPetSex((prev) => "Male");
+      setPetSpecies((prev) => "");
+      setPetBreeds((prev) => []);
+      setPetCharacteristicss((prev) => []);
+      setPetActiveLevel((prev) => "Very active");
+      setPetAdoptionFee((prev) => 0);
+      setPetAbout((prev) => "");
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="m-20 px-40">
@@ -127,6 +161,7 @@ export default withAuthInfo(function CreatePetForm() {
               onChange={(event) => {
                 setPetName((prev) => event.target.value);
               }}
+              value={petName}
             />
           </div>
           <div>
@@ -142,6 +177,7 @@ export default withAuthInfo(function CreatePetForm() {
               onChange={(event) => {
                 setPetId((prev) => event.target.value);
               }}
+              value={petId}
             />
           </div>
         </div>
@@ -162,6 +198,7 @@ export default withAuthInfo(function CreatePetForm() {
                 onChange={(event) => {
                   setPetAge((prev) => event.target.value);
                 }}
+                value={petAge}
               />
             </div>
             <div>
@@ -176,6 +213,7 @@ export default withAuthInfo(function CreatePetForm() {
                 onChange={(event) => {
                   setPetWeight((prev) => event.target.value);
                 }}
+                value={petWeight}
               />
             </div>
           </div>
@@ -189,7 +227,8 @@ export default withAuthInfo(function CreatePetForm() {
               className={textInputStyles}
               onChange={(event) => {
                 setPetSex((prev) => event.target.value);
-              }}>
+              }}
+              value={petSex}>
               <option value="Male">Male</option>
               <option value="Female">Female</option>
             </select>
@@ -198,7 +237,12 @@ export default withAuthInfo(function CreatePetForm() {
             <label htmlFor="pet-species" className="block">
               Species
             </label>
-            <select id="pet-species" name="pet-species" className={textInputStyles} onChange={onChangeSpecies}>
+            <select
+              id="pet-species"
+              name="pet-species"
+              className={textInputStyles}
+              onChange={onChangeSpecies}
+              value={petSpecies}>
               <option value="Cat">Cat</option>
               <option value="Dog">Dog</option>
             </select>
@@ -218,7 +262,12 @@ export default withAuthInfo(function CreatePetForm() {
             <label htmlFor="pet-active-level" className="block">
               Active level
             </label>
-            <select id="pet-active-level" name="pet-active-level" className={textInputStyles}>
+            <select
+              id="pet-active-level"
+              name="pet-active-level"
+              className={textInputStyles}
+              onChange={(event) => setPetActiveLevel(event.target.value)}
+              value={petActiveLevel}>
               <option value="Very active">Very active</option>
               <option value="Moderately active">Moderately active</option>
               <option value="Quietly active">Quietly acitve</option>
@@ -270,6 +319,7 @@ export default withAuthInfo(function CreatePetForm() {
               className={textInputStyles}
               min={0}
               onChange={(event) => setPetAdoptionFee((prev) => event.target.value)}
+              value={petAdoptionFee}
             />
           </div>
         </div>
@@ -281,6 +331,7 @@ export default withAuthInfo(function CreatePetForm() {
               className={`border resize-y ${textInputStyles} min-h-36`}
               onChange={(event) => setPetAbout(event.target.value)}
               placeholder="About the pet..."
+              value={petAbout}
             />
           </div>
         </div>

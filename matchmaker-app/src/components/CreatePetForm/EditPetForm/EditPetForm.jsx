@@ -2,7 +2,7 @@ import { withAuthInfo } from "@propelauth/react";
 import { useEffect, useState } from "react";
 import { useSearchParams, createSearchParams } from "react-router";
 
-import { fetchCreatePet, fetchGetPet } from "../../../features/fetchPetRoutes";
+import { fetchCreatePet, fetchGetPet, fetchUpdatePet } from "../../../features/fetchPetRoutes";
 
 import ImageList from "../ImagesList";
 
@@ -39,7 +39,6 @@ export default withAuthInfo(function EditPetForm() {
         setPetCharacteristicss((prev) => pet.characteristics);
         setPetAdoptionFee((prev) => pet.adoption_fee);
         setPetAbout((prev) => pet.about);
-        console.log(pet.imagesURL);
 
         const images = [];
         for (let i = 0; i < pet.images.length; ++i) {
@@ -136,7 +135,6 @@ export default withAuthInfo(function EditPetForm() {
 
     const seachParams = createSearchParams({ deleteImages: [...deleteImages] }).toString();
 
-    console.log(seachParams);
     console.log(`http://localhost:4041/images?${seachParams}`);
     if (deleteImages.length !== 0) {
       fetch(`http://localhost:4041/images?${seachParams}`, {
@@ -145,49 +143,39 @@ export default withAuthInfo(function EditPetForm() {
         console.log(err);
       });
     }
-    // if (storedImages.length !== 0) {
-    //   const formData = new FormData();
-    //   for (const file of storedImages) {
-    //     formData.append("images", file);
-    //   }
-    //   fetch("http://localhost:4041/images", {
-    //     method: "POST",
-    //     body: formData,
-    //   });
-    // }
-    // const imagesOrignialName = storedImages.map((image) => image.name);
-    // const body = {
-    //   name: petName,
-    //   animal_id: petId,
-    //   species: petSpecies,
-    //   age: petAge,
-    //   weight: petWeight,
-    //   sex: petSex,
-    //   breed: petBreeds,
-    //   characteristics: petCharacteristics,
-    //   adoption_fee: petAdoptionFee,
-    //   images: imagesOrignialName,
-    //   active_level: petActiveLevel,
-    //   about: petAbout,
-    // };
-    // try {
-    //   const data = await fetchCreatePet(body);
-    //   setPetName((prev) => "");
-    //   setPetId((prev) => "");
-    //   setRenderedImages((prev) => []);
-    //   setStoredImages((prev) => []);
-    //   setPetAge((prev) => 0);
-    //   setPetWeight((prev) => 0);
-    //   setPetSex((prev) => "Male");
-    //   setPetSpecies((prev) => "");
-    //   setPetBreeds((prev) => []);
-    //   setPetCharacteristicss((prev) => []);
-    //   setPetActiveLevel((prev) => "Very active");
-    //   setPetAdoptionFee((prev) => 0);
-    //   setPetAbout((prev) => "");
-    // } catch (err) {
-    //   console.log(err);
-    // }
+
+    console.log(storedImages);
+    if (storedImages.length !== 0) {
+      const formData = new FormData();
+      for (const file of storedImages) {
+        formData.append("images", file);
+      }
+      fetch("http://localhost:4041/images", {
+        method: "POST",
+        body: formData,
+      });
+    }
+    const imagesOrignialName = renderedImages.map((image) => image.fileName);
+
+    const body = {
+      name: petName,
+      animal_id: petId,
+      species: petSpecies,
+      age: petAge,
+      weight: petWeight,
+      sex: petSex,
+      breed: petBreeds,
+      characteristics: petCharacteristics,
+      adoption_fee: petAdoptionFee,
+      images: imagesOrignialName,
+      active_level: petActiveLevel,
+      about: petAbout,
+    };
+    try {
+      const data = await fetchUpdatePet(pet_id, body);
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="m-20 px-40">

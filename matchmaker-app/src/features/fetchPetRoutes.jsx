@@ -76,4 +76,30 @@ async function fetchCreatePet(body) {
   return data;
 }
 
-export { fetchGetPet, fetchCreatePet, fetchGetAllPets };
+async function fetchUpdatePet(pet_id, body) {
+  let data;
+
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}/${pet_id}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "PUT",
+      body: JSON.stringify(body),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+
+    data = await response.json();
+
+    if (!response.ok) {
+      throw Error(data.message);
+    }
+  } catch (err) {
+    throw Error(err);
+  }
+
+  return data;
+}
+
+export { fetchGetPet, fetchCreatePet, fetchGetAllPets, fetchUpdatePet };

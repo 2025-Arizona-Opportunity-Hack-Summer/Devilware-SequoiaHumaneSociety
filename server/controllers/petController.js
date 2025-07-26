@@ -97,7 +97,49 @@ async function createPet(req, res, next) {
     res.status(400).json({ message: "Cannot create pet" });
   }
 }
+
+async function updatePet(req, res, next) {
+  const { pet_id } = req.params;
+  const { active_level, adoption_fee, age, animal_id, breed, characteristics, name, sex, species, weight, images } =
+    req.body;
+
+  try {
+    const pet = await mongoClient
+      .getDB()
+      .collection("pets")
+      .findOne({ _id: ObjectId.createFromHexString(pet_id) });
+
+    if (pet === null) {
+      res.status(400).json({ messsage: "Cannot find pet" });
+      return;
+    }
+
+    const updatedPet = {
+      name: name,
+      animal_id: animal_id,
+      species: species,
+      breed: breed,
+      active_level: active_level,
+      adoption_fee: adoption_fee,
+      characteristics: characteristics,
+      age: age,
+      sex: sex,
+      weight: weight,
+      images: images,
+    };
+
+    await mongoClient
+      .getDB()
+      .collection("pets")
+      .updateOne({ _id: ObjectId.createFromHexString(pet_id) }, { $set: updatedPet });
+
+    res.status(200).json(updatedPet);
+  } catch (err) {
+    res.status(500).json({ message: "Cannot update pet" });
+  }
+}
 module.exports = {
   findPets,
   createPet,
+  updatePet,
 };

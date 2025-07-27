@@ -169,15 +169,23 @@ async function setPetOnHold(req, res, next) {
       });
     }
 
-    await mongoClient
-      .getDB()
-      .collection("pets")
-      .updateOne(
-        { _id: ObjectId.createFromHexString(pet_id) },
-        { $set: { onHoldEmail: email, onHoldDate: new Date() } }
-      );
+    if (pet.onHoldEmail === undefined || pet.onHoldEmail === null) {
+      await mongoClient
+        .getDB()
+        .collection("pets")
+        .updateOne(
+          { _id: ObjectId.createFromHexString(pet_id) },
+          { $set: { onHoldEmail: email, onHoldDate: new Date() } }
+        );
 
-    res.status(200).json({ ...pet, onHoldEmail: email, onHoldDate: new Date() });
+      res.status(200).json({ ...pet, onHoldEmail: email, onHoldDate: new Date() });
+    } else {
+      await mongoClient
+        .getDB()
+        .collection("pets")
+        .updateOne({ _id: ObjectId.createFromHexString(pet_id) }, { $set: { onHoldEmail: null, onHoldDate: null } });
+      res.status(200).json({ ...pet, onHoldEmail: null, onHoldDate: null });
+    }
   } catch (err) {
     res.status(500).json({
       error: "InternalServerError",

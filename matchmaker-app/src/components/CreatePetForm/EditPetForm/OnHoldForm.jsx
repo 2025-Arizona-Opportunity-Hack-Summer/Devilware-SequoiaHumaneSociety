@@ -34,6 +34,9 @@ function OnHoldForm({ onHoldEmail, onHoldDate, pet_id }) {
     setEmail((prev) => null);
     setDate((prev) => null);
 
+    await fetchSetPetOnHold(pet_id, email).catch((err) => {
+      console.log(err);
+    });
     location.reload();
   };
 

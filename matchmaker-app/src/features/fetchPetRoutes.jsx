@@ -153,4 +153,31 @@ async function fetchSetPetAdopted(pet_id, email) {
   return data;
 }
 
-export { fetchGetPet, fetchCreatePet, fetchGetAllPets, fetchUpdatePet, fetchSetPetOnHold, fetchSetPetAdopted };
+async function fetchDeleletePet(pet_id) {
+  const searchParams = createSearchParams({ pet_id: pet_id }).toString();
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}?${searchParams}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "DELETE",
+    });
+
+    if (!response.ok) {
+      throw Error(data.message);
+    }
+  } catch (err) {
+    throw Error(err);
+  }
+
+  return pet_id;
+}
+
+export {
+  fetchGetPet,
+  fetchCreatePet,
+  fetchGetAllPets,
+  fetchUpdatePet,
+  fetchSetPetOnHold,
+  fetchSetPetAdopted,
+  fetchDeleletePet,
+};

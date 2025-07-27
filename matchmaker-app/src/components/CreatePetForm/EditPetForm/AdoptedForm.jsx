@@ -49,7 +49,7 @@ function AdoptedForm({ adoptedEmail, adoptedDate, pet_id }) {
         high chance of being returned to the shelter. Additionally, they will be temporarily hidden from other users'
         pages.
       </p>
-      <p className="font-semibold text-[#6c757d] lg:text-sm max-w-[720px]">
+      <p className="font-semibold text-[#6c757d] text-sm lg:max-w-[720px]">
         Note: Newly adopted pets have higher priority than on-hold pets. Once you set the pet to be newly adopted, the
         email in this on-hold pet will be removed.
       </p>
@@ -79,14 +79,14 @@ function AdoptedForm({ adoptedEmail, adoptedDate, pet_id }) {
           <input
             type="button"
             value="Remove this pet from newly adopted list"
-            disabled={userEmail !== null}
+            disabled={userEmail === null}
             className={`${buttonStyles} text-[#127475]`}
             onClick={onClickRemoveOnHold}
           />
           <input
             type="submit"
             value="Set this pet to be newly adopted"
-            disabled={userEmail === null}
+            disabled={userEmail !== null}
             className={`${buttonStyles} bg-[#127475] text-white`}
           />
         </div>

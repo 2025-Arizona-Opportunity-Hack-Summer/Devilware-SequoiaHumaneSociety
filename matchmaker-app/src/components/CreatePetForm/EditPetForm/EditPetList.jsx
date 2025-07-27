@@ -36,7 +36,7 @@ function EditPetList({ onClickMoveTo }) {
 
   return (
     <div className="flex flex-col items-start">
-      <p className="text-xl font-semibold text-[#adb5bd] mb-5">Click on the pet to delete or edit</p>
+      <p className="text-xl font-semibold text-[#adb5bd] mb-5">Click on the pet to edit or edit</p>
       <div className="flex w-[80%] px-3 p-2 items-center shadow-[5px_5px_5px_#00000040] filter-text-container border-2 border-transparent">
         <img src={searchImg} alt="search" className="w-4 h-4 mr-3" />
         <InputText

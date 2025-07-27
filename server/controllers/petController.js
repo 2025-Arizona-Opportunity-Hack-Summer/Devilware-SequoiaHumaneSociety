@@ -248,10 +248,30 @@ async function setPetAdopted(req, res, next) {
     });
   }
 }
+
+async function deletePet(req, res, next) {
+  const { pet_id } = req.query;
+
+  try {
+    await mongoClient
+      .getDB()
+      .collection("pets")
+      .deleteOne({ _id: ObjectId.createFromHexString(pet_id) });
+
+    res.status(204).json({});
+  } catch (err) {
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
+  }
+}
 module.exports = {
   findPets,
   createPet,
   updatePet,
   setPetOnHold,
   setPetAdopted,
+  deletePet,
 };

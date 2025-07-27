@@ -8,6 +8,7 @@ import ImageList from "../ImagesList";
 import EditPetList from "./EditPetList";
 import OnHoldForm from "./OnHoldForm";
 import AdoptedForm from "./AdoptedForm";
+import DeletePetForm from "./DeletePetForm";
 
 export default withAuthInfo(function EditPetForm() {
   const [seachParams, _] = useSearchParams();
@@ -420,6 +421,7 @@ export default withAuthInfo(function EditPetForm() {
       </form>
       <OnHoldForm onHoldDate={onHoldDate} onHoldEmail={onHoldEmail} pet_id={pet_id} adoptedEmail={adoptedEmail} />
       <AdoptedForm adoptedDate={adoptedDate} adoptedEmail={adoptedEmail} pet_id={pet_id} />
+      <DeletePetForm pet_id={pet_id} />
     </div>
   );
 });

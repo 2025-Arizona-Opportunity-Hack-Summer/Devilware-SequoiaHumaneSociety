@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { fetchSetPetOnHold } from "../../../features/fetchPetRoutes";
 
-function OnHoldForm({ onHoldEmail, onHoldDate, pet_id }) {
+function OnHoldForm({ onHoldEmail, onHoldDate, pet_id, adoptedEmail }) {
   const [date, setDate] = useState(onHoldDate);
   const [userEmail, setUserEmail] = useState(onHoldEmail);
   const [email, setEmail] = useState(onHoldEmail);
@@ -42,10 +42,10 @@ function OnHoldForm({ onHoldEmail, onHoldDate, pet_id }) {
 
   return (
     <div className="mt-20 flex flex-col gap-2">
-      <h3 className="text-3xl border-b-2">On hold pet</h3>
-      <p className="font-semibold text-[#6c757d]">
-        On hold pets are pets having visit scheduling with the user. They will be temporary hidden from other users'
-        page.
+      <h3 className="text-3xl border-b-2">On-Hold Pet</h3>
+      <p className="font-semibold text-[#6c757d] lg:max-w-[720px]">
+        On-hold pets are pets with a visit scheduled with the user. They will be temporarily hidden from other users'
+        pages.
       </p>
       <form id="on-hold-pet" onSubmit={submitHandler}>
         <div>
@@ -60,7 +60,7 @@ function OnHoldForm({ onHoldEmail, onHoldDate, pet_id }) {
             className={textInputStyles}
             placeholder="john.doe@gmail.com"
             onChange={(event) => setEmail(event.target.value)}
-            value={email === null ? "" : email}
+            value={email === null || email === undefined ? "" : email}
           />
         </div>
         {date !== null && date !== undefined && (
@@ -72,15 +72,15 @@ function OnHoldForm({ onHoldEmail, onHoldDate, pet_id }) {
         <div className="flex gap-5 mt-5">
           <input
             type="button"
-            value="Remove this pet on hold"
+            value="Remove this pet from on-hold list"
             disabled={userEmail === null}
             className={`${buttonStyles} text-[#7251b5]`}
             onClick={onClickRemoveOnHold}
           />
           <input
             type="submit"
-            value="Set this pet on hold"
-            disabled={userEmail !== null}
+            value="Set this pet to be on-hold"
+            disabled={userEmail !== null || (adoptedEmail !== null && adoptedEmail !== undefined)}
             className={`${buttonStyles} bg-[#7251b5] text-white`}
           />
         </div>

@@ -194,9 +194,64 @@ async function setPetOnHold(req, res, next) {
     });
   }
 }
+
+async function setPetAdopted(req, res, next) {
+  const { pet_id, email } = req.params;
+
+  try {
+    const user = await mongoClient.getDB().collection("users").findOne({ email: email });
+
+    if (user == null) {
+      res.status(400).json({
+        error: "UserNotFound",
+        message: "Cannot find user",
+      });
+      return;
+    }
+
+    const pet = await mongoClient
+      .getDB()
+      .collection("pets")
+      .findOne({ _id: ObjectId.createFromHexString(pet_id) });
+
+    if (pet == null) {
+      res.status(400).json({
+        error: "PetNotFound",
+        message: "Cannot find pet",
+      });
+    }
+
+    if (pet.adoptedEmail === undefined || pet.adoptedEmail === null) {
+      await mongoClient
+        .getDB()
+        .collection("pets")
+        .updateOne(
+          { _id: ObjectId.createFromHexString(pet_id) },
+          { $set: { adoptedEmail: email, adoptedDate: new Date(), onHoldEmail: null, onHoldDate: null } }
+        );
+
+      res
+        .status(200)
+        .json({ ...pet, adoptedEmail: email, adoptedDate: new Date(), onHoldEmail: null, onHoldDate: null });
+    } else {
+      await mongoClient
+        .getDB()
+        .collection("pets")
+        .updateOne({ _id: ObjectId.createFromHexString(pet_id) }, { $set: { adoptedEmail: null, adoptedDate: null } });
+      res.status(200).json({ ...pet, adoptedEmail: null, adoptedDate: null });
+    }
+  } catch (err) {
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
+  }
+}
 module.exports = {
   findPets,
   createPet,
   updatePet,
   setPetOnHold,
+  setPetAdopted,
 };

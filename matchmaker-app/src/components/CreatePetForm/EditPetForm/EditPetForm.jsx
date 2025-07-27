@@ -7,6 +7,7 @@ import { fetchGetPet, fetchUpdatePet } from "../../../features/fetchPetRoutes";
 import ImageList from "../ImagesList";
 import EditPetList from "./EditPetList";
 import OnHoldForm from "./OnHoldForm";
+import AdoptedForm from "./AdoptedForm";
 
 export default withAuthInfo(function EditPetForm() {
   const [seachParams, _] = useSearchParams();
@@ -28,6 +29,8 @@ export default withAuthInfo(function EditPetForm() {
   const [visiblePetPhotos, setVisiblePetPhotos] = useState(false);
   const [onHoldEmail, setOnHoldEmail] = useState(null);
   const [onHoldDate, setOnHoldDate] = useState(null);
+  const [adoptedEmail, setAdoptedEmail] = useState(null);
+  const [adoptedDate, setAdoptedDate] = useState(null);
 
   const pet_id = seachParams.get("pet_id");
 
@@ -49,6 +52,8 @@ export default withAuthInfo(function EditPetForm() {
           setPetAbout((prev) => pet.about);
           setOnHoldDate((prev) => pet.onHoldDate);
           setOnHoldEmail((prev) => pet.onHoldEmail);
+          setAdoptedEmail((prev) => pet.adoptedEmail);
+          setAdoptedDate((prev) => pet.adoptedDate);
           const images = [];
           for (let i = 0; i < pet.images.length; ++i) {
             images.push({
@@ -413,7 +418,8 @@ export default withAuthInfo(function EditPetForm() {
           />
         </div>
       </form>
-      <OnHoldForm onHoldDate={onHoldDate} onHoldEmail={onHoldEmail} pet_id={pet_id} />
+      <OnHoldForm onHoldDate={onHoldDate} onHoldEmail={onHoldEmail} pet_id={pet_id} adoptedEmail={adoptedEmail} />
+      <AdoptedForm adoptedDate={adoptedDate} adoptedEmail={adoptedEmail} pet_id={pet_id} />
     </div>
   );
 });

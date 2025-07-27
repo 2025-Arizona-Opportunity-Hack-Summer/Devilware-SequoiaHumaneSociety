@@ -57,6 +57,8 @@ function AdminPetDescription({ user, isLoggedIn }) {
     active_level,
     onHoldDate,
     onHoldEmail,
+    adoptedEmail,
+    adoptedDate,
   } = data;
 
   const onClickBackImage = () => {
@@ -115,6 +117,11 @@ function AdminPetDescription({ user, isLoggedIn }) {
               {onHoldEmail !== undefined && onHoldEmail !== null && (
                 <p className="font-semibold text-[#4f2edc]">
                   This pet is on the hold list by {onHoldEmail} at {new Date(onHoldDate).toLocaleDateString()}
+                </p>
+              )}
+              {adoptedEmail !== undefined && adoptedEmail !== null && (
+                <p className="font-semibold text-[#127475]">
+                  This pet is newly adopted by {adoptedEmail} at {new Date(adoptedDate).toLocaleDateString()}
                 </p>
               )}
             </div>

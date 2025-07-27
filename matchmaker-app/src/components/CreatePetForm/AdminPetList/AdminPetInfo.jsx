@@ -6,7 +6,7 @@ import loadingImage from "../../../assets/images/loading-image.png";
 
 function AdminPetInfo({ pet }) {
   const navigate = useNavigate();
-  const { imagesURL, name, breed, _id, species, onHoldEmail } = pet;
+  const { imagesURL, name, breed, _id, species, onHoldEmail, adoptedEmail } = pet;
   const [imageLoading, setImageLoading] = useState(false);
 
   const petImage = imagesURL.length === 0 ? noPetImage : imagesURL[0];
@@ -33,6 +33,11 @@ function AdminPetInfo({ pet }) {
         {onHoldEmail !== undefined && onHoldEmail !== null && (
           <div className="absolute bottom-5 [clip-path:polygon(0_0,75%_0,100%_50%,75%_100%,0_100%)] py-2 pl-4 pr-10 bg-[#7251b5]">
             <p className="text-white font-semibold uppercase ">On hold</p>
+          </div>
+        )}
+        {adoptedEmail !== undefined && adoptedEmail !== null && (
+          <div className="absolute bottom-5 [clip-path:polygon(0_0,75%_0,100%_50%,75%_100%,0_100%)] py-2 pl-4 pr-10 bg-[#127475]">
+            <p className="text-white font-semibold uppercase ">Newly adopted</p>
           </div>
         )}
       </div>

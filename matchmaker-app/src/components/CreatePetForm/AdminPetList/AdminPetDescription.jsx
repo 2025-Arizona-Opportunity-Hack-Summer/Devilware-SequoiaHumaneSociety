@@ -55,6 +55,8 @@ function AdminPetDescription({ user, isLoggedIn }) {
     about,
     animal_id,
     active_level,
+    onHoldDate,
+    onHoldEmail,
   } = data;
 
   const onClickBackImage = () => {
@@ -108,8 +110,13 @@ function AdminPetDescription({ user, isLoggedIn }) {
         </div>
         <div className="flex lg:flex-row flex-col-reverse justify-between lg:gap-10 gap-5">
           <div className="flex-grow lg:p-10 rounded-2xl">
-            <div>
+            <div className="flex flex-col gap-3">
               <h1 className="uppercase text-[#343a40] lg:text-6xl text-4xl pet-name">{name}</h1>
+              {onHoldEmail !== undefined && onHoldEmail !== null && (
+                <p className="font-semibold text-[#4f2edc]">
+                  This pet is on the hold list by {onHoldEmail} at {new Date(onHoldDate).toLocaleDateString()}
+                </p>
+              )}
             </div>
             <h2 className="uppercase text-[#343a40] lg:text-3xl text-xl pet-name border-t border-[#dee2e6] mt-5 pt-5">
               Info

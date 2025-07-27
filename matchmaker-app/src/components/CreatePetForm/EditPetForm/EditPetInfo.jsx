@@ -6,7 +6,7 @@ import loadingImage from "../../../assets/images/loading-image.png";
 
 function EditPetInfo({ pet }) {
   const navigate = useNavigate();
-  const { imagesURL, name, breed, _id, species } = pet;
+  const { imagesURL, name, breed, _id, species, onHoldEmail } = pet;
   const [imageLoading, setImageLoading] = useState(false);
 
   const petImage = imagesURL.length === 0 ? noPetImage : imagesURL[0];
@@ -30,6 +30,11 @@ function EditPetInfo({ pet }) {
             setImageLoading((preState) => true);
           }}
         />
+        {onHoldEmail !== undefined && onHoldEmail !== null && (
+          <div className="absolute bottom-5 [clip-path:polygon(0_0,75%_0,100%_50%,75%_100%,0_100%)] py-2 pl-4 pr-10 bg-[#7251b5]">
+            <p className="text-white font-semibold uppercase ">On hold</p>
+          </div>
+        )}
       </div>
       <div className="flex flex-col items-center mt-10 gap-2" onClick={onClickNavigateToDetails}>
         <p className="text-[#C1272D] text-2xl font-semibold">{name.toUpperCase()}</p>

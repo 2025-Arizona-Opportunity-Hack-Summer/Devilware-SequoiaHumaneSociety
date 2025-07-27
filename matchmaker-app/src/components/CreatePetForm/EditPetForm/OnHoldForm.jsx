@@ -63,7 +63,7 @@ function OnHoldForm({ onHoldEmail, onHoldDate, pet_id }) {
             value={email === null ? "" : email}
           />
         </div>
-        {date !== null && (
+        {date !== null && date !== undefined && (
           <div>
             <p>On hold date: {new Date(date).toLocaleDateString()}</p>
           </div>

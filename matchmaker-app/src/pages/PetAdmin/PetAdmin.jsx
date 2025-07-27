@@ -21,7 +21,7 @@ export default withRequiredAuthInfo(
           <button
             className={`${buttonStyle} bg-[#0077b6]`}
             onClick={() => {
-              navigate("pet");
+              navigate("edit");
             }}>
             Edit and delete pet
           </button>

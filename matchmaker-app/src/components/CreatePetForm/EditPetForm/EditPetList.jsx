@@ -1,4 +1,4 @@
-import PetInfo from "./AdminPetInfo";
+import EditPetInfo from "./EditPetInfo";
 import InputText from "../../Input/InputText/InputText";
 import InputButton from "../../Input/InputButton/InputButton";
 
@@ -8,7 +8,7 @@ import { fetchGetAllPets } from "../../../features/fetchPetRoutes";
 
 import searchImg from "../../../assets/images/search-com.svg";
 
-function AdminPetList({ onClickMoveTo }) {
+function EditPetList({ onClickMoveTo }) {
   const [petList, setPetList] = useState([]);
   const [searchPet, setSearchPet] = useState("");
 
@@ -30,13 +30,13 @@ function AdminPetList({ onClickMoveTo }) {
 
   const petsRender = petsFilter.map((pet) => (
     <li key={pet._id}>
-      <PetInfo pet={pet} onClickMoveTo={onClickMoveTo} />
+      <EditPetInfo pet={pet} onClickMoveTo={onClickMoveTo} />
     </li>
   ));
 
   return (
     <div className="flex flex-col items-start">
-      <p className="text-xl font-semibold text-[#adb5bd] mb-5">Click on the pet to see description</p>
+      <p className="text-xl font-semibold text-[#adb5bd] mb-5">Click on the pet to delete or edit</p>
       <div className="flex w-[80%] px-3 p-2 items-center shadow-[5px_5px_5px_#00000040] filter-text-container border-2 border-transparent">
         <img src={searchImg} alt="search" className="w-4 h-4 mr-3" />
         <InputText
@@ -76,4 +76,4 @@ function isSubString(t, s) {
 
   return true;
 }
-export default AdminPetList;
+export default EditPetList;

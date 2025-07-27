@@ -2,9 +2,10 @@ import { withAuthInfo } from "@propelauth/react";
 import { useEffect, useState } from "react";
 import { useSearchParams, createSearchParams } from "react-router";
 
-import { fetchCreatePet, fetchGetPet, fetchUpdatePet } from "../../../features/fetchPetRoutes";
+import { fetchGetPet, fetchUpdatePet } from "../../../features/fetchPetRoutes";
 
 import ImageList from "../ImagesList";
+import EditPetList from "./EditPetList";
 
 export default withAuthInfo(function EditPetForm() {
   const [seachParams, _] = useSearchParams();
@@ -25,36 +26,41 @@ export default withAuthInfo(function EditPetForm() {
 
   const pet_id = seachParams.get("pet_id");
   useEffect(() => {
-    fetchGetPet(pet_id)
-      .then((data) => {
-        const pet = data.content[0];
-        setPetName((prev) => pet.name);
-        setPetId((prev) => pet.animal_id);
-        setPetAge((prev) => pet.age);
-        setPetWeight((prev) => pet.weight);
-        setPetSex((prev) => pet.sex);
-        setPetSpecies((prev) => pet.species);
-        setPetBreeds((prev) => pet.breed);
-        setPetActiveLevel((prev) => pet.active_level);
-        setPetCharacteristicss((prev) => pet.characteristics);
-        setPetAdoptionFee((prev) => pet.adoption_fee);
-        setPetAbout((prev) => pet.about);
+    if (pet_id !== null) {
+      fetchGetPet(pet_id)
+        .then((data) => {
+          const pet = data.content[0];
+          setPetName((prev) => pet.name);
+          setPetId((prev) => pet.animal_id);
+          setPetAge((prev) => pet.age);
+          setPetWeight((prev) => pet.weight);
+          setPetSex((prev) => pet.sex);
+          setPetSpecies((prev) => pet.species);
+          setPetBreeds((prev) => pet.breed);
+          setPetActiveLevel((prev) => pet.active_level);
+          setPetCharacteristicss((prev) => pet.characteristics);
+          setPetAdoptionFee((prev) => pet.adoption_fee);
+          setPetAbout((prev) => pet.about);
 
-        const images = [];
-        for (let i = 0; i < pet.images.length; ++i) {
-          images.push({
-            url: pet.imagesURL[i],
-            fileName: pet.images[i],
-          });
-        }
+          const images = [];
+          for (let i = 0; i < pet.images.length; ++i) {
+            images.push({
+              url: pet.imagesURL[i],
+              fileName: pet.images[i],
+            });
+          }
 
-        setRenderedImages((prev) => [...images]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+          setRenderedImages((prev) => [...images]);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [pet_id]);
 
+  if (pet_id === null) {
+    return <EditPetList />;
+  }
   const textInputStyles =
     "border rounded-lg p-2 focus:border-orange-500  outline-0 w-full max-w-[720px]  [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300";
 

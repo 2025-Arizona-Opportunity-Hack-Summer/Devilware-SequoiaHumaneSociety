@@ -21,8 +21,10 @@ import PetAdmin from "./pages/PetAdmin/PetAdmin";
 import CreatePetForm from "./components/CreatePetForm/CreatePetForm/CreatePetForm";
 import EditPetForm from "./components/CreatePetForm/EditPetForm/EditPetForm";
 import AdminPetList from "./components/CreatePetForm/AdminPetList/AdminPetList";
+import AdminPetDescription from "./components/CreatePetForm/AdminPetList/AdminPetDescription";
 
 import store from "./redux/store";
+import EditPetList from "./components/CreatePetForm/EditPetForm/EditPetList";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -41,9 +43,9 @@ const router = createBrowserRouter(
         <Route path="register" element={<Register />} />
         <Route path="favorite" element={<FavoritePet />} />
         <Route path="petadmin" element={<PetAdmin />}>
-          <Route path="pet" element={<AdminPetList />} />
+          <Route path="pet" element={<AdminPetDescription />} />
           <Route path="create" element={<CreatePetForm />} />
-          <Route path="edit" element={<EditPetForm />}></Route>
+          <Route path="edit" element={<EditPetForm />} />
         </Route>
       </Route>
       <Route path="/confirm-email" element={<ConfirmEmail />} />

@@ -135,11 +135,60 @@ async function updatePet(req, res, next) {
 
     res.status(200).json(updatedPet);
   } catch (err) {
-    res.status(500).json({ message: "Cannot update pet" });
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
+  }
+}
+
+async function setPetOnHold(req, res, next) {
+  const { pet_id, email } = req.params;
+
+  try {
+    const user = await mongoClient.getDB().collection("users").findOne({ email: email });
+
+    if (user == null) {
+      res.status(400).json({
+        error: "UserNotFound",
+        message: "Cannot find user",
+      });
+      return;
+    }
+
+    const pet = await mongoClient
+      .getDB()
+      .collection("pets")
+      .findOne({ _id: ObjectId.createFromHexString(pet_id) });
+
+    if (pet == null) {
+      res.status(400).json({
+        error: "PetNotFound",
+        message: "Cannot find pet",
+      });
+    }
+
+    await mongoClient
+      .getDB()
+      .collection("pets")
+      .updateOne(
+        { _id: ObjectId.createFromHexString(pet_id) },
+        { $set: { onHoldEmail: email, onHoldDate: new Date() } }
+      );
+
+    res.status(200).json({ ...pet, onHoldEmail: email, onHoldDate: new Date() });
+  } catch (err) {
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
   }
 }
 module.exports = {
   findPets,
   createPet,
   updatePet,
+  setPetOnHold,
 };

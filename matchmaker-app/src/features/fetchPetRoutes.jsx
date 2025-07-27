@@ -102,4 +102,30 @@ async function fetchUpdatePet(pet_id, body) {
   return data;
 }
 
-export { fetchGetPet, fetchCreatePet, fetchGetAllPets, fetchUpdatePet };
+async function fetchSetPetOnHold(pet_id, email) {
+  let data;
+
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}/${pet_id}/on-hold/${email}`;
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "PUT",
+      body: JSON.stringify({}),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+
+    data = await response.json();
+
+    if (!response.ok) {
+      throw Error(data.message);
+    }
+  } catch (err) {
+    throw Error(err);
+  }
+
+  return data;
+}
+
+export { fetchGetPet, fetchCreatePet, fetchGetAllPets, fetchUpdatePet, fetchSetPetOnHold };

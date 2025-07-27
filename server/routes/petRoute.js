@@ -6,5 +6,6 @@ const petRoute = express.Router();
 petRoute.get("/", petController.findPets);
 petRoute.post("/", petController.createPet);
 petRoute.put("/:pet_id", petController.updatePet);
+petRoute.put("/:pet_id/on-hold/:email", petController.setPetOnHold);
 
 module.exports = petRoute;

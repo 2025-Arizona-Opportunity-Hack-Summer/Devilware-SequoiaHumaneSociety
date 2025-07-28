@@ -25,7 +25,7 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn, userCla
   const pet_id = searchParams.get("pet_id");
 
   useEffect(() => {
-    if (userClass.getOrgs().length > 0) {
+    if (userClass !== null && userClass.getOrgs().length > 0) {
       setIsAdmin((prev) => true);
     }
   }, []);

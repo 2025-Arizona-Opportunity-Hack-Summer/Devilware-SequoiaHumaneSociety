@@ -21,7 +21,7 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    if (userClass.getOrgs().length > 0) {
+    if (userClass !== null && userClass.getOrgs().length > 0) {
       setIsAdmin((prev) => true);
     }
   }, []);

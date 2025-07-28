@@ -1,11 +1,9 @@
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
-const { GetObjectCommand, PutObjectCommand } = require("@aws-sdk/client-s3");
+const { GetObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 
 const s3Client = require("../s3");
 const mongoClient = require("../database");
 const { ObjectId } = require("mongodb");
-
-const Pet = require("../models/pet");
 
 require("dotenv").config();
 
@@ -253,6 +251,36 @@ async function deletePet(req, res, next) {
   const { pet_id } = req.query;
 
   try {
+    const pet = await mongoClient
+      .getDB()
+      .collection("pets")
+      .findOne({ _id: ObjectId.createFromHexString(pet_id) });
+
+    if (pet == null) {
+      res.status(400).json({
+        error: "PetNotFound",
+        message: "Cannot find pet",
+      });
+    }
+
+    if (pet.images.length !== 0) {
+      const deletePromises = pet.images.map(async (image) => {
+        const command = new DeleteObjectCommand({
+          Bucket: process.env.BUCKET_NAME,
+          Key: image,
+        });
+
+        try {
+          await s3Client.send(command);
+        } catch (err) {
+          console.log(err);
+          throw err;
+        }
+      });
+
+      await Promise.all(deletePromises);
+    }
+
     await mongoClient
       .getDB()
       .collection("pets")

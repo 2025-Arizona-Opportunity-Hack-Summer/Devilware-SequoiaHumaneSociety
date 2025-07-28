@@ -101,7 +101,9 @@ export default withAuthInfo(function CreatePetForm() {
       for (const file of storedImages) {
         formData.append("images", file);
       }
-      fetch("http://localhost:4041/images", {
+      const endpoint = `${import.meta.env.VITE_API_URL}/${import.meta.env.VITE_IMAGE_ENDPOINT}`;
+
+      fetch(endpoint, {
         method: "POST",
         body: formData,
       });
@@ -339,7 +341,7 @@ export default withAuthInfo(function CreatePetForm() {
           <input
             type="submit"
             value="Upload Pet"
-            className="uppercase bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white cursor-pointer p-3 font-semibold rounded-md w-full max-w-[720px] hover:scale-105 duration-200 text-xl"
+            className="uppercase bg-gradient-to-r from-[#52b788] to-[#2d6a4f] text-white cursor-pointer p-3 font-semibold rounded-md w-full max-w-[720px] hover:scale-105 duration-200 text-xl"
           />
         </div>
       </form>

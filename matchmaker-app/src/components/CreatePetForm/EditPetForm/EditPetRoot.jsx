@@ -39,7 +39,7 @@ export default withAuthInfo(function EditPetRoot() {
   }
   return (
     <div>
-      <div className="flex gap-2 mb-10 ">
+      <div className="flex gap-5 mb-10 ">
         <h2
           className="text-xl font-semibold cursor-pointer"
           style={visiblePetForm === true ? { borderBottom: "2px solid blue", color: "black" } : { color: "#adb5bd" }}

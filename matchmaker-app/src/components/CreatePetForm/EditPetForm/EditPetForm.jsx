@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams, createSearchParams } from "react-router";
+import { createSearchParams } from "react-router";
 
 import { fetchUpdatePet } from "../../../features/fetchPetRoutes";
 
@@ -10,7 +10,7 @@ function EditPetForm({ pet }) {
   const [storedImages, setStoredImages] = useState([]);
   const [deleteImages, setDeleteImages] = useState([]);
   const [visiblePetInfo, setVisiblePetInfo] = useState(false);
-  const [visiblePetPhotos, setVisiblePetPhotos] = useState(false);
+
   const [updatedPet, setUpdatedPet] = useState(pet);
 
   useEffect(() => {
@@ -115,9 +115,10 @@ function EditPetForm({ pet }) {
     event.preventDefault();
 
     const seachParams = createSearchParams({ deleteImages: [...deleteImages] }).toString();
+    const endpoint = `${import.meta.env.VITE_API_URL}/${import.meta.env.VITE_IMAGE_ENDPOINT}`;
 
     if (deleteImages.length !== 0) {
-      fetch(`http://localhost:4041/images?${seachParams}`, {
+      fetch(`${endpoint}?${seachParams}`, {
         method: "DELETE",
       }).catch((err) => {
         console.log(err);
@@ -129,7 +130,7 @@ function EditPetForm({ pet }) {
       for (const file of storedImages) {
         formData.append("images", file);
       }
-      fetch("http://localhost:4041/images", {
+      fetch(endpoint, {
         method: "POST",
         body: formData,
       });
@@ -299,17 +300,10 @@ function EditPetForm({ pet }) {
             </>
           )}
         </div>
-        <div>
-          <h3 className="text-3xl border-b-2">Photos</h3>
-          <p
-            onClick={() => {
-              setVisiblePetPhotos((prev) => !prev);
-            }}
-            className="cursor-pointer underline text-blue-500">
-            {visiblePetPhotos === false ? "Show more" : "Show less"}
-          </p>
-          {visiblePetPhotos && (
-            <>
+        {visiblePetInfo && (
+          <>
+            <div>
+              <h3 className="text-3xl border-b-2">Photos</h3>
               <div>
                 <label
                   htmlFor="pet-images"
@@ -329,46 +323,46 @@ function EditPetForm({ pet }) {
               <div>
                 <ImageList images={renderedImages} onClickDeleteImage={onChangeDeleteImage} />
               </div>
-            </>
-          )}
-        </div>
-        <div className="flex flex-col gap-2">
-          <h3 className="text-3xl border-b-2">Adoption Fee</h3>
-          <div>
-            <label htmlFor="adoption_fee" className="block">
-              Fee ($)
-            </label>
-            <input
-              type="number"
-              id="adoption_fee"
-              name="adoption_fee"
-              className={textInputStyles}
-              min={0}
-              onChange={handleTextInput}
-              value={updatedPet.adoption_fee}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h3 className="text-3xl border-b-2">About Pet</h3>
-          <div>
-            <textarea
-              id="about"
-              name="about"
-              className={`border resize-y ${textInputStyles} min-h-36`}
-              onChange={handleTextInput}
-              placeholder="About the pet..."
-              value={updatedPet.about}
-            />
-          </div>
-        </div>
-        <div>
-          <input
-            type="submit"
-            value="Edit Pet"
-            className="uppercase bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white cursor-pointer p-3 font-semibold rounded-md w-full max-w-[720px] hover:scale-105 duration-200 text-xl"
-          />
-        </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-3xl border-b-2">Adoption Fee</h3>
+              <div>
+                <label htmlFor="adoption_fee" className="block">
+                  Fee ($)
+                </label>
+                <input
+                  type="number"
+                  id="adoption_fee"
+                  name="adoption_fee"
+                  className={textInputStyles}
+                  min={0}
+                  onChange={handleTextInput}
+                  value={updatedPet.adoption_fee}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-3xl border-b-2">About Pet</h3>
+              <div>
+                <textarea
+                  id="about"
+                  name="about"
+                  className={`border resize-y ${textInputStyles} min-h-36`}
+                  onChange={handleTextInput}
+                  placeholder="About the pet..."
+                  value={updatedPet.about}
+                />
+              </div>
+            </div>
+            <div>
+              <input
+                type="submit"
+                value="Edit Pet"
+                className="uppercase bg-gradient-to-r from-[#0077b6] to-[#00b4d8] text-white cursor-pointer p-3 font-semibold rounded-md w-full max-w-[720px] hover:scale-105 duration-200 text-xl"
+              />
+            </div>
+          </>
+        )}
       </form>
     </div>
   );

@@ -79,14 +79,14 @@ function AdoptedForm({ adoptedEmail, adoptedDate, pet_id }) {
           <input
             type="button"
             value="Remove this pet from newly adopted list"
-            disabled={userEmail === null}
+            disabled={userEmail === null || userEmail === undefined}
             className={`${buttonStyles} text-[#127475]`}
             onClick={onClickRemoveOnHold}
           />
           <input
             type="submit"
             value="Set this pet to be newly adopted"
-            disabled={userEmail !== null}
+            disabled={userEmail !== null && userEmail !== undefined}
             className={`${buttonStyles} bg-[#127475] text-white`}
           />
         </div>

@@ -25,13 +25,6 @@ export default withRequiredAuthInfo(
             }}>
             Edit and delete pet
           </button>
-          <button
-            className={`${buttonStyle} bg-[#e85d04]`}
-            onClick={() => {
-              navigate("pet");
-            }}>
-            List pets
-          </button>
         </div>
         <div className="flex justify-center">
           <div className="w-full">

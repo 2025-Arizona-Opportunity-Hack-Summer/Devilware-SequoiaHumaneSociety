@@ -9,6 +9,8 @@ import EditPetList from "./EditPetList";
 import OnHoldForm from "./OnHoldForm";
 import AdoptedForm from "./AdoptedForm";
 import DeletePetForm from "./DeletePetForm";
+import AdminPetDescription from "../AdminPetList/AdminPetDescription";
+import PetInfo from "../../MatchedPets/PetInfo/PetInfo";
 
 export default withAuthInfo(function EditPetForm() {
   const [seachParams, _] = useSearchParams();
@@ -32,7 +34,8 @@ export default withAuthInfo(function EditPetForm() {
   const [onHoldDate, setOnHoldDate] = useState(null);
   const [adoptedEmail, setAdoptedEmail] = useState(null);
   const [adoptedDate, setAdoptedDate] = useState(null);
-
+  const [visiblePetForm, setVisiblePetForm] = useState(true);
+  const [data, setData] = useState(null);
   const pet_id = seachParams.get("pet_id");
 
   useEffect(() => {
@@ -40,6 +43,7 @@ export default withAuthInfo(function EditPetForm() {
       fetchGetPet(pet_id)
         .then((data) => {
           const pet = data.content[0];
+          setData((prev) => pet);
           setPetName((prev) => pet.name);
           setPetId((prev) => pet.animal_id);
           setPetAge((prev) => pet.age);
@@ -154,7 +158,6 @@ export default withAuthInfo(function EditPetForm() {
 
     const seachParams = createSearchParams({ deleteImages: [...deleteImages] }).toString();
 
-    console.log(`http://localhost:4041/images?${seachParams}`);
     if (deleteImages.length !== 0) {
       fetch(`http://localhost:4041/images?${seachParams}`, {
         method: "DELETE",
@@ -196,232 +199,252 @@ export default withAuthInfo(function EditPetForm() {
       console.log(err);
     }
   };
+
   return (
     <div>
-      <h2 className="text-5xl mb-10 text-[#7C0F0F] font-semibold uppercase">Edit Pet</h2>
-      <form className="flex flex-col gap-10" onSubmit={handlerSubmit}>
-        <div className="flex flex-col gap-2">
-          <div>
-            <label htmlFor="pet-name" className="block">
-              Pet Name
-            </label>
-            <input
-              type="text"
-              id="pet-name"
-              name="pet-name"
-              required
-              className={textInputStyles}
-              onChange={(event) => {
-                setPetName((prev) => event.target.value);
-              }}
-              value={petName}
-            />
-          </div>
-          <div>
-            <label htmlFor="pet-id" className="block">
-              Pet ID
-            </label>
-            <input
-              type="text"
-              id="pet-id"
-              name="pet-id"
-              required
-              className={textInputStyles}
-              value={petId}
-              onChange={(event) => {
-                setPetId(event.target.value);
-              }}
-            />
-          </div>
-        </div>
+      <div className="flex gap-2 mb-10 ">
+        <h2
+          className="text-xl font-semibold cursor-pointer"
+          style={visiblePetForm === true ? { borderBottom: "2px solid blue", color: "black" } : { color: "#adb5bd" }}
+          onClick={() => setVisiblePetForm((prev) => true)}>
+          Edit pet
+        </h2>
+        <h2
+          className="text-xl text-[#7C0F0F] font-semibold cursor-pointer"
+          style={visiblePetForm === false ? { borderBottom: "2px solid blue", color: "black" } : { color: "#adb5bd" }}
+          onClick={() => setVisiblePetForm((prev) => false)}>
+          Pet description
+        </h2>
+      </div>
 
-        <div className="flex flex-col gap-2">
-          <h3 className="text-3xl border-b-2">Pet Info</h3>
-          <p
-            onClick={() => {
-              setVisiblePetInfo((prev) => !prev);
-            }}
-            className="cursor-pointer underline text-blue-500">
-            {visiblePetInfo === false ? "Show more" : "Show less"}
-          </p>
-          {visiblePetInfo && (
-            <>
-              <div className="flex gap-10">
-                <div>
-                  <label htmlFor="pet-age" className="block">
-                    Age (months)
-                  </label>
-                  <input
-                    type="number"
-                    id="pet-age"
-                    name="pet-age"
-                    className={textInputStyles}
-                    min={0}
-                    onChange={(event) => {
-                      setPetAge((prev) => event.target.value);
-                    }}
-                    value={petAge}
-                  />
-                </div>
-                <div>
-                  <label htmlFor="pet-weight" className="block">
-                    Weight (lbs)
-                  </label>
-                  <input
-                    type="number"
-                    id="pet-weight"
-                    name="pet-weight"
-                    className={textInputStyles}
-                    onChange={(event) => {
-                      setPetWeight((prev) => event.target.value);
-                    }}
-                    value={petWeight}
-                  />
-                </div>
-              </div>
+      {visiblePetForm && (
+        <>
+          <form className="flex flex-col gap-10" onSubmit={handlerSubmit}>
+            <div className="flex flex-col gap-2">
               <div>
-                <label htmlFor="pet-sex" className="block">
-                  Sex
-                </label>
-                <select
-                  id="pet-sex"
-                  name="pet-sex"
-                  className={textInputStyles}
-                  onChange={(event) => {
-                    setPetSex((prev) => event.target.value);
-                  }}
-                  value={petSex}>
-                  <option value="Male">Male</option>
-                  <option value="Female">Female</option>
-                </select>
-              </div>
-              <div>
-                <label htmlFor="pet-species" className="block">
-                  Species
-                </label>
-                <select
-                  id="pet-species"
-                  name="pet-species"
-                  className={textInputStyles}
-                  onChange={onChangeSpecies}
-                  value={petSpecies}>
-                  <option value="Cat">Cat</option>
-                  <option value="Dog">Dog</option>
-                </select>
-              </div>
-              <div>
-                <InputDatalist
-                  defaultOptions={breedOptions}
-                  id="pet-breed"
-                  defaultAnswers={petBreeds}
-                  placeholder="Choose breeds or type"
-                  onSubmitAnswer={onClickBreedOption}>
-                  Breed
-                </InputDatalist>
-              </div>
-
-              <div>
-                <label htmlFor="pet-active-level" className="block">
-                  Active level
-                </label>
-                <select
-                  id="pet-active-level"
-                  name="pet-active-level"
-                  className={textInputStyles}
-                  onChange={(event) => setPetActiveLevel(event.target.value)}
-                  value={petActiveLevel}>
-                  <option value="Very active">Very active</option>
-                  <option value="Moderately active">Moderately active</option>
-                  <option value="Quietly active">Quietly acitve</option>
-                </select>
-              </div>
-              <div>
-                <InputDatalist
-                  defaultOptions={characteristicsOption}
-                  id="pet-characteristic"
-                  defaultAnswers={petCharacteristics}
-                  placeholder="Choose breeds or type"
-                  onSubmitAnswer={onClickCharacteristicOptions}>
-                  Characteristics
-                </InputDatalist>
-              </div>
-            </>
-          )}
-        </div>
-        <div>
-          <h3 className="text-3xl border-b-2">Photos</h3>
-          <p
-            onClick={() => {
-              setVisiblePetPhotos((prev) => !prev);
-            }}
-            className="cursor-pointer underline text-blue-500">
-            {visiblePetPhotos === false ? "Show more" : "Show less"}
-          </p>
-          {visiblePetPhotos && (
-            <>
-              {" "}
-              <div>
-                <label
-                  htmlFor="pet-images"
-                  className="cursor-pointer bg-gray-400 text-white font-semibold p-2 block w-max my-2 rounded-md">
-                  Upload images
+                <label htmlFor="pet-name" className="block">
+                  Pet Name
                 </label>
                 <input
-                  type="file"
-                  multiple
-                  id="pet-images"
-                  name="pet-images"
-                  className="hidden"
-                  accept=".jpg, .jpeg, .png"
-                  onChange={onChangeInsertImage}
+                  type="text"
+                  id="pet-name"
+                  name="pet-name"
+                  required
+                  className={textInputStyles}
+                  onChange={(event) => {
+                    setPetName((prev) => event.target.value);
+                  }}
+                  value={petName}
                 />
               </div>
               <div>
-                <ImageList images={renderedImages} onClickDeleteImage={onChangeDeleteImage} />
+                <label htmlFor="pet-id" className="block">
+                  Pet ID
+                </label>
+                <input
+                  type="text"
+                  id="pet-id"
+                  name="pet-id"
+                  required
+                  className={textInputStyles}
+                  value={petId}
+                  onChange={(event) => {
+                    setPetId(event.target.value);
+                  }}
+                />
               </div>
-            </>
-          )}
-        </div>
-        <div className="flex flex-col gap-2">
-          <h3 className="text-3xl border-b-2">Adoption Fee</h3>
-          <div>
-            <label htmlFor="pet-fee" className="block">
-              Fee ($)
-            </label>
-            <input
-              type="number"
-              id="pet-fee"
-              name="pet-fee"
-              className={textInputStyles}
-              min={0}
-              onChange={(event) => setPetAdoptionFee((prev) => event.target.value)}
-              value={petAdoptionFee}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col gap-2">
-          <h3 className="text-3xl border-b-2">About Pet</h3>
-          <div>
-            <textarea
-              id="pet-about"
-              className={`border resize-y ${textInputStyles} min-h-36`}
-              onChange={(event) => setPetAbout(event.target.value)}
-              placeholder="About the pet..."
-              value={petAbout}
-            />
-          </div>
-        </div>
-        <div>
-          <input
-            type="submit"
-            value="Edit Pet"
-            className="uppercase bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white cursor-pointer p-3 font-semibold rounded-md w-full max-w-[720px] hover:scale-105 duration-200 text-xl"
-          />
-        </div>
-      </form>
-      <OnHoldForm onHoldDate={onHoldDate} onHoldEmail={onHoldEmail} pet_id={pet_id} adoptedEmail={adoptedEmail} />
-      <AdoptedForm adoptedDate={adoptedDate} adoptedEmail={adoptedEmail} pet_id={pet_id} />
-      <DeletePetForm pet_id={pet_id} />
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <h3 className="text-3xl border-b-2">Pet Info</h3>
+              <p
+                onClick={() => {
+                  setVisiblePetInfo((prev) => !prev);
+                }}
+                className="cursor-pointer underline text-blue-500">
+                {visiblePetInfo === false ? "Show more" : "Show less"}
+              </p>
+              {visiblePetInfo && (
+                <>
+                  <div className="flex gap-10">
+                    <div>
+                      <label htmlFor="pet-age" className="block">
+                        Age (months)
+                      </label>
+                      <input
+                        type="number"
+                        id="pet-age"
+                        name="pet-age"
+                        className={textInputStyles}
+                        min={0}
+                        onChange={(event) => {
+                          setPetAge((prev) => event.target.value);
+                        }}
+                        value={petAge}
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="pet-weight" className="block">
+                        Weight (lbs)
+                      </label>
+                      <input
+                        type="number"
+                        id="pet-weight"
+                        name="pet-weight"
+                        className={textInputStyles}
+                        onChange={(event) => {
+                          setPetWeight((prev) => event.target.value);
+                        }}
+                        value={petWeight}
+                      />
+                    </div>
+                  </div>
+                  <div>
+                    <label htmlFor="pet-sex" className="block">
+                      Sex
+                    </label>
+                    <select
+                      id="pet-sex"
+                      name="pet-sex"
+                      className={textInputStyles}
+                      onChange={(event) => {
+                        setPetSex((prev) => event.target.value);
+                      }}
+                      value={petSex}>
+                      <option value="Male">Male</option>
+                      <option value="Female">Female</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label htmlFor="pet-species" className="block">
+                      Species
+                    </label>
+                    <select
+                      id="pet-species"
+                      name="pet-species"
+                      className={textInputStyles}
+                      onChange={onChangeSpecies}
+                      value={petSpecies}>
+                      <option value="Cat">Cat</option>
+                      <option value="Dog">Dog</option>
+                    </select>
+                  </div>
+                  <div>
+                    <InputDatalist
+                      defaultOptions={breedOptions}
+                      id="pet-breed"
+                      defaultAnswers={petBreeds}
+                      placeholder="Choose breeds or type"
+                      onSubmitAnswer={onClickBreedOption}>
+                      Breed
+                    </InputDatalist>
+                  </div>
+
+                  <div>
+                    <label htmlFor="pet-active-level" className="block">
+                      Active level
+                    </label>
+                    <select
+                      id="pet-active-level"
+                      name="pet-active-level"
+                      className={textInputStyles}
+                      onChange={(event) => setPetActiveLevel(event.target.value)}
+                      value={petActiveLevel}>
+                      <option value="Very active">Very active</option>
+                      <option value="Moderately active">Moderately active</option>
+                      <option value="Quietly active">Quietly acitve</option>
+                    </select>
+                  </div>
+                  <div>
+                    <InputDatalist
+                      defaultOptions={characteristicsOption}
+                      id="pet-characteristic"
+                      defaultAnswers={petCharacteristics}
+                      placeholder="Choose breeds or type"
+                      onSubmitAnswer={onClickCharacteristicOptions}>
+                      Characteristics
+                    </InputDatalist>
+                  </div>
+                </>
+              )}
+            </div>
+            <div>
+              <h3 className="text-3xl border-b-2">Photos</h3>
+              <p
+                onClick={() => {
+                  setVisiblePetPhotos((prev) => !prev);
+                }}
+                className="cursor-pointer underline text-blue-500">
+                {visiblePetPhotos === false ? "Show more" : "Show less"}
+              </p>
+              {visiblePetPhotos && (
+                <>
+                  {" "}
+                  <div>
+                    <label
+                      htmlFor="pet-images"
+                      className="cursor-pointer bg-gray-400 text-white font-semibold p-2 block w-max my-2 rounded-md">
+                      Upload images
+                    </label>
+                    <input
+                      type="file"
+                      multiple
+                      id="pet-images"
+                      name="pet-images"
+                      className="hidden"
+                      accept=".jpg, .jpeg, .png"
+                      onChange={onChangeInsertImage}
+                    />
+                  </div>
+                  <div>
+                    <ImageList images={renderedImages} onClickDeleteImage={onChangeDeleteImage} />
+                  </div>
+                </>
+              )}
+            </div>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-3xl border-b-2">Adoption Fee</h3>
+              <div>
+                <label htmlFor="pet-fee" className="block">
+                  Fee ($)
+                </label>
+                <input
+                  type="number"
+                  id="pet-fee"
+                  name="pet-fee"
+                  className={textInputStyles}
+                  min={0}
+                  onChange={(event) => setPetAdoptionFee((prev) => event.target.value)}
+                  value={petAdoptionFee}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <h3 className="text-3xl border-b-2">About Pet</h3>
+              <div>
+                <textarea
+                  id="pet-about"
+                  className={`border resize-y ${textInputStyles} min-h-36`}
+                  onChange={(event) => setPetAbout(event.target.value)}
+                  placeholder="About the pet..."
+                  value={petAbout}
+                />
+              </div>
+            </div>
+            <div>
+              <input
+                type="submit"
+                value="Edit Pet"
+                className="uppercase bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white cursor-pointer p-3 font-semibold rounded-md w-full max-w-[720px] hover:scale-105 duration-200 text-xl"
+              />
+            </div>
+          </form>
+          <OnHoldForm onHoldDate={onHoldDate} onHoldEmail={onHoldEmail} pet_id={pet_id} adoptedEmail={adoptedEmail} />
+          <AdoptedForm adoptedDate={adoptedDate} adoptedEmail={adoptedEmail} pet_id={pet_id} />
+          <DeletePetForm pet_id={pet_id} />
+        </>
+      )}
+      {!visiblePetForm && <AdminPetDescription data={data} />}
     </div>
   );
 });

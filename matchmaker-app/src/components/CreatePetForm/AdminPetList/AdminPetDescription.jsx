@@ -1,42 +1,10 @@
 import { useEffect, useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-import { useSearchParams } from "react-router-dom";
-import { createSearchParams } from "react-router-dom";
 
 import AttributeList from "../../PetDescriptions/AttributeList/AttributeList";
 import noPetImage from "../../../assets/images/no-pet-image.png";
-import AdminPetList from "./AdminPetList";
 
-function AdminPetDescription({ user, isLoggedIn }) {
-  const [searchParams, _] = useSearchParams();
-  const [data, setData] = useState(null);
+function AdminPetDescription({ data }) {
   const [imageIndex, setImageIndex] = useState(0);
-
-  const pet_id = searchParams.get("pet_id");
-
-  useEffect(() => {
-    if (pet_id !== null) {
-      const searchQuery = createSearchParams({ pet_id: pet_id }).toString();
-
-      setImageIndex(0);
-      const BASE_API_URL = import.meta.env.VITE_API_URL;
-      const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
-
-      fetch(`${BASE_API_URL}/${PETS_ENDPOINT}?${searchQuery}`, { method: "GET" })
-        .then((response) => response.json())
-        .then((data) => {
-          setData((preState) => data.content[0]);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }, [pet_id]);
-
-  if (pet_id === null) {
-    return <AdminPetList />;
-  }
 
   if (data === null) {
     return <></>;

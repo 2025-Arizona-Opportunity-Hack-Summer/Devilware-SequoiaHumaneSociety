@@ -11,6 +11,8 @@ function OnHoldForm({ onHoldEmail, onHoldDate, pet_id, adoptedEmail }) {
     setDate((prev) => onHoldDate);
     setUserEmail((prev) => onHoldEmail);
   }, [onHoldEmail]);
+
+  console.log(userEmail);
   const textInputStyles =
     "border rounded-lg p-2 focus:border-orange-500  outline-0 w-full max-w-[720px] italic font-[500]";
   const buttonStyles =
@@ -73,14 +75,16 @@ function OnHoldForm({ onHoldEmail, onHoldDate, pet_id, adoptedEmail }) {
           <input
             type="button"
             value="Remove this pet from on-hold list"
-            disabled={userEmail === null}
+            disabled={userEmail === null || userEmail === undefined}
             className={`${buttonStyles} text-[#7251b5]`}
             onClick={onClickRemoveOnHold}
           />
           <input
             type="submit"
             value="Set this pet to be on-hold"
-            disabled={userEmail !== null || (adoptedEmail !== null && adoptedEmail !== undefined)}
+            disabled={
+              (userEmail !== null && userEmail !== undefined) || (adoptedEmail !== null && adoptedEmail !== undefined)
+            }
             className={`${buttonStyles} bg-[#7251b5] text-white`}
           />
         </div>

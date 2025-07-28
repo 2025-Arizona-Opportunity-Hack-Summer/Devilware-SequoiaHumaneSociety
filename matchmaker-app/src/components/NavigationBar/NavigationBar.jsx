@@ -2,7 +2,7 @@ import { withAuthInfo } from "@propelauth/react";
 import { useLogoutFunction } from "@propelauth/react";
 import { useSelector } from "react-redux";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 
 import { userSlice } from "../../redux/UserInfoSlice";
@@ -12,11 +12,11 @@ import SessionStorage from "../../features/sessionStorage";
 
 import "./NavigationBar.css";
 
-export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
+export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass }) {
   const userInfo = useSelector((store) => store[userSlice.name]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const logout = useLogoutFunction();
 
   const navLinkClass = ({ isActive }) =>
@@ -34,6 +34,12 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
       isActive ? "bg-[#7C0F0F] text-white" : "text-[#7C0F0F] hover:bg-[#7C0F0F]/10"
     }`;
 
+  useEffect(() => {
+    if (userClass !== null && userClass.getOrgs().length > 0) {
+      setIsAdmin((prev) => true);
+    }
+  }, [user]);
+
   const closeMenu = () => setMenuOpen(false);
   const toggleMenu = () => setMenuOpen((prev) => !prev);
   const toggleProfile = () => setProfileOpen((prev) => !prev);
@@ -43,6 +49,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
     Cookies.remove("email-auth");
     logout(true);
   };
+
   return (
     <nav className="w-full bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-2 py-3 md:px-3 md:py-3">
@@ -58,15 +65,39 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
 
         {/* Desktop Navigation - Centered - Hidden at smaller desktop sizes when items would overlap */}
         <div className="hidden xl:flex xl:absolute xl:left-1/2 xl:transform xl:-translate-x-1/2">
-          <ul 
-            className="flex flex-row items-center gap-3" 
-            style={{ fontFamily: 'Koh Santepheap, serif' }}
-          >
-            <li><NavLink to="/" className={navLinkClass}>Home</NavLink></li>
-            <li><NavLink to="/foster" className={navLinkClass}>Foster</NavLink></li>
-            <li><NavLink to="/volunteer" className={navLinkClass}>Volunteer</NavLink></li>
-            <li><NavLink to="/adopt" className={navLinkClass}>Adopt</NavLink></li>
-            <li><NavLink to="/match" className={navLinkClass}>Match</NavLink></li>
+          <ul className="flex flex-row items-center gap-3" style={{ fontFamily: "Koh Santepheap, serif" }}>
+            {isAdmin && (
+              <li>
+                <NavLink to="/petadmin" className={navLinkClass}>
+                  Pet Admin
+                </NavLink>
+              </li>
+            )}
+            <li>
+              <NavLink to="/" className={navLinkClass}>
+                Home
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/foster" className={navLinkClass}>
+                Foster
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/volunteer" className={navLinkClass}>
+                Volunteer
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/adopt" className={navLinkClass}>
+                Adopt
+              </NavLink>
+            </li>
+            <li>
+              <NavLink to="/match" className={navLinkClass}>
+                Match
+              </NavLink>
+            </li>
           </ul>
         </div>
 
@@ -90,9 +121,11 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
         {isLoggedIn && (
           <div className="hidden xl:flex flex-col relative items-center">
             <div className="flex items-center gap-2">
-              <Link to="/favorite">
-                <HeartSVG />
-              </Link>
+              {!isAdmin && (
+                <Link to="/favorite">
+                  <HeartSVG />
+                </Link>
+              )}
               <button
                 style={{ fontFamily: "Koh Santepheap, serif" }}
                 className="bg-[#7C0F0F] p-2 rounded-md cursor-pointer"
@@ -102,24 +135,29 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
             </div>
             {profileOpen && (
               <div className="absolute w-max top-[40px] right-0 flex flex-col items-start shadow-2xl z-50 bg-[#dee2e6] p-6 text-[#495057] rounded-lg gap-3 profile-menu">
-                <div className="flex flex-col items-center">
-                  <img src={shsLogo} alt="shs" className="w-24" />
-                  <p className=" border-[#ced4da] font-semibold text-xl">
-                    {userInfo === null ? "" : `${userInfo.name.firstName} ${userInfo.name.lastName}`}
-                  </p>
-                  <p style={{ fontFamily: "'Koulen', sans-serif" }} className="border-[#ced4da] text-sm">
-                    {user.email}
-                  </p>
-                  <button className="mt-2 bg-[#6c757d] text-[#ced4da] border-2 border-[#ced4da] p-3 rounded-lg cursor-pointer hover:bg-[#7C0F0F]">
-                    Manage your Sequioa account
-                  </button>
-                </div>
-                <Link
-                  to="/favorite"
-                  className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md"
-                  style={{ fontFamily: "Koh Santepheap, serif" }}>
-                  Favorites
-                </Link>
+                {!isAdmin && (
+                  <>
+                    <div className="flex flex-col items-center">
+                      <img src={shsLogo} alt="shs" className="w-24" />
+                      <p className=" border-[#ced4da] font-semibold text-xl">
+                        {userInfo === null ? "" : `${userInfo.name.firstName} ${userInfo.name.lastName}`}
+                      </p>
+                      <p style={{ fontFamily: "'Koulen', sans-serif" }} className="border-[#ced4da] text-sm">
+                        {user.email}
+                      </p>
+                      <button className="mt-2 bg-[#6c757d] text-[#ced4da] border-2 border-[#ced4da] p-3 rounded-lg cursor-pointer hover:bg-[#7C0F0F]">
+                        Manage your Sequioa account
+                      </button>
+                    </div>
+                    <Link
+                      to="/favorite"
+                      className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md"
+                      style={{ fontFamily: "Koh Santepheap, serif" }}>
+                      Favorites
+                    </Link>
+                  </>
+                )}
+
                 <button
                   onClick={onClickLogout}
                   className="cursor-pointer w-full p-2 text-left hover:bg-[#7C0F0F] hover:text-white rounded-md"
@@ -181,18 +219,47 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user }) {
         {/* Scrollable Mobile Navigation Links Container */}
         <div className="h-full overflow-y-auto pb-20">
           <div className="px-4 py-6">
-            <ul 
-              className="flex flex-col items-center gap-4" 
-              style={{ fontFamily: 'Koh Santepheap, serif' }}
-            >
-              <li><NavLink to="/" className={mobileNavLinkClass}>Home</NavLink></li>
-              <li><NavLink to="/foster" className={mobileNavLinkClass}>Foster</NavLink></li>
-              <li><NavLink to="/volunteer" className={mobileNavLinkClass}>Volunteer</NavLink></li>
-              <li><NavLink to="/donate" className={mobileNavLinkClass}>Donate</NavLink></li>
-              <li><NavLink to="/adopt" className={mobileNavLinkClass}>Adopt</NavLink></li>
-              <li><NavLink to="/match" className={mobileNavLinkClass}>Match</NavLink></li>
-              <li><NavLink to="/sign-in" className={mobileNavLinkClass}>Sign In</NavLink></li>
-              <li><NavLink to="/register" className={mobileNavLinkClass}>Register</NavLink></li>
+            <ul className="flex flex-col items-center gap-4" style={{ fontFamily: "Koh Santepheap, serif" }}>
+              <li>
+                <NavLink to="/" className={mobileNavLinkClass}>
+                  Home
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/foster" className={mobileNavLinkClass}>
+                  Foster
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/volunteer" className={mobileNavLinkClass}>
+                  Volunteer
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/donate" className={mobileNavLinkClass}>
+                  Donate
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/adopt" className={mobileNavLinkClass}>
+                  Adopt
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/match" className={mobileNavLinkClass}>
+                  Match
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/sign-in" className={mobileNavLinkClass}>
+                  Sign In
+                </NavLink>
+              </li>
+              <li>
+                <NavLink to="/register" className={mobileNavLinkClass}>
+                  Register
+                </NavLink>
+              </li>
             </ul>
           </div>
         </div>

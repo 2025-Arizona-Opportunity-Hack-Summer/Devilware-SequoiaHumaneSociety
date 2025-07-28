@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
 import { UserClass, withAuthInfo } from "@propelauth/react";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
@@ -19,6 +19,7 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHe
   const dispatch = useDispatch();
   const isMatchPage = location.pathname === "/match";
   const isAdoptPage = location.pathname.includes("/adopt");
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadUser() {
@@ -28,8 +29,6 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHe
       let userInfo;
 
       if (userClass.getOrgs().length > 0) {
-        // They are admin
-        console.log(userClass.getOrgs()[0].orgName);
       } else {
         try {
           userInfo = await fetchFindUserByEmail(user.email);

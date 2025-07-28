@@ -13,7 +13,7 @@ import noPetImage from "../../assets/images/no-pet-image.png";
 import { fetchUpdateFavoritePets } from "../../features/fetchUserRoutes";
 import "./PetDescriptions.css";
 
-export default withAuthInfo(function PetDescriptions({ user, isLoggedIn }) {
+export default withAuthInfo(function PetDescriptions({ user, isLoggedIn, userClass }) {
   const dispatch = useDispatch();
   const [searchParams, _] = useSearchParams();
   const userInfo = useSelector((store) => store[userSlice.name]);
@@ -21,8 +21,14 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn }) {
   const [imageIndex, setImageIndex] = useState(0);
   const [visibleRequireModal, setVisibleRequireModal] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const pet_id = searchParams.get("pet_id");
 
+  useEffect(() => {
+    if (userClass.getOrgs().length > 0) {
+      setIsAdmin((prev) => true);
+    }
+  }, []);
   useEffect(() => {
     const searchQuery = createSearchParams({ pet_id: pet_id }).toString();
 
@@ -217,20 +223,22 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn }) {
             </div>
           </div>
 
-          <div className="lg:mt-10">
-            <div className="flex flex-col gap-2 w-max m-auto">
-              <button
-                className="pet-description-button bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] hover:scale-105 duration-150"
-                onClick={onClickApplyForAdoption}>
-                <span>Apply for adoption</span>
-              </button>
-              <button
-                className="pet-description-button bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] hover:scale-105 duration-150"
-                onClick={onClickAddToFavorite}>
-                <span>&#x2764; {!isFavorite ? "Add to favorites" : "Remove from favorites"}</span>
-              </button>
+          {!isAdmin && (
+            <div className="lg:mt-10">
+              <div className="flex flex-col gap-2 w-max m-auto">
+                <button
+                  className="pet-description-button bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] hover:scale-105 duration-150"
+                  onClick={onClickApplyForAdoption}>
+                  <span>Apply for adoption</span>
+                </button>
+                <button
+                  className="pet-description-button bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] hover:scale-105 duration-150"
+                  onClick={onClickAddToFavorite}>
+                  <span>&#x2764; {!isFavorite ? "Add to favorites" : "Remove from favorites"}</span>
+                </button>
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
       <RequiredSignInModal visible={visibleRequireModal} setVisible={setVisibleRequireModal} />

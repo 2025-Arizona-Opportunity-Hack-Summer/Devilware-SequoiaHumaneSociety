@@ -12,7 +12,6 @@ function OnHoldForm({ onHoldEmail, onHoldDate, pet_id, adoptedEmail }) {
     setUserEmail((prev) => onHoldEmail);
   }, [onHoldEmail]);
 
-  console.log(userEmail);
   const textInputStyles =
     "border rounded-lg p-2 focus:border-orange-500  outline-0 w-full max-w-[720px] italic font-[500]";
   const buttonStyles =

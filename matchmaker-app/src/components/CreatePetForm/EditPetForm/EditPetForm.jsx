@@ -5,12 +5,11 @@ import { useSearchParams, createSearchParams } from "react-router";
 import { fetchGetPet, fetchUpdatePet } from "../../../features/fetchPetRoutes";
 
 import ImageList from "../ImagesList";
-import EditPetList from "./EditPetList";
+import EditPetList from "./AdminPetList";
 import OnHoldForm from "./OnHoldForm";
 import AdoptedForm from "./AdoptedForm";
 import DeletePetForm from "./DeletePetForm";
-import AdminPetDescription from "../AdminPetList/AdminPetDescription";
-import PetInfo from "../../MatchedPets/PetInfo/PetInfo";
+import AdminPetDescription from "./AdminPetDescription";
 
 export default withAuthInfo(function EditPetForm() {
   const [seachParams, _] = useSearchParams();

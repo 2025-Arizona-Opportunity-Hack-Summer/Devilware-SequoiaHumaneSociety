@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import AttributeList from "../../PetDescriptions/AttributeList/AttributeList";
 import noPetImage from "../../../assets/images/no-pet-image.png";

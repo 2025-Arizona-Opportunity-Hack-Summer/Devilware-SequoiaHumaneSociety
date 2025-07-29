@@ -66,7 +66,11 @@ async function findPets(req, res, next) {
     });
   } catch (err) {
     console.log(err);
-    res.status(400).json({ description: "Cannot find pet" });
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
   }
 }
 
@@ -92,7 +96,11 @@ async function createPet(req, res, next) {
 
     res.status(201).json(newPet);
   } catch (err) {
-    res.status(400).json({ message: "Cannot create pet" });
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
   }
 }
 
@@ -108,7 +116,10 @@ async function updatePet(req, res, next) {
       .findOne({ _id: ObjectId.createFromHexString(pet_id) });
 
     if (pet === null) {
-      res.status(400).json({ messsage: "Cannot find pet" });
+      res.status(400).json({
+        error: "PetNotFound",
+        message: "Cannot find pet",
+      });
       return;
     }
 
@@ -165,6 +176,7 @@ async function setPetOnHold(req, res, next) {
         error: "PetNotFound",
         message: "Cannot find pet",
       });
+      return;
     }
 
     if (pet.onHoldEmail === undefined || pet.onHoldEmail === null) {
@@ -217,6 +229,7 @@ async function setPetAdopted(req, res, next) {
         error: "PetNotFound",
         message: "Cannot find pet",
       });
+      return;
     }
 
     if (pet.adoptedEmail === undefined || pet.adoptedEmail === null) {
@@ -261,6 +274,7 @@ async function deletePet(req, res, next) {
         error: "PetNotFound",
         message: "Cannot find pet",
       });
+      return;
     }
 
     if (pet.images.length !== 0) {
@@ -286,7 +300,7 @@ async function deletePet(req, res, next) {
       .collection("pets")
       .deleteOne({ _id: ObjectId.createFromHexString(pet_id) });
 
-    res.status(204).json({});
+    res.status(204).json();
   } catch (err) {
     res.status(500).json({
       error: "InternalServerError",

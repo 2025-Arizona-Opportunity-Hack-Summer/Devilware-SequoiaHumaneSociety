@@ -4,7 +4,7 @@ info:
   description: |
     # About Us
       **The Sequoia Humane Society** is a non-profit with the mission of providing shelter and humane care for animals. We work vigorously to reduce the tragedy of euthanasia caused by too many animals, and not enough homes.<br></br>
-      **The "AI-Powered Pet Matchmaker"** streamlines pet adoption by using intelligent algorithms to match potential adopters with compatible animals based on lifestyle, living situation, experience level, and preferences.<br></br>
+      **The AI-Powered Pet Matchmaker** streamlines pet adoption by using intelligent algorithms to match potential adopters with compatible animals based on lifestyle, living situation, experience level, and preferences.<br></br>
       This document outlines our **REST APIs**, detailing the requests and responses for seamless communication with the `React` frontend. This should help other developers understand our integration points clearly.
   version: '0.0.1'
   termsOfService:  https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety
@@ -25,26 +25,11 @@ tags:
     description: Users-related operations
   - name: Pets
     description: Pets-related operations
+  - name: Images
+    description: Images-related operations (with AWS)
+    externalDocs:
+      url: https://www.youtube.com/watch?v=eQAIojcArRY&t=996s
 paths:
-  /users/{email}:
-    get:
-      tags: [Users]
-      summary: Find user by email
-      description: |
-        Returns user information stored in Sequoia Humane Soceity given by email
-      parameters:
-        - $ref: "#/components/parameters/emailPathParam"
-      responses:
-        '200':
-          description: Find user successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/User"
-        '400':
-          $ref: "#/components/responses/UserNotFound"
-        '500':
-          $ref: "#/components/responses/InternalServerError"
   /users:
     post:
       tags: [Users]
@@ -70,6 +55,25 @@ paths:
                 favoritePets: []
                 adoptedPets: []
                 matchQuestions: {}
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /users/{email}:
+    get:
+      tags: [Users]
+      summary: Find user by email
+      description: |
+        Returns user information stored in Sequoia Humane Soceity given by email
+      parameters:
+        - $ref: "#/components/parameters/emailPathParam"
+      responses:
+        '200':
+          description: Find user successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        '400':
+          $ref: "#/components/responses/UserNotFound"
         '500':
           $ref: "#/components/responses/InternalServerError"
   /users/{email}/favorite-pets:
@@ -133,7 +137,7 @@ paths:
           $ref: "#/components/responses/UserNotFound"
         '500':
           $ref: "#/components/responses/InternalServerError"
-  /users/{email}/questionnaire/{questionId}:
+  /users/{email}/questionnaire/{question_id}:
     put:
       tags: [Users]
       summary: Update user's match question by id
@@ -143,7 +147,7 @@ paths:
         - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/emailPathParam"
-        - name: questionId
+        - name: question_id
           in: path
           required: true
           schema:
@@ -168,7 +172,268 @@ paths:
           $ref: "#/components/responses/UserNotFound"
         '500':
           $ref: "#/components/responses/InternalServerError"
+  /pets:
+    get:
+      tags: [Pets]
+      summary: Find pets
+      description: List all pets in Sequioa Human Society
+      parameters:
+        - name: species
+          in: query
+          schema:
+            type: string
+            example: Cat
+      responses:
+        '200':
+          description: List of pet
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  pets:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/Pet"
+                  breeds:
+                    description: a list of unique breeds from `pets`
+                    type: array
+                    items:
+                      type: string
+                    example: [Mix, Rottweiler, Chihuahua]
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+    post:
+      tags: ['Pets']
+      summary: Create pet
+      description: Post pet information to Sequoia Humane Society
+      security: 
+        - BearerAuth: []
+      requestBody:
+        $ref: "#/components/requestBodies/Pet"
+      responses:
+        '201':
+          description: Create pet successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /pets/{pet_id}:
+    get:
+      tags: [Pets]
+      summary: Find pet by ID
+      description: List pet's info in Sequoia Humane Society
+      parameters:
+        - $ref: "#/components/parameters/petIdPathParams"
+      responses:
+        '200':
+          description: Pet's info
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        '500':
+          $ref: "#/components/responses/InternalServerError"         
+    put:
+      tags: ["Pets"]
+      summary: Update pet's info
+      description: Assign the pet's info to request body value
+      security: 
+        - BearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/petIdPathParams"
+      requestBody:
+        $ref: "#/components/requestBodies/Pet"
+      responses:
+        '200':
+          description: Update pet's info successfully
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pet"
+        '400':
+          $ref: "#/components/responses/PetNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+    delete:
+      tags: [Pets]
+      summary: Delete pet's info
+      description: Delete pet permanently
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/petIdPathParams"
+      responses:
+        '204':
+          description: Delete pet successfully
+        '400':
+          $ref: "#/components/responses/PetNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /pets/{pet_id}/on-hold/{email}:
+    put:
+      tags: [Pets]
+      summary: Set or remove the pet from on-hold status
+      operationId: putOnHoldPet
+      description: |
+        **On-hold** pets are pets having a visit scheduled with the user. They will be temporarily hidden from other users'
+        pages.<br><br/>
+        This API will toggle on-hold status of the current pet. The email of user having on-hold pet will be saved.
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/petIdPathParams"
+        - $ref: "#/components/parameters/emailPathParam"
+      responses:
+        '200':
+          description: The pet is in on-hold list
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      on_hold_email:
+                        type: string
+                        nullable: true
+                        example: "devilware@gmail.com"
+                      on_hold_date:
+                        type: string
+                        format: date
+                        nullable: true
+                  - $ref: "#/components/schemas/Pet"
+              examples:
+                NonOnHoldPet:
+                  summary: Pet that is not in on-hold list
+                  value:
+                    on_hold_email: devilware@gmail.com
+                    on_hold_date: 2025-07-29
+                    _id: "6868a7c4644c49a33afa421c"
+                OnHoldPet:
+                  summary: Pet that is in on-hold list
+                  value:
+                    on_hold_email: null
+                    on_hold_date: null
+                    _id: 6868a7c4644c49a33afa421c
+        '400':
+          $ref: "#/components/responses/PetOrUserNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /pets/{pet_id}/adopted/{email}:
+    put:
+      tags: [Pets]
+      summary: Set or remove the pet from newly adopted status
+      description: |
+        **Newly adopted** pets are pets that have been adopted within a short time. In other words, they are pets with a
+        high chance of being returned to the shelter.<br></br>
+        This API will toggle newly adopted status of the current pet. The email of user having newly adopted pet will be saved.<br></br>
+        Note: Newly adopted pets have **higher priority** than on-hold pets. Once you set the pet to be newly adopted, the
+        email in this on-hold pet will be removed.
+      security:
+        - BearerAuth: []
+      parameters:
+        - $ref: "#/components/parameters/petIdPathParams"
+        - $ref: "#/components/parameters/emailPathParam"
+      responses:
+        '200':
+          description: The pet is in newly adopted pet
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    properties:
+                      adopted_email:
+                        type: string
+                        nullable: true
+                        example: "devilware@gmail.com"
+                      adopted_date:
+                        type: string
+                        format: date
+                        nullable: true
+                      on_hold_email:
+                        type: string
+                        nullable: true
+                        example: "devilware@gmail.com"
+                      on_hold_date:
+                        type: string
+                        format: date
+                        nullable: true
+                  - $ref: "#/components/schemas/Pet"
+              examples:
+                NonOnHoldPet:
+                  summary: Pet that is not in on-hold list
+                  value:
+                    adopted_email: devilware@gmail.com
+                    adopted_date: 2025-07-29
+                    on_hold_email: null
+                    on_hold_date: null
+                    _id: "6868a7c4644c49a33afa421c"
+                    animal_id: SEQ-A-6165
+                    name: "Brownie"
+                OnHoldPet:
+                  summary: Pet that is in on-hold list
+                  value:
+                    adopted_email: null
+                    adopted_date: null
+                    on_hold_email: null
+                    on_hold_date: null
+                    _id: "6868a7c4644c49a33afa421c"
+                    animal_id: SEQ-A-6165
+                    name: "Brownie"
+        '400':
+          $ref: "#/components/responses/PetOrUserNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /pets/matchmaker:
+    get:
+      tags: [Pets]
+      summary: Find pet given the user' questionnaire
+      description: Find pet that match the user' questionnaire
+      security:
+        - BearerAuth: []
+      
+      parameters:
+        - name: matchQuestion
+          in: query
+          schema:
+            type: object
+      responses:
+        '200':
+            description: List of pets
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    pets:
+                      type: array
+                      items:
+                        $ref: "#/components/schemas/Pet"
+                    breeds:
+                      description: a list of unique breeds from `pets`
+                      type: array
+                      items:
+                        type: string
+                      example: [Mix, Rottweiler, Chihuahua]
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /images:
+    post:
+      tags: [Images]
+      summary: Upload images to AWS
+      description: |
+        Images are stored in AWS. This API will create images in AWS and images store in database are just the file name, in other words, they are list of strings instead of directory of files.   
+      responses:
+        '201':
+          description: Images are in AWS
+        '500':
+          $ref: "#/components/responses/InternalServerError"
 
+        
+    
 components:
   parameters:
     emailPathParam:
@@ -178,6 +443,13 @@ components:
       schema:
         type: string
       example: devilware@gmail.com
+    petIdPathParams:
+      name: pet_id
+      in: path
+      required: true
+      schema:
+        type: string
+      example: 6868a7c4644c49a33afa4217
   schemas:
     User:
       type: object
@@ -221,10 +493,13 @@ components:
     Pet:
       type: object
       properties:
-        id:
+        _id:
           type: string
           readOnly: true
           example: 6868a7c4644c49a33afa421c
+        animal_id: 
+          type: string
+          example: SEQ-A-6165
         name:
           type: string
           example: Brownie
@@ -251,12 +526,16 @@ components:
           items:
             type: string
           example: [Rottweiler, Mix]
+        active_level:
+          type: string
+          enum: [Very active, Moderately Active, Quietly Active]
+          example: Very active
         characteristic:
           type: array
           items:
             type: string
-          example: [Energetic,Active,High Energy]
-        adoptionFee:
+          example: [Energetic,High Energy]
+        adoption_fee:
           type: number
           example: 150
           description: |
@@ -266,7 +545,7 @@ components:
           items:
             type: string
           example: [brownie.jpg, brownie_1.png]
-      required: [id, age, species, weight, breed, characteristic, adoptionFee, sex, name]
+      required: [id, age, species, weight, breed, characteristic, adoptionFee, sex, name, animal_id, active_level, _id]
   requestBodies:
     User:
       content:
@@ -297,6 +576,58 @@ components:
                 enum: [Male, Female, Other]
                 example: Male
             required: [email, name]
+    Pet:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              name:
+                type: string
+                example: Brownie
+              animal_id:
+                type: string
+                example: SEQ-A-6061
+              species:
+                type: string
+                example: Dog
+              breed:
+                type: array
+                items:
+                  type: string
+                example: [Rottweiler, Mix]
+              sex:
+                type: string
+                enum: [Male, Female]
+                default: Male
+              age:
+                type: integer
+                example: 1
+                description: |
+                  ***age*** is counted as number of months
+              weight:
+                type: number
+                example: 72.2
+                description: |
+                  ***weight*** is measured by lbs
+              active_level:
+                type: string
+                enum: ["Very active", "Moderately active", "Quietly active"]
+                example: Very active
+              characteristic:
+                type: array
+                items: 
+                  type: string
+                example: [Energetic, Energy]
+              adoption_fee:
+                type: number
+                example: 150
+              images:
+                type: array
+                items:
+                  type: string
+                example: ["brownie.jpg", "brownie_1.png"]
+            required: [name, animal_id, species, breed, sex, age, weight, active_level, characteristic, adoption_fee, images]
   responses:
     InternalServerError:
       description: |
@@ -327,6 +658,41 @@ components:
               message:
                 type: string
                 example: Cannot find user
+    PetNotFound:
+      description: Pet does not exist
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error: 
+                type: string
+                example: PetNotFound
+              message:
+                type: string
+                example: Cannot find pet 
+    PetOrUserNotFound:
+      description: Pet or User does not exist
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error: 
+                type: string
+              message:
+                type: string
+          examples:
+            PetNotFound:
+              summary: Pet does not exist
+              value:
+              - error: PetNotFound
+                message: Cannot find pet
+            UserNotFound:
+              summary: User does not exist
+              value:
+                - error: UserNotFound
+                  message: Cannot find user
   securitySchemes:
     BearerAuth:
       type: http

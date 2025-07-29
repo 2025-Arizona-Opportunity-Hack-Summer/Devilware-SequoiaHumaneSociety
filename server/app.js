@@ -92,10 +92,13 @@ app.post("/images", upload.array("images"), async (req, res) => {
 
     await Promise.all(uploadPromises);
 
-    res.status(200).json({ message: "Upload images successfully" });
+    res.status(201).json();
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ messsage: "Cannot upload images" });
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
   }
 });
 
@@ -122,10 +125,13 @@ app.delete("/images", async (req, res) => {
 
   try {
     await Promise.all(deletePromises);
-    res.status(200).json({ deleteImages });
+    res.status(204).json();
   } catch (err) {
-    console.log(err);
-    res.status(400).json({ messsage: "Cannot delete images" });
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
   }
 });
 mongoClient

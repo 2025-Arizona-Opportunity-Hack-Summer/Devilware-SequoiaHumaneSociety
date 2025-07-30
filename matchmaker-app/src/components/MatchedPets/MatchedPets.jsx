@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
-import FilterModal from "../Modal/FilterModal/FilterModal";
+// import FilterModal from "../Modal/FilterModal/FilterModal";
+import FilterModal from "../../modules/pets/components/match/FilterModal/FilterModal";
 import GoBackButton from "./GoBackButton/GoBackButton";
 import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
 import PetList from "./PetList/PetList";

@@ -172,6 +172,25 @@ async function fetchDeleletePet(pet_id) {
   return pet_id;
 }
 
+async function fetchMatchedPets(matchAnswers) {
+  let data;
+  const searchParams = createSearchParams(matchAnswers).toString();
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}/matchmaker?${searchParams}`;
+
+  try {
+    const response = await fetch(endpoint);
+
+    if (!response.ok) {
+      throw Error(error.type);
+    }
+
+    data = await response.json();
+  } catch (err) {
+    throw Error(err);
+  }
+
+  return data;
+}
 export {
   fetchGetPet,
   fetchCreatePet,
@@ -180,4 +199,5 @@ export {
   fetchSetPetOnHold,
   fetchSetPetAdopted,
   fetchDeleletePet,
+  fetchMatchedPets,
 };

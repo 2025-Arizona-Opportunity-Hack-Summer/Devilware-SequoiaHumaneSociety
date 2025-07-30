@@ -309,6 +309,56 @@ async function deletePet(req, res, next) {
     });
   }
 }
+
+async function findMatchedPets(req, res, next) {
+  let {} = req.query;
+
+  try {
+    const pipeline = [
+      {
+        $facet: {
+          data: [],
+          breeds: [
+            { $unwind: "$breed" },
+            { $group: { _id: "$breed" } },
+            { $group: { _id: null, values: { $addToSet: "$_id" } } },
+            { $project: { _id: 0, values: 1 } },
+          ],
+        },
+      },
+    ];
+
+    const pets = await mongoClient.getDB().collection("pets").aggregate(pipeline).toArray();
+
+    for (const pet of pets[0].data) {
+      // const imagesUrl = [];
+      const imagesUrlPromises = [];
+
+      for (const image of pet.images) {
+        const getObjectParam = {
+          Bucket: process.env.BUCKET_NAME,
+          Key: image,
+        };
+        const command = new GetObjectCommand(getObjectParam);
+        const url = getSignedUrl(s3Client, command, { expiresIn: 3600 * 24 });
+        imagesUrlPromises.push(url);
+      }
+      pet.imagesURL = await Promise.all(imagesUrlPromises);
+    }
+
+    res.status(200).json({
+      pets: pets[0].data,
+      breeds: pets[0].breeds[0].values,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
+  }
+}
 module.exports = {
   findPets,
   createPet,
@@ -316,4 +366,5 @@ module.exports = {
   setPetOnHold,
   setPetAdopted,
   deletePet,
+  findMatchedPets,
 };

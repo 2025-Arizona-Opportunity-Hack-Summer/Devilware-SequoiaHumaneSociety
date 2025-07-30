@@ -16,6 +16,7 @@ import ProgressBar from "./ProgressBar/ProgressBar";
 import SessionStorage from "../../features/sessionStorage";
 
 import "./Questions.css";
+import { fetchMatchedPets } from "../../features/fetchPetRoutes";
 
 export default withAuthInfo(function Questions({ visible, setIsQuestionPage, setIsLoading }) {
   const dispatch = useDispatch();
@@ -46,9 +47,9 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     const petList = SessionStorage.getItem("petList");
 
     if (petList !== null) {
-      // setCurrQuestions((prev) => 1);
-      // setIsQuestionPage((preState) => false);
-      // dispatch(matchedPetListSlice.actions.assign(petList));
+      setCurrQuestions((prev) => 1);
+      setIsQuestionPage((preState) => false);
+      dispatch(matchedPetListSlice.actions.assign(petList));
     } else {
       const petQuestionId = ["p1", "p2", "p3", "p4"];
 
@@ -86,42 +87,19 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     setCurrQuestions((prev) => 1);
     setIsLoading((preState) => true);
 
-    const petList = SessionStorage.getItem("petList");
+    try {
+      const data = await fetchMatchedPets({});
 
-    if (petList !== null) {
-      setCurrQuestions((prev) => 1);
-      setIsQuestionPage((preState) => false);
-      setIsLoading((prev) => false);
-      dispatch(matchedPetListSlice.actions.assign(petList));
-    } else {
-      try {
-        const API_BASE_URL = import.meta.env.VITE_API_URL;
-        const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
-
-        const url = `${API_BASE_URL}/${PETS_ENDPOINT}`;
-
-        const jsonResponse = await fetch(url, {
-          method: "GET",
-          headers: {
-            "Content-type": "application/json",
-          },
-        });
-
-        const data = await jsonResponse.json();
-
-        if (jsonResponse.ok) {
-          setTimeout(() => {
-            setIsQuestionPage((preState) => false);
-            dispatch(matchedPetListSlice.actions.assign(data.content));
-            SessionStorage.setItem("petList", data.content);
-            window.scroll(0, 0);
-            setIsLoading((preState) => false);
-          }, 5000);
-        }
-      } catch (err) {
+      setTimeout(() => {
+        setIsQuestionPage((preState) => false);
+        dispatch(matchedPetListSlice.actions.assign(data.pets));
+        SessionStorage.setItem("petList", data.pets);
+        window.scroll(0, 0);
         setIsLoading((preState) => false);
-        console.log(err);
-      }
+      }, 5000);
+    } catch (err) {
+      setIsLoading((preState) => false);
+      console.log(err);
     }
   };
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
+import InputCheckbox from "../../../../../../components/common/inputs/InputCheckbox";
 import { extractUniqueBreeds } from "../../../../utils/petUtils";
 
 function BreedFilter({ petList, breedFilter, setBreedFilter }) {

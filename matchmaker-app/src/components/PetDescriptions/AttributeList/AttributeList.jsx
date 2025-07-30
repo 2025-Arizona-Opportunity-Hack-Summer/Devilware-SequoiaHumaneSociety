@@ -1,7 +1,6 @@
 import "./AttributeList.css";
 
 function AttributeList({ attributes = [] }) {
-  console.log(attributes);
   const attributeItem = attributes.map((item) => (
     <li key={item} className="attribute-item w-max">
       {item}

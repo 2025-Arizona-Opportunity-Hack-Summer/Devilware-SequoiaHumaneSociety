@@ -88,7 +88,7 @@ paths:
       tags: [Users]
       summary: Toggle a pet's presence in a user's favorite pets list.
       description: |
-        This endpoint allows a user to add or remove a specific pet from their list of favorite animals. If the provided `pet_id` is not already in the user's `favoritePets` list, it will be added. If the `pet_id` is found in the list, it will be removed. This acts as a toggle mechanism.
+        Adds or removes the specified pet from the user's favorite pets list. If the `pet_id` is present, it's removed; otherwise, it's added.
       security: 
         - BearerAuth: []
       parameters:
@@ -137,7 +137,7 @@ paths:
       tags: [Users]
       summary: Update a user's pet matching questionnaire answers.
       description: |
-         This endpoint allows for the partial or complete update of a user's stored answers to the AI-Powered Pet Matchmaker questionnaire. The provided data will replace existing answers for specified questions, enabling dynamic adjustment of their pet matching preferences.
+        Overwrites a user's entire set of answers to the AI-Powered Pet Matchmaker questionnaire with the provided data.
       security: 
         - BearerAuth: []
       parameters:
@@ -168,7 +168,7 @@ paths:
       tags: [Users]
       summary: Update a specific answer to a user's pet matching questionnaire.
       description: |
-        This endpoint allows for the modification of a single answer within a user's AI-Powered Pet Matchmaker questionnaire. The specific question is identified by `question_id`, and its corresponding answer will be updated with the provided `value`.
+        Updates the answer for the specified `question_id` within a user's AI-Powered Pet Matchmaker questionnaire to the new `value`.
       security: 
         - BearerAuth: []
       parameters:
@@ -204,8 +204,8 @@ paths:
   /pets:
     get:
       tags: [Pets]
-      summary: Find pets
-      description: List all pets in Sequoia Human Society
+      summary: Find all available pets.
+      description: Returns a list of all pets' info currently available for adoption at the Sequoia Humane Society
       parameters:
         - name: species
           in: query
@@ -214,7 +214,7 @@ paths:
             example: Cat
       responses:
         '200':
-          description: List of pet
+          description: Successfully retrieved the list of pets.
           content:
             application/json:
               schema:
@@ -234,15 +234,15 @@ paths:
           $ref: "#/components/responses/InternalServerError"
     post:
       tags: ['Pets']
-      summary: Create pet
-      description: Post pet information to Sequoia Humane Society
+      summary: Add a new pet to the system.
+      description: Creates a new pet entry in the Sequoia Humane Society's database
       security: 
         - BearerAuth: []
       requestBody:
         $ref: "#/components/requestBodies/Pet"
       responses:
         '201':
-          description: Create pet successfully
+          description: The pet was successfully created and added to the system.
           content:
             application/json:
               schema:
@@ -252,23 +252,25 @@ paths:
   /pets/{pet_id}:
     get:
       tags: [Pets]
-      summary: Find pet by ID
-      description: List pet's info in Sequoia Humane Society
+      summary: Find a single pet's details by ID.
+      description: Returns the information for a specific pet from the Sequoia Humane Society's database, identified by its unique `pet_id`.
       parameters:
         - $ref: "#/components/parameters/petIdPathParam"
       responses:
         '200':
-          description: Pet's info
+          description: Successfully retrieved the pet's information.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pet"
+        '404':
+          $ref: "#/components/responses/PetNotFound"
         '500':
           $ref: "#/components/responses/InternalServerError"         
     put:
       tags: ["Pets"]
-      summary: Update pet's info
-      description: Assign the pet's info to request body value
+      summary: Update an entire pet's information.
+      description: Replaces all existing information for a specific pet with the data provided in the request body
       security: 
         - BearerAuth: []
       parameters:
@@ -276,40 +278,34 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/Pet"
       responses:
-        '200':
-          description: Update pet's info successfully
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Pet"
-        '400':
+        '204':
+          description: The pet's information was successfully updated
+        '404':
           $ref: "#/components/responses/PetNotFound"
         '500':
           $ref: "#/components/responses/InternalServerError"
     delete:
       tags: [Pets]
-      summary: Delete pet's info
-      description: Delete pet permanently
+      summary: Delete a pet from the system.
+      description: ermanently removes a specific pet and all its associated information from the Sequoia Humane Society's database, identified by its unique `pet_id`. This action is **irreversible**.
       security:
         - BearerAuth: []
       parameters:
         - $ref: "#/components/parameters/petIdPathParam"
       responses:
         '204':
-          description: Delete pet successfully
-        '400':
+          description: The pet was successfully deleted
+        '404':
           $ref: "#/components/responses/PetNotFound"
         '500':
           $ref: "#/components/responses/InternalServerError"
   /pets/{pet_id}/on-hold/{email}:
     put:
       tags: [Pets]
-      summary: Set or remove the pet from on-hold status
+      summary: Toggle a pet's on-hold status for a user
       operationId: putOnHoldPet
       description: |
-        **On-hold** pets are pets having a visit scheduled with the user. They will be temporarily hidden from other users'
-        pages.<br><br/>
-        This API will toggle on-hold status of the current pet. The email of user having on-hold pet will be saved.
+        Sets or removes a pet from **on-hold** status, linking it to a specific user's email. Pets on-hold are having a scheduled visit from user, and temporarily hidden from general viewing.
       security:
         - BearerAuth: []
       parameters:
@@ -317,49 +313,46 @@ paths:
         - $ref: "#/components/parameters/emailPathParam"
       responses:
         '200':
-          description: The pet is in on-hold list
+          description: The pet's on-hold status was successfully updated
           content:
             application/json:
               schema:
-                allOf:
-                  - type: object
-                    properties:
-                      on_hold_email:
-                        type: string
-                        nullable: true
-                        example: "john@doe.com"
-                      on_hold_date:
-                        type: string
-                        format: date
-                        nullable: true
-                  - $ref: "#/components/schemas/Pet"
+                type: object
+                properties:
+                  on_hold_email:
+                    type: string
+                    nullable: true
+                    example: "john@doe.com"
+                  on_hold_date:
+                    type: string
+                    format: date
+                    nullable: true
+                  pet_id:
+                    type: string
               examples:
                 NonOnHoldPet:
                   summary: Pet that is not in on-hold list
                   value:
                     on_hold_email: john@doe.com
                     on_hold_date: 2025-07-29
-                    _id: "6868a7c4644c49a33afa421c"
+                    pet_id: "6868a7c4644c49a33afa421c"
                 OnHoldPet:
                   summary: Pet that is in on-hold list
                   value:
                     on_hold_email: null
                     on_hold_date: null
-                    _id: 6868a7c4644c49a33afa421c
-        '400':
+                    pet_id: 6868a7c4644c49a33afa421c
+        '404':
           $ref: "#/components/responses/PetOrUserNotFound"
         '500':
           $ref: "#/components/responses/InternalServerError"
   /pets/{pet_id}/adopted/{email}:
     put:
       tags: [Pets]
-      summary: Set or remove the pet from newly adopted status
+      summary: Toggle a pet's newly adopted status.
       description: |
-        **Newly adopted** pets are pets that have been adopted within a short time. In other words, they are pets with a
-        high chance of being returned to the shelter.<br></br>
-        This API will toggle newly adopted status of the current pet. The email of user having newly adopted pet will be saved.<br></br>
-        Note: Newly adopted pets have **higher priority** than on-hold pets. Once you set the pet to be newly adopted, the
-        email in this on-hold pet will be removed.
+        Sets or removes a pet's **newly adopted** status, linking it to the adopting user's email. Newly adopted pets have a higher chance of being returned and are prioritized.<br></br>
+        Note: Setting a pet as newly adopted will automatically clear any existing **on-hold** status for that pet.
       security:
         - BearerAuth: []
       parameters:
@@ -371,67 +364,62 @@ paths:
           content:
             application/json:
               schema:
-                allOf:
-                  - type: object
-                    properties:
-                      adopted_email:
-                        type: string
-                        nullable: true
-                        example: "john@doe.com"
-                      adopted_date:
-                        type: string
-                        format: date
-                        nullable: true
-                      on_hold_email:
-                        type: string
-                        nullable: true
-                        example: "john@doe.com"
-                      on_hold_date:
-                        type: string
-                        format: date
-                        nullable: true
-                  - $ref: "#/components/schemas/Pet"
+                type: object
+                properties:
+                  adopted_email:
+                    type: string
+                    nullable: true
+                    example: "john@doe.com"
+                  adopted_date:
+                    type: string
+                    format: date
+                    nullable: true
+                  on_hold_email:
+                    type: string
+                    nullable: true
+                    example: "john@doe.com"
+                  on_hold_date:
+                    type: string
+                    format: date
+                    nullable: true
+                  pet_id:
+                    type: string
               examples:
                 NonOnHoldPet:
-                  summary: Pet that is not in on-hold list
+                  summary: Pet that is not in newly adopted list
                   value:
                     adopted_email: john@doe.com
                     adopted_date: 2025-07-29
                     on_hold_email: null
                     on_hold_date: null
-                    _id: "6868a7c4644c49a33afa421c"
-                    animal_id: SEQ-A-6165
-                    name: "Brownie"
+                    pet_id: "6868a7c4644c49a33afa421c"
                 OnHoldPet:
-                  summary: Pet that is in on-hold list
+                  summary: Pet that is in newly adopted list
                   value:
                     adopted_email: null
                     adopted_date: null
                     on_hold_email: null
                     on_hold_date: null
-                    _id: "6868a7c4644c49a33afa421c"
-                    animal_id: SEQ-A-6165
-                    name: "Brownie"
-        '400':
+                    pet_id: "6868a7c4644c49a33afa421c"
+        '404':
           $ref: "#/components/responses/PetOrUserNotFound"
         '500':
           $ref: "#/components/responses/InternalServerError"
   /pets/matchmaker:
     get:
       tags: [Pets]
-      summary: Find pet given the user' questionnaire
-      description: Find pet that match the user' questionnaire
+      summary: Find a pet that matches the user's questionnaire responses.
+      description: Returns a list of pet profiles that match the user's questionnaire input. The matching process considers various user preferences and pet attributes to ensure highly compatible recommendations.
       security:
         - BearerAuth: []
-      
       parameters:
-        - name: matchQuestion
+        - name: matchAnswers
           in: query
           schema:
             type: object
       responses:
         '200':
-            description: List of pets
+            description:  A list of pet profiles matching the questionnaire
             content:
               application/json:
                 schema:
@@ -720,9 +708,9 @@ components:
                 example: PetNotFound
               message:
                 type: string
-                example: Cannot find pet 
+                example: Cannot find a pet with the provided identifier.
     PetOrUserNotFound:
-      description: Pet or User does not exist
+      description: The requested pet or user resource was not found.
       content:
         application/json:
           schema:

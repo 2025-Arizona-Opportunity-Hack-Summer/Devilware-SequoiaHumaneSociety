@@ -11,7 +11,7 @@ info:
     # Images storage
     Our API leverages **AWS S3** for efficient and scalable storage of all image content. For guidance on setting up and utilizing AWS S3, please refer to <a href="https://www.youtube.com/watch?v=eQAIojcArRY&t=996s" target="_blank">this video tutorial</a>
   version: '0.0.1'
-  termsOfService:  https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety
+  # termsOfService:  https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety
   contact:
     name: API Support
     url:  https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety
@@ -19,12 +19,12 @@ info:
   license:
     name: Sequoia License
     url: https://github.com/2025-Arizona-Opportunity-Hack-Summer/Devilware-SequoiaHumaneSociety/blob/main/LICENSE
-servers:
-  - url: http://localhost:{port}
-    variables:
-      port:
-        default: "4041"
-  - url: https://devilware-sequoiahumanesociety-server.onrender.com
+# servers:
+#   - url: http://localhost:{port}
+#     variables:
+#       port:
+#         default: "4041"
+#   - url: https://devilware-sequoiahumanesociety-server.onrender.com
 tags:
   - name: Users
     description: Users-related operations
@@ -211,7 +211,13 @@ paths:
           in: query
           schema:
             type: string
-            example: Cat
+          examples:
+            AllPet:
+              summary: Find all pets' info
+              value: ""
+            CatOnly:
+              summary: Find all cats' info
+              value: "Cat"
       responses:
         '200':
           description: Successfully retrieved the list of pets.
@@ -223,7 +229,17 @@ paths:
                   pets:
                     type: array
                     items:
-                      $ref: "#/components/schemas/Pet"
+                      allOf:
+                        - $ref: "#/components/schemas/Pet"
+                        - type: object
+                          properties:
+                            imagesURL:
+                              description: Each `imagesURL` is the url of corresponding images stored in AWS
+                              type: array
+                              items:
+                                type: string
+                              example: "https://shs-ai-powered-pet-matchmaker.s3.us-east-1.amazonaws.com/lala.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAUDNSFG6NCEMX45M5%2F20250730%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250730T064657Z&X-Amz-Expires=86400&X-Amz-Signature=94891f25c62210c5ba9a87de69c0abb28b176ad4cffcfbf25c1a38524b2e4274&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+                      required: [imagesURL]
                   breeds:
                     description: a list of unique breeds from `pets`
                     type: array
@@ -262,7 +278,17 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pet"
+                allOf:
+                - $ref: "#/components/schemas/Pet"
+                - type: object
+                  properties:
+                    imagesURL:
+                      description: Each `imagesURL` is the url of corresponding images stored in AWS
+                      type: array
+                      items:
+                        type: string
+                      example: "https://shs-ai-powered-pet-matchmaker.s3.us-east-1.amazonaws.com/lala.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAUDNSFG6NCEMX45M5%2F20250730%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250730T064657Z&X-Amz-Expires=86400&X-Amz-Signature=94891f25c62210c5ba9a87de69c0abb28b176ad4cffcfbf25c1a38524b2e4274&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+                required: [imagesURL]
         '404':
           $ref: "#/components/responses/PetNotFound"
         '500':
@@ -287,7 +313,7 @@ paths:
     delete:
       tags: [Pets]
       summary: Delete a pet from the system.
-      description: ermanently removes a specific pet and all its associated information from the Sequoia Humane Society's database, identified by its unique `pet_id`. This action is **irreversible**.
+      description: Permanently removes a specific pet and all its associated information from the Sequoia Humane Society's database, identified by its unique `pet_id`. This action is **irreversible**.
       security:
         - BearerAuth: []
       parameters:
@@ -440,21 +466,21 @@ paths:
   /images:
     post:
       tags: [Images]
-      summary: Upload images to AWS
+      summary: Upload one or more images to AWS S3.
       externalDocs:
         url:  https://www.npmjs.com/package/multer
         description: The node.js library to handle images file
       description: |
-        Images are stored in AWS. This API will create images in AWS and images store in database are just the file name, in other words, they are list of strings instead of directory of files. 
+       This endpoint facilitates the upload of image files directly to an AWS S3 bucket. Upon successful upload, the API stores only the generated file names (or unique identifiers) in the database, not the actual image binaries.
       responses:
         '201':
-          description: Images are in AWS
+          description: Images were successfully uploaded to AWS S3
         '500':
           $ref: "#/components/responses/InternalServerError"
     delete:
       tags: [Images]
-      summary: Delete images in AWS
-      description: Remove images permanently from AWS
+      summary: Delete one or more images from AWS S3.
+      description: This endpoint permanently removes specified image files from the AWS S3 bucket.
       parameters:
         - name: deleteImages
           in: query
@@ -465,7 +491,7 @@ paths:
           example: [brownie.jpg, brownie_1.png]
       responses:
         '204':
-          description: Images are removed from AWS
+          description: Images were successfully removed from AWS S3
         '500':
           $ref: "#/components/responses/InternalServerError"
 components:
@@ -514,8 +540,6 @@ components:
           enum: [Male, Female, Other]
           example: Male
         favoritePets:
-          description: | 
-            `favoritesPet` will be a list of stirng represents the _id of the pets
           type: array
           items:
             type: string
@@ -526,7 +550,7 @@ components:
             $ref: "#/components/schemas/Pet"
         matchAnswers:
           type: object
-      required: [id, name, email]
+      required: [id, name, email, dob, gender, favoritePets, adoptedPets, matchAnswers]
     Pet:
       type: object
       properties:
@@ -583,7 +607,29 @@ components:
             type: string
           example: [brownie.jpg, brownie_1.png]
           description: Stored images in database are just a string of filename, the content of images file are stored in AWS
-      required: [id, age, species, weight, breed, characteristic, adoptionFee, sex, name, animal_id, active_level, _id]
+        on_hold_date:
+          type: string
+          format: date
+          example: 2025-07-29
+          nullable: true
+          default: null
+        on_hold_email:
+          type: string
+          example: john@doe.com
+          nullable: true
+          default: null
+        adopted_date: 
+          type: string
+          format: date
+          example: 2025-07-29
+          nullable: true
+          default: null
+        adopted_email:
+          type: string
+          example: john@doe.com
+          nullable: true
+          default: null
+      required: [id, age, species, weight, breed, characteristic, sex, name, animal_id, active_level, _id, images, adoption_fee]
   requestBodies:
     User:
       content:

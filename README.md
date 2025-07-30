@@ -1,35 +1,80 @@
-# 2025_summer Hackathon Project
+# Sequoia Humane Society AI-Powered Pet Matchmaker
 
 ## Quick Links
 
+- Our [live server](https://propel-energy.org/)
+- Check our [DevPost](https://devpost.com/software/ai-powered-pet-matchmaker-devilware)
 - Nonprofit: [Sequoia Humane Society](https://ohack.dev/nonprofit/9ajAkAzo9rnb0IOmE4VY)
 - [Hackathon Details](https://www.ohack.dev/hack/2025_summer)
-- [Team Slack Channel](https://opportunity-hack.slack.com/app_redirect?channel=devilware)
 
-## Creator
+<!-- ## Creator
 
-@Faisal Alyousefi (on Slack)
+@Faisal Alyousefi (on Slack) -->
 
-## Team "Devilware"
+## About the "Devilware"
+
+**Our members**
 
 - [Nghi H.](https://github.com/GittBitt)
 - [Ngoc Dinh Khoa Nguyen](https://github.com/KhoaDinhNguyen)
 - [Faisal Alyousefi](https://github.com/fkalyousefi)
-<!-- Add all team members -->
+- [Nam Le](https://github.com/hoangnamapu)
+- [Penny Duong](https://github.com/thesquarecat)
+
+[Team Slack Channel](https://opportunity-hack.slack.com/app_redirect?channel=devilware)
 
 ## Project Overview
 
-Brief description of your project and its goals.
+### Inspiration
+
+One of the biggest hurdles in finding a compatible pet for everyone is that we all have our own different needs, lifestyles, housing situations, allergies, family dynamics, etc. - all factors that can affect what kind of pets would be best suited for each person. This can quickly becomes a challenging task for both adopters and shelter staffs alike, and an incompatible pet introduces more logistics.
+
+We realized that while various adoption platforms has introduced various methods to help improve compatibility, they often tend to focus on basic filters only, and doesn't take into account contexts such as personality, living situations or even disabilities.
+
+### What it does
+
+AI-Powered Pet Matchmaker uses a smart AI-powered system to help you find the best match possible - based on their lifestyle, preferences and needs.
+
+Users begin by answering a series of questions touching on various topics such as schedule, housing situations, routine, and personal needs. Using this system, our system picks out adoptable animals from available local shelters using a custom-trained compatibility model.
+
+Users can further narrow down their preferences depending on likes - such as choosing certain kind of pets or breeds. Our system picks out what appears to be the most compatible and suggest based on the information you have given.
+
+The goal is to reduce mismatches, lower return rates and create long-lasting, happy adoptions.
 
 ## Tech Stack
 
-- Frontend: React.js, Tailwind CSS
-- Backend: Python, Node.js, Express.js
-- Database: MongoDB, AWS, Passport.js
-- APIs: AWS S3
-<!-- Add/modify as needed -->
+The frontend solutions for **AI-Powered Pet Matchmaker**:
 
-## Local installation and running
+- React
+- Redux
+- Tailwind
+- PropelAuth
+
+The backend solutions for **AI-Powered Pet Matchmaker**:
+
+- Node.js
+- Express.js
+- MongoDB
+- MongoDBAtlas
+- AWS
+
+The project for **AI-Powered Pet Matchmaker** is hosted on:
+
+- Render for both frontend and backend
+
+## Documentation
+
+### Solution's architecture
+
+![Solution's architecture](documents/solutionArchitecture.png)
+
+### API documents
+
+For a clear understanding of how to use our API, refer to this [document](https://devilware-sequoiahumanesociety-document.onrender.com)
+
+![API document's screenshot](documents/screenshotAPIDocuments.png)
+
+## Local Installation and Running
 
 Instructions on how to set up and run your project locally.
 
@@ -149,6 +194,7 @@ BUCKET_SECRET_KEY=abcdefghijklmnopqrstuvwxyz
 
 In this project specially, we use Amazon S3 Bucket to store pet's images. See this [video](https://www.youtube.com/watch?v=eQAIojcArRY&t=2079s) to understand how to use the bucket to store images.
 
+<!--
 ## Your next steps
 
 1. ✅ Add everyone on your team to your GitHub repo like [this video posted in our Slack channel](https://opportunity-hack.slack.com/archives/C1Q6YHXQU/p1605657678139600)
@@ -179,4 +225,4 @@ Examples of stellar readmes:
 - ✨ [2020 Team 2](https://github.com/2020-opportunity-hack/Team-02)
 - ✨ [2020 Team 4](https://github.com/2020-opportunity-hack/Team-04)
 - ✨ [2020 Team 8](https://github.com/2020-opportunity-hack/Team-08)
-- ✨ [2020 Team 12](https://github.com/2020-opportunity-hack/Team-12)
+- ✨ [2020 Team 12](https://github.com/2020-opportunity-hack/Team-12) -->

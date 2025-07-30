@@ -1,6 +1,6 @@
 openapi: '3.0.0'
 info:
-  title: Sequoia Humane Society AI Pet Powered Matchmaker APIs Definition
+  title: Sequoia Humane Society AI-Powered Pet Matchmaker APIs Definition
   description: |
     # About Us
       **The Sequoia Humane Society** is a non-profit with the mission of providing shelter and humane care for animals. We work vigorously to reduce the tragedy of euthanasia caused by too many animals, and not enough homes. Our goals are to promote the welfare of all animals, prevent cruelty and suffering of animals, end the overpopulation of cats and dogs, keep animals with homes from becoming homeless, and find homes for all adoptable animals.<br></br>

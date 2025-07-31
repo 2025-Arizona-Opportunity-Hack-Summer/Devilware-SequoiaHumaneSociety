@@ -1,11 +1,13 @@
 import Modal from "../../../../../components/common/Modal/Modal";
-import InputButton from "../../../../../components/Input/InputButton/InputButton";
 
 import SpeciesFilter from "./FilterComponents/SpeciesFilter";
 import SizeFilter from "./FilterComponents/SizeFilter";
 import SortFilter from "./FilterComponents/SortFilter";
 import ActiveLevelsFilter from "./FilterComponents/ActiveLevelsFilter";
 import BreedFilter from "./FilterComponents/BreedFilter";
+
+import InputButton from "../../../../../components/common/inputs/InputButton";
+
 import SessionStorage from "../../../../../utils/sessionStorage";
 
 import { filterPetsByCriteria } from "../../../utils/petUtils";

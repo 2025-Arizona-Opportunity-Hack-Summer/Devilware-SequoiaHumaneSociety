@@ -9,9 +9,10 @@ import Volunteer from "./pages/Volunteer/Volunteer";
 import Adopt from "./pages/Adopt/Adopt";
 import Match from "./pages/Match/Match";
 
-import SignIn from "./pages/SignIn/SignIn";
+// import SignIn from "./pages/SignIn/SignIn";
 // import Register from "./pages/Register/Register";
 import Register from "./pages/Register";
+import SignIn from "./pages/SignIn";
 import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
 
 import PetDescriptions from "./components/PetDescriptions/PetDescriptions";

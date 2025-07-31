@@ -10,7 +10,8 @@ import Adopt from "./pages/Adopt/Adopt";
 import Match from "./pages/Match/Match";
 
 import SignIn from "./pages/SignIn/SignIn";
-import Register from "./pages/Register/Register";
+// import Register from "./pages/Register/Register";
+import Register from "./pages/Register";
 import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
 
 import PetDescriptions from "./components/PetDescriptions/PetDescriptions";

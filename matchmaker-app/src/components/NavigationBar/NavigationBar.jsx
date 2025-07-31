@@ -145,9 +145,11 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
                       <p style={{ fontFamily: "'Koulen', sans-serif" }} className="border-[#ced4da] text-sm">
                         {user.email}
                       </p>
-                      <button className="mt-2 bg-[#6c757d] text-[#ced4da] border-2 border-[#ced4da] p-3 rounded-lg cursor-pointer hover:bg-[#7C0F0F]">
-                        Manage your Sequioa account
-                      </button>
+                      <Link to="/user-profile">
+                        <button className="mt-2 bg-[#6c757d] text-[#ced4da] border-2 border-[#ced4da] p-3 rounded-lg cursor-pointer hover:bg-[#7C0F0F]">
+                          Manage your Sequioa account
+                        </button>
+                      </Link>
                     </div>
                     <Link
                       to="/favorite"

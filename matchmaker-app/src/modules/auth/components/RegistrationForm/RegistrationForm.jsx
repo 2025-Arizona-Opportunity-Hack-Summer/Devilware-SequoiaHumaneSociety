@@ -7,7 +7,7 @@ import Modal from "../../../../components/common/Modal/Modal";
 import useRegistrationForm from "../../hooks/useRegistrationForm";
 import useErrorModal from "../../hooks/useErrorModal";
 
-import { fetchCreateUser } from "../../services/userServices";
+import { fetchCreateUser } from "../../services/authServices";
 
 import "./RegistrationForm.css";
 

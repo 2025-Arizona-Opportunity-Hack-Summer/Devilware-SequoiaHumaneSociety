@@ -23,7 +23,7 @@ import PetAdmin from "./pages/PetAdmin/PetAdmin";
 // import CreatePetForm from "./components/CreatePetForm/CreatePetForm/CreatePetForm";
 import CreatePetForm from "./modules/pets/components/admin/CreatePetForm/CreatePetForm";
 import EditPetRoot from "./components/CreatePetForm/EditPetForm/EditPetRoot";
-
+import UserProfile from "./modules/users/pages/UserProfile";
 import store from "./redux/store";
 
 const router = createBrowserRouter(
@@ -46,6 +46,7 @@ const router = createBrowserRouter(
           <Route path="create" element={<CreatePetForm />} />
           <Route path="edit" element={<EditPetRoot />} />
         </Route>
+        <Route path="user-profile" element={<UserProfile />} />
       </Route>
       <Route path="/confirm-email" element={<ConfirmEmail />} />
     </>

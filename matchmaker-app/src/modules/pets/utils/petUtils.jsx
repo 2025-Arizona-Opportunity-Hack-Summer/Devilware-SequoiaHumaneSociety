@@ -57,4 +57,10 @@ function filterPetsByCriteria(petList = [], species = [], breed = [], activeLeve
 
   return result;
 }
-export { extractUniqueBreeds, filterPetsByCriteria };
+
+function isCatSpecies(breed) {
+  const catBreeds = ["Domestic_Medium_Hair", "Domestic_Long_Hair", "Domestic_Shorthair", "Mix", "Siamese"];
+
+  return catBreeds.includes(breed);
+}
+export { extractUniqueBreeds, filterPetsByCriteria, isCatSpecies };

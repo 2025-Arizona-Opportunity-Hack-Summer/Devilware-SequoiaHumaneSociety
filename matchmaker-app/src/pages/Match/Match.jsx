@@ -54,7 +54,7 @@ export default withAuthInfo(function Match({ isLoggedIn }) {
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-2 items-center">
               <img src={shsLogo} alt="shs" className="w-40" />
-              <p className="font-medium">Become Sequoia user and access to your preferences</p>
+              <p className="font-medium">Become a Sequoia user and gain access to your preferences</p>
               <div className="flex flex-col gap-2 w-full items-center">
                 <Link to="/register">
                   <button className="sign-in-button">Create an account</button>

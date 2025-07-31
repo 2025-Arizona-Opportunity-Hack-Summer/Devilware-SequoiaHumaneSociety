@@ -93,7 +93,9 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
     } else {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("p1", animalTypes);
-      getNextQuestion();
+      if (edit === false) {
+        getNextQuestion();
+      }
       if (isLoggedIn) {
         fetchUpdateUserQuestionnaireById("p1", user.email, animalTypes).catch((err) => {
           console.log(err);
@@ -125,7 +127,7 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
             <InputDatalist
               id={"p1"}
               children={""}
-              placeholder={"Choose animal"}
+              placeholder={"Choose animal or type"}
               defaultOptions={animalOptions}
               onSubmitAnswer={onClickOption}
               defaultAnswers={animalTypes}
@@ -145,7 +147,7 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
         {/* If the answer is NOT empty string ==> Display answer */}
         <AnswerContainer visible={hasAnswer} id="p1" onClickEdit={onClickEdit}>
           <p>
-            {animalTypes !== "" && `I am looking for ${animalTypes.map((animal) => animal.toLowerCase()).join(", ")}`}
+            {animalTypes !== "" && `I am looking for a ${animalTypes.map((animal) => animal.toLowerCase()).join(", ")}`}
           </p>
         </AnswerContainer>
 
@@ -203,7 +205,9 @@ function QuestionP2({ getNextQuestion, isLoggedIn, user }) {
     } else {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("p2", { fromAge: fromAge, toAge: toAge });
-      getNextQuestion();
+      if (edit === false) {
+        getNextQuestion();
+      }
       if (isLoggedIn) {
         fetchUpdateUserQuestionnaireById("p2", user.email, { fromAge: fromAge, toAge: toAge }).catch((err) => {
           console.log(err);
@@ -307,7 +311,9 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
     } else {
       setHasAnswer((preState) => true);
       SessionStorage.setItem("p3", sizes);
-      getNextQuestion();
+      if (edit === false) {
+        getNextQuestion();
+      }
       if (isLoggedIn) {
         fetchUpdateUserQuestionnaireById("p3", user.email, sizes).catch((err) => {
           console.log(err);
@@ -351,7 +357,7 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
               labelStyle="checkbox-question-label"
               onChangeHandler={onChangeSize}
               checked={sizes.includes("Large")}>
-              Large
+              Large (over 60 lbs)
             </InputCheckbox>
             <InputCheckbox
               id="p3b"
@@ -360,7 +366,7 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
               labelStyle="checkbox-question-label"
               onChangeHandler={onChangeSize}
               checked={sizes.includes("Medium")}>
-              Medium
+              Medium (25 - 60 lbs)
             </InputCheckbox>
             <InputCheckbox
               id="p3c"
@@ -369,7 +375,7 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
               labelStyle="checkbox-question-label"
               onChangeHandler={onChangeSize}
               checked={sizes.includes("Small")}>
-              Small
+              Small (less than 25 lbs)
             </InputCheckbox>
           </div>
           <InputButton
@@ -429,7 +435,9 @@ function QuestionP4({ getNextQuestion, isLoggedIn, user }) {
       setHasAnswer((preState) => true);
 
       SessionStorage.setItem("p4", levels);
-      getNextQuestion();
+      if (edit === false) {
+        getNextQuestion();
+      }
       if (isLoggedIn) {
         fetchUpdateUserQuestionnaireById("p4", user.email, levels).catch((err) => {
           console.log(err);
@@ -456,9 +464,7 @@ function QuestionP4({ getNextQuestion, isLoggedIn, user }) {
     <div className="xl:max-w-screen">
       {/* Question container - contains the questions */}
       <QuestionContainer>
-        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
-          What animal energy level are you looking for?
-        </p>
+        <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>What energy level do you prefer?</p>
       </QuestionContainer>
 
       {/* Answer or Options conatiner - contains the answer or options depends on @answer */}

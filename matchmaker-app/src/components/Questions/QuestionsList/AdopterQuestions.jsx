@@ -413,7 +413,9 @@ function QuestionA3({ getNextQuestion, isLoggedIn, user }) {
         console.log(err);
       });
     }
-    getNextQuestion();
+    if (edit === false) {
+      getNextQuestion();
+    }
   };
 
   const onClickYes = () => {
@@ -431,7 +433,9 @@ function QuestionA3({ getNextQuestion, isLoggedIn, user }) {
 
       setAllergiesAnimal((preState) => allergiesAnimal);
       SessionStorage.setItem("a3", allergiesAnimal);
-      getNextQuestion();
+      if (edit === false) {
+        getNextQuestion();
+      }
       if (isLoggedIn) {
         fetchUpdateUserQuestionnaireById("a3", user.email, allergiesAnimal).catch((err) => {
           console.log(err);
@@ -483,7 +487,7 @@ function QuestionA3({ getNextQuestion, isLoggedIn, user }) {
               <InputDatalist
                 id="a3c"
                 children=""
-                placeholder="Choose animal"
+                placeholder="Choose animal or type"
                 defaultOptions={animalOptions}
                 defaultAnswers={allergiesAnimal}
                 onSubmitAnswer={onClickOption}
@@ -522,7 +526,7 @@ function QuestionA3({ getNextQuestion, isLoggedIn, user }) {
 function QuestionA4({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnimal, setHasAnimal] = useState(false);
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [animalList, setAnimalList] = useState("");
+  const [animalList, setAnimalList] = useState([]);
   const [edit, setEdit] = useState(false);
 
   useEffect(() => {
@@ -549,18 +553,34 @@ function QuestionA4({ getNextQuestion, isLoggedIn, user }) {
         console.log(err);
       });
     }
-    getNextQuestion();
+    if (edit === false) {
+      getNextQuestion();
+    }
   };
 
   const onClickNext = () => {
-    SessionStorage.setItem("a4", animalList);
-    if (isLoggedIn) {
-      fetchUpdateUserQuestionnaireById("a4", user.email, animalList).catch((err) => {
-        console.log(err);
-      });
+    // Check validation
+
+    let validAnimalList = true;
+
+    animalList.forEach((animal) => {
+      if (animal.age === "" || animal.type === "") {
+        validAnimalList = false;
+      }
+    });
+
+    if (validAnimalList) {
+      SessionStorage.setItem("a4", animalList);
+      if (isLoggedIn) {
+        fetchUpdateUserQuestionnaireById("a4", user.email, animalList).catch((err) => {
+          console.log(err);
+        });
+      }
+      setHasAnswer((preState) => true);
+      if (edit === false) {
+        getNextQuestion();
+      }
     }
-    setHasAnswer((preState) => true);
-    getNextQuestion();
   };
 
   const onClickEdit = () => {

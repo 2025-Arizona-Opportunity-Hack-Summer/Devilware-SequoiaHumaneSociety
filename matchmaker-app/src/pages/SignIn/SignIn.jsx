@@ -74,7 +74,7 @@ function SignIn() {
         {/* MOBILE VIEW */}
         <div className="md:hidden fixed inset-0 flex items-center justify-center p-4">
           <div className="bg-white w-full max-w-sm" style={mobileStyle}>
-            <form className="p-8" onSubmit={onSubmitHandler}>
+            <form id="mobile-sign-in" className="p-8" onSubmit={onSubmitHandler}>
               <div className="text-center mb-8">
                 <h1 className="text-2xl font-bold text-gray-800 tracking-wider mb-2">WELCOME!</h1>
                 <div className="w-full h-px bg-gray-300 mb-2"></div>
@@ -82,18 +82,27 @@ function SignIn() {
               </div>
               {/* Form elements for mobile */}
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-medium mb-2">Email</label>
+                <label htmlFor="mobile-email" className="block text-gray-700 text-sm font-medium mb-2">
+                  Email
+                </label>
                 <input
                   type="email"
+                  id="mobile-email"
+                  name="mobile-email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  autoComplete="off"
                 />
               </div>
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                <label htmlFor="mobile-password" className="block text-gray-700 text-sm font-medium mb-2">
+                  Password
+                </label>
                 <input
                   type="password"
+                  id="mobile-password"
+                  name="mobile-password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -101,9 +110,11 @@ function SignIn() {
                 />
               </div>
               <div className="flex items-center justify-between mb-6">
-                <label className="flex items-center">
+                <label htmlFor="mobile-rememberMe" className="flex items-center">
                   <input
                     type="checkbox"
+                    id="mobile-rememberMe"
+                    name="mobile-rememberMe"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
                     className="mr-2 rounded"
@@ -146,7 +157,7 @@ function SignIn() {
             />
 
             {/* Inner container for the form content (unchanged) */}
-            <form className="w-full max-w-md" onSubmit={onSubmitHandler}>
+            <form htmlFor="sign-in" className="w-full max-w-md" onSubmit={onSubmitHandler}>
               <div className="text-center mb-8">
                 <h1 className="text-3xl font-bold text-gray-800 tracking-wider mb-2">WELCOME!</h1>
                 <div className="w-full h-px bg-gray-300 mb-2"></div>
@@ -155,18 +166,27 @@ function SignIn() {
 
               {/* Form Inputs (unchanged) */}
               <div className="mb-4">
-                <label className="block text-gray-700 text-sm font-medium mb-2">Email</label>
+                <label htmlFor="email" className="block text-gray-700 text-sm font-medium mb-2">
+                  Email
+                </label>
                 <input
                   type="email"
+                  id="email"
+                  name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  autoComplete="off"
                 />
               </div>
               <div className="mb-6">
-                <label className="block text-gray-700 text-sm font-medium mb-2">Password</label>
+                <label htmlFor="password" className="block text-gray-700 text-sm font-medium mb-2">
+                  Password
+                </label>
                 <input
                   type="password"
+                  name="password"
+                  id="password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
@@ -176,9 +196,11 @@ function SignIn() {
 
               {/* Controls and Links (unchanged) */}
               <div className="flex items-center justify-between mb-6">
-                <label className="flex items-center">
+                <label htmlFor="rememberMe" className="flex items-center">
                   <input
                     type="checkbox"
+                    id="rememberMe"
+                    name="rememberMe"
                     checked={rememberMe}
                     onChange={(e) => setRememberMe(e.target.checked)}
                     className="mr-2 rounded"

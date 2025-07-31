@@ -24,13 +24,6 @@ function Register() {
     dateOfBirth: "",
     gender: "",
     agreeToTerms: false,
-    // shedLevel: "",
-    // hasAllergies: "no",
-    // allergyDetails: "",
-    // housingType: "",
-    // animalType: "",
-    // activityLevel: "",
-    // otherAnimalTypes: [],
   });
   const [validFormData, setValidFormData] = useState({
     minLengthPassword: null,
@@ -268,6 +261,7 @@ function Register() {
                   onChange={handleInputChange}
                   required
                   className="w-full px-4 py-4 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-800"
+                  autoComplete="off"
                 />
                 {validFormData.validEmail !== null && (
                   <p

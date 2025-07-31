@@ -3,11 +3,12 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 const path = require("path");
 // const { spawn } = require("child_process");
-const mongoose = require("mongoose");
-
+const multer = require("multer");
 const mongoClient = require("./database");
 const userRoute = require("./routes/userRoute");
 const petRoute = require("./routes/petRoute");
+const s3Client = require("./s3");
+const { PutObjectCommand, DeleteObjectCommand } = require("@aws-sdk/client-s3");
 
 require("dotenv").config();
 
@@ -18,6 +19,8 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const PYTHON_SCRIPTS_DIR = path.join(__dirname, "..", "ai");
 const SCRIPT_NAME = "python.py";
 
@@ -65,6 +68,72 @@ const SCRIPT_NAME = "python.py";
 app.use("/users", userRoute);
 app.use("/pets", petRoute);
 
+app.post("/images", upload.array("images"), async (req, res) => {
+  const images = req.files;
+
+  try {
+    const uploadPromises = images.map(async (file) => {
+      const key = file.originalname;
+
+      const command = new PutObjectCommand({
+        Bucket: process.env.BUCKET_NAME,
+        Key: key,
+        Body: file.buffer,
+        ContentType: file.mimetype,
+      });
+
+      try {
+        await s3Client.send(command);
+      } catch (err) {
+        console.log(err);
+        throw err;
+      }
+    });
+
+    await Promise.all(uploadPromises);
+
+    res.status(201).json();
+  } catch (err) {
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
+  }
+});
+
+app.delete("/images", async (req, res) => {
+  let { deleteImages } = req.query;
+
+  if (Array.isArray(deleteImages) === false) {
+    deleteImages = [deleteImages];
+  }
+
+  const deletePromises = deleteImages.map(async (image) => {
+    const command = new DeleteObjectCommand({
+      Bucket: process.env.BUCKET_NAME,
+      Key: image,
+    });
+
+    try {
+      await s3Client.send(command);
+    } catch (err) {
+      console.log(err);
+      throw err;
+    }
+  });
+
+  try {
+    await Promise.all(deletePromises);
+    res.status(204).json();
+  } catch (err) {
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
+  }
+});
 mongoClient
   .init(process.env.MONGODB_ATLAS_CONNECTION)
   .then((response) => {

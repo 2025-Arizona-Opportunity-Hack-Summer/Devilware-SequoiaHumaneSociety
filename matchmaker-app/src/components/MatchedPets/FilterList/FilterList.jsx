@@ -22,9 +22,9 @@ function FilterItem({ filterList, title, onClickRemoveItem }) {
     <li key={item} className="font-semibold text-white">
       <div className="bg-[#7C0F0F] px-3 p-2 rounded-md flex justify-between gap-3 items-center">
         <p>{item}</p>
-        <button className="font-light cursor-pointer" onClick={onClickRemoveItem.bind(null, title, item)}>
+        {/* <button className="font-light cursor-pointer" onClick={onClickRemoveItem.bind(null, title, item)}>
           x
-        </button>
+        </button> */}
       </div>
     </li>
   ));

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { createSearchParams } from "react-router";
 import { withAuthInfo } from "@propelauth/react";
@@ -14,10 +14,17 @@ import loadingImage from "../../../assets/images/loading-image.png";
 
 import { fetchUpdateFavoritePets } from "../../../features/fetchUserRoutes";
 
-export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn, user, isFavorite }) {
+export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn, user, isFavorite, userClass }) {
   const dispatch = useDispatch();
   const { imagesURL, name, breed, _id, species } = pet;
   const [imageLoading, setImageLoading] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    if (userClass !== null && userClass.getOrgs().length > 0) {
+      setIsAdmin((prev) => true);
+    }
+  }, []);
   const navigate = useNavigate();
 
   const petImage = imagesURL.length === 0 ? noPetImage : imagesURL[0];
@@ -55,24 +62,26 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
             setImageLoading((preState) => true);
           }}
         />
-        <div className="absolute bottom-2 right-2 flex  justify-center items-center">
-          {isFavorite && (
-            <InputButton
-              id={`${_id}_favorite`}
-              labelStyle="bg-[#C1272D] p-2 rounded-full cursor-pointer duration-200"
-              onClickHandler={onClickFavorite}>
-              <HeartSVG />
-            </InputButton>
-          )}
-          {!isFavorite && (
-            <InputButton
-              id={`${_id}_favorite`}
-              labelStyle="bg-[#ffffff80] hover:bg-white p-2 rounded-full cursor-pointer duration-200"
-              onClickHandler={onClickFavorite}>
-              <img src={heart} alt="favorite" className="w-8" />
-            </InputButton>
-          )}
-        </div>
+        {!isAdmin && (
+          <div className="absolute bottom-2 right-2 flex  justify-center items-center">
+            {isFavorite && (
+              <InputButton
+                id={`${_id}_favorite`}
+                labelStyle="bg-[#C1272D] p-2 rounded-full cursor-pointer duration-200"
+                onClickHandler={onClickFavorite}>
+                <HeartSVG />
+              </InputButton>
+            )}
+            {!isFavorite && (
+              <InputButton
+                id={`${_id}_favorite`}
+                labelStyle="bg-[#ffffff80] hover:bg-white p-2 rounded-full cursor-pointer duration-200"
+                onClickHandler={onClickFavorite}>
+                <img src={heart} alt="favorite" className="w-8" />
+              </InputButton>
+            )}
+          </div>
+        )}
       </div>
       <div className="flex flex-col items-center mt-10 gap-2" onClick={onClickNavigateToDetails}>
         <p className="text-[#C1272D] text-2xl font-semibold">{name.toUpperCase()}</p>

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { withAuthInfo } from "@propelauth/react";
-import { Outlet, useLocation } from "react-router-dom";
+import { UserClass, withAuthInfo } from "@propelauth/react";
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
@@ -14,11 +14,12 @@ import {
   fetchUpdateUserQuesionnaireBySessionStorage,
 } from "../../features/fetchUserRoutes";
 
-export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
+export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHelper, userClass }) {
   const location = useLocation();
   const dispatch = useDispatch();
   const isMatchPage = location.pathname === "/match";
   const isAdoptPage = location.pathname.includes("/adopt");
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function loadUser() {
@@ -27,25 +28,28 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken }) {
       }
       let userInfo;
 
-      try {
-        userInfo = await fetchFindUserByEmail(user.email);
-      } catch (err) {
-        throw Error(err);
-      }
-
-      if (userInfo === null) {
+      if (userClass.getOrgs().length > 0) {
+      } else {
         try {
-          userInfo = await fetchCreateUser(user.email, user.firstName, user.lastName, null, null);
+          userInfo = await fetchFindUserByEmail(user.email);
         } catch (err) {
           throw Error(err);
         }
+
+        if (userInfo === null) {
+          try {
+            userInfo = await fetchCreateUser(user.email, user.firstName, user.lastName, null, null);
+          } catch (err) {
+            throw Error(err);
+          }
+        }
+
+        // const updatedMatchQuestions = saveUserQuesionnaire(userInfo);
+        const updatedMatchQuestions = {};
+        userInfo = await fetchUpdateUserQuesionnaireBySessionStorage(user.email, updatedMatchQuestions);
+
+        dispatch(userSlice.actions.assign(userInfo));
       }
-
-      const updatedMatchQuestions = saveUserQuesionnaire(userInfo);
-
-      userInfo = await fetchUpdateUserQuesionnaireBySessionStorage(user.email, updatedMatchQuestions);
-
-      dispatch(userSlice.actions.assign(userInfo));
     }
 
     loadUser().catch((err) => {

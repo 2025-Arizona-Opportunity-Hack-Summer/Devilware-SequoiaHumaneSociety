@@ -1,63 +1,11 @@
-import { useEffect, useState } from "react";
-import { withAuthInfo } from "@propelauth/react";
-import { userSlice } from "../../redux/UserInfoSlice";
-import { useSelector, useDispatch } from "react-redux";
+import { useState } from "react";
 
-import { useSearchParams } from "react-router-dom";
-import { createSearchParams } from "react-router-dom";
+import AttributeList from "../../PetDescriptions/AttributeList/AttributeList";
+import noPetImage from "../../../assets/images/no-pet-image.png";
 
-import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
-import AttributeList from "./AttributeList/AttributeList";
-import noPetImage from "../../assets/images/no-pet-image.png";
-
-import { fetchUpdateFavoritePets } from "../../features/fetchUserRoutes";
-import "./PetDescriptions.css";
-
-export default withAuthInfo(function PetDescriptions({ user, isLoggedIn, userClass }) {
-  const dispatch = useDispatch();
-  const [searchParams, _] = useSearchParams();
-  const userInfo = useSelector((store) => store[userSlice.name]);
-  const [data, setData] = useState(null);
+function AdminPetDescription({ data }) {
   const [imageIndex, setImageIndex] = useState(0);
-  const [visibleRequireModal, setVisibleRequireModal] = useState(false);
-  const [isFavorite, setIsFavorite] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const pet_id = searchParams.get("pet_id");
 
-  useEffect(() => {
-    if (userClass !== null && userClass.getOrgs().length > 0) {
-      setIsAdmin((prev) => true);
-    }
-  }, []);
-  useEffect(() => {
-    const searchQuery = createSearchParams({ pet_id: pet_id }).toString();
-
-    setImageIndex(0);
-    const BASE_API_URL = import.meta.env.VITE_API_URL;
-    const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
-
-    fetch(`${BASE_API_URL}/${PETS_ENDPOINT}?${searchQuery}`, { method: "GET" })
-      .then((response) => response.json())
-      .then((data) => {
-        setData((preState) => data.content[0]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [pet_id]);
-
-  useEffect(() => {
-    if (!isLoggedIn || userInfo === null) {
-      setIsFavorite((prev) => false);
-    } else {
-      console.log(userInfo.favoritePets);
-      if (userInfo.favoritePets.includes(pet_id)) {
-        setIsFavorite((prev) => true);
-      } else {
-        setIsFavorite((prev) => false);
-      }
-    }
-  }, [userInfo]);
   if (data === null) {
     return <></>;
   }
@@ -75,35 +23,11 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn, userCla
     about,
     animal_id,
     active_level,
+    onHoldDate,
+    onHoldEmail,
+    adoptedEmail,
+    adoptedDate,
   } = data;
-
-  const onClickApplyForAdoption = () => {
-    if (isLoggedIn) {
-      window.open(
-        "https://docs.google.com/forms/d/e/1FAIpQLSei203c7izJdVQx21_Qf99AMD3YxaGN_fjpr0wuVq6sm3rhxg/viewform?usp=dialog"
-      );
-    } else {
-      setVisibleRequireModal((preState) => true);
-    }
-  };
-
-  const onClickAddToFavorite = () => {
-    if (isLoggedIn) {
-      fetchUpdateFavoritePets(user.email, pet_id)
-        .then((response) => {
-          dispatch(userSlice.actions.addFavorites(pet_id));
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      setVisibleRequireModal((preState) => true);
-    }
-  };
-
-  const onClickBack = () => {
-    history.back();
-  };
 
   const onClickBackImage = () => {
     setImageIndex((preState) => preState - 1);
@@ -129,14 +53,7 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn, userCla
 
   return (
     <>
-      <div className="lg:px-40 lg:py-20 py-10 px-5 flex flex-col lg:gap-10 gap-5">
-        <div>
-          <button
-            className="flex gap-2 border-2 border-transparent hover:border-2 hover:border-black cursor-pointer py-1 px-3 rounded-md duration-150 go-back-button"
-            onClick={onClickBack}>
-            <ArrowSVG /> <span className="font-bold text-[#adb5bd]">Back</span>
-          </button>
-        </div>
+      <div className="lg:px-20 lg:py-5 py-10 px-5 flex flex-col lg:gap-10 gap-5">
         <div className="flex flex-col items-center">
           {imagesURL.length === 0 && <img src={noPetImage} alt={name} className="lg:w-72 w-36 rounded-2xl" />}
           {imagesURL.length !== 0 && (
@@ -163,9 +80,18 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn, userCla
         </div>
         <div className="flex lg:flex-row flex-col-reverse justify-between lg:gap-10 gap-5">
           <div className="flex-grow lg:p-10 rounded-2xl">
-            <div>
+            <div className="flex flex-col gap-3">
               <h1 className="uppercase text-[#343a40] lg:text-6xl text-4xl pet-name">{name}</h1>
-              {isFavorite && <p className="text-[#adb5bd] font-semibold">{name} is one of your favorites pet</p>}
+              {onHoldEmail !== undefined && onHoldEmail !== null && (
+                <p className="font-semibold text-[#4f2edc]">
+                  This pet is on the hold list by {onHoldEmail} at {new Date(onHoldDate).toLocaleDateString()}
+                </p>
+              )}
+              {adoptedEmail !== undefined && adoptedEmail !== null && (
+                <p className="font-semibold text-[#127475]">
+                  This pet is newly adopted by {adoptedEmail} at {new Date(adoptedDate).toLocaleDateString()}
+                </p>
+              )}
             </div>
             <h2 className="uppercase text-[#343a40] lg:text-3xl text-xl pet-name border-t border-[#dee2e6] mt-5 pt-5">
               Info
@@ -222,29 +148,11 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn, userCla
               <p className="about-text text-wrap">{about}</p>
             </div>
           </div>
-
-          {!isAdmin && (
-            <div className="lg:mt-10">
-              <div className="flex flex-col gap-2 w-max m-auto">
-                <button
-                  className="pet-description-button bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] hover:scale-105 duration-150"
-                  onClick={onClickApplyForAdoption}>
-                  <span>Apply for adoption</span>
-                </button>
-                <button
-                  className="pet-description-button bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] hover:scale-105 duration-150"
-                  onClick={onClickAddToFavorite}>
-                  <span>&#x2764; {!isFavorite ? "Add to favorites" : "Remove from favorites"}</span>
-                </button>
-              </div>
-            </div>
-          )}
         </div>
       </div>
-      <RequiredSignInModal visible={visibleRequireModal} setVisible={setVisibleRequireModal} />
     </>
   );
-});
+}
 
 function ArrowSVG() {
   return (
@@ -342,3 +250,5 @@ function LineSVG() {
     </svg>
   );
 }
+
+export default AdminPetDescription;

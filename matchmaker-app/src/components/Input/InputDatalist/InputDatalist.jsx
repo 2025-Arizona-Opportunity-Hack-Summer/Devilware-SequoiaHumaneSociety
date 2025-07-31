@@ -34,6 +34,12 @@ function InputDatalist({ id, children, placeholder, defaultOptions, onSubmitAnsw
     setFocus((preState) => false);
   };
 
+  const onClickRemove = (option) => {
+    const newAnswers = [...answers.filter((answer) => answer !== option)];
+    onSubmitAnswer(newAnswers);
+    setAnswers((prev) => newAnswers);
+    setOptions((prev) => [...prev, option]);
+  };
   const onChangeTyping = (event) => {
     setTyping((preState) => event.target.value);
   };
@@ -87,12 +93,17 @@ function InputDatalist({ id, children, placeholder, defaultOptions, onSubmitAnsw
         )}
       </div>
 
-      {/* The answer container container */}
+      {/* The answer container */}
       <div>
         <ul className="flex gap-1 max-w-[400px] flex-wrap justify-end mt-2">
           {answers.map((answer) => (
-            <li key={answer} className="py-3 px-6 bg-blue-300 text-black">
-              {answer}
+            <li key={answer} className="py-3 px-6 bg-blue-300 text-black flex gap-2">
+              <p>{answer}</p>
+              <p
+                className="bg-red-400 px-2 text-white rounded-md cursor-pointer"
+                onClick={onClickRemove.bind(null, answer)}>
+                R
+              </p>
             </li>
           ))}
         </ul>

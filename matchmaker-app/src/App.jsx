@@ -20,7 +20,8 @@ import AdoptPetList from "./components/AdoptPetList/AdoptPetList";
 import AdoptRoot from "./components/AdoptRoot/AdoptRoot";
 import FavoritePet from "./pages/FavoritePet/FavoritePet";
 import PetAdmin from "./pages/PetAdmin/PetAdmin";
-import CreatePetForm from "./components/CreatePetForm/CreatePetForm/CreatePetForm";
+// import CreatePetForm from "./components/CreatePetForm/CreatePetForm/CreatePetForm";
+import CreatePetForm from "./modules/pets/components/admin/CreatePetForm/CreatePetForm";
 import EditPetRoot from "./components/CreatePetForm/EditPetForm/EditPetRoot";
 
 import store from "./redux/store";

@@ -1,6 +1,6 @@
 import { useAuthFrontendApis } from "@propelauth/frontend-apis-react";
 import { SocialLoginProvider } from "@propelauth/frontend-apis";
-import { useNavigate } from "react-router";
+import { Link, useNavigate } from "react-router";
 import Cookies from "js-cookie";
 
 import Modal from "../../../../components/common/Modal/Modal";
@@ -289,10 +289,10 @@ function RegistrationForm() {
 
             <div className="text-center mt-6">
               <p className="text-sm text-gray-600">
-                Already have an account?
-                <a href="/sign-in" className="font-medium text-gray-800 hover:text-gray-600 underline">
+                Already have an account?{" "}
+                <Link to="/sign-in" className="font-medium text-gray-800 hover:text-gray-600 underline">
                   Sign in here
-                </a>
+                </Link>
               </p>
             </div>
           </form>

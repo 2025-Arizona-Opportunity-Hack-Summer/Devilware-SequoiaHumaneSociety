@@ -1,0 +1,53 @@
+.required-modal-button {
+  border: 2px solid #7c0f0f;
+  cursor: pointer;
+  width: 80%;
+  padding: 10px;
+  position: relative;
+  text-align: left;
+  font-weight: 500;
+  font-size: 1.2rem;
+  border-radius: 5px;
+}
+
+.required-modal-button span {
+  position: relative;
+  z-index: 2;
+}
+
+.required-modal-button::before {
+  position: absolute;
+  content: "";
+  width: 0%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-color: #7c0f0f;
+  transition-duration: 0ms;
+}
+
+.required-modal-button:hover::before {
+  width: 100%;
+  transition-duration: 500ms;
+}
+
+.required-modal-button:hover span {
+  color: white;
+}
+
+.cancel-button:hover svg g {
+  fill: #000;
+}
+
+.required-sign-in-modal {
+  animation: fade-in 500ms linear;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

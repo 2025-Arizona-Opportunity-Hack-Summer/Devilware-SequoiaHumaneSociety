@@ -63,4 +63,5 @@ function isCatSpecies(breed) {
 
   return catBreeds.includes(breed);
 }
+
 export { extractUniqueBreeds, filterPetsByCriteria, isCatSpecies };

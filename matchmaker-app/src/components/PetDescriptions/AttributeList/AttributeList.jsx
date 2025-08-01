@@ -1,16 +1,16 @@
-import "./AttributeList.css";
+// import "./AttributeList.css";
 
-function AttributeList({ attributes = [] }) {
-  const attributeItem = attributes.map((item) => (
-    <li key={item} className="attribute-item w-max">
-      {item}
-    </li>
-  ));
-  return (
-    <div>
-      <ul className="flex gap-2">{attributeItem}</ul>
-    </div>
-  );
-}
+// function AttributeList({ attributes = [] }) {
+//   const attributeItem = attributes.map((item) => (
+//     <li key={item} className="attribute-item w-max">
+//       {item}
+//     </li>
+//   ));
+//   return (
+//     <div>
+//       <ul className="flex gap-2">{attributeItem}</ul>
+//     </div>
+//   );
+// }
 
-export default AttributeList;
+// export default AttributeList;

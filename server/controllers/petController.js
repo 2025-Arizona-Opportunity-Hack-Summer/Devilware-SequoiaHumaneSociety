@@ -347,8 +347,8 @@ async function deletePet(req, res, next) {
 }
 
 async function findMatchedPets(req, res, next) {
-  let {} = req.query;
-
+  console.log("CAll");
+  // let {} = req.query;
   try {
     const pipeline = [
       {
@@ -365,7 +365,7 @@ async function findMatchedPets(req, res, next) {
     ];
 
     const pets = await mongoClient.getDB().collection("pets").aggregate(pipeline).toArray();
-
+    console.log(pets);
     for (const pet of pets[0].data) {
       // const imagesUrl = [];
       const imagesUrlPromises = [];

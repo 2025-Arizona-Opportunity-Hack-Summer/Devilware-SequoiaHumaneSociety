@@ -1,5 +1,5 @@
 import { withAuthInfo } from "@propelauth/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useSearchParams } from "react-router";
 
 import { fetchFindPetById } from "../../../services/petServices";
@@ -13,7 +13,7 @@ import AdminPetDescription from "../AdminPet/AdminPetDescription";
 
 import useEditPetForm from "../../../hooks/useEditPetForm";
 
-export default withAuthInfo(function EditPetRoot() {
+export default withAuthInfo(function EditPet() {
   const [seachParams] = useSearchParams();
   const pet_id = seachParams.get("pet_id");
 
@@ -22,7 +22,6 @@ export default withAuthInfo(function EditPetRoot() {
   const { petData, visibleEditPetForm } = data;
   const { handlerAssignData, openEditPetForm, openPetDescription } = setData;
 
-  console.log(petData);
   useEffect(() => {
     if (pet_id !== null) {
       fetchFindPetById(pet_id)

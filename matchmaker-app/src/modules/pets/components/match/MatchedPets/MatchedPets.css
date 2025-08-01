@@ -1,0 +1,35 @@
+.filter-modal {
+  position: absolute;
+  animation: slide-up 300ms linear;
+}
+
+@keyframes slide-up {
+  from {
+    bottom: -100%;
+  }
+  to {
+    bottom: 0%;
+  }
+}
+
+.filter-label-text {
+  font-family: "Koulen, sans-serif";
+}
+
+.filter-text-container:has(input[type="text"]:focus) {
+  border: 2px solid orange;
+  box-shadow: 0px 0px 0px;
+}
+
+.matched-pet-root {
+  animation: fade-in 1s linear;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

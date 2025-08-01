@@ -6,28 +6,26 @@ import Root from "./pages/Root/Root";
 import Homepage from "./pages/Homepage/Homepage";
 import Foster from "./pages/Foster/Foster";
 import Volunteer from "./pages/Volunteer/Volunteer";
-import Adopt from "./pages/Adopt/Adopt";
-import Match from "./pages/Match/Match";
 
+// import Match from "./pages/Match/Match";
+import Match from "./pages/Match";
 // import SignIn from "./pages/SignIn/SignIn";
 // import Register from "./pages/Register/Register";
 import Register from "./pages/Register";
 import SignIn from "./pages/SignIn";
 import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
 
-import PetDescriptions from "./components/PetDescriptions/PetDescriptions";
-import AdoptPetList from "./components/AdoptPetList/AdoptPetList";
-import AdoptRoot from "./components/AdoptRoot/AdoptRoot";
+import Adopt from "./pages/Adopt";
+import AdoptPetList from "./modules/pets/components/adopt/AdoptPetList/AdoptPetList";
+import AdoptRoot from "./modules/pets/components/adopt/AdoptRoot/AdoptRoot";
+import PetDescription from "./modules/pets/components/PetDescription/PetDescription";
 import FavoritePet from "./pages/FavoritePet/FavoritePet";
-// import PetAdmin from "./pages/PetAdmin/PetAdmin";
 import PetAdmin from "./modules/pets/pages/PetAdmin";
-// import CreatePetForm from "./components/CreatePetForm/CreatePetForm/CreatePetForm";
 import CreatePetForm from "./modules/pets/components/admin/CreatePetForm/CreatePetForm";
 import EditPet from "./modules/pets/components/admin/EditPet/EditPet";
-import EditPetRoot from "./components/CreatePetForm/EditPetForm/EditPetRoot";
 import UserProfile from "./modules/users/pages/UserProfile";
-import store from "./redux/store";
 
+import store from "./store/store";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <>
@@ -37,7 +35,7 @@ const router = createBrowserRouter(
         <Route path="volunteer" element={<Volunteer />} />
         <Route path="adopt" element={<Adopt />}>
           <Route index element={<AdoptRoot />} />
-          <Route path="pet" element={<PetDescriptions />} />
+          <Route path="pet" element={<PetDescription />} />
           <Route path=":species" element={<AdoptPetList />} />
         </Route>
         <Route path="match" element={<Match />} />

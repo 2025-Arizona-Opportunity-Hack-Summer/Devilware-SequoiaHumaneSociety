@@ -310,7 +310,7 @@ async function setPetAdopted(req, res, next) {
 }
 
 async function deletePet(req, res, next) {
-  const { pet_id } = req.query;
+  const { pet_id } = req.params;
 
   try {
     const pet = await mongoClient
@@ -325,7 +325,6 @@ async function deletePet(req, res, next) {
       });
       return;
     }
-
     if (pet.images.length !== 0) {
       const deletePromises = pet.images.map(async (image) => {
         const command = new DeleteObjectCommand({

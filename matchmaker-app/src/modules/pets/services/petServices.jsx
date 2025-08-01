@@ -174,6 +174,7 @@ async function fetchSetPetAdopted(pet_id, email) {
 }
 
 async function fetchDeleletePet(pet_id) {
+  console.log(pet_id);
   const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}/${pet_id}`;
 
   try {

@@ -62,7 +62,7 @@ function useCreatePetForm() {
     const selectedFiles = [];
 
     for (const originalFile of newFiles) {
-      const newFileName = `${getRandomString(32)}_${originalFile.name}`;
+      const newFileName = `${originalFile.name}_${getRandomString(32)}`;
       const newFile = new File([originalFile], newFileName, {
         type: originalFile.type,
         lastModified: originalFile.lastModified,

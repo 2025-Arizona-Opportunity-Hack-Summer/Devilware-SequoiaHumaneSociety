@@ -6,7 +6,7 @@ import { catBreeds, dogBreeds } from "../../../../context/petBreeds";
 import { petCharacteristicsList } from "../../../../context/petCharacteristics";
 import ImageList from "../../ImageList/ImageList";
 
-function EditPetForm({ data, setData }) {
+function EditPetForm({ data, setData, pet_id }) {
   const { petData, renderedImages, storedImages, deleteImages, visiblePetInfo } = data;
 
   const {
@@ -22,7 +22,7 @@ function EditPetForm({ data, setData }) {
     if (petData !== null) {
       initRenderedImages(petData);
     }
-  }, [petData]);
+  }, [pet_id]);
 
   if (petData === null) {
     return <></>;
@@ -77,6 +77,7 @@ function EditPetForm({ data, setData }) {
     };
     try {
       await fetchUpdatePet(pet_id, body);
+      location.reload();
     } catch (err) {
       console.log(err);
     }

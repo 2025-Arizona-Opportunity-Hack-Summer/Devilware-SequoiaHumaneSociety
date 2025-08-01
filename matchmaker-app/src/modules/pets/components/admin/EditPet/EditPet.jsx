@@ -22,6 +22,7 @@ export default withAuthInfo(function EditPetRoot() {
   const { petData, visibleEditPetForm } = data;
   const { handlerAssignData, openEditPetForm, openPetDescription } = setData;
 
+  console.log(petData);
   useEffect(() => {
     if (pet_id !== null) {
       fetchFindPetById(pet_id)
@@ -65,7 +66,7 @@ export default withAuthInfo(function EditPetRoot() {
 
       {visibleEditPetForm && (
         <>
-          <EditPetForm data={data} setData={setData} />
+          <EditPetForm data={data} setData={setData} pet_id={pet_id} />
           <OnHoldForm
             onHoldDate={petData.on_hold_date}
             onHoldEmail={petData.on_hold_email}

@@ -1,7 +1,7 @@
 import { withAuthInfo } from "@propelauth/react";
 import { useEffect, useState } from "react";
 
-import { fetchCreatePet } from "../../../services/PetServices";
+import { fetchCreatePet } from "../../../services/petServices";
 import ImageList from "../ImageList/ImageList";
 import { isSubString } from "../../../../../utils/helperFunction";
 
@@ -69,7 +69,6 @@ export default withAuthInfo(function CreatePetForm() {
     }
   };
 
-  console.log(petData);
   return (
     <div>
       <h2 className="text-5xl mb-10 text-[#7C0F0F] font-semibold uppercase">Upload Pet</h2>

@@ -13,6 +13,7 @@ function DeletePetForm({ pet_id }) {
 
   const submitHandler = async (event) => {
     event.preventDefault();
+    console.log(deleteText);
     if (deleteText === "delete permanently") {
       await fetchDeleletePet(pet_id);
       navigate({ pathname: "/petadmin/edit", search: "" });

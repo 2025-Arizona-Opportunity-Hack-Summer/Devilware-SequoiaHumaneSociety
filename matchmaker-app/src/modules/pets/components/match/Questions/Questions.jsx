@@ -162,15 +162,15 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
               </a>
             </InputButton>
           </div>
-        </form>
-        <div className="fixed bottom-0 w-screen -translate-x-1/2 left-1/2 z-50 bg-[#dee2e680] flex flex-col justify-center items-center p-3 gap-2">
-          <p className="font-semibold text-xl">
-            Process complete {Math.floor((numberOfAnswers / totalQuestions) * 100, 2)}%
-          </p>
-          <div className="xl:w-[65vw] w-[90vw] h-max">
-            <ProgressBar percentage={Math.floor((numberOfAnswers / totalQuestions) * 100, 2)} />
+          <div className="mt-10 flex flex-col justify-center items-center p-3 gap-2">
+            <p className="font-semibold text-xl">
+              Process complete {Math.floor((numberOfAnswers / totalQuestions) * 100, 2)}%
+            </p>
+            <div className="xl:w-[65vw] w-[90vw] h-max">
+              <ProgressBar percentage={Math.floor((numberOfAnswers / totalQuestions) * 100, 2)} />
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );

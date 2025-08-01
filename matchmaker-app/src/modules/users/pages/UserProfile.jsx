@@ -1,4 +1,4 @@
-import UserProfileForm from "../components/UserProfileForm/UserProfileform";
+import UserProfileForm from "../components/UserProfileForm/UserProfileForm";
 import Homepage from "../../../pages/Homepage";
 import { withRequiredAuthInfo } from "@propelauth/react";
 

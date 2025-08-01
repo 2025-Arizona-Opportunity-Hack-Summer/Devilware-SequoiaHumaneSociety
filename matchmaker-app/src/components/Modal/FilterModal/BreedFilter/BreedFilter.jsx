@@ -1,62 +1,50 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 
-import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
+// import InputCheckbox from "../../../Input/InputCheckbox/InputCheckbox";
+// import { extractUniqueBreeds } from "../../../../utils/petUtils";
 
-function BreedFilter({ petList, breedFilter, setBreedFilter }) {
-  const [breeds, setBreeds] = useState([]);
+// function BreedFilter({ petList, breedFilter, setBreedFilter }) {
+//   const [breeds, setBreeds] = useState([]);
 
-  useEffect(() => {
-    const st = new Set();
-    for (const pet of petList) {
-      for (const breed of pet.breed) {
-        st.add(breed);
-      }
-    }
+//   useEffect(() => {
+//     const uniqueBreed = extractUniqueBreeds(petList);
 
-    const uniqueBreed = [];
+//     setBreeds((preState) => uniqueBreed);
+//   }, [petList]);
 
-    for (const pet of st) {
-      uniqueBreed.push(pet);
-    }
+//   if (breeds.length === 0) {
+//     return <></>;
+//   }
 
-    setBreeds((preState) => uniqueBreed);
-  }, [petList]);
+//   const onChangeBreedFilter = (event) => {
+//     const currBreed = event.target.value;
 
-  if (breeds.length === 0) {
-    return <></>;
-  }
+//     if (breedFilter.includes(currBreed) === false) {
+//       setBreedFilter((preState) => [...breedFilter, currBreed]);
+//     } else {
+//       setBreedFilter((preState) => preState.filter((item) => item !== currBreed));
+//     }
+//   };
 
-  const onChangeBreedFilter = (event) => {
-    const currBreed = event.target.value;
+//   const BreedCheckboxes = breeds.map((breed) => (
+//     <InputCheckbox
+//       id={`filter_${breed}`}
+//       value={breed}
+//       inputStyle="hidden checkbox-question-input"
+//       labelStyle="checkbox-question-label text-center flex-grow"
+//       checked={breedFilter.includes(breed)}
+//       onChangeHandler={onChangeBreedFilter}
+//       key={`filter_${breed}`}>
+//       {breed}
+//     </InputCheckbox>
+//   ));
 
-    if (breedFilter.includes(currBreed) === false) {
-      setBreedFilter((preState) => [...breedFilter, currBreed]);
-    } else {
-      setBreedFilter((preState) => preState.filter((item) => item !== currBreed));
-    }
+//   return (
+//     <div className="flex flex-col gap-2">
+//       <p className="font-medium text-md">Breed</p>
+//       <div className="flex justify-start gap-3 flex-wrap">{BreedCheckboxes}</div>
+//     </div>
+//   );
+// }
 
-    // dispatch(speciesFilterSlice.actions.assign(updatedFilter));
-  };
-
-  const BreedCheckboxes = breeds.map((breed) => (
-    <InputCheckbox
-      id={`filter_${breed}`}
-      value={breed}
-      inputStyle="hidden checkbox-question-input"
-      labelStyle="checkbox-question-label text-center flex-grow"
-      checked={breedFilter.includes(breed)}
-      onChangeHandler={onChangeBreedFilter}
-      key={`filter_${breed}`}>
-      {breed}
-    </InputCheckbox>
-  ));
-
-  return (
-    <div className="flex flex-col gap-2">
-      <p className="font-medium text-md">Breed</p>
-      <div className="flex justify-start gap-3 flex-wrap">{BreedCheckboxes}</div>
-    </div>
-  );
-}
-
-export default BreedFilter;
+// export default BreedFilter;

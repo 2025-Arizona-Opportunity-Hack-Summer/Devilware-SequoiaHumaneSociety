@@ -19,7 +19,7 @@ import AnimalList from "../AnimalList/AnimalList";
 import userImage from "../../../assets/images/user.png";
 
 import { finishAdopterQuestionsSlice } from "../../../redux/MatchFormSlice";
-import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
+import { fetchUpdateUserQuestionnaireById } from "../../../modules/users/services/userSevices";
 
 export default withAuthInfo(function AdopterQuestions({ isLoggedIn, user, setNumbersOfAnswers }) {
   const dispatch = useDispatch();

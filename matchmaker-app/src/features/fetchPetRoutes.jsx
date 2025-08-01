@@ -3,16 +3,16 @@ import { createSearchParams } from "react-router";
 const API_BASE_URL = import.meta.env.VITE_API_URL;
 const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
 
-async function fetchGetPet(pet_id, species, size) {
+async function fetchGetPet(species) {
   let data;
 
   const queryParams = createSearchParams({
-    pet_id: pet_id,
     species: species,
   }).toString();
 
   const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}?${queryParams}`;
 
+  console.log(endpoint);
   try {
     const response = await fetch(endpoint);
 
@@ -172,6 +172,25 @@ async function fetchDeleletePet(pet_id) {
   return pet_id;
 }
 
+async function fetchMatchedPets(matchAnswers) {
+  let data;
+  const searchParams = createSearchParams(matchAnswers).toString();
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}/matchmaker?${searchParams}`;
+
+  try {
+    const response = await fetch(endpoint);
+
+    if (!response.ok) {
+      throw Error(error.type);
+    }
+
+    data = await response.json();
+  } catch (err) {
+    throw Error(err);
+  }
+
+  return data;
+}
 export {
   fetchGetPet,
   fetchCreatePet,
@@ -180,4 +199,5 @@ export {
   fetchSetPetOnHold,
   fetchSetPetAdopted,
   fetchDeleletePet,
+  fetchMatchedPets,
 };

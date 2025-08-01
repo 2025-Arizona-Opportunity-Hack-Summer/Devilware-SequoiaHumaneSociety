@@ -1,5 +1,9 @@
 const mongoClient = require("../database");
+const { ObjectId } = require("mongodb");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const { GetObjectCommand } = require("@aws-sdk/client-s3");
 
+const s3Client = require("../s3");
 async function createUser(req, res, next) {
   const { email, name, dob, gender } = req.body;
 
@@ -58,7 +62,6 @@ async function findUserByEmail(req, res, next) {
 
 async function updateUserFavoritesPet(req, res, next) {
   const { email } = req.params;
-  const { pet_id } = req.body;
 
   try {
     // Find the user with email
@@ -175,10 +178,62 @@ async function updateUserQuestionnaireById(req, res, next) {
   }
 }
 
+async function findUserFavoritePets(req, res, next) {
+  const { email } = req.params;
+
+  try {
+    // Find the user with email
+    const usersCollection = mongoClient.getDB().collection("users");
+    let user = await usersCollection.findOne({ email: email });
+
+    if (user === null) {
+      // If the user does not exist, we do nothing
+      res.status(400).json({
+        error: "UserNotFound",
+        message: "Cannot find user",
+      });
+      return;
+    }
+    const favoritePetIds = user.favoritePets.map((id) => ObjectId.createFromHexString(id));
+
+    console.log(favoritePetIds);
+    const pets = await mongoClient
+      .getDB()
+      .collection("pets")
+      .find({ _id: { $in: favoritePetIds } })
+      .toArray();
+
+    for (const pet of pets) {
+      // const imagesUrl = [];
+      const imagesUrlPromises = [];
+
+      for (const image of pet.images) {
+        const getObjectParam = {
+          Bucket: process.env.BUCKET_NAME,
+          Key: image,
+        };
+        const command = new GetObjectCommand(getObjectParam);
+        const url = getSignedUrl(s3Client, command, { expiresIn: 3600 * 24 });
+        imagesUrlPromises.push(url);
+      }
+      pet.imagesURL = await Promise.all(imagesUrlPromises);
+    }
+
+    res.status(200).json(pets);
+  } catch (err) {
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
+  }
+}
+
 module.exports = {
   createUser,
   findUserByEmail,
   updateUserFavoritesPet,
   updateUserQuestionnaire,
   updateUserQuestionnaireById,
+  findUserFavoritePets,
 };

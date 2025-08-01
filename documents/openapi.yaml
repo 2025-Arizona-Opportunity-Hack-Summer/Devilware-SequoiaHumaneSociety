@@ -83,6 +83,43 @@ paths:
           $ref: "#/components/responses/UserNotFound"
         '500':
           $ref: "#/components/responses/InternalServerError"
+  /users/{email}/favorite-pets:
+    get:
+      tags: [Users]
+      summary: Get a user's favorite pets
+      description: Returns a list of all favorite pets for the specified user email.
+      parameters:
+        - name: pet_ids
+          in: query
+          required: true
+          schema:
+            type: array
+            items:
+              type: string
+            example: [6868a7c4644c49a33afa4217, 6868a7c4644c49a33afa421b]
+      responses:
+        '200':
+          description: Successfully retrieved the list of pets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: "#/components/schemas/Pet"
+                    - type: object
+                      properties:
+                        imagesURL:
+                          description: Each `imagesURL` is the url of corresponding images stored in AWS
+                          type: array
+                          items:
+                            type: string
+                          example: "https://shs-ai-powered-pet-matchmaker.s3.us-east-1.amazonaws.com/lala.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAUDNSFG6NCEMX45M5%2F20250730%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250730T064657Z&X-Amz-Expires=86400&X-Amz-Signature=94891f25c62210c5ba9a87de69c0abb28b176ad4cffcfbf25c1a38524b2e4274&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+                  required: [imagesURL]
+        '404':
+          $ref: "#/components/responses/UserNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
   /users/{email}/favorite-pets/{pet_id}:
     put:
       tags: [Users]

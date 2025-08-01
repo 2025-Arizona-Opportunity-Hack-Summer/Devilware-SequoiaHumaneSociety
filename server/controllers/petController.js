@@ -8,28 +8,19 @@ const { ObjectId } = require("mongodb");
 require("dotenv").config();
 
 async function findPets(req, res, next) {
-  let { pet_id, page, pageSize, species } = req.query;
+  let { species } = req.query;
   const filter = {};
 
-  if (pet_id !== undefined) {
-    if (Array.isArray(pet_id)) {
-      filter["_id"] = { $in: pet_id.map((id) => ObjectId.createFromHexString(id)) };
-    } else {
-      filter["_id"] = ObjectId.createFromHexString(pet_id);
-    }
-  } else if (species !== undefined) {
+  if (species !== undefined) {
     filter["species"] = species;
   }
 
-  page = parseInt(page, 10) || 1; // pagination
-  pageSize = parseInt(pageSize, 10) || 100;
   try {
     const pipeline = [
       { $match: filter },
       {
         $facet: {
-          metadata: [{ $count: "totalCount" }],
-          data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize }],
+          data: [],
           breeds: [
             { $unwind: "$breed" },
             { $group: { _id: "$breed" } },
@@ -59,13 +50,10 @@ async function findPets(req, res, next) {
     }
 
     res.status(200).json({
-      description: "Find pet successfully",
-      content: pets[0].data,
-      metadata: pets[0].metadata,
+      pets: pets[0].data,
       breeds: pets[0].breeds[0].values,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       error: "InternalServerError",
       message: "Problem occurs at server. Please contact for help",
@@ -74,6 +62,45 @@ async function findPets(req, res, next) {
   }
 }
 
+async function findPetById(req, res, next) {
+  const { pet_id } = req.params;
+
+  try {
+    const pet = await mongoClient
+      .getDB()
+      .collection("pets")
+      .findOne({ _id: ObjectId.createFromHexString(pet_id) });
+
+    if (pet === null) {
+      res.status(400).json({
+        error: "PetNotFound",
+        message: "Cannot find pet",
+      });
+      return;
+    }
+
+    const imagesUrlPromises = [];
+
+    for (const image of pet.images) {
+      const getObjectParam = {
+        Bucket: process.env.BUCKET_NAME,
+        Key: image,
+      };
+      const command = new GetObjectCommand(getObjectParam);
+      const url = getSignedUrl(s3Client, command, { expiresIn: 3600 * 24 });
+      imagesUrlPromises.push(url);
+    }
+    pet.imagesURL = await Promise.all(imagesUrlPromises);
+
+    res.status(200).json(pet);
+  } catch (err) {
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
+  }
+}
 async function createPet(req, res, next) {
   const { active_level, adoption_fee, age, animal_id, breed, characteristics, name, sex, species, weight, images } =
     req.body;
@@ -91,6 +118,10 @@ async function createPet(req, res, next) {
       sex: sex,
       weight: weight,
       images: images,
+      on_hold_email: null,
+      on_hold_date: null,
+      adopted_date: null,
+      adopted_email: null,
     };
     await mongoClient.getDB().collection("pets").insertOne(newPet);
 
@@ -179,22 +210,25 @@ async function setPetOnHold(req, res, next) {
       return;
     }
 
-    if (pet.onHoldEmail === undefined || pet.onHoldEmail === null) {
+    if (pet.on_hold_email === null) {
       await mongoClient
         .getDB()
         .collection("pets")
         .updateOne(
           { _id: ObjectId.createFromHexString(pet_id) },
-          { $set: { onHoldEmail: email, onHoldDate: new Date() } }
+          { $set: { on_hold_email: email, on_hold_date: new Date() } }
         );
 
-      res.status(200).json({ ...pet, onHoldEmail: email, onHoldDate: new Date() });
+      res.status(200).json({ ...pet, on_hold_email: email, on_hold_date: new Date() });
     } else {
       await mongoClient
         .getDB()
         .collection("pets")
-        .updateOne({ _id: ObjectId.createFromHexString(pet_id) }, { $set: { onHoldEmail: null, onHoldDate: null } });
-      res.status(200).json({ ...pet, onHoldEmail: null, onHoldDate: null });
+        .updateOne(
+          { _id: ObjectId.createFromHexString(pet_id) },
+          { $set: { on_hold_email: null, on_hold_date: null } }
+        );
+      res.status(200).json({ ...pet, on_hole_email: null, on_hold_date: null });
     }
   } catch (err) {
     res.status(500).json({
@@ -232,24 +266,27 @@ async function setPetAdopted(req, res, next) {
       return;
     }
 
-    if (pet.adoptedEmail === undefined || pet.adoptedEmail === null) {
+    if (pet.adopted_email === null) {
       await mongoClient
         .getDB()
         .collection("pets")
         .updateOne(
           { _id: ObjectId.createFromHexString(pet_id) },
-          { $set: { adoptedEmail: email, adoptedDate: new Date(), onHoldEmail: null, onHoldDate: null } }
+          { $set: { adopted_email: email, adopted_data: new Date(), on_hold_email: null, on_hold_date: null } }
         );
 
       res
         .status(200)
-        .json({ ...pet, adoptedEmail: email, adoptedDate: new Date(), onHoldEmail: null, onHoldDate: null });
+        .json({ ...pet, adopted_email: email, adopted_data: new Date(), on_hold_email: null, on_hold_date: null });
     } else {
       await mongoClient
         .getDB()
         .collection("pets")
-        .updateOne({ _id: ObjectId.createFromHexString(pet_id) }, { $set: { adoptedEmail: null, adoptedDate: null } });
-      res.status(200).json({ ...pet, adoptedEmail: null, adoptedDate: null });
+        .updateOne(
+          { _id: ObjectId.createFromHexString(pet_id) },
+          { $set: { adopted_email: null, adopted_date: null } }
+        );
+      res.status(200).json({ ...pet, adopted_email: null, adopted_date: null });
     }
   } catch (err) {
     res.status(500).json({
@@ -261,7 +298,7 @@ async function setPetAdopted(req, res, next) {
 }
 
 async function deletePet(req, res, next) {
-  const { pet_id } = req.query;
+  const { pet_id } = req.params;
 
   try {
     const pet = await mongoClient
@@ -276,7 +313,6 @@ async function deletePet(req, res, next) {
       });
       return;
     }
-
     if (pet.images.length !== 0) {
       const deletePromises = pet.images.map(async (image) => {
         const command = new DeleteObjectCommand({
@@ -309,6 +345,57 @@ async function deletePet(req, res, next) {
     });
   }
 }
+
+async function findMatchedPets(req, res, next) {
+  console.log("CAll");
+  // let {} = req.query;
+  try {
+    const pipeline = [
+      {
+        $facet: {
+          data: [],
+          breeds: [
+            { $unwind: "$breed" },
+            { $group: { _id: "$breed" } },
+            { $group: { _id: null, values: { $addToSet: "$_id" } } },
+            { $project: { _id: 0, values: 1 } },
+          ],
+        },
+      },
+    ];
+
+    const pets = await mongoClient.getDB().collection("pets").aggregate(pipeline).toArray();
+    console.log(pets);
+    for (const pet of pets[0].data) {
+      // const imagesUrl = [];
+      const imagesUrlPromises = [];
+
+      for (const image of pet.images) {
+        const getObjectParam = {
+          Bucket: process.env.BUCKET_NAME,
+          Key: image,
+        };
+        const command = new GetObjectCommand(getObjectParam);
+        const url = getSignedUrl(s3Client, command, { expiresIn: 3600 * 24 });
+        imagesUrlPromises.push(url);
+      }
+      pet.imagesURL = await Promise.all(imagesUrlPromises);
+    }
+
+    res.status(200).json({
+      pets: pets[0].data,
+      breeds: pets[0].breeds[0].values,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
+  }
+}
+
 module.exports = {
   findPets,
   createPet,
@@ -316,4 +403,6 @@ module.exports = {
   setPetOnHold,
   setPetAdopted,
   deletePet,
+  findMatchedPets,
+  findPetById,
 };

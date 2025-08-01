@@ -1,20 +1,16 @@
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { UserClass, withAuthInfo } from "@propelauth/react";
+import { withAuthInfo } from "@propelauth/react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
 import Footer from "../../components/Footer/Footer.jsx";
-import { userSlice } from "../../redux/UserInfoSlice";
-import { saveUserQuesionnaire } from "../../features/saveUserPreferences";
+import { userSlice } from "../../store/slices/UserInfoSlice.jsx";
+import saveUserAnswers from "../../utils/saveUserAnswers.jsx";
 
-import {
-  fetchFindUserByEmail,
-  fetchCreateUser,
-  fetchUpdateUserQuesionnaireBySessionStorage,
-} from "../../features/fetchUserRoutes";
-
+import { fetchCreateUser, fetchFindUserByEmail } from "../../modules/auth/services/authServices.jsx";
+import { fetchUpdateUserQuesionnaireBySessionStorage } from "../../modules/users/services/userSevices.jsx";
 export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHelper, userClass }) {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -45,8 +41,7 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHe
           }
         }
 
-        // const updatedMatchQuestions = saveUserQuesionnaire(userInfo);
-        const updatedMatchQuestions = {};
+        const updatedMatchQuestions = saveUserAnswers(userInfo);
         userInfo = await fetchUpdateUserQuesionnaireBySessionStorage(user.email, updatedMatchQuestions);
 
         dispatch(userSlice.actions.assign(userInfo));

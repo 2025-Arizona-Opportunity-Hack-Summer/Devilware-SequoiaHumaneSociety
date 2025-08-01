@@ -16,7 +16,7 @@ import SessionStorage from "../../../features/sessionStorage";
 
 import userImage from "../../../assets/images/user.png";
 
-import { fetchUpdateUserQuestionnaireById } from "../../../features/fetchUserRoutes";
+import { fetchUpdateUserQuestionnaireById } from "../../../modules/users/services/userSevices";
 import { finishPetQuestionsSlice } from "../../../redux/MatchFormSlice";
 
 export default withAuthInfo(function IdealPetQuestions({ isLoggedIn, user, setNumbersOfAnswers }) {

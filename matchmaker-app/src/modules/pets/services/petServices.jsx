@@ -29,7 +29,27 @@ async function fetchGetPet(pet_id, species, size) {
   return data;
 }
 
-async function fetchGetAllPets() {
+async function fetchFindPetById(pet_id) {
+  let data;
+
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}/${pet_id}`;
+
+  try {
+    const response = await fetch(endpoint);
+
+    if (!response.ok) {
+      throw Error("Error");
+    }
+
+    data = await response.json();
+  } catch (err) {
+    console.log(err);
+    throw Error(err);
+  }
+
+  return data;
+}
+async function fetchFindPets() {
   let data;
 
   const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}`;
@@ -154,8 +174,7 @@ async function fetchSetPetAdopted(pet_id, email) {
 }
 
 async function fetchDeleletePet(pet_id) {
-  const searchParams = createSearchParams({ pet_id: pet_id }).toString();
-  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}?${searchParams}`;
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}/${pet_id}`;
 
   try {
     const response = await fetch(endpoint, {
@@ -194,10 +213,11 @@ async function fetchMatchedPets(matchAnswers) {
 export {
   fetchGetPet,
   fetchCreatePet,
-  fetchGetAllPets,
+  fetchFindPets,
   fetchUpdatePet,
   fetchSetPetOnHold,
   fetchSetPetAdopted,
   fetchDeleletePet,
   fetchMatchedPets,
+  fetchFindPetById,
 };

@@ -74,6 +74,45 @@ async function findPets(req, res, next) {
   }
 }
 
+async function findPetById(req, res, next) {
+  const { pet_id } = req.params;
+
+  try {
+    const pet = await mongoClient
+      .getDB()
+      .collection("pets")
+      .findOne({ _id: ObjectId.createFromHexString(pet_id) });
+
+    if (pet === null) {
+      res.status(400).json({
+        error: "PetNotFound",
+        message: "Cannot find pet",
+      });
+      return;
+    }
+
+    const imagesUrlPromises = [];
+
+    for (const image of pet.images) {
+      const getObjectParam = {
+        Bucket: process.env.BUCKET_NAME,
+        Key: image,
+      };
+      const command = new GetObjectCommand(getObjectParam);
+      const url = getSignedUrl(s3Client, command, { expiresIn: 3600 * 24 });
+      imagesUrlPromises.push(url);
+    }
+    pet.imagesURL = await Promise.all(imagesUrlPromises);
+
+    res.status(200).json(pet);
+  } catch (err) {
+    res.status(500).json({
+      error: "InternalServerError",
+      message: "Problem occurs at server. Please contact for help",
+      detail: err,
+    });
+  }
+}
 async function createPet(req, res, next) {
   const { active_level, adoption_fee, age, animal_id, breed, characteristics, name, sex, species, weight, images } =
     req.body;
@@ -91,6 +130,10 @@ async function createPet(req, res, next) {
       sex: sex,
       weight: weight,
       images: images,
+      on_hold_email: null,
+      on_hold_date: null,
+      adopted_date: null,
+      adopted_email: null,
     };
     await mongoClient.getDB().collection("pets").insertOne(newPet);
 
@@ -179,22 +222,25 @@ async function setPetOnHold(req, res, next) {
       return;
     }
 
-    if (pet.onHoldEmail === undefined || pet.onHoldEmail === null) {
+    if (pet.on_hold_email === null) {
       await mongoClient
         .getDB()
         .collection("pets")
         .updateOne(
           { _id: ObjectId.createFromHexString(pet_id) },
-          { $set: { onHoldEmail: email, onHoldDate: new Date() } }
+          { $set: { on_hold_email: email, on_hold_date: new Date() } }
         );
 
-      res.status(200).json({ ...pet, onHoldEmail: email, onHoldDate: new Date() });
+      res.status(200).json({ ...pet, on_hold_email: email, on_hold_date: new Date() });
     } else {
       await mongoClient
         .getDB()
         .collection("pets")
-        .updateOne({ _id: ObjectId.createFromHexString(pet_id) }, { $set: { onHoldEmail: null, onHoldDate: null } });
-      res.status(200).json({ ...pet, onHoldEmail: null, onHoldDate: null });
+        .updateOne(
+          { _id: ObjectId.createFromHexString(pet_id) },
+          { $set: { on_hold_email: null, on_hold_date: null } }
+        );
+      res.status(200).json({ ...pet, on_hole_email: null, on_hold_date: null });
     }
   } catch (err) {
     res.status(500).json({
@@ -232,24 +278,27 @@ async function setPetAdopted(req, res, next) {
       return;
     }
 
-    if (pet.adoptedEmail === undefined || pet.adoptedEmail === null) {
+    if (pet.adopted_email === null) {
       await mongoClient
         .getDB()
         .collection("pets")
         .updateOne(
           { _id: ObjectId.createFromHexString(pet_id) },
-          { $set: { adoptedEmail: email, adoptedDate: new Date(), onHoldEmail: null, onHoldDate: null } }
+          { $set: { adopted_email: email, adopted_data: new Date(), on_hold_email: null, on_hold_date: null } }
         );
 
       res
         .status(200)
-        .json({ ...pet, adoptedEmail: email, adoptedDate: new Date(), onHoldEmail: null, onHoldDate: null });
+        .json({ ...pet, adopted_email: email, adopted_data: new Date(), on_hold_email: null, on_hold_date: null });
     } else {
       await mongoClient
         .getDB()
         .collection("pets")
-        .updateOne({ _id: ObjectId.createFromHexString(pet_id) }, { $set: { adoptedEmail: null, adoptedDate: null } });
-      res.status(200).json({ ...pet, adoptedEmail: null, adoptedDate: null });
+        .updateOne(
+          { _id: ObjectId.createFromHexString(pet_id) },
+          { $set: { adopted_email: null, adopted_date: null } }
+        );
+      res.status(200).json({ ...pet, adopted_email: null, adopted_date: null });
     }
   } catch (err) {
     res.status(500).json({
@@ -367,4 +416,5 @@ module.exports = {
   setPetAdopted,
   deletePet,
   findMatchedPets,
+  findPetById,
 };

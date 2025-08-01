@@ -19,9 +19,11 @@ import PetDescriptions from "./components/PetDescriptions/PetDescriptions";
 import AdoptPetList from "./components/AdoptPetList/AdoptPetList";
 import AdoptRoot from "./components/AdoptRoot/AdoptRoot";
 import FavoritePet from "./pages/FavoritePet/FavoritePet";
-import PetAdmin from "./pages/PetAdmin/PetAdmin";
+// import PetAdmin from "./pages/PetAdmin/PetAdmin";
+import PetAdmin from "./modules/pets/pages/PetAdmin";
 // import CreatePetForm from "./components/CreatePetForm/CreatePetForm/CreatePetForm";
 import CreatePetForm from "./modules/pets/components/admin/CreatePetForm/CreatePetForm";
+import EditPet from "./modules/pets/components/admin/EditPet/EditPet";
 import EditPetRoot from "./components/CreatePetForm/EditPetForm/EditPetRoot";
 import UserProfile from "./modules/users/pages/UserProfile";
 import store from "./redux/store";
@@ -44,7 +46,7 @@ const router = createBrowserRouter(
         <Route path="favorite" element={<FavoritePet />} />
         <Route path="petadmin" element={<PetAdmin />}>
           <Route path="create" element={<CreatePetForm />} />
-          <Route path="edit" element={<EditPetRoot />} />
+          <Route path="edit" element={<EditPet />} />
         </Route>
         <Route path="user-profile" element={<UserProfile />} />
       </Route>

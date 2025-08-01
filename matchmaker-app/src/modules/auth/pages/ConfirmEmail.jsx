@@ -3,7 +3,7 @@ import { useLogoutFunction, withAuthInfo } from "@propelauth/react";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router";
 
-import shsLogo from "../../assets/images/shs-logo.png";
+import shsLogo from "../../../assets/images/shs-logo.png";
 import { useEffect } from "react";
 
 export default withAuthInfo(function ConfirmEmail({ isLoggedIn, user, accessToken }) {

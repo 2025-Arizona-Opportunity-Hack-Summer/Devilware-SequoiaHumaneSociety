@@ -2,13 +2,14 @@ import { withRequiredAuthInfo } from "@propelauth/react";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import { userSlice } from "../../store/slices/UserInfoSlice";
+import { userSlice } from "../../../store/slices/UserInfoSlice";
 
-import { fetchFindFavoritePets } from "../../modules/users/services/userSevices";
-import SignIn from "../SignIn";
-import PetList from "../../modules/pets/components/PetList/PetList";
+import { fetchFindFavoritePets } from "../services/userSevices";
 
-import heartImg from "../../assets/images/heart-com.svg";
+import SignIn from "../../auth/pages/SignIn";
+import PetList from "../../pets/components/PetList/PetList";
+
+import heartImg from "../../../assets/images/heart-com.svg";
 
 export default withRequiredAuthInfo(
   function FavoritePage({ user }) {

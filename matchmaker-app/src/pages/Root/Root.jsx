@@ -4,7 +4,7 @@ import { withAuthInfo } from "@propelauth/react";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 
-import NavigationBar from "../../components/NavigationBar/NavigationBar";
+import NavigationBar from "../../components/layout/NavigationBar/NavigationBar.jsx";
 import Footer from "../../components/Footer/Footer.jsx";
 import { userSlice } from "../../store/slices/UserInfoSlice.jsx";
 import saveUserAnswers from "../../utils/saveUserAnswers.jsx";

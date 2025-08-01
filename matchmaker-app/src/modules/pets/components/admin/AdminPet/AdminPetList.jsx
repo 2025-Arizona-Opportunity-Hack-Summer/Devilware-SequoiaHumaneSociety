@@ -1,5 +1,5 @@
 import AdminPetInfo from "./AdminPetInfo";
-import InputText from "../../../../../components/Input/InputText/InputText";
+import InputText from "../../../../../components/common/inputs/InputText";
 import InputButton from "../../../../../components/common/inputs/InputButton";
 
 import { useEffect, useState } from "react";

@@ -5,11 +5,11 @@ import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { NavLink, Link } from "react-router-dom";
 
-import { userSlice } from "../../store/slices/UserInfoSlice";
+import { userSlice } from "../../../store/slices/UserInfoSlice";
 
-import shsLogo from "../../assets/images/shs-logo.png";
+import shsLogo from "../../../assets/images/shs-logo.png";
 
-import SessionStorage from "../../utils/sessionStorage";
+import SessionStorage from "../../../utils/sessionStorage";
 import "./NavigationBar.css";
 
 export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass }) {

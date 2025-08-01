@@ -1,5 +1,5 @@
 import UserProfileForm from "../components/UserProfileForm/UserProfileform";
-import Homepage from "../../../pages/Homepage/Homepage";
+import Homepage from "../../../pages/Homepage";
 import { withRequiredAuthInfo } from "@propelauth/react";
 
 export default withRequiredAuthInfo(

@@ -3,26 +3,24 @@ import { Provider } from "react-redux";
 import "react-router-dom";
 
 import Root from "./pages/Root/Root";
-import Homepage from "./pages/Homepage/Homepage";
-import Foster from "./pages/Foster/Foster";
-import Volunteer from "./pages/Volunteer/Volunteer";
+import Homepage from "./pages/Homepage";
+import Foster from "./pages/Foster";
+import Volunteer from "./pages/Volunteer";
 
-// import Match from "./pages/Match/Match";
-import Match from "./pages/Match";
-// import SignIn from "./pages/SignIn/SignIn";
-// import Register from "./pages/Register/Register";
-import Register from "./pages/Register";
-import SignIn from "./pages/SignIn";
-import ConfirmEmail from "./pages/ConfirmEmail/ConfirmEmail";
+import Register from "./modules/auth/pages/Register";
+import SignIn from "./modules/auth/pages/SignIn";
+import ConfirmEmail from "./modules/auth/pages/ConfirmEmail";
+import CreatePetForm from "./modules/pets/components/admin/CreatePetForm/CreatePetForm";
+import EditPet from "./modules/pets/components/admin/EditPet/EditPet";
 
-import Adopt from "./pages/Adopt";
+import Match from "./modules/pets/pages/Match";
+import Adopt from "./modules/pets/pages/Adopt";
+import PetAdmin from "./modules/pets/pages/PetAdmin";
 import AdoptPetList from "./modules/pets/components/adopt/AdoptPetList/AdoptPetList";
 import AdoptRoot from "./modules/pets/components/adopt/AdoptRoot/AdoptRoot";
 import PetDescription from "./modules/pets/components/PetDescription/PetDescription";
-import FavoritePet from "./pages/FavoritePet/FavoritePet";
-import PetAdmin from "./modules/pets/pages/PetAdmin";
-import CreatePetForm from "./modules/pets/components/admin/CreatePetForm/CreatePetForm";
-import EditPet from "./modules/pets/components/admin/EditPet/EditPet";
+
+import FavoritePet from "./modules/users/pages/FavoritePet";
 import UserProfile from "./modules/users/pages/UserProfile";
 
 import store from "./store/store";

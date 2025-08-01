@@ -1,7 +1,7 @@
 import { Outlet, useNavigate } from "react-router";
 import { withRequiredAuthInfo } from "@propelauth/react";
 
-import Homepage from "../../../pages/Homepage/Homepage";
+import Homepage from "../../../pages/Homepage";
 
 export default withRequiredAuthInfo(
   function PetAdmin({ user }) {

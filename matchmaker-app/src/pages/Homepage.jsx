@@ -1,7 +1,6 @@
-import React from "react";
 import { Link } from "react-router-dom";
-import img1 from "../../assets/images/aboutimg.png";
-import img2 from "../../assets/images/aboutimg2.png";
+import img1 from "../assets/images/aboutimg.png";
+import img2 from "../assets/images/aboutimg2.png";
 
 // --- SVG Icon Components for a consistent and clean look ---
 

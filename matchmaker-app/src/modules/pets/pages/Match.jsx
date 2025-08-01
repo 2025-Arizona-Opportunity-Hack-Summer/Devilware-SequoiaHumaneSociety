@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { withAuthInfo } from "@propelauth/react";
 import { Link } from "react-router";
 
-import Questions from "../modules/pets/components/match/Questions/Questions";
-import WaitingLoaderFindPets from "../modules/pets/components/match/WaitingLoaderFindPets/WaitingLoaderFindPets";
-import MatchedPets from "../modules/pets/components/match/MatchedPets/MatchedPets";
+import Questions from "../components/match/Questions/Questions";
+import WaitingLoaderFindPets from "../components/match/WaitingLoaderFindPets/WaitingLoaderFindPets";
+import MatchedPets from "../components/match/MatchedPets/MatchedPets";
 
-import Modal from "../components/common/Modal/Modal";
+import Modal from "../../../components/common/Modal/Modal";
 
-import shsLogo from "../assets/images/shs-logo.png";
+import shsLogo from "../../../assets/images/shs-logo.png";
 import "./Match.css";
 
-import SessionStorage from "../utils/sessionStorage";
+import SessionStorage from "../../../utils/sessionStorage";
 
 export default withAuthInfo(function Match({ isLoggedIn }) {
   const [isQuestionPage, setIsQuestionPage] = useState(true);

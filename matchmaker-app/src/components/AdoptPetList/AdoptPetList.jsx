@@ -41,6 +41,7 @@ function AdoptPetList() {
     let url;
     if (species === "dog" || species === "cat") {
       url = `${API_BASE_URL}/${PETS_ENDPOINT}?species=${species.charAt(0).toUpperCase() + species.slice(1)}`;
+      console.log(url);
     } else {
       url = `${API_BASE_URL}/${PETS_ENDPOINT}?species=other`;
     }
@@ -53,7 +54,7 @@ function AdoptPetList() {
           - data.content: pet data array
           - data.breeds: list of string represents all breed in the above pet data array
         */
-        setOriginalPetList((preState) => data.content);
+        setOriginalPetList((preState) => data.pets);
         setBreedList((preState) => data.breeds);
 
         /*

@@ -4,7 +4,6 @@ import { userSlice } from "../../redux/UserInfoSlice";
 import { useSelector, useDispatch } from "react-redux";
 
 import { useSearchParams } from "react-router-dom";
-import { createSearchParams } from "react-router-dom";
 
 import RequiredSignInModal from "../RequiredSignInModal/RequiredSignInModal";
 import AttributeList from "./AttributeList/AttributeList";
@@ -30,16 +29,15 @@ export default withAuthInfo(function PetDescriptions({ user, isLoggedIn, userCla
     }
   }, []);
   useEffect(() => {
-    const searchQuery = createSearchParams({ pet_id: pet_id }).toString();
-
     setImageIndex(0);
     const BASE_API_URL = import.meta.env.VITE_API_URL;
     const PETS_ENDPOINT = import.meta.env.VITE_PETS_ENDPOINT;
 
-    fetch(`${BASE_API_URL}/${PETS_ENDPOINT}?${searchQuery}`, { method: "GET" })
+    fetch(`${BASE_API_URL}/${PETS_ENDPOINT}/${pet_id}`, { method: "GET" })
       .then((response) => response.json())
       .then((data) => {
-        setData((preState) => data.content[0]);
+        console.log(data);
+        setData((preState) => data);
       })
       .catch((err) => {
         console.log(err);

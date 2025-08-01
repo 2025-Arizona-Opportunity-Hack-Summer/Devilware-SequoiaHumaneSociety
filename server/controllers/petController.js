@@ -8,28 +8,19 @@ const { ObjectId } = require("mongodb");
 require("dotenv").config();
 
 async function findPets(req, res, next) {
-  let { pet_id, page, pageSize, species } = req.query;
+  let { species } = req.query;
   const filter = {};
 
-  if (pet_id !== undefined) {
-    if (Array.isArray(pet_id)) {
-      filter["_id"] = { $in: pet_id.map((id) => ObjectId.createFromHexString(id)) };
-    } else {
-      filter["_id"] = ObjectId.createFromHexString(pet_id);
-    }
-  } else if (species !== undefined) {
+  if (species !== undefined) {
     filter["species"] = species;
   }
 
-  page = parseInt(page, 10) || 1; // pagination
-  pageSize = parseInt(pageSize, 10) || 100;
   try {
     const pipeline = [
       { $match: filter },
       {
         $facet: {
-          metadata: [{ $count: "totalCount" }],
-          data: [{ $skip: (page - 1) * pageSize }, { $limit: pageSize }],
+          data: [],
           breeds: [
             { $unwind: "$breed" },
             { $group: { _id: "$breed" } },
@@ -59,13 +50,10 @@ async function findPets(req, res, next) {
     }
 
     res.status(200).json({
-      description: "Find pet successfully",
-      content: pets[0].data,
-      metadata: pets[0].metadata,
+      pets: pets[0].data,
       breeds: pets[0].breeds[0].values,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       error: "InternalServerError",
       message: "Problem occurs at server. Please contact for help",

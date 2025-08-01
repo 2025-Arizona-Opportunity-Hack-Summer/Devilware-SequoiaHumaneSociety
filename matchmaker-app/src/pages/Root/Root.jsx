@@ -5,6 +5,7 @@ import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { ScrollRestoration } from "react-router-dom";
 
 import NavigationBar from "../../components/NavigationBar/NavigationBar";
+import Footer from "../../components/Footer/Footer.jsx";
 import { userSlice } from "../../redux/UserInfoSlice";
 import { saveUserQuesionnaire } from "../../features/saveUserPreferences";
 
@@ -65,6 +66,7 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHe
       <main>
         <Outlet />
       </main>
+      <Footer />
     </div>
   );
 });

@@ -106,84 +106,15 @@ function Volunteer() {
           <h2 className="text-2xl sm:text-3xl font-bold text-[#252525] text-center mb-6 sm:mb-8">
             Apply to Volunteer
           </h2>
-          
-          <div className="bg-gray-50 rounded-lg p-4 sm:p-8">
-            <div className="space-y-4 sm:space-y-6">
-              <div>
-                <label className="block text-sm font-semibold text-[#252525] mb-2">
-                  <span className="inline-block w-4 h-4 mr-2">👤</span>
-                  Your Name
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C1272D] text-sm sm:text-base"
-                  placeholder="Enter your name"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-semibold text-[#252525] mb-2">
-                  <span className="inline-block w-4 h-4 mr-2">✉️</span>
-                  Email
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C1272D] text-sm sm:text-base"
-                  placeholder="Enter your email"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-semibold text-[#252525] mb-2">
-                  <span className="inline-block w-4 h-4 mr-2">📞</span>
-                  Phone Number
-                </label>
-                <input
-                  type="tel"
-                  name="phone"
-                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C1272D] text-sm sm:text-base"
-                  placeholder="Enter your phone"
-                />
-              </div>
-              
-              <div>
-                <label className="block text-sm font-semibold text-[#252525] mb-2">
-                  Interested Role
-                </label>
-                <select
-                  name="opportunity"
-                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C1272D] text-sm sm:text-base"
-                >
-                  <option value="">Select a role</option>
-                  {opportunities.map((opp, index) => (
-                    <option key={index} value={opp.title}>{opp.title}</option>
-                  ))}
-                  <option value="general">General Volunteer</option>
-                </select>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-semibold text-[#252525] mb-2">
-                  Message
-                </label>
-                <textarea
-                  name="message"
-                  rows={4}
-                  className="w-full px-3 sm:px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#C1272D] text-sm sm:text-base resize-none"
-                  placeholder="Tell us about yourself and why you want to volunteer..."
-                />
-              </div>
-              
-              <button
-                onClick={handleSubmit}
-                className="w-full bg-[#C1272D] text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-[#7C0F0F] transition-colors text-sm sm:text-base"
-              >
-                Submit Application
-              </button>
-            </div>
-          </div>
+
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSfRxxM2zsr62z8vbRYA4Ev8SUY6q6xr7aY4Wa0R5YLQcGQSLw/viewform?usp=header"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full bg-[#C1272D] text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-[#7C0F0F] transition-colors text-sm sm:text-base block text-center"
+          >
+            Submit Application
+          </a>
         </div>
       </div>
 

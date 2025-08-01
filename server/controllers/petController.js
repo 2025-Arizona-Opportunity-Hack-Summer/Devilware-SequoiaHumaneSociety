@@ -395,6 +395,7 @@ async function findMatchedPets(req, res, next) {
     });
   }
 }
+
 module.exports = {
   findPets,
   createPet,

@@ -2,8 +2,8 @@ import { withRequiredAuthInfo } from "@propelauth/react";
 import { useSelector } from "react-redux";
 
 import { userSlice } from "../../redux/UserInfoSlice";
-import { fetchGetPet } from "../../features/fetchPetRoutes";
 
+import { fetchFindFavoritePets } from "../../modules/users/services/userSevices";
 import SignIn from "../SignIn/SignIn";
 import PetList from "../../components/MatchedPets/PetList/PetList";
 
@@ -11,21 +11,21 @@ import { useEffect, useState } from "react";
 import heartImg from "../../assets/images/heart-com.svg";
 
 export default withRequiredAuthInfo(
-  function FavoritePage() {
+  function FavoritePage({ user }) {
     const userInfo = useSelector((store) => store[userSlice.name]);
     const [petList, setPetList] = useState([]);
 
     useEffect(() => {
-      if (userInfo !== null && userInfo.favoritePets.length > 0) {
-        fetchGetPet(userInfo.favoritePets, undefined, undefined)
-          .then((data) => setPetList(data.content))
+      if (user) {
+        fetchFindFavoritePets(user.email)
+          .then((data) => setPetList(data))
           .catch((err) => {
             console.log(err);
           });
       } else if (userInfo !== null && userInfo.favoritePets.length === 0) {
         setPetList((prev) => []);
       }
-    }, [userInfo]);
+    }, [user]);
 
     if (petList.length === 0) {
       return (

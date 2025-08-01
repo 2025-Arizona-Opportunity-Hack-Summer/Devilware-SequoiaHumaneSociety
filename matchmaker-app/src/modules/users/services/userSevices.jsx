@@ -98,9 +98,33 @@ async function fetchUpdateFavoritePets(email, pet_id) {
     throw Error(err);
   }
 }
+
+async function fetchFindFavoritePets(email) {
+  const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${FAVORITE_PET_ENDPOINT}`;
+
+  let pets;
+
+  console.log(endpoint);
+  try {
+    const response = await fetch(endpoint);
+    if (!response.ok) {
+      throw Error(data.error);
+    }
+    const data = await response.json();
+
+    console.log(data);
+    pets = data;
+  } catch (err) {
+    console.log(err);
+    throw Error(err);
+  }
+
+  return pets;
+}
 export {
   fetchUpdateUserQuestionnaireById,
   fetchUserProfileByEmail,
   fetchUpdateUserQuesionnaireBySessionStorage,
   fetchUpdateFavoritePets,
+  fetchFindFavoritePets,
 };

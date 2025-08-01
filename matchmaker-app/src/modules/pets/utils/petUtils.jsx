@@ -57,6 +57,11 @@ function filterPetsByCriteria(
       return false;
     });
   }
+
+  if (activeLevel !== null && activeLevel.length !== 0) {
+    result = [...result].filter((pet) => activeLevel.includes(pet.active_level));
+  }
+
   if (sortFilter !== null && sortFilter === "Alphabetical A-Z") {
     result = [...result].sort((pet1, pet2) => pet1.name.localeCompare(pet2.name));
   } else if (sortFilter !== null && sortFilter === "Alphabetical Z-A") {

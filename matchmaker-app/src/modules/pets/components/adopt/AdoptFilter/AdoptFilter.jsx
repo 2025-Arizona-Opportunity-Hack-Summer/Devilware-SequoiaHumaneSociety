@@ -43,7 +43,7 @@ function AdoptFilter({ breedList = [], setFilter, filterValue }) {
       />
       <InputCheckboxSelection
         title="active levels"
-        dataList={["Very Active", "Moderately Active", "Slightly actives"]}
+        dataList={["Very active", "Moderately active", "Quietly active"]}
         values={activeLevelFiter}
         setValues={setActiveLevelFilter}
         visibleList={visibleActiveLevelSelection}

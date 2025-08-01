@@ -9,7 +9,7 @@ import UserLogo from "../QuestionsContainers/UserLogo";
 import WaitingAnswerSpinner from "../QuestionsContainers/WaitingAnswerSpinner";
 
 import InputButton from "../../../../../../components/common/inputs/InputButton";
-import InputDatalist from "../../../../../../components/common/inputs/InputDataList";
+import InputDatalist from "../../../../../../components/common/inputs/InputDatalist";
 import InputCheckbox from "../../../../../../components/common/inputs/InputCheckbox";
 
 import SessionStorage from "../../../../../../utils/sessionStorage";

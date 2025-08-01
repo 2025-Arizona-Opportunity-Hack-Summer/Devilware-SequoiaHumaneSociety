@@ -97,6 +97,7 @@ function AdoptPetList() {
     /*
       Every time the filter is changed, call filterPet function
     */
+    console.log(activeLevelFiter);
     setPetList((preState) =>
       filterPetsByCriteria(originalPetList, [], breedFilter, activeLevelFiter, sizeFilter, sortFilter, userProfile)
     );

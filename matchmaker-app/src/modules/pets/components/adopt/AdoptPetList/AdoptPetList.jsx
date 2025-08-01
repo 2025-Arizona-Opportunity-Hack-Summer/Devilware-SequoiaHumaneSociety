@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import PetList from "../../PetList/PetList";
 import RequiredSignInModal from "../../../../../components/common/RequiredSignInModal/RequiredSignInModal";
@@ -11,11 +12,13 @@ import AdoptFilterResult from "../AdoptFilter/AdoptFilterResult";
 
 import SessionStorage from "../../../../../utils/sessionStorage";
 
+import { userSlice } from "../../../../../store/slices/UserInfoSlice";
 import { filterPetsByCriteria } from "../../../utils/petUtils";
 
 import "./AdoptPetList.css";
 
 function AdoptPetList() {
+  const userProfile = useSelector((store) => store[userSlice.name]);
   const { species } = useParams();
   const [originalPetList, setOriginalPetList] = useState([]); // store all pets data (independent with filter)
   const [petList, setPetList] = useState(); // current pet data (depend on filter)
@@ -95,7 +98,7 @@ function AdoptPetList() {
       Every time the filter is changed, call filterPet function
     */
     setPetList((preState) =>
-      filterPetsByCriteria(originalPetList, [], breedFilter, activeLevelFiter, sizeFilter, sortFilter)
+      filterPetsByCriteria(originalPetList, [], breedFilter, activeLevelFiter, sizeFilter, sortFilter, userProfile)
     );
   }, [breedFilter, activeLevelFiter, sizeFilter, sortFilter]);
 

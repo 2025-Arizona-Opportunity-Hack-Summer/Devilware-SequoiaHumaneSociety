@@ -1,3 +1,4 @@
+import { useSelector } from "react-redux";
 import Modal from "../../../../../components/common/Modal/Modal";
 
 import SpeciesFilter from "./FilterComponents/SpeciesFilter";
@@ -10,9 +11,11 @@ import InputButton from "../../../../../components/common/inputs/InputButton";
 
 import SessionStorage from "../../../../../utils/sessionStorage";
 
+import { userSlice } from "../../../../../store/slices/UserInfoSlice";
 import { filterPetsByCriteria } from "../../../utils/petUtils";
 
 function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue, originalPetList, setPetList }) {
+  const userProfile = useSelector((store) => store[userSlice.name]);
   const { speciesFilter, breedFilter, activeLevelFilter, sizeFilter, sortFilter } = filterValue;
   const { setSpeciesFilter, setBreedFilter, setActiveLevelFilter, setSizeFilter, setSortFilter } = setFilterValue;
 
@@ -26,20 +29,22 @@ function FilterModal({ visible, setVisibleFilter, filterValue, setFilterValue, o
     SessionStorage.setItem("match-active-level-filter", activeLevelFilter);
     SessionStorage.setItem("match-size-filter", sizeFilter);
     SessionStorage.setItem("match-sort-filter", sortFilter);
+
     const updatedPetList = filterPetsByCriteria(
       originalPetList,
       speciesFilter,
       breedFilter,
       activeLevelFilter,
       sizeFilter,
-      sortFilter
+      sortFilter,
+      userProfile
     );
     setPetList((prev) => updatedPetList);
     onClickCloseFilter();
   };
 
   const onClickClearAll = () => {
-    const updatedPetList = filterPet(originalPetList, [], [], [], [], "");
+    const updatedPetList = filterPetsByCriteria(originalPetList, [], [], [], [], "", userProfile);
     setSpeciesFilter((preState) => []);
     setBreedFilter((preState) => []);
     setActiveLevelFilter((preState) => []);

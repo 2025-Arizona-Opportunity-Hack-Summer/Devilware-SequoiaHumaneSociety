@@ -15,7 +15,15 @@ function extractUniqueBreeds(petList = []) {
   return uniqueBreed;
 }
 
-function filterPetsByCriteria(petList = [], species = [], breed = [], activeLevel = [], size = [], sortFilter = "") {
+function filterPetsByCriteria(
+  petList = [],
+  species = [],
+  breed = [],
+  activeLevel = [],
+  size = [],
+  sortFilter = "",
+  userProfile
+) {
   let result = petList;
 
   if (species !== null && species.length !== 0) {
@@ -53,6 +61,19 @@ function filterPetsByCriteria(petList = [], species = [], breed = [], activeLeve
     result = [...result].sort((pet1, pet2) => pet1.name.localeCompare(pet2.name));
   } else if (sortFilter !== null && sortFilter === "Alphabetical Z-A") {
     result = [...result].sort((pet1, pet2) => pet2.name.localeCompare(pet1.name));
+  }
+
+  if (userProfile !== null && userProfile !== undefined) {
+    const favoritePets = userProfile.favoritePets;
+    result = [...result].sort((pet1, pet2) => {
+      if (favoritePets.includes(pet1._id) && !favoritePets.includes(pet2._id)) {
+        return -1;
+      } else if (!favoritePets.includes(pet1._id) && favoritePets.includes(pet2._id)) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
   }
 
   return result;

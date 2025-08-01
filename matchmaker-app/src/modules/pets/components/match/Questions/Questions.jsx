@@ -42,13 +42,14 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     if (petList !== null) {
       setCurrQuestions((prev) => 1);
       setIsQuestionPage((preState) => false);
+      setNumbersOfAnswers((prev) => 8);
+
       dispatch(matchedPetListSlice.actions.assign(petList));
     } else {
       const petQuestionId = ["p1", "p2", "p3", "p4"];
 
       const getQuestionNumber = () => {
         const petAnswers = petQuestionId.map((id) => SessionStorage.getItem(id) !== null);
-
         if (!petAnswers.includes(false)) {
           setNumbersOfAnswers((prev) => 8);
           onSubmitForm();

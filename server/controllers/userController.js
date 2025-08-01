@@ -60,8 +60,8 @@ async function findUserByEmail(req, res, next) {
   }
 }
 
-async function updateUserFavoritesPet(req, res, next) {
-  const { email } = req.params;
+async function updateUserFavoritePet(req, res, next) {
+  const { email, pet_id } = req.params;
 
   try {
     // Find the user with email
@@ -232,7 +232,7 @@ async function findUserFavoritePets(req, res, next) {
 module.exports = {
   createUser,
   findUserByEmail,
-  updateUserFavoritesPet,
+  updateUserFavoritePet,
   updateUserQuestionnaire,
   updateUserQuestionnaireById,
   findUserFavoritePets,

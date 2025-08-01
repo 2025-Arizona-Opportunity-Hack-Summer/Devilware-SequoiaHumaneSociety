@@ -11,7 +11,7 @@ import noPetImage from "../../../../assets/images/no-pet-image.png";
 import heart from "../../../../assets/images/heart-com.svg";
 import loadingImage from "../../../../assets/images/loading-image.png";
 
-import { fetchUpdateFavoritePets } from "../../../users/services/userSevices";
+import { fetchUpdateFavoritePetById } from "../../../users/services/userSevices";
 
 export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn, user, isFavorite, userClass }) {
   const dispatch = useDispatch();
@@ -32,7 +32,7 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
     if (!isLoggedIn) {
       setVisibleSignIn((preState) => true);
     } else {
-      fetchUpdateFavoritePets(user.email, _id)
+      fetchUpdateFavoritePetById(user.email, _id)
         .then((response) => {
           dispatch(userSlice.actions.addFavorites(_id));
         })

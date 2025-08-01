@@ -8,7 +8,6 @@ const reducers = {
   ...MatchFormSlice,
   ...MatchedPetSlice,
   ...UserInfoSlice,
-  // ...MatchedFilterSlice,
 };
 
 const rootReducer = combineReducers(reducers);

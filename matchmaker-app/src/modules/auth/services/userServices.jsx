@@ -110,7 +110,7 @@ async function fetchUpdateUserQuestionnaireById(id, email, value) {
   }
 }
 
-async function fetchUpdateFavoritePets(email, pet_id) {
+async function fetchUpdateFavoritePetById(email, pet_id) {
   const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${FAVORITE_PET_ENDPOINT}`;
   let user;
   try {
@@ -138,5 +138,5 @@ export {
   fetchFindUserByEmail,
   fetchCreateUser,
   fetchUpdateUserQuesionnaireBySessionStorage,
-  fetchUpdateFavoritePets,
+  fetchUpdateFavoritePetById,
 };

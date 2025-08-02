@@ -2,6 +2,7 @@ import { useEffect, useState, useTransition } from "react";
 import { fetchFindPets } from "../modules/pets/services/petServices";
 
 import FosterPetInfo from "../components/foster/FosterPetInfo";
+import img1 from "../assets/images/aboutimg.png";
 import barn from "../assets/images/barn.png";
 import noPetImage from "../assets/images/no-pet-image.png";
 import loadingImage from "../assets/images/loading-image.png";
@@ -158,7 +159,7 @@ export default function Foster() {
             <div 
               className="rounded-2xl p-8 h-80 flex items-center justify-center relative overflow-hidden"
               style={{
-                backgroundImage: `url(${barn})`,
+                backgroundImage: `url(${img1})`,
                 backgroundSize: 'cover',
                 backgroundPosition: 'center',
                 backgroundRepeat: 'no-repeat'

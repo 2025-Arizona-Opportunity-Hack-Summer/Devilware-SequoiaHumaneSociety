@@ -48,7 +48,6 @@ export default withAuthInfo(function PetDescription({ user, isLoggedIn, userClas
     if (!isLoggedIn || userInfo === null) {
       setIsFavorite((prev) => false);
     } else {
-      console.log(userInfo.favoritePets);
       if (userInfo.favoritePets.includes(pet_id)) {
         setIsFavorite((prev) => true);
       } else {
@@ -89,7 +88,7 @@ export default withAuthInfo(function PetDescription({ user, isLoggedIn, userClas
     if (isLoggedIn) {
       fetchUpdateFavoritePetById(user.email, pet_id)
         .then((response) => {
-          dispatch(userSlice.actions.addFavorites(pet_id));
+          dispatch(userSlice.actions.toggleFavorite(pet_id));
         })
         .catch((err) => {
           console.log(err);

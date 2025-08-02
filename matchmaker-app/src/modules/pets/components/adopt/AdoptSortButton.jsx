@@ -4,9 +4,9 @@ function AdoptSortButton({ onClickSortToggle, sortFilter, visibleSortList, onCli
       <p className="font-semibold">Sort by</p>
       <div className="relative">
         <button
-          className="min-w-[139px] text-left px-2 py-2 cursor-pointer shadow-xl bg-[#ff] text-[#4f2edc] font-semibold border-[#4f2edc] border"
+          className="min-w-[139px] text-center px-2 py-2 cursor-pointer shadow-xl bg-[#ff] text-[#4f2edc] font-semibold border-[#4f2edc] border"
           onClick={onClickSortToggle}>
-          {sortFilter === "" ? "Most relevance" : sortFilter}
+          {sortFilter === "" ? "Most relevant" : sortFilter}
         </button>
         <AdoptSortOptionList visible={visibleSortList} onClickSortOption={onClickSortOption} />
       </div>
@@ -27,7 +27,7 @@ function AdoptSortOptionList({ visible, onClickSortOption }) {
         <button
           className="w-[139px] text-left border border-[#adb5bd] first:border-t p-2 bg-[#fff] cursor-pointer text-[#6c757d] font-semibold hover:text-[#4f2edc] hover:border-l-2 hover:border-l-[#4f2edc]"
           onClick={onClickSortOption.bind(null, "")}>
-          Most relevance
+          Most relevant
         </button>
       </li>
       <li className="flex flex-row justify-between cursor-pointer w-max">

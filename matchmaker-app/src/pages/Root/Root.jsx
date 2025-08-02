@@ -41,10 +41,15 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHe
           }
         }
 
-        const updatedMatchQuestions = saveUserAnswers(userInfo);
-        userInfo = await fetchUpdateUserQuesionnaireBySessionStorage(user.email, updatedMatchQuestions);
-
-        dispatch(userSlice.actions.assign(userInfo));
+        const updatedMatchAnswers = saveUserAnswers(userInfo);
+        fetchUpdateUserQuesionnaireBySessionStorage(user.email, updatedMatchAnswers)
+          .then((response) => {
+            userInfo.matchAnswers = updatedMatchAnswers;
+            dispatch(userSlice.actions.assign(userInfo));
+          })
+          .catch((err) => {
+            console.log(err);
+          });
       }
     }
 

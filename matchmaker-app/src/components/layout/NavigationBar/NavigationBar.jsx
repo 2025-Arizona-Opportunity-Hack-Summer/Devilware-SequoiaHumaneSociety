@@ -14,6 +14,7 @@ import "./NavigationBar.css";
 
 export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass }) {
   const userInfo = useSelector((store) => store[userSlice.name]);
+  console.log(userInfo);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);

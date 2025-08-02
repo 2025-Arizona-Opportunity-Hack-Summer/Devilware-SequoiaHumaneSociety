@@ -3,11 +3,11 @@ const userController = require("../controllers/userController");
 
 const userRoute = express.Router();
 
-userRoute.get("/:email", userController.findUserByEmail);
 userRoute.post("/", userController.createUser);
+userRoute.get("/:email", userController.findUserByEmail);
 userRoute.get("/:email/favorite-pets", userController.findUserFavoritePets);
 userRoute.put("/:email/favorite-pets/:pet_id", userController.updateUserFavoritePet);
-userRoute.put("/:email/questionnaire", userController.updateUserQuestionnaire);
-userRoute.put("/:email/questionnaire/:questionId", userController.updateUserQuestionnaireById);
+userRoute.put("/:email/matchAnswers", userController.updateUserQuestionnaire);
+userRoute.put("/:email/matchAnswers/:question_id", userController.updateUserQuestionnaireById);
 
 module.exports = userRoute;

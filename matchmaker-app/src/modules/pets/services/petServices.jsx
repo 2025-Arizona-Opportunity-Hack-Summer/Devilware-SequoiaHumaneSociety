@@ -12,7 +12,7 @@ async function fetchGetPet(pet_id, species, size) {
   }).toString();
 
   const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}?${queryParams}`;
-
+  console.log(endpoint);
   try {
     const response = await fetch(endpoint);
 

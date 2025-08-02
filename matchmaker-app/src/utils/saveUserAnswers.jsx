@@ -8,21 +8,21 @@ function saveUserAnswers(user) {
     return;
   }
 
-  const { matchQuestions } = user;
-  let updatedMatchQuestions = {};
+  const { matchAnswers } = user;
+  let updateMatchAnswers = {};
 
   const questionsId = [adopterId, petId].flat();
 
   for (const questionItem of questionsId) {
-    if (matchQuestions[questionItem] !== undefined) {
-      SessionStorage.setItem(questionItem, matchQuestions[questionItem]);
-      updatedMatchQuestions[questionItem] = matchQuestions[questionItem];
+    if (matchAnswers[questionItem] !== undefined) {
+      SessionStorage.setItem(questionItem, matchAnswers[questionItem]);
+      updateMatchAnswers[questionItem] = matchQuestions[questionItem];
     } else if (SessionStorage.getItem(questionItem) !== null) {
-      updatedMatchQuestions[questionItem] = SessionStorage.getItem(questionItem);
+      updateMatchAnswers[questionItem] = SessionStorage.getItem(questionItem);
     }
   }
 
-  return updatedMatchQuestions;
+  return updateMatchAnswers;
 }
 
 export default saveUserAnswers;

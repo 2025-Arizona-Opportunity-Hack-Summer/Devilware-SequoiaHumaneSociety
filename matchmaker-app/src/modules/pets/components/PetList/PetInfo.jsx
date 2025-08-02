@@ -34,7 +34,7 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
     } else {
       fetchUpdateFavoritePetById(user.email, _id)
         .then((response) => {
-          dispatch(userSlice.actions.addFavorites(_id));
+          dispatch(userSlice.actions.toggleFavorite(_id));
         })
         .catch((err) => {
           console.log(err);

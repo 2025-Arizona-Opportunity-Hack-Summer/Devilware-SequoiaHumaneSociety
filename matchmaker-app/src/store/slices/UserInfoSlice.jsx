@@ -7,12 +7,17 @@ export const userSlice = createSlice({
     assign(state, action) {
       return action.payload;
     },
-    addFavorites(state, action) {
+    toggleFavorite(state, action) {
       if (state.favoritePets.includes(action.payload) === false) {
         state.favoritePets = [...state.favoritePets, action.payload];
       } else {
         state.favoritePets = state.favoritePets.filter((petId) => action.payload !== petId);
       }
+      return state;
+    },
+    updateMatchAnswers(state, action) {
+      state.matchAnswers = action.payload;
+
       return state;
     },
   },

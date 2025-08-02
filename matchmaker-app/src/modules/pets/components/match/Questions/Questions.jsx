@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withAuthInfo } from "@propelauth/react";
 
-import MatchBanner from "./QuestionsComponents/MatchBanner";
 import ReviewAnswers from "./QuestionsComponents/ReviewAnswers";
 
 import { finishAdopterQuestionsSlice, finishPetQuestionsSlice } from "../../../../../store/slices/MatchFormSlice";

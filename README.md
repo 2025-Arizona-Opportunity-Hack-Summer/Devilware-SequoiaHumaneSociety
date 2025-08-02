@@ -45,23 +45,20 @@ The goal is to reduce mismatches, lower return rates and create long-lasting, ha
 ## Tech Stack
 
 The frontend solutions for **AI-Powered Pet Matchmaker**:
-
 - React
 - Redux
 - Tailwind
 - PropelAuth
 
 The backend solutions for **AI-Powered Pet Matchmaker**:
-
 - Node.js
 - Express.js
 - MongoDB
-- MongoDBAtlas
+- MongoDB Atlas
 - AWS
 
-The project for **AI-Powered Pet Matchmaker** is hosted on:
-
-- Render for both frontend and backend
+The projects for **AI-Powered Pet Matchmaker** is hosted on:
+- **Render** for both frontend and backend
 
 ## Documentation
 

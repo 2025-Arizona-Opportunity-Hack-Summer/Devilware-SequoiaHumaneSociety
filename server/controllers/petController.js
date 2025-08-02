@@ -395,11 +395,29 @@ async function findMatchedPets(req, res, next) {
     const data = await response.json();
 
     model_result = data.predictions.map((item) => item[0]);
-    const pets = await mongoClient
+
+    let pets = await mongoClient
       .getDB()
       .collection("pets")
       .find({ animal_id: { $in: model_result } })
       .toArray();
+
+    const sizeFilter = answers.p3;
+    pets = [...pets].filter((pet) => {
+      if (sizeFilter.includes("Large") && pet.weight > 60) {
+        return true;
+      } else if (sizeFilter.includes("Medium") && pet.weight >= 25 && pet.weight <= 60) {
+        return true;
+      } else if (sizeFilter.includes("Small") && pet.weight < 25) {
+        return true;
+      }
+
+      return false;
+    });
+
+    const activeLevelFilter = answers.p4;
+
+    pets = [...pets].filter((pet) => activeLevelFilter.includes(pet.active_level));
 
     for (const pet of pets) {
       // const imagesUrl = [];
@@ -426,52 +444,6 @@ async function findMatchedPets(req, res, next) {
       detail: err,
     });
   }
-
-  // console.log(model_result);
-
-  // try {
-  //   const pipeline = [
-  //     {
-  //       $facet: {
-  //         data: [],
-  //         breeds: [
-  //           { $unwind: "$breed" },
-  //           { $group: { _id: "$breed" } },
-  //           { $group: { _id: null, values: { $addToSet: "$_id" } } },
-  //           { $project: { _id: 0, values: 1 } },
-  //         ],
-  //       },
-  //     },
-  //   ];
-
-  //   const pets = await mongoClient.getDB().collection("pets").aggregate(pipeline).toArray();
-  //   for (const pet of pets[0].data) {
-  //     // const imagesUrl = [];
-  //     const imagesUrlPromises = [];
-
-  //     for (const image of pet.images) {
-  //       const getObjectParam = {
-  //         Bucket: process.env.BUCKET_NAME,
-  //         Key: image,
-  //       };
-  //       const command = new GetObjectCommand(getObjectParam);
-  //       const url = getSignedUrl(s3Client, command, { expiresIn: 3600 * 24 });
-  //       imagesUrlPromises.push(url);
-  //     }
-  //     pet.imagesURL = await Promise.all(imagesUrlPromises);
-  //   }
-
-  //   res.status(200).json({
-  //     pets: pets[0].data,
-  //     breeds: pets[0].breeds[0].values,
-  //   });
-  // } catch (err) {
-  //   res.status(500).json({
-  //     error: "InternalServerError",
-  //     message: "Problem occurs at server. Please contact for help",
-  //     detail: err,
-  //   });
-  // }
 }
 
 module.exports = {

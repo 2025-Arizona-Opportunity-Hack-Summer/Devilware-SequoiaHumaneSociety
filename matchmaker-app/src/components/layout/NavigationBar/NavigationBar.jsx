@@ -52,7 +52,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
   };
 
   return (
-    <nav className="w-full bg-white shadow-lg sticky top-0 z-50">
+    <nav className="w-full bg-white shadow-lg sticky top-0 z-50 navigaion-bar-root">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-2 py-3 md:px-3 md:py-3">
         {/* Logo Section */}
         <Link>
@@ -68,7 +68,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
 
         {/* Desktop Navigation - Centered - Hidden at smaller desktop sizes when items would overlap */}
         <div className="hidden xl:flex xl:absolute xl:left-1/2 xl:transform xl:-translate-x-1/2">
-          <ul className="flex flex-row items-center gap-3" style={{ fontFamily: "Koh Santepheap, serif" }}>
+          <ul className="flex flex-row items-center gap-3">
             {isAdmin && (
               <li>
                 <NavLink to="/petadmin" className={navLinkClass}>
@@ -107,7 +107,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
         {/* Desktop Auth Links - Right - Hidden at smaller desktop sizes */}
         {!isLoggedIn && (
           <div className="hidden xl:flex">
-            <ul className="flex flex-row items-center gap-3" style={{ fontFamily: "Koh Santepheap, serif" }}>
+            <ul className="flex flex-row items-center gap-3">
               <li>
                 <NavLink to="/sign-in" className={authLinkClass}>
                   Sign In
@@ -129,10 +129,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
                   <HeartSVG />
                 </Link>
               )}
-              <button
-                style={{ fontFamily: "Koh Santepheap, serif" }}
-                className="bg-[#7C0F0F] p-2 rounded-md cursor-pointer"
-                onClick={toggleProfile}>
+              <button className="bg-[#7C0F0F] p-2 rounded-md cursor-pointer" onClick={toggleProfile}>
                 <UserSVG />
               </button>
             </div>
@@ -154,22 +151,13 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
                         </button>
                       </Link>
                     </div>
-                    <Link
-                      to="/favorite"
-                      className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md"
-                      style={{ fontFamily: "Koh Santepheap, serif" }}>
+                    <Link to="/favorite" className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md">
                       Favorites
                     </Link>
-                    <Link
-                      to="/on-hold"
-                      className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md"
-                      style={{ fontFamily: "Koh Santepheap, serif" }}>
+                    <Link to="/on-hold" className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md">
                       On-hold pets
                     </Link>
-                    <Link
-                      to="/adopted"
-                      className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md"
-                      style={{ fontFamily: "Koh Santepheap, serif" }}>
+                    <Link to="/adopted" className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md">
                       Adopted pets
                     </Link>
                   </>
@@ -177,8 +165,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
 
                 <button
                   onClick={onClickLogout}
-                  className="cursor-pointer w-full p-2 text-left hover:bg-[#7C0F0F] hover:text-white rounded-md"
-                  style={{ fontFamily: "Koh Santepheap, serif" }}>
+                  className="cursor-pointer w-full p-2 text-left hover:bg-[#7C0F0F] hover:text-white rounded-md">
                   Logout
                 </button>
               </div>
@@ -236,7 +223,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
         {/* Scrollable Mobile Navigation Links Container */}
         <div className="h-full overflow-y-auto pb-20">
           <div className="px-4 py-6">
-            <ul className="flex flex-col items-center gap-4" style={{ fontFamily: "Koh Santepheap, serif" }}>
+            <ul className="flex flex-col items-center gap-4">
               {!isAdmin && (
                 <li>
                   <NavLink to="/petAdmin" className={mobileNavLinkClass}>
@@ -300,16 +287,13 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
                       Manage your Sequioa account
                     </NavLink>
                   </div>
-                  <NavLink
-                    to="/favorite"
-                    className={mobileNavLinkClass}
-                    style={{ fontFamily: "Koh Santepheap, serif" }}>
+                  <NavLink to="/favorite" className={mobileNavLinkClass}>
                     Favorites
                   </NavLink>
-                  <NavLink to="/on-hold" className={mobileNavLinkClass} style={{ fontFamily: "Koh Santepheap, serif" }}>
+                  <NavLink to="/on-hold" className={mobileNavLinkClass}>
                     On-hold pets
                   </NavLink>
-                  <NavLink to="/adopted" className={mobileNavLinkClass} style={{ fontFamily: "Koh Santepheap, serif" }}>
+                  <NavLink to="/adopted" className={mobileNavLinkClass}>
                     Adopted pets
                   </NavLink>
                 </>
@@ -317,8 +301,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
               {isLoggedIn && (
                 <button
                   onClick={onClickLogout}
-                  className="cursor-pointer w-full p-2 text-center text-[#7C0F0F] rounded-md"
-                  style={{ fontFamily: "Koh Santepheap, serif" }}>
+                  className="cursor-pointer w-full p-2 text-center text-[#7C0F0F] rounded-md">
                   Logout
                 </button>
               )}

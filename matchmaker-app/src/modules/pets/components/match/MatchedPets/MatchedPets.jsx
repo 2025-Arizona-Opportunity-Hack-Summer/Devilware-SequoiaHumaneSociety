@@ -145,7 +145,7 @@ function MatchedPets({ visible, setIsQuestionPage }) {
   };
   return (
     <>
-      <div className="flex flex-col min-h-screen xl:w-[80vw] w-[90vw] m-auto rounded-2xl gap-3 bg-white py-10 matched-pet-root">
+      <div className="flex flex-col min-h-screen m-auto rounded-2xl gap-3 bg-white py-10 matched-pet-root">
         <GoBackButton onClickHandler={onClickGoBackQuestionBack} />
         <h2
           className="text-3xl  text-[#C1272D] tracking-tighter"
@@ -156,8 +156,8 @@ function MatchedPets({ visible, setIsQuestionPage }) {
           }}>
           Matched Results
         </h2>
-        <div className="flex flex-wrap w-full justify-between">
-          <div className="flex w-[80%] px-3 p-2 items-center shadow-[5px_5px_5px_#00000040] filter-text-container border-2 border-transparent">
+        <div className="flex flex-col lg:flex-row flex-wrap w-full justify-between gap-5">
+          <div className="flex lg:w-[80%] w-full px-3 p-2 items-center shadow-[5px_5px_5px_#00000040] filter-text-container border-2 border-transparent">
             <img src={searchImg} alt="search" className="w-4 h-4 mr-3" />
             <InputText
               id="searchMachtedPet"

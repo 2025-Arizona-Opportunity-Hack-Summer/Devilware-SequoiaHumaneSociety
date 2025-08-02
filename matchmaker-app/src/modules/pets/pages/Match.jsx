@@ -160,7 +160,7 @@ function Match({ isLoggedIn = false }) {
       </div>
 
       {/* Main Content */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Step Indicator */}
         <div className="mb-12">
           <div className="flex items-center justify-center gap-8 text-sm font-medium flex-wrap">

@@ -11,10 +11,10 @@
   @see {@link https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input/button MDN Reference}
 **/
 
-function InputButton({ children, id, onClickHandler, labelStyle, inputStyle, disabled }) {
+function InputButton({ children, id, onClickHandler, labelStyle, inputStyle, disabled, labelCssStyle }) {
   return (
     <>
-      <label htmlFor={id} className={labelStyle}>
+      <label htmlFor={id} className={labelStyle} style={labelCssStyle}>
         {children}
       </label>
       <input type="button" name={id} id={id} className={inputStyle} onClick={onClickHandler} disabled={disabled} />

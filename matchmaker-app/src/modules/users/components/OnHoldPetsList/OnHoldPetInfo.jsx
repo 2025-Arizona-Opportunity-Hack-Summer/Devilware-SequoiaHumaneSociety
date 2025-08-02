@@ -110,7 +110,7 @@ export default withAuthInfo(function OnHoldPetInfo({ pet, setVisibleSignIn, isLo
           <div className="flex gap-2">
             {pet.characteristics.length === 0 && (
               <span className="inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm bg-gray-200 text-gray-400">
-                Do not have records
+                Don't have records
               </span>
             )}
             {pet.characteristics.length !== 0 &&

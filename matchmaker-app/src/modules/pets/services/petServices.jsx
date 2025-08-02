@@ -208,7 +208,6 @@ async function fetchMatchedPets(matchAnswers) {
   let data;
   const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}/matchmaker`;
 
-  console.log(matchAnswers);
   try {
     const response = await fetch(endpoint, {
       method: "POST",

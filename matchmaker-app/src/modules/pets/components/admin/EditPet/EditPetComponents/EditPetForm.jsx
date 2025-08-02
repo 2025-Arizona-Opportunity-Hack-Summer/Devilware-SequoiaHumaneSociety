@@ -57,7 +57,7 @@ function EditPetForm({ data, setData, pet_id }) {
       fetch(endpoint, {
         method: "POST",
         body: formData,
-      });
+      }).catch((err) => console.log(err));
     }
     const imageFileNameOnly = renderedImages.map((image) => image.fileName);
 

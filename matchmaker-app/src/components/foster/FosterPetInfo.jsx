@@ -45,7 +45,7 @@ function FosterPetInfo({ pet }) {
           <div className="flex flex-wrap gap-3">
             {pet.characteristics.length === 0 && (
               <span className="inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm bg-gray-200 text-gray-400">
-                Do not have records
+                Don't have records
               </span>
             )}
             {pet.characteristics.length !== 0 &&
@@ -81,8 +81,7 @@ function FosterPetInfo({ pet }) {
                 return (
                   <span
                     key={item}
-                    className={`inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm ${colorClass}`}
-                  >
+                    className={`inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm ${colorClass}`}>
                     {item}
                   </span>
                 );
@@ -98,8 +97,7 @@ function FosterPetInfo({ pet }) {
           href="https://forms.gle/UPTat7eZyuNnKTgs9"
           target="_blank"
           rel="noopener noreferrer"
-          className="w-full block text-center bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white font-semibold py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-        >
+          className="w-full block text-center bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white font-semibold py-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
           Foster {name}
         </a>
       </div>

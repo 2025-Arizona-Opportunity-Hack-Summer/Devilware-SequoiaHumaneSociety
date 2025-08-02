@@ -1,0 +1,25 @@
+{
+  "instances": [
+    {
+      "pets": [
+        {
+          "Animal_ID": "P001",
+          "Species":   "Dog",
+          "Breed":     "Labrador",
+          "Age":       4,
+          "Weight":    25,
+          "Sex":       "Male"
+        }
+      ],
+      "adopter_info": {
+        "Adopter_Housing_Type": "house",
+        "Adopter_Allergies":    "no",
+        "Adopter_Activity_Level": "medium",
+        "Adopter_Size_Pref":      "medium",
+        "Adopter_Age_Min": 0,
+        "Adopter_Age_Max": 999,
+        "Adopter_Animal_Pref": "dog"
+      }
+    }
+  ]
+}

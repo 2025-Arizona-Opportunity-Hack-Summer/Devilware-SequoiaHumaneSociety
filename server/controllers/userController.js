@@ -17,7 +17,7 @@ async function createUser(req, res, next) {
     gender: gender,
     favoritePets: [],
     adoptedPets: [],
-    matchQuestions: {},
+    matchAnswers: {},
   };
   try {
     // Insert to database
@@ -60,8 +60,8 @@ async function findUserByEmail(req, res, next) {
   }
 }
 
-async function updateUserFavoritesPet(req, res, next) {
-  const { email } = req.params;
+async function updateUserFavoritePet(req, res, next) {
+  const { email, pet_id } = req.params;
 
   try {
     // Find the user with email
@@ -78,24 +78,22 @@ async function updateUserFavoritesPet(req, res, next) {
     }
 
     // The user exists
+    let action = "";
     if (user.favoritePets === undefined || !user.favoritePets.includes(pet_id)) {
       // if the user does not have the pet in favorited pet list, add them in
-      user = await usersCollection.findOneAndUpdate(
-        { email: email },
-        { $addToSet: { favoritePets: pet_id } },
-        { returnDocument: "after" }
-      );
+      user = await usersCollection.findOneAndUpdate({ email: email }, { $addToSet: { favoritePets: pet_id } });
+      action = "add";
     } else {
       // if the user already have the pet in favorited pet
-      user = await usersCollection.updateOne(
-        { email: email },
-        { $pull: { favoritePets: pet_id } },
-        { returnDocument: "after" }
-      );
+      user = await usersCollection.updateOne({ email: email }, { $pull: { favoritePets: pet_id } });
+      action = "remove";
     }
 
     // return updated user
-    res.status(200).json(user);
+    res.status(200).json({
+      action: action,
+      pet_id: pet_id,
+    });
   } catch (err) {
     res.status(500).json({
       error: "InternalServerError",
@@ -107,7 +105,7 @@ async function updateUserFavoritesPet(req, res, next) {
 
 async function updateUserQuestionnaire(req, res, next) {
   const { email } = req.params;
-  const { questionnaire } = req.body;
+  const { matchAnswers } = req.body;
 
   try {
     // Find the user with email
@@ -116,7 +114,7 @@ async function updateUserQuestionnaire(req, res, next) {
     // Uppdate user
     const updatedUser = await usersCollection.findOneAndUpdate(
       { email: email },
-      { $set: { matchQuestions: questionnaire } },
+      { $set: { matchAnswers: matchAnswers } },
       { returnDocument: "after" }
     );
 
@@ -141,7 +139,7 @@ async function updateUserQuestionnaire(req, res, next) {
 }
 
 async function updateUserQuestionnaireById(req, res, next) {
-  const { questionId, email } = req.params;
+  const { question_id, email } = req.params;
   const { value } = req.body;
 
   try {
@@ -149,7 +147,7 @@ async function updateUserQuestionnaireById(req, res, next) {
     const usersCollection = mongoClient.getDB().collection("users");
 
     // Updated field in database
-    const fieldToUpdate = `matchQuestions.${questionId}`;
+    const fieldToUpdate = `matchAnswers.${question_id}`;
 
     // Uppdate user
     const updatedUser = await usersCollection.findOneAndUpdate(
@@ -232,7 +230,7 @@ async function findUserFavoritePets(req, res, next) {
 module.exports = {
   createUser,
   findUserByEmail,
-  updateUserFavoritesPet,
+  updateUserFavoritePet,
   updateUserQuestionnaire,
   updateUserQuestionnaireById,
   findUserFavoritePets,

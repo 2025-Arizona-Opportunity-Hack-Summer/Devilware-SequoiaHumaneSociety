@@ -1,0 +1,7 @@
+flask
+gunicorn
+joblib
+pandas
+certifi
+pymongo
+scikit-learn==1.6.1   # <- pin it

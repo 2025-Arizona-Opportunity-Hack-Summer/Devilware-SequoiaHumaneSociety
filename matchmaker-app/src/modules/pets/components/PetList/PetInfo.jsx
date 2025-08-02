@@ -11,7 +11,8 @@ import noPetImage from "../../../../assets/images/no-pet-image.png";
 import heart from "../../../../assets/images/heart-com.svg";
 import loadingImage from "../../../../assets/images/loading-image.png";
 
-import { fetchUpdateFavoritePets } from "../../../users/services/userSevices";
+import PetAttributeList from "../PetAttributeList/PetAttributeList";
+import { fetchUpdateFavoritePetById } from "../../../users/services/userSevices";
 
 export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn, user, isFavorite, userClass }) {
   const dispatch = useDispatch();
@@ -32,9 +33,9 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
     if (!isLoggedIn) {
       setVisibleSignIn((preState) => true);
     } else {
-      fetchUpdateFavoritePets(user.email, _id)
+      fetchUpdateFavoritePetById(user.email, _id)
         .then((response) => {
-          dispatch(userSlice.actions.addFavorites(_id));
+          dispatch(userSlice.actions.toggleFavorite(_id));
         })
         .catch((err) => {
           console.log(err);
@@ -49,6 +50,79 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
       search: `?${searchQueryString}`,
     });
   };
+
+  return (
+    <div
+      key={pet._id}
+      className="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden max-w-72">
+      <div className={`${pet.color} h-64 flex items-center justify-center relative`}>
+        {!isAdmin && (
+          <div className="absolute bottom-0 right-2 flex  justify-center items-center">
+            {isFavorite && (
+              <InputButton
+                id={`${_id}_favorite`}
+                labelStyle="bg-[#C1272D] p-2 rounded-full cursor-pointer duration-200"
+                onClickHandler={onClickFavorite}>
+                <HeartSVG />
+              </InputButton>
+            )}
+            {!isFavorite && (
+              <InputButton
+                id={`${_id}_favorite`}
+                labelStyle="bg-[#ffffff80] hover:bg-white p-2 rounded-full cursor-pointer duration-200"
+                onClickHandler={onClickFavorite}>
+                <img src={heart} alt="favorite" className="w-8" />
+              </InputButton>
+            )}
+          </div>
+        )}
+        <div className="text-center">
+          <div className="bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg cursor-pointer">
+            <img
+              src={!imageLoading ? loadingImage : petImage}
+              alt={name}
+              className="w-72 rounded-md"
+              onClick={onClickNavigateToDetails}
+              onLoad={() => {
+                setImageLoading((preState) => true);
+              }}
+            />
+          </div>
+        </div>
+        <div className="absolute top-4 right-4">
+          <span className="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-600 shadow-lg">
+            {pet.age} months
+          </span>
+        </div>
+      </div>
+
+      <div className="p-6 cursor-pointer" onClick={onClickNavigateToDetails}>
+        <h3 className="text-2xl font-bold text-gray-800 mb-2">{pet.name}</h3>
+        <p className="text-[#C1272D] font-medium mb-3 max-w-50 overflow-hidden whitespace-nowrap text-ellipsis">
+          {pet.breed.join(", ")}
+        </p>
+        <p className="text-gray-500 mb-2 leading-relaxed">Sex: {pet.sex}</p>
+        <p className="text-gray-500 mb-2 leading-relaxed">Weight: {pet.weight} lbs</p>
+
+        <div className="my-4">
+          <p className="font-semibold">Characteristics</p>
+          <div className="flex gap-2">
+            {pet.characteristics.length == 0 && (
+              <p className="text-gray-400 mb-2 leading-relaxed bg-[#e9ecef] border border-transparent p-3 rounded-md font-semibold">
+                Do not have record
+              </p>
+            )}
+            {pet.characteristics.length !== 0 &&
+              pet.characteristics.map((item) => (
+                <p className="text-[#C1272D] mb-2 leading-relaxed border border-[#ced4da] shadow-2xl bg-white m-w-[62px] whitespace-nowrap p-3 rounded-md font-semibold">
+                  {item}
+                </p>
+              ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
   return (
     <div className="rounded-xl border-[#adb5bd] border-2 pb-5 shadow-2xl cursor-pointer hover:shadow-[0_35px_60px_-15px_#000000cc] duration-100">
       <div className="relative">

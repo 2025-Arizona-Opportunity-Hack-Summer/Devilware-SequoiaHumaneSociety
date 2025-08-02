@@ -15,7 +15,7 @@ function AdminPetList({ onClickMoveTo }) {
   useEffect(() => {
     fetchFindPets()
       .then((data) => {
-        setPetList((prev) => data.content);
+        setPetList((prev) => data.pets);
       })
       .catch((err) => {
         console.log(err);

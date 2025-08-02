@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import PetList from "../../PetList/PetList";
 import RequiredSignInModal from "../../../../../components/common/RequiredSignInModal/RequiredSignInModal";
@@ -11,11 +12,13 @@ import AdoptFilterResult from "../AdoptFilter/AdoptFilterResult";
 
 import SessionStorage from "../../../../../utils/sessionStorage";
 
+import { userSlice } from "../../../../../store/slices/UserInfoSlice";
 import { filterPetsByCriteria } from "../../../utils/petUtils";
 
 import "./AdoptPetList.css";
 
 function AdoptPetList() {
+  const userProfile = useSelector((store) => store[userSlice.name]);
   const { species } = useParams();
   const [originalPetList, setOriginalPetList] = useState([]); // store all pets data (independent with filter)
   const [petList, setPetList] = useState(); // current pet data (depend on filter)
@@ -41,7 +44,6 @@ function AdoptPetList() {
     let url;
     if (species === "dog" || species === "cat") {
       url = `${API_BASE_URL}/${PETS_ENDPOINT}?species=${species.charAt(0).toUpperCase() + species.slice(1)}`;
-      console.log(url);
     } else {
       url = `${API_BASE_URL}/${PETS_ENDPOINT}?species=other`;
     }
@@ -94,8 +96,9 @@ function AdoptPetList() {
     /*
       Every time the filter is changed, call filterPet function
     */
+    console.log(activeLevelFiter);
     setPetList((preState) =>
-      filterPetsByCriteria(originalPetList, [], breedFilter, activeLevelFiter, sizeFilter, sortFilter)
+      filterPetsByCriteria(originalPetList, [], breedFilter, activeLevelFiter, sizeFilter, sortFilter, userProfile)
     );
   }, [breedFilter, activeLevelFiter, sizeFilter, sortFilter]);
 
@@ -147,7 +150,7 @@ function AdoptPetList() {
             <AdoptFilter breedList={breedList} filterValue={filterValue} setFilter={setFilter} />
           </div>
           <div className="w-full">
-            <div className="flex justify-between mb-10">
+            <div className="flex flex-col gap-5 lg:flex-row justify-between mb-10">
               {/* AdoptFilterResult - a list represents the current filter value, contains clear all button*/}
               <AdoptFilterResult
                 breedFilter={breedFilter}

@@ -14,7 +14,6 @@ import "./NavigationBar.css";
 
 export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass }) {
   const userInfo = useSelector((store) => store[userSlice.name]);
-  console.log(userInfo);
   const [menuOpen, setMenuOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
@@ -48,6 +47,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
   const onClickLogout = () => {
     SessionStorage.clear();
     Cookies.remove("email-auth");
+    setIsAdmin((prev) => false);
     logout(true);
   };
 
@@ -235,6 +235,13 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
         <div className="h-full overflow-y-auto pb-20">
           <div className="px-4 py-6">
             <ul className="flex flex-col items-center gap-4" style={{ fontFamily: "Koh Santepheap, serif" }}>
+              {!isAdmin && (
+                <li>
+                  <NavLink to="/petAdmin" className={mobileNavLinkClass}>
+                    Pet Admin
+                  </NavLink>
+                </li>
+              )}
               <li>
                 <NavLink to="/" className={mobileNavLinkClass}>
                   Home
@@ -265,16 +272,54 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
                   Match
                 </NavLink>
               </li>
-              <li>
-                <NavLink to="/sign-in" className={mobileNavLinkClass}>
-                  Sign In
-                </NavLink>
-              </li>
-              <li>
-                <NavLink to="/register" className={mobileNavLinkClass}>
-                  Register
-                </NavLink>
-              </li>
+              {!isLoggedIn && (
+                <>
+                  <li>
+                    <NavLink to="/sign-in" className={mobileNavLinkClass}>
+                      Sign In
+                    </NavLink>
+                  </li>
+                  <li>
+                    <NavLink to="/register" className={mobileNavLinkClass}>
+                      Register
+                    </NavLink>
+                  </li>
+                </>
+              )}
+              {isLoggedIn && !isAdmin && (
+                <>
+                  <div className="flex flex-col items-center">
+                    <p
+                      style={{ fontFamily: "'Koulen', sans-serif" }}
+                      className="border-[#ced4da] text-sm font-semibold border-t-2 border-b-2 py-3">
+                      {user.email}
+                    </p>
+                    <NavLink to="/user-profile" className={mobileNavLinkClass}>
+                      Manage your Sequioa account
+                    </NavLink>
+                  </div>
+                  <NavLink
+                    to="/favorite"
+                    className={mobileNavLinkClass}
+                    style={{ fontFamily: "Koh Santepheap, serif" }}>
+                    Favorites
+                  </NavLink>
+                  <NavLink to="/on-hold" className={mobileNavLinkClass} style={{ fontFamily: "Koh Santepheap, serif" }}>
+                    On-hold pets
+                  </NavLink>
+                  <NavLink to="/adopted" className={mobileNavLinkClass} style={{ fontFamily: "Koh Santepheap, serif" }}>
+                    Adopted pets
+                  </NavLink>
+                </>
+              )}
+              {isLoggedIn && (
+                <button
+                  onClick={onClickLogout}
+                  className="cursor-pointer w-full p-2 text-center text-[#7C0F0F] rounded-md"
+                  style={{ fontFamily: "Koh Santepheap, serif" }}>
+                  Logout
+                </button>
+              )}
             </ul>
           </div>
         </div>

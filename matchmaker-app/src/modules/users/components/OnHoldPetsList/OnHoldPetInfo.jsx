@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import { createSearchParams } from "react-router";
-import { withAuthInfo } from "@propelauth/react";
 import { useDispatch } from "react-redux";
-
+import { withAuthInfo } from "@propelauth/react";
 import { userSlice } from "../../../../store/slices/UserInfoSlice";
 import InputButton from "../../../../components/common/inputs/InputButton";
 
@@ -11,11 +10,11 @@ import noPetImage from "../../../../assets/images/no-pet-image.png";
 import heart from "../../../../assets/images/heart-com.svg";
 import loadingImage from "../../../../assets/images/loading-image.png";
 
-import { fetchUpdateFavoritePetById } from "../../../users/services/userSevices";
+import { fetchUpdateFavoritePetById } from "../../services/userSevices";
 
-export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn, user, isFavorite, userClass }) {
+export default withAuthInfo(function OnHoldPetInfo({ pet, setVisibleSignIn, isLoggedIn, user, isFavorite, userClass }) {
   const dispatch = useDispatch();
-  const { imagesURL, name, breed, _id, species } = pet;
+  const { imagesURL, name, _id, on_hold_date } = pet;
   const [imageLoading, setImageLoading] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -96,6 +95,9 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
       </div>
 
       <div className="p-6 cursor-pointer" onClick={onClickNavigateToDetails}>
+        <p className="text-lg font-semibold text-[#7251b5]">
+          On-hold date: {new Date(on_hold_date).toLocaleDateString()}
+        </p>
         <h3 className="text-2xl font-bold text-gray-800 mb-2">{pet.name}</h3>
         <p className="text-[#C1272D] font-medium mb-3 max-w-50 overflow-hidden whitespace-nowrap text-ellipsis">
           {pet.breed.join(", ")}
@@ -104,101 +106,21 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
         <p className="text-gray-500 mb-2 leading-relaxed">Weight: {pet.weight} lbs</p>
 
         <div className="my-4">
-          <p className="font-semibold mb-3">Characteristics</p>
-          <div className="flex flex-wrap gap-3">
-            {pet.characteristics.length === 0 && (
-              <span className="inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm bg-gray-200 text-gray-400">
-                Do not have records
-              </span>
+          <p className="font-semibold">Characteristics</p>
+          <div className="flex gap-2">
+            {pet.characteristics.length == 0 && (
+              <p className="text-gray-400 mb-2 leading-relaxed bg-[#e9ecef] border border-transparent p-3 rounded-md font-semibold">
+                Do not have record
+              </p>
             )}
             {pet.characteristics.length !== 0 &&
-              pet.characteristics.map((item) => {
-                let colorClass;
-                switch (item.toLowerCase()) {
-                  case "no dogs":
-                  case "no cats":
-                  case "active":
-                    colorClass = "bg-red-200 text-red-800";
-                    break;
-                  case "spunky":
-                    colorClass = "bg-orange-200 text-red-800";
-                    break;
-                  case "foster to adopt":
-                  case "spirited":
-                    colorClass = "bg-yellow-100 text-orange-800";
-                    break;
-                  case "shy":
-                  case "calm":
-                    colorClass = "bg-blue-200 text-blue-800";
-                    break;
-                  case "friendly":
-                    colorClass = "bg-green-100 text-green-800";
-                    break;
-                  case "bonded":
-                    colorClass = "bg-purple-200 text-purple-800";
-                    break;
-                  default:
-                    colorClass = "bg-gray-200 text-gray-700";
-                }
-
-                return (
-                  <span
-                    key={item}
-                    className={`inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm ${colorClass}`}
-                  >
-                    {item}
-                  </span>
-                );
-              })}
+              pet.characteristics.map((item) => (
+                <p className="text-[#C1272D] mb-2 leading-relaxed border border-[#ced4da] shadow-2xl bg-white m-w-[62px] whitespace-nowrap p-3 rounded-md font-semibold">
+                  {item}
+                </p>
+              ))}
           </div>
         </div>
-      </div>
-    </div>
-  );
-  return (
-    <div className="rounded-xl border-[#adb5bd] border-2 pb-5 shadow-2xl cursor-pointer hover:shadow-[0_35px_60px_-15px_#000000cc] duration-100">
-      <div className="relative">
-        <img
-          src={!imageLoading ? loadingImage : petImage}
-          alt={name}
-          className="w-56 rounded-md"
-          onClick={onClickNavigateToDetails}
-          onLoad={() => {
-            setImageLoading((preState) => true);
-          }}
-        />
-        {!isAdmin && (
-          <div className="absolute bottom-2 right-2 flex  justify-center items-center">
-            {isFavorite && (
-              <InputButton
-                id={`${_id}_favorite`}
-                labelStyle="bg-[#C1272D] p-2 rounded-full cursor-pointer duration-200"
-                onClickHandler={onClickFavorite}>
-                <HeartSVG />
-              </InputButton>
-            )}
-            {!isFavorite && (
-              <InputButton
-                id={`${_id}_favorite`}
-                labelStyle="bg-[#ffffff80] hover:bg-white p-2 rounded-full cursor-pointer duration-200"
-                onClickHandler={onClickFavorite}>
-                <img src={heart} alt="favorite" className="w-8" />
-              </InputButton>
-            )}
-          </div>
-        )}
-      </div>
-      <div className="flex flex-col items-center mt-10 gap-2" onClick={onClickNavigateToDetails}>
-        <p className="text-[#C1272D] text-2xl font-semibold">{name.toUpperCase()}</p>
-        <p
-          style={{
-            fontFamily: "Koulen, sans-serif",
-            fontStyle: "normal",
-            fontWeight: 600,
-          }}
-          className="max-w-50 overflow-hidden whitespace-nowrap text-ellipsis text-[#4f2edc]">
-          {species} &#x2022; {breed.join(" ")}
-        </p>
       </div>
     </div>
   );

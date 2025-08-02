@@ -5,7 +5,7 @@ import { userSlice } from "../../../../store/slices/UserInfoSlice";
 
 import { fetchFindAdoptedPets } from "../../services/userSevices";
 
-import PetList from "../../../pets/components/PetList/PetList";
+import AdoptedPetInfo from "./AdoptedPetInfo";
 
 function AdoptedPetsList({ user }) {
   const userInfo = useSelector((store) => store[userSlice.name]);
@@ -33,10 +33,17 @@ function AdoptedPetsList({ user }) {
   return (
     <div>
       <div>
-        <p className="text-5xl text-[#6c757d]">Adopted Pets ({petList.length})</p>
+        <p className="text-4xl text-[#6c757d]">Adopted Pets ({petList.length})</p>
       </div>
       <div className="mt-10">
-        <PetList petList={petList} isLoggedIn={true} setVisibleSignIn={() => {}} />
+        {petList.map((pet) => (
+          <AdoptedPetInfo
+            pet={pet}
+            setVisibleSignIn={() => {}}
+            isLoggedIn={true}
+            isFavorite={userInfo.favoritePets.includes(pet._id)}
+          />
+        ))}
       </div>
     </div>
   );

@@ -6,7 +6,7 @@ import SignIn from "../../auth/pages/SignIn";
 export default withRequiredAuthInfo(
   function AdoptedPet({ user }) {
     return (
-      <div className="lg:min-h-screen lg:px-40 lg:py-20 px-10">
+      <div className="lg:min-h-screen lg:px-40 lg:py-20 p-5">
         <NavPet />
         <AdoptedPetsList user={user} />
       </div>

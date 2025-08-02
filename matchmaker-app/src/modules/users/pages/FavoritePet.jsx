@@ -7,7 +7,7 @@ import NavPet from "../components/NavPet/NavPet";
 export default withRequiredAuthInfo(
   function FavoritePet({ user }) {
     return (
-      <div className="lg:min-h-screen lg:px-40 lg:py-20 px-10">
+      <div className="lg:min-h-screen lg:px-40 lg:py-20 p-5">
         <NavPet />
         <FavoritePetsList user={user} />
       </div>

@@ -1,3 +1,5 @@
+import barn from '../assets/images/barn.png';
+
 import { useState } from 'react';
 
 export default function Foster() {
@@ -71,9 +73,15 @@ export default function Foster() {
     : animals.filter(animal => animal.type === selectedCategory);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mb-32">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-[#7C0F0F] via-[#C1272D] to-[#7C0F0F]">
+        <img
+          src={barn}
+          alt="Foster Banner"
+          className="absolute inset-0 w-full h-full object-fit opacity-40"
+          style={{ zIndex: 0 }}
+        />
         <div className="absolute inset-0 bg-black opacity-20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
           <div className="text-center">
@@ -206,9 +214,14 @@ export default function Foster() {
                   <p className="text-sm text-gray-500 bg-gray-50 p-3 rounded-lg">{animal.needs}</p>
                 </div>
                 
-                <button className="w-full bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                  Foster {animal.name}
-                </button>
+              <a
+                href="https://forms.gle/wSKeSmCzACpXUKyW9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full block text-center bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              >
+                Foster {animal.name}
+              </a>
               </div>
             </div>
           ))}
@@ -222,9 +235,14 @@ export default function Foster() {
             and match you with the perfect furry friend.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-[#7C0F0F] px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <a
+              href="https://forms.gle/wSKeSmCzACpXUKyW9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white text-[#7C0F0F] px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-center"
+            >
               Apply to Foster
-            </button>
+            </a>
             <button className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-red-600 transition-all duration-300">
               Learn More
             </button>

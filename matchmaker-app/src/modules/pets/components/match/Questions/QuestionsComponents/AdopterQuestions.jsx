@@ -20,7 +20,7 @@ import AnimalList from "./AnimalList";
 import userImage from "../../../../../../assets/images/user.png";
 
 import { finishAdopterQuestionsSlice } from "../../../../../../store/slices/MatchFormSlice";
-import { fetchUpdateUserQuestionnaireById } from "../../../../../users/services/userSevices";
+import { fetchUpdateUserAnswerById } from "../../../../../users/services/userSevices";
 
 export default withAuthInfo(function AdopterQuestions({ isLoggedIn, user, setNumbersOfAnswers }) {
   const dispatch = useDispatch();
@@ -96,7 +96,7 @@ function QuestionA1({ getNextQuestion, isLoggedIn, user }) {
     }
     SessionStorage.setItem("a1", event.target.value);
     if (isLoggedIn) {
-      fetchUpdateUserQuestionnaireById("a1", user.email, event.target.value).catch((err) => {
+      fetchUpdateUserAnswerById("a1", user.email, event.target.value).catch((err) => {
         console.log(err);
       });
     }
@@ -110,7 +110,7 @@ function QuestionA1({ getNextQuestion, isLoggedIn, user }) {
       setHasAnswer((prevState) => true);
       SessionStorage.setItem("a1", house);
       if (isLoggedIn) {
-        fetchUpdateUserQuestionnaireById("a1", user.email, house).catch((err) => {
+        fetchUpdateUserAnswerById("a1", user.email, house).catch((err) => {
           console.log(err);
         });
       }
@@ -242,7 +242,7 @@ function QuestionA2({ getNextQuestion, isLoggedIn, user }) {
     if (Number(event.target.value) === 0 || (Number(event.target.value) > 0 && youngestAge !== "")) {
       SessionStorage.setItem("a2", { children: Number(event.target.value), youngestAge: youngestAge });
       if (isLoggedIn) {
-        fetchUpdateUserQuestionnaireById("a2", user.email, {
+        fetchUpdateUserAnswerById("a2", user.email, {
           children: Number(event.target.value),
           youngestAge: youngestAge,
         }).catch((err) => {
@@ -260,7 +260,7 @@ function QuestionA2({ getNextQuestion, isLoggedIn, user }) {
     setYoungestAge((preState) => event.target.value);
     SessionStorage.setItem("a2", { children: children, youngestAge: event.target.value });
     if (isLoggedIn) {
-      fetchUpdateUserQuestionnaireById("a2", user.email, {
+      fetchUpdateUserAnswerById("a2", user.email, {
         children: children,
         youngestAge: event.target.value,
       }).catch((err) => {
@@ -410,7 +410,7 @@ function QuestionA3({ getNextQuestion, isLoggedIn, user }) {
     setAllergiesAnimal((preState) => []);
     SessionStorage.setItem("a3", []);
     if (isLoggedIn) {
-      fetchUpdateUserQuestionnaireById("a3", user.email, []).catch((err) => {
+      fetchUpdateUserAnswerById("a3", user.email, []).catch((err) => {
         console.log(err);
       });
     }
@@ -438,7 +438,7 @@ function QuestionA3({ getNextQuestion, isLoggedIn, user }) {
         getNextQuestion();
       }
       if (isLoggedIn) {
-        fetchUpdateUserQuestionnaireById("a3", user.email, allergiesAnimal).catch((err) => {
+        fetchUpdateUserAnswerById("a3", user.email, allergiesAnimal).catch((err) => {
           console.log(err);
         });
       }
@@ -550,7 +550,7 @@ function QuestionA4({ getNextQuestion, isLoggedIn, user }) {
     SessionStorage.setItem("a4", []);
     setHasAnswer((preState) => true);
     if (isLoggedIn) {
-      fetchUpdateUserQuestionnaireById("a4", user.email, []).catch((err) => {
+      fetchUpdateUserAnswerById("a4", user.email, []).catch((err) => {
         console.log(err);
       });
     }
@@ -573,7 +573,7 @@ function QuestionA4({ getNextQuestion, isLoggedIn, user }) {
     if (validAnimalList) {
       SessionStorage.setItem("a4", animalList);
       if (isLoggedIn) {
-        fetchUpdateUserQuestionnaireById("a4", user.email, animalList).catch((err) => {
+        fetchUpdateUserAnswerById("a4", user.email, animalList).catch((err) => {
           console.log(err);
         });
       }

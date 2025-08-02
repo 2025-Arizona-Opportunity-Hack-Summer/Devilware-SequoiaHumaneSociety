@@ -27,19 +27,17 @@ async function fetchUserProfileByEmail(email) {
   return user;
 }
 
-async function fetchUpdateUserQuesionnaireBySessionStorage(email, updatedMatchAnswers) {
-  const endpointUpdate = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${USER_QUESTIONNAIRE_ENDPOINT}`;
-
+async function fetchUpdateUserAnswers(email, updatedMatchAnswers) {
+  const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${USER_QUESTIONNAIRE_ENDPOINT}`;
+  console.log(endpoint);
   try {
-    const response = await fetch(endpointUpdate, {
+    const response = await fetch(endpoint, {
       method: "PUT",
       body: JSON.stringify({ matchAnswers: updatedMatchAnswers }),
       headers: {
         "Content-type": "application/json",
       },
     });
-
-    const data = await response.json();
 
     if (!response.ok) {
       throw Error(data.error);
@@ -48,10 +46,9 @@ async function fetchUpdateUserQuesionnaireBySessionStorage(email, updatedMatchAn
     console.log(err);
     throw Error;
   }
-
   return updatedMatchAnswers;
 }
-async function fetchUpdateUserQuestionnaireById(id, email, value) {
+async function fetchUpdateUserAnswerById(id, email, value) {
   const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${USER_QUESTIONNAIRE_ENDPOINT}/${id}`;
 
   try {
@@ -70,6 +67,8 @@ async function fetchUpdateUserQuestionnaireById(id, email, value) {
   } catch (err) {
     throw Error(err);
   }
+
+  return true;
 }
 
 async function fetchUpdateFavoritePetById(email, pet_id) {
@@ -110,19 +109,61 @@ async function fetchFindFavoritePets(email) {
     }
     const data = await response.json();
 
-    console.log(data);
     pets = data;
   } catch (err) {
-    console.log(err);
+    throw Error(err);
+  }
+
+  return pets;
+}
+
+async function fetchFindAdoptedPets(email) {
+  const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/adopted-pets`;
+
+  console.log(endpoint);
+  let pets;
+
+  try {
+    const response = await fetch(endpoint);
+    if (!response.ok) {
+      throw Error(data.error);
+    }
+    const data = await response.json();
+
+    pets = data;
+  } catch (err) {
+    throw Error(err);
+  }
+
+  return pets;
+}
+
+async function fetchFindOnHoldPets(email) {
+  const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/on-hold-pets`;
+
+  console.log(endpoint);
+  let pets;
+
+  try {
+    const response = await fetch(endpoint);
+    if (!response.ok) {
+      throw Error(data.error);
+    }
+    const data = await response.json();
+
+    pets = data;
+  } catch (err) {
     throw Error(err);
   }
 
   return pets;
 }
 export {
-  fetchUpdateUserQuestionnaireById,
+  fetchUpdateUserAnswerById,
   fetchUserProfileByEmail,
-  fetchUpdateUserQuesionnaireBySessionStorage,
+  fetchUpdateUserAnswers,
   fetchUpdateFavoritePetById,
   fetchFindFavoritePets,
+  fetchFindAdoptedPets,
+  fetchFindOnHoldPets,
 };

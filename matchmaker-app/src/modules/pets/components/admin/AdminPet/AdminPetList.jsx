@@ -13,7 +13,7 @@ function AdminPetList({ onClickMoveTo }) {
   const [searchPet, setSearchPet] = useState("");
 
   useEffect(() => {
-    fetchFindPets()
+    fetchFindPets(null, true)
       .then((data) => {
         setPetList((prev) => data.pets);
       })

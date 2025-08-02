@@ -3,20 +3,20 @@ import { useEffect, useState } from "react";
 
 import { userSlice } from "../../../../store/slices/UserInfoSlice";
 
-import { fetchFindFavoritePets } from "../../services/userSevices";
+import { fetchFindOnHoldPets } from "../../services/userSevices";
 
 import PetList from "../../../pets/components/PetList/PetList";
 
 import heartImg from "../../../../assets/images/heart-com.svg";
 
-function FavoritePetList({ user }) {
+function OnHoldPetList({ user }) {
   const userInfo = useSelector((store) => store[userSlice.name]);
   const [petList, setPetList] = useState([]);
 
   useEffect(() => {
     if (user) {
-      fetchFindFavoritePets(user.email)
-        .then((data) => setPetList(data))
+      fetchFindOnHoldPets(user.email)
+        .then((data) => setPetList((prev) => data))
         .catch((err) => {
           console.log(err);
         });
@@ -28,12 +28,12 @@ function FavoritePetList({ user }) {
   if (petList.length === 0) {
     return (
       <div className="px-40 py-20 flex flex-col items-center gap-10">
-        <h2 className="text-4xl text-[#495057]">No favorites pet here yet</h2>
+        <h2 className="text-4xl text-[#495057]">No on-hold pets here yet</h2>
         <div className="flex items-center gap-2">
           <p className="text-2xl text-[#6c757d]">
-            Add the pet you love to your favorites list by tapping the favorite button
+            On-hold pets are pets with a visit scheduled with the user. Let us know who you are interested in adopting
+            and place a hold on the animal for one business day to meet with them without a hold fee.
           </p>
-          <img src={heartImg} alt="heart" className="w-6" />
         </div>
       </div>
     );
@@ -41,7 +41,8 @@ function FavoritePetList({ user }) {
   return (
     <div>
       <div>
-        <p className="text-5xl text-[#6c757d]">My Favorites ({petList.length})</p>
+        <p className="text-5xl text-[#6c757d]">On-hold pets ({petList.length})</p>
+        <p className="text-xl text-[#6c757d] mt-5">You have one business day to meet with them without a hold fee.</p>
       </div>
       <div className="mt-10">
         <PetList petList={petList} isLoggedIn={true} setVisibleSignIn={() => {}} />
@@ -50,4 +51,4 @@ function FavoritePetList({ user }) {
   );
 }
 
-export default FavoritePetList;
+export default OnHoldPetList;

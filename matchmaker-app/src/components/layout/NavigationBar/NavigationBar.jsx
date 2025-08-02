@@ -158,6 +158,18 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
                       style={{ fontFamily: "Koh Santepheap, serif" }}>
                       Favorites
                     </Link>
+                    <Link
+                      to="/on-hold"
+                      className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md"
+                      style={{ fontFamily: "Koh Santepheap, serif" }}>
+                      On-hold pets
+                    </Link>
+                    <Link
+                      to="/adopted"
+                      className=" w-full p-2 hover:bg-[#7C0F0F] hover:text-white rounded-md"
+                      style={{ fontFamily: "Koh Santepheap, serif" }}>
+                      Adopted pets
+                    </Link>
                   </>
                 )}
 

@@ -206,19 +206,23 @@ async function fetchDeleletePet(pet_id) {
 
 async function fetchMatchedPets(matchAnswers) {
   let data;
-  const searchParams = createSearchParams(matchAnswers).toString();
-  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}/matchmaker?${searchParams}`;
-  console.log(endpoint);
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}/matchmaker`;
+
+  console.log(matchAnswers);
   try {
-    const response = await fetch(endpoint);
+    const response = await fetch(endpoint, {
+      method: "POST",
+      body: JSON.stringify(matchAnswers),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
 
     data = await response.json();
 
     if (!response.ok) {
       throw Error(data.type);
     }
-
-    console.log(data);
   } catch (err) {
     throw Error(err);
   }

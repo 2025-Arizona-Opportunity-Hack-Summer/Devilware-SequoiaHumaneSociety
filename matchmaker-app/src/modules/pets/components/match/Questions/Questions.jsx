@@ -82,12 +82,21 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     setIsLoading((preState) => true);
 
     try {
-      const data = await fetchMatchedPets({});
+      const data = await fetchMatchedPets({
+        a1: SessionStorage.getItem("a1"),
+        a2: SessionStorage.getItem("a2"),
+        a3: SessionStorage.getItem("a3"),
+        a4: SessionStorage.getItem("a4"),
+        p1: SessionStorage.getItem("p1"),
+        p2: SessionStorage.getItem("p2"),
+        p3: SessionStorage.getItem("p3"),
+        p4: SessionStorage.getItem("p4"),
+      });
 
       setTimeout(() => {
         setIsQuestionPage((preState) => false);
         dispatch(matchedPetListSlice.actions.assign(data.pets));
-        SessionStorage.setItem("petList", data.pets);
+        SessionStorage.setItem("petList", data);
         window.scroll(0, 0);
         setIsLoading((preState) => false);
       }, 5000);

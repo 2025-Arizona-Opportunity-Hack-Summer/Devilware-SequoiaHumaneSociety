@@ -21,6 +21,8 @@ import AdoptRoot from "./modules/pets/components/adopt/AdoptRoot/AdoptRoot";
 import PetDescription from "./modules/pets/components/PetDescription/PetDescription";
 
 import FavoritePet from "./modules/users/pages/FavoritePet";
+import AdoptedPet from "./modules/users/pages/AdoptedPet";
+import OnHoldPet from "./modules/users/pages/OnHoldPet";
 import UserProfile from "./modules/users/pages/UserProfile";
 
 import store from "./store/store";
@@ -40,6 +42,8 @@ const router = createBrowserRouter(
         <Route path="sign-in" element={<SignIn />} />
         <Route path="register" element={<Register />} />
         <Route path="favorite" element={<FavoritePet />} />
+        <Route path="adopted" element={<AdoptedPet />} />
+        <Route path="on-hold" element={<OnHoldPet />} />
         <Route path="petadmin" element={<PetAdmin />}>
           <Route path="create" element={<CreatePetForm />} />
           <Route path="edit" element={<EditPet />} />

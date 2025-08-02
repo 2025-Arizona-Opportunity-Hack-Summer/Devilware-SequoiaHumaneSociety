@@ -21,7 +21,6 @@ async function fetchFindUserByEmail(email) {
     console.log(err);
     throw Error(err);
   }
-
   return user;
 }
 

@@ -8,11 +8,16 @@ const { ObjectId } = require("mongodb");
 require("dotenv").config();
 
 async function findPets(req, res, next) {
-  let { species } = req.query;
+  let { species, admin } = req.query;
   const filter = {};
 
   if (species !== undefined) {
     filter["species"] = species;
+  }
+
+  if (Boolean(admin) !== true) {
+    filter["adopted_email"] = null;
+    filter["on_hold_email"] = null;
   }
 
   try {
@@ -228,7 +233,7 @@ async function setPetOnHold(req, res, next) {
           { _id: ObjectId.createFromHexString(pet_id) },
           { $set: { on_hold_email: null, on_hold_date: null } }
         );
-      res.status(200).json({ ...pet, on_hole_email: null, on_hold_date: null });
+      res.status(200).json({ ...pet, on_hold_email: null, on_hold_date: null });
     }
   } catch (err) {
     res.status(500).json({
@@ -272,12 +277,29 @@ async function setPetAdopted(req, res, next) {
         .collection("pets")
         .updateOne(
           { _id: ObjectId.createFromHexString(pet_id) },
-          { $set: { adopted_email: email, adopted_data: new Date(), on_hold_email: null, on_hold_date: null } }
+          { $set: { adopted_email: email, adopted_date: new Date(), on_hold_email: null, on_hold_date: null } }
         );
 
+      await mongoClient
+        .getDB()
+        .collection("users")
+        .updateOne(
+          { email: email },
+          {
+            $push: {
+              adoptedPets: {
+                ...pet,
+                adopted_email: email,
+                adopted_date: new Date(),
+                on_hold_email: null,
+                on_hold_date: null,
+              },
+            },
+          }
+        );
       res
         .status(200)
-        .json({ ...pet, adopted_email: email, adopted_data: new Date(), on_hold_email: null, on_hold_date: null });
+        .json({ ...pet, adopted_email: email, adopted_date: new Date(), on_hold_email: null, on_hold_date: null });
     } else {
       await mongoClient
         .getDB()
@@ -285,6 +307,18 @@ async function setPetAdopted(req, res, next) {
         .updateOne(
           { _id: ObjectId.createFromHexString(pet_id) },
           { $set: { adopted_email: null, adopted_date: null } }
+        );
+
+      await mongoClient
+        .getDB()
+        .collection("users")
+        .updateOne(
+          { email: email },
+          {
+            $pull: {
+              adoptedPets: { _id: ObjectId.createFromHexString(pet_id) },
+            },
+          }
         );
       res.status(200).json({ ...pet, adopted_email: null, adopted_date: null });
     }
@@ -347,7 +381,6 @@ async function deletePet(req, res, next) {
 }
 
 async function findMatchedPets(req, res, next) {
-  console.log("CAll");
   // let {} = req.query;
   try {
     const pipeline = [
@@ -365,7 +398,6 @@ async function findMatchedPets(req, res, next) {
     ];
 
     const pets = await mongoClient.getDB().collection("pets").aggregate(pipeline).toArray();
-    console.log(pets);
     for (const pet of pets[0].data) {
       // const imagesUrl = [];
       const imagesUrlPromises = [];
@@ -387,7 +419,6 @@ async function findMatchedPets(req, res, next) {
       breeds: pets[0].breeds[0].values,
     });
   } catch (err) {
-    console.log(err);
     res.status(500).json({
       error: "InternalServerError",
       message: "Problem occurs at server. Please contact for help",

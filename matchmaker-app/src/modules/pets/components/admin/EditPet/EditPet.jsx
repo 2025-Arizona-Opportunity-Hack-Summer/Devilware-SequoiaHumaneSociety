@@ -38,7 +38,6 @@ export default withAuthInfo(function EditPet() {
     return <AdminPetList />;
   }
 
-  console.log(petData);
   if (petData === null) {
     return <></>;
   }

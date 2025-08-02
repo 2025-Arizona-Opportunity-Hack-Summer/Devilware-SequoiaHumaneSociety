@@ -49,13 +49,18 @@ async function fetchFindPetById(pet_id) {
 
   return data;
 }
-async function fetchFindPets(species) {
+async function fetchFindPets(species, admin) {
   let data;
 
   const queryParams = {};
 
   if (species !== undefined && species !== null) {
     queryParams["species"] = species;
+  }
+  if (admin !== undefined && admin !== null) {
+    queryParams["admin"] = true;
+  } else {
+    queryParams["admin"] = false;
   }
 
   const queryParamsString = createSearchParams(queryParams).toString();

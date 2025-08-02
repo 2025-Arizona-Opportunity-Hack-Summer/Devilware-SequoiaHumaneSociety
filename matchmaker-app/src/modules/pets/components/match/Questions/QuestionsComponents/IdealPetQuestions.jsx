@@ -16,7 +16,7 @@ import SessionStorage from "../../../../../../utils/sessionStorage";
 
 import userImage from "../../../../../../assets/images/user.png";
 
-import { fetchUpdateUserQuestionnaireById } from "../../../../../users/services/userSevices";
+import { fetchUpdateUserAnswerById } from "../../../../../users/services/userSevices";
 import { finishPetQuestionsSlice } from "../../../../../../store/slices/MatchFormSlice";
 
 export default withAuthInfo(function IdealPetQuestions({ isLoggedIn, user, setNumbersOfAnswers }) {
@@ -97,7 +97,7 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
         getNextQuestion();
       }
       if (isLoggedIn) {
-        fetchUpdateUserQuestionnaireById("p1", user.email, animalTypes).catch((err) => {
+        fetchUpdateUserAnswerById("p1", user.email, animalTypes).catch((err) => {
           console.log(err);
         });
       }
@@ -209,7 +209,7 @@ function QuestionP2({ getNextQuestion, isLoggedIn, user }) {
         getNextQuestion();
       }
       if (isLoggedIn) {
-        fetchUpdateUserQuestionnaireById("p2", user.email, { fromAge: fromAge, toAge: toAge }).catch((err) => {
+        fetchUpdateUserAnswerById("p2", user.email, { fromAge: fromAge, toAge: toAge }).catch((err) => {
           console.log(err);
         });
       }
@@ -315,7 +315,7 @@ function QuestionP3({ getNextQuestion, isLoggedIn, user }) {
         getNextQuestion();
       }
       if (isLoggedIn) {
-        fetchUpdateUserQuestionnaireById("p3", user.email, sizes).catch((err) => {
+        fetchUpdateUserAnswerById("p3", user.email, sizes).catch((err) => {
           console.log(err);
         });
       }
@@ -439,7 +439,7 @@ function QuestionP4({ getNextQuestion, isLoggedIn, user }) {
         getNextQuestion();
       }
       if (isLoggedIn) {
-        fetchUpdateUserQuestionnaireById("p4", user.email, levels).catch((err) => {
+        fetchUpdateUserAnswerById("p4", user.email, levels).catch((err) => {
           console.log(err);
         });
       }

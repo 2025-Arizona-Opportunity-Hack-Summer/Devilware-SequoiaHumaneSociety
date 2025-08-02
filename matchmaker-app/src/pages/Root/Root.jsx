@@ -10,7 +10,7 @@ import { userSlice } from "../../store/slices/UserInfoSlice.jsx";
 import saveUserAnswers from "../../utils/saveUserAnswers.jsx";
 
 import { fetchCreateUser, fetchFindUserByEmail } from "../../modules/auth/services/authServices.jsx";
-import { fetchUpdateUserQuesionnaireBySessionStorage } from "../../modules/users/services/userSevices.jsx";
+import { fetchUpdateUserAnswers } from "../../modules/users/services/userSevices.jsx";
 export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHelper, userClass }) {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -25,24 +25,21 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHe
       }
       let userInfo;
 
-      if (userClass.getOrgs().length > 0) {
-      } else {
+      try {
+        userInfo = await fetchFindUserByEmail(user.email);
+      } catch (err) {
+        throw Error(err);
+      }
+
+      if (userInfo === null) {
         try {
-          userInfo = await fetchFindUserByEmail(user.email);
+          userInfo = await fetchCreateUser(user.email, user.firstName, user.lastName, null, null);
         } catch (err) {
           throw Error(err);
         }
 
-        if (userInfo === null) {
-          try {
-            userInfo = await fetchCreateUser(user.email, user.firstName, user.lastName, null, null);
-          } catch (err) {
-            throw Error(err);
-          }
-        }
-
         const updatedMatchAnswers = saveUserAnswers(userInfo);
-        fetchUpdateUserQuesionnaireBySessionStorage(user.email, updatedMatchAnswers)
+        fetchUpdateUserAnswers(user.email, updatedMatchAnswers)
           .then((response) => {
             userInfo.matchAnswers = updatedMatchAnswers;
             dispatch(userSlice.actions.assign(userInfo));
@@ -50,6 +47,8 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHe
           .catch((err) => {
             console.log(err);
           });
+      } else {
+        dispatch(userSlice.actions.assign(userInfo));
       }
     }
 

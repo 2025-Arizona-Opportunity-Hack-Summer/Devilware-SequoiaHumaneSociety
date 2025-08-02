@@ -211,6 +211,59 @@ BUCKET_ACCESS_KEY=ABCDEFGHIJKLMNOPQRSTUVWXYZ
 BUCKET_SECRET_KEY=abcdefghijklmnopqrstuvwxyz
 ```
 
+### AI Model — Local Invocation
+
+Our compatibility model lives on **Vertex AI AutoML Tabular**. Choose either route:
+
+#### A. Call the Hosted Endpoint (recommended)
+
+```bash
+# 1) Authenticate once
+gcloud auth application-default login
+
+# 2) Export env vars
+export PROJECT_ID=your-gcp-project
+export REGION=us-central1        # adjust if needed
+export ENDPOINT_ID=123456789012  # Vertex AI endpoint id
+
+# 3) Run prediction helper
+cd Devilware-SequoiaHumaneSociety/ai-client
+python3 -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+
+python predict.py \
+  --project "$PROJECT_ID" \
+  --region  "$REGION" \
+  --endpoint_id "$ENDPOINT_ID" \
+  --instances example_instances.json
+
+#### B. Offline Docker Container
+
+1. **Export** the model from Vertex AI as a Docker image and extract it to `ai-model/offline/`.
+2. **Build & run** the container:
+
+```bash
+cd ai-model/offline
+docker build -t petmatcher-model .
+docker run -p 8080:8080 petmatcher-model
+
+### 3. Query the Local Server
+
+Once your Docker container is running, you can query the model locally using `curl`:
+
+```bash
+curl -X POST http://localhost:8080/v1/models/petmatcher:predict \
+     -H "Content-Type: application/json" \
+     -d '{"instances": [{"age": 25, "housing": "Apartment"}]}'
+
+### Helper Directory Layout
+
+ai-client/
+├── requirements.txt   # google-cloud-aiplatform, python-dotenv …
+├── predict.py         # Vertex endpoint wrapper
+└── example_instances.json
+
+
 #### Amazon S3 Bucket
 
 [Amazon S3](https://aws.amazon.com/s3/) stores data as objects within buckets. An object is a file and any metadata that describes the file. A bucket is a container for objects. To store your data in Amazon S3, you first create a bucket and specify a bucket name and AWS Region. Then, you upload your data to that bucket as objects in Amazon S3. Each object has a key (or key name), which is the unique identifier for the object within the bucket.

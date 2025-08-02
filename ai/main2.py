@@ -49,7 +49,7 @@ db = client.get_default_database()  # uses database in URI or 'test'
 def health():
     return {"status": "ok"}
 
-@app.get("/predict")
+@app.get("/matchmaker")
 def predict():
     data = request.get_json(silent=True)
     if data is None:

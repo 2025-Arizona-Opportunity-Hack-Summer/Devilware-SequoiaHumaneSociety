@@ -14,6 +14,10 @@
 
 @Faisal Alyousefi (on Slack) -->
 
+## App Walkthrough
+
+[![Watch the video](/documents/homepageImg.png)](/documents/SHSWalkThroughVid.mp4)
+
 ## About the "Devilware"
 
 **Our members**
@@ -89,6 +93,7 @@ The backend solutions for **AI-Powered Pet Matchmaker**:
 - Vertex AI
 
 The ai solutions for **AI-Powered Pet Matchmaker**:
+
 - SKLearn
 - Pandas
 - Vertex AI

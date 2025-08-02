@@ -35,7 +35,6 @@ tags:
     externalDocs:
       url: https://www.youtube.com/watch?v=eQAIojcArRY&t=996s
       description: To understand how to store images in AWS
-
 paths:
   /users:
     post:
@@ -88,15 +87,15 @@ paths:
       tags: [Users]
       summary: Get a user's favorite pets
       description: Returns a list of all favorite pets for the specified user email.
+      security:
+        - oAuth2AuthCode: [read]
       parameters:
-        - name: pet_ids
-          in: query
+        - name: email_id
+          in: path
           required: true
           schema:
-            type: array
-            items:
-              type: string
-            example: [6868a7c4644c49a33afa4217, 6868a7c4644c49a33afa421b]
+            type: string
+            example: john@doe.com
       responses:
         '200':
           description: Successfully retrieved the list of pets.
@@ -127,21 +126,10 @@ paths:
       description: |
         Adds or removes the specified pet from the user's favorite pets list. If the `pet_id` is present, it's removed; otherwise, it's added.
       security: 
-        - BearerAuth: []
+        - oAuth2AuthCode: [write]
       parameters:
         - $ref: "#/components/parameters/emailPathParam"
         - $ref: "#/components/parameters/petIdPathParam"
-      # requestBody:
-      #   content:
-      #     application/json:
-      #       schema:
-      #         type: object
-      #         properties:
-      #           pet_id:
-      #             type: string
-      #             example: 6868a7c4644c49a33afa421c
-      #             description: The ID of the pet to add or remove from favorites
-      #         required: [pet_id]
       responses:
         '200':
           description: The user's favorite pets list was successfully updated
@@ -169,6 +157,80 @@ paths:
           $ref: "#/components/responses/PetOrUserNotFound"
         '500':
           $ref: "#/components/responses/InternalServerError"
+  /users/{email}/on-hold-pets:
+    get:
+      tags: [Users]
+      security:
+        - oAuth2AuthCode: [read]
+      summary: Get a user's on-hold pets
+      description: Returns a list of all on-hold pets for the specified user email. Pets on-hold are having a scheduled visit from user, and temporarily hidden from general viewing.
+      parameters:
+        - name: email_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: john@doe.com
+      responses:
+        '200':
+          description: Successfully retrieved the list of pets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: "#/components/schemas/Pet"
+                    - type: object
+                      properties:
+                        imagesURL:
+                          description: Each `imagesURL` is the url of corresponding images stored in AWS
+                          type: array
+                          items:
+                            type: string
+                          example: "https://shs-ai-powered-pet-matchmaker.s3.us-east-1.amazonaws.com/lala.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAUDNSFG6NCEMX45M5%2F20250730%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250730T064657Z&X-Amz-Expires=86400&X-Amz-Signature=94891f25c62210c5ba9a87de69c0abb28b176ad4cffcfbf25c1a38524b2e4274&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+                  required: [imagesURL]
+        '404':
+          $ref: "#/components/responses/UserNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
+  /users/{email}/adopted-pets:
+    get:
+      tags: [Users]
+      security:
+        - oAuth2AuthCode: [read]
+      summary: Get a user's adopted pets
+      description: Returns a list of all adopted pets for the specified user email.
+      parameters:
+        - name: email_id
+          in: path
+          required: true
+          schema:
+            type: string
+            example: john@doe.com
+      responses:
+        '200':
+          description: Successfully retrieved the list of pets.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  allOf:
+                    - $ref: "#/components/schemas/Pet"
+                    - type: object
+                      properties:
+                        imagesURL:
+                          description: Each `imagesURL` is the url of corresponding images stored in AWS
+                          type: array
+                          items:
+                            type: string
+                          example: "https://shs-ai-powered-pet-matchmaker.s3.us-east-1.amazonaws.com/lala.png?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Content-Sha256=UNSIGNED-PAYLOAD&X-Amz-Credential=AKIAUDNSFG6NCEMX45M5%2F20250730%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20250730T064657Z&X-Amz-Expires=86400&X-Amz-Signature=94891f25c62210c5ba9a87de69c0abb28b176ad4cffcfbf25c1a38524b2e4274&X-Amz-SignedHeaders=host&x-amz-checksum-mode=ENABLED&x-id=GetObject"
+                  required: [imagesURL]
+        '404':
+          $ref: "#/components/responses/UserNotFound"
+        '500':
+          $ref: "#/components/responses/InternalServerError"
   /users/{email}/matchAnswers:
     put:
       tags: [Users]
@@ -176,7 +238,7 @@ paths:
       description: |
         Overwrites a user's entire set of answers to the AI-Powered Pet Matchmaker questionnaire with the provided data.
       security: 
-        - BearerAuth: []
+        - oAuth2AuthCode: [write]
       parameters:
         - $ref: "#/components/parameters/emailPathParam"
       requestBody:
@@ -207,7 +269,7 @@ paths:
       description: |
         Updates the answer for the specified `question_id` within a user's AI-Powered Pet Matchmaker questionnaire to the new `value`.
       security: 
-        - BearerAuth: []
+        - oAuth2AuthCode: [write]
       parameters:
         - $ref: "#/components/parameters/emailPathParam"
         - name: question_id
@@ -290,7 +352,7 @@ paths:
       summary: Add a new pet to the system.
       description: Creates a new pet entry in the Sequoia Humane Society's database
       security: 
-        - BearerAuth: []
+        - oAuth2AuthCode: [admin]
       requestBody:
         $ref: "#/components/requestBodies/Pet"
       responses:
@@ -335,7 +397,7 @@ paths:
       summary: Update an entire pet's information.
       description: Replaces all existing information for a specific pet with the data provided in the request body
       security: 
-        - BearerAuth: []
+        - oAuth2AuthCode: [admin]
       parameters:
         - $ref: "#/components/parameters/petIdPathParam"
       requestBody:
@@ -352,7 +414,7 @@ paths:
       summary: Delete a pet from the system.
       description: Permanently removes a specific pet and all its associated information from the Sequoia Humane Society's database, identified by its unique `pet_id`. This action is **irreversible**.
       security:
-        - BearerAuth: []
+        - oAuth2AuthCode: [admin]
       parameters:
         - $ref: "#/components/parameters/petIdPathParam"
       responses:
@@ -370,7 +432,7 @@ paths:
       description: |
         Sets or removes a pet from **on-hold** status, linking it to a specific user's email. Pets on-hold are having a scheduled visit from user, and temporarily hidden from general viewing.
       security:
-        - BearerAuth: []
+        - oAuth2AuthCode: [admin]
       parameters:
         - $ref: "#/components/parameters/petIdPathParam"
         - $ref: "#/components/parameters/emailPathParam"
@@ -417,7 +479,7 @@ paths:
         Sets or removes a pet's **newly adopted** status, linking it to the adopting user's email. Newly adopted pets have a higher chance of being returned and are prioritized.<br></br>
         Note: Setting a pet as newly adopted will automatically clear any existing **on-hold** status for that pet.
       security:
-        - BearerAuth: []
+        - oAuth2AuthCode: [admin]
       parameters:
         - $ref: "#/components/parameters/petIdPathParam"
         - $ref: "#/components/parameters/emailPathParam"
@@ -469,17 +531,24 @@ paths:
         '500':
           $ref: "#/components/responses/InternalServerError"
   /pets/matchmaker:
-    get:
+    post:
       tags: [Pets]
       summary: Find a pet that matches the user's questionnaire responses.
       description: Returns a list of pet profiles that match the user's questionnaire input. The matching process considers various user preferences and pet attributes to ensure highly compatible recommendations.
-      security:
-        - BearerAuth: []
-      parameters:
-        - name: matchAnswers
-          in: query
-          schema:
-            type: object
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                matchAnswers:
+                  type: object
+                  description: A map where each **key** is a `question_id` (string) and its **value** is the corresponding answer (can be string, number, boolean, or array, depending on the question type).
+                  example:
+                    "a1": "Home"
+                    "a2": ["Dog", "Cat"]
+                    "a3": 5
+                    "a4": true
       responses:
         '200':
             description:  A list of pet profiles matching the questionnaire
@@ -504,11 +573,15 @@ paths:
     post:
       tags: [Images]
       summary: Upload one or more images to AWS S3.
+      security:
+        - oAuth2AuthCode: [write]
+      
       externalDocs:
         url:  https://www.npmjs.com/package/multer
         description: The node.js library to handle images file
       description: |
-       This endpoint facilitates the upload of image files directly to an AWS S3 bucket. Upon successful upload, the API stores only the generated file names (or unique identifiers) in the database, not the actual image binaries.
+       This endpoint facilitates the upload of image files directly to an AWS S3 bucket. Upon successful upload, the API stores only the generated file names (or unique identifiers) in the database, not the actual image binaries.<br></br>
+       This request does not have a body, files are access by `req.files`.
       responses:
         '201':
           description: Images were successfully uploaded to AWS S3
@@ -518,6 +591,8 @@ paths:
       tags: [Images]
       summary: Delete one or more images from AWS S3.
       description: This endpoint permanently removes specified image files from the AWS S3 bucket.
+      security:
+        - oAuth2AuthCode: [write]
       parameters:
         - name: deleteImages
           in: query
@@ -819,3 +894,13 @@ components:
       type: http
       scheme: bearer
       bearerFormat: JWT
+    oAuth2AuthCode:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/api/oauth.access
+          scopes:
+            read: Read only access
+            write: Read Write access
+            admin: Admin access

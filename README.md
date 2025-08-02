@@ -238,17 +238,22 @@ python predict.py \
   --region "$REGION" \
   --endpoint_id "$ENDPOINT_ID" \
   --instances example_instances.json
+```
 
+---
 
-B. Offline Docker Container
+## B. Offline Docker Container
 
-1. **Export** the model from Vertex AI as a Docker image and extract it to `ai-model/offline/`.
+1. **Export** the model from Vertex AI as a Docker image and extract it to `ai-model/offline/`  
 2. **Build & run** the container:
 
 ```bash
 cd ai-model/offline
 docker build -t petmatcher-model .
 docker run -p 8080:8080 petmatcher-model
+```
+
+---
 
 ### 3. Query the Local Server
 
@@ -256,15 +261,20 @@ Once your Docker container is running, you can query the model locally using `cu
 
 ```bash
 curl -X POST http://localhost:8080/v1/models/petmatcher:predict \
-     -H "Content-Type: application/json" \
-     -d '{"instances": [{"age": 25, "housing": "Apartment"}]}'
+-H "Content-Type: application/json" \
+-d '{"instances": [{"age": 25, "housing": "Apartment"}]}'
+```
+
+---
 
 ### Helper Directory Layout
 
+```
 ai-client/
 ├── requirements.txt   # google-cloud-aiplatform, python-dotenv …
 ├── predict.py         # Vertex endpoint wrapper
 └── example_instances.json
+```
 
 
 #### Amazon S3 Bucket

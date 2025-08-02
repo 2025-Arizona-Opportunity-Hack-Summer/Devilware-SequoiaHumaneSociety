@@ -13,7 +13,7 @@ function SponsorsScroll({ isReverse }) {
   return (
     <div className="rootContainer">
       <div className="flex justify-center mb-10">
-        <h2 className="text-3xl sm:text-4xl font-bold text-black">We would like to thank you our sponsors</h2>
+        <h2 className="text-3xl sm:text-4xl font-bold text-black">We would like to thank our sponsors</h2>
       </div>
       <ul className={`sponsorList ${isReverse ? "reverseList" : ""}`}>
         <li className="sponsorLogo">

@@ -147,7 +147,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
                       </p>
                       <Link to="/user-profile">
                         <button className="mt-2 bg-[#6c757d] text-[#ced4da] border-2 border-[#ced4da] p-3 rounded-lg cursor-pointer hover:bg-[#7C0F0F]">
-                          Manage your Sequioa account
+                          Manage your Sequoia account
                         </button>
                       </Link>
                     </div>
@@ -284,7 +284,7 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
                       {user.email}
                     </p>
                     <NavLink to="/user-profile" className={mobileNavLinkClass}>
-                      Manage your Sequioa account
+                      Manage your Sequoia account
                     </NavLink>
                   </div>
                   <NavLink to="/favorite" className={mobileNavLinkClass}>

@@ -298,7 +298,7 @@ function QuestionP2({ getNextQuestion, isLoggedIn, user }) {
         <AnswerContainer visible={hasAnswer} id="p2" onClickEdit={onClickEdit}>
           {fromAge === "All" && toAge === "All" && <p>I don't care about pet' ages </p>}
           {fromAge === "All" && toAge !== "All" && <p>I'm looking for a pet less than {toAge} months</p>}
-          {toAge === "All" && fromAge !== "All" && <p>I'm looking for a pet more than {toAge} months</p>}
+          {toAge === "All" && fromAge !== "All" && <p>I'm looking for a pet more than {fromAge} months</p>}
           {fromAge !== "All" && toAge !== "All" && (
             <p>
               I'm looking for a pet between {fromAge} to {toAge} months

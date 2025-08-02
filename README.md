@@ -42,20 +42,20 @@ Users can further narrow down their preferences - such as choosing certain kind 
 
 The goal is to reduce mismatches, lower return rates and create long-lasting, happy adoptions. 
 
-### Team reflections
+## Team reflections
 
-## Challenges we ran into
+### Challenges we ran into
 One major hurdle for us was coordination, as when we started many of us were out of country - this leads to timezone mismatches, which made meetings and cooperation rather difficult. 
 
 We also had to think about balancing technical implementation with user experience as well as accessibility, and ensuring the matches fit with various individuals. Effective communications between team members working on different branches was difficult, but taught us a lot. 
 
-## Accomplishments that we're proud of
+### Accomplishments that we're proud of
 After two months of planning, developing, and testing, we are extremely proud of our application. Here are our proudest accomplishments:
 - We successfully launched the site, which features a functional pet recommendation engine. We made something that centers empathy and accessibility, ensuring that people from various lifestyles can find the right pet. 
 - Our team comprises of individuals with diverse backgrounds, and we effectively leveraged each other’s expertise to create a comprehensive application. We committed ourselves fully from start to finish.
 - We have an amazing document. Developers can easily run our website on their computers, making website improvements smoother.
 
-## What we learned
+### What we learned
 - We learned a lot about the React framework, the Express framework, and AI models, as well as how to connect them into one application. 
 - We also learned how to create useful documentation so that developers can understand how to run and use it effectively.
 - Good projects don't start and end at code - it's about empathy, problem solving, effective team coordination and understanding various needs.

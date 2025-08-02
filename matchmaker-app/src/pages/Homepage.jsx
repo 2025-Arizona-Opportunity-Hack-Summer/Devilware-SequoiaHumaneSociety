@@ -474,7 +474,7 @@ function Homepage() {
               <div className="mt-8 pt-6 border-t border-white/10 space-y-4 text-white/80">
                 <div className="flex items-center gap-4">
                   <MapPinIcon className="w-5 h-5 text-[#C1272D]" />
-                  <span>123 Animal Lover Lane, Eureka, CA 95501</span>
+                  <span>6073 Loma Ave, Eureka CA, 95503</span>
                 </div>
                 <div className="flex items-center gap-4">
                   <PhoneIcon className="w-5 h-5 text-[#C1272D]" />

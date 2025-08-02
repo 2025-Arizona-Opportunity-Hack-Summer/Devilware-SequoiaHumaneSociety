@@ -29,17 +29,17 @@
 
 One of the biggest hurdles in finding a compatible pet for everyone is considering various factors and living situations that each person has, and finding the right pet for them.
 
-We realized that while various adoption platforms has introduced various methods to help improve compatibility, they often tend to focus on basic filters only, and doesn't take into account contexts such as personality, living situations or even disabilities.
+We realized that while various adoption platforms has introduced a wide array of methods to help improve compatibility, they often tend to focus on basic filters, and don't take into account contexts such as personality, living situations or disabilities. 
 
 ### What it does
 
-AI-Powered Pet Matchmaker uses a smart AI-powered system to help you find the best match possible - based on their lifestyle, preferences and needs.
+The platform uses a smart AI-powered system to help you find the best match possible - based on your lifestyle, preferences and needs.
 
-Users begin by answering a series of questions touching on various topics such as schedule, housing situations, routine, and personal needs. Using this system, our system picks out adoptable animals from available local shelters using a custom-trained compatibility model.
+Users begin by answering a series of questions touching on various topics such as schedule, housing situations, routine, and personal needs. Using this information, our system picks out adoptable animals from local shelters using a custom-trained compatibility model.
 
-Users can further narrow down their preferences depending on likes - such as choosing certain kind of pets or breeds. Our system picks out what appears to be the most compatible and suggest based on the information you have given.
+Users can further narrow down their preferences - such as choosing certain kind of pets or breeds. Our system picks out what appears to be the most compatible and suggest based on the information you have given.
 
-The goal is to reduce mismatches, lower return rates and create long-lasting, happy adoptions.
+The goal is to reduce mismatches, lower return rates and create long-lasting, happy adoptions. 
 
 ## Tech Stack
 

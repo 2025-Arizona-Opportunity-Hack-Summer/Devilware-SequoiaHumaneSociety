@@ -211,11 +211,13 @@ BUCKET_ACCESS_KEY=ABCDEFGHIJKLMNOPQRSTUVWXYZ
 BUCKET_SECRET_KEY=abcdefghijklmnopqrstuvwxyz
 ```
 
-### AI Model — Local Invocation
+# AI Model — Local Invocation
 
-Our compatibility model lives on **Vertex AI AutoML Tabular**. Choose either route:
+Our compatibility model lives on **Vertex AI AutoML Tabular**. Choose either route:
 
-#### A. Call the Hosted Endpoint (recommended)
+---
+
+## A. Call the Hosted Endpoint (recommended)
 
 ```bash
 # 1) Authenticate once
@@ -223,7 +225,7 @@ gcloud auth application-default login
 
 # 2) Export env vars
 export PROJECT_ID=your-gcp-project
-export REGION=us-central1        # adjust if needed
+export REGION=us-central1  # adjust if needed
 export ENDPOINT_ID=123456789012  # Vertex AI endpoint id
 
 # 3) Run prediction helper
@@ -233,11 +235,12 @@ pip install -r requirements.txt
 
 python predict.py \
   --project "$PROJECT_ID" \
-  --region  "$REGION" \
+  --region "$REGION" \
   --endpoint_id "$ENDPOINT_ID" \
   --instances example_instances.json
 
-#### B. Offline Docker Container
+
+B. Offline Docker Container
 
 1. **Export** the model from Vertex AI as a Docker image and extract it to `ai-model/offline/`.
 2. **Build & run** the container:

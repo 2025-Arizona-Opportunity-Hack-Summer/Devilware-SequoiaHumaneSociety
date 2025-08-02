@@ -55,7 +55,7 @@ def fetch_adopter_doc(db):
 def health():
     return {"status": "ok"}
 
-@app.get("/matchmaker")
+@app.post("/matchmaker")
 def predict():
     data = request.get_json(silent=True)
     if data is None:

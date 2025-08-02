@@ -55,7 +55,7 @@ export default withAuthInfo(function OnHoldPetInfo({ pet, setVisibleSignIn, isLo
       className="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden max-w-72">
       <div className={`${pet.color} h-64 flex items-center justify-center relative`}>
         {!isAdmin && (
-          <div className="absolute bottom-0 right-2 flex  justify-center items-center">
+          <div className="absolute lg:bottom-0 bottom-5 right-2 flex  justify-center items-center">
             {isFavorite && (
               <InputButton
                 id={`${_id}_favorite`}

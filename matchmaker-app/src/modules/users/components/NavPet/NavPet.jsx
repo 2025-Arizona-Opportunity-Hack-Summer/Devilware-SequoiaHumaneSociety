@@ -25,7 +25,7 @@ function NavPet() {
   return (
     <div className="mb-10">
       <nav>
-        <ul className="flex flex-row items-center gap-3">
+        <ul className="flex flex-row items-center gap-3 flex-wrap">
           <li>
             <NavLink to="/favorite" className={favoritePetClass}>
               Favorite Pets

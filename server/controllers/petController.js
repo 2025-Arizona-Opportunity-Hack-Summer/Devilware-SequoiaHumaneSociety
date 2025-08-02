@@ -416,9 +416,19 @@ async function findMatchedPets(req, res, next) {
     });
 
     const activeLevelFilter = answers.p4;
-
     pets = [...pets].filter((pet) => activeLevelFilter.includes(pet.active_level));
 
+    const age = answers.p2;
+
+    pets = [...pets].filter((pet) => {
+      if (age.fromAge !== "All" && Number(pet.age) < Number(age.fromAge)) {
+        return false;
+      }
+      if (age.toAge !== "All" && Number(pet.age) > Number(age.toAge)) {
+        return false;
+      }
+      return true;
+    });
     for (const pet of pets) {
       // const imagesUrl = [];
       const imagesUrlPromises = [];

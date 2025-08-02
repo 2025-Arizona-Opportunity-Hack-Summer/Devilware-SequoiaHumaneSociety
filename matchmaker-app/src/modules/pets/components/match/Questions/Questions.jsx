@@ -97,7 +97,6 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
         setIsQuestionPage((preState) => false);
         dispatch(matchedPetListSlice.actions.assign(data));
         SessionStorage.setItem("petList", data);
-        window.scroll(0, 0);
         setIsLoading((preState) => false);
       }, 3000);
     } catch (err) {

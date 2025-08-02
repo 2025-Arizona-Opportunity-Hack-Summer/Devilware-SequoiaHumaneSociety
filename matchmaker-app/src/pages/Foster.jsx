@@ -1,7 +1,13 @@
-import { useState } from 'react';
+import { useEffect, useState, useTransition } from "react";
+import { fetchFindPets } from "../modules/pets/services/petServices";
+
+import FosterPetInfo from "../components/foster/FosterPetInfo";
+import noPetImage from "../assets/images/no-pet-image.png";
+import loadingImage from "../assets/images/loading-image.png";
 
 export default function Foster() {
-  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [petList, setPetList] = useState([]);
 
   const animals = [
     {
@@ -10,9 +16,9 @@ export default function Foster() {
       type: "dog",
       age: "2 years",
       breed: "Golden Retriever Mix",
-      description: "Gentle, loving companion who adores children and other pets.",
+      about: "Gentle, loving companion who adores children and other pets.",
       needs: "Quiet home, daily walks",
-      color: "bg-amber-100"
+      color: "bg-amber-100",
     },
     {
       id: 2,
@@ -20,9 +26,9 @@ export default function Foster() {
       type: "cat",
       age: "1 year",
       breed: "Domestic Shorthair",
-      description: "Playful kitten with endless energy and curiosity.",
+      about: "Playful kitten with endless energy and curiosity.",
       needs: "Indoor only, toys and attention",
-      color: "bg-blue-100"
+      color: "bg-blue-100",
     },
     {
       id: 3,
@@ -30,9 +36,9 @@ export default function Foster() {
       type: "dog",
       age: "5 years",
       breed: "Labrador",
-      description: "Calm, well-trained dog perfect for families.",
+      about: "Calm, well-trained dog perfect for families.",
       needs: "Moderate exercise, loving family",
-      color: "bg-green-100"
+      color: "bg-green-100",
     },
     {
       id: 4,
@@ -40,9 +46,9 @@ export default function Foster() {
       type: "cat",
       age: "3 years",
       breed: "Persian Mix",
-      description: "Serene lap cat who loves quiet afternoons.",
+      about: "Serene lap cat who loves quiet afternoons.",
       needs: "Gentle handling, grooming",
-      color: "bg-purple-100"
+      color: "bg-purple-100",
     },
     {
       id: 5,
@@ -52,7 +58,7 @@ export default function Foster() {
       breed: "German Shepherd",
       description: "Loyal protector seeking an active family.",
       needs: "Daily exercise, training",
-      color: "bg-red-100"
+      color: "bg-red-100",
     },
     {
       id: 6,
@@ -62,13 +68,23 @@ export default function Foster() {
       breed: "Maine Coon Mix",
       description: "Fluffy bundle of joy with a sweet personality.",
       needs: "Socialization, playtime",
-      color: "bg-pink-100"
-    }
+      color: "bg-pink-100",
+    },
   ];
 
-  const filteredAnimals = selectedCategory === 'all' 
-    ? animals 
-    : animals.filter(animal => animal.type === selectedCategory);
+  useEffect(() => {
+    console.log(selectedCategory);
+    fetchFindPets(selectedCategory === "all" ? null : selectedCategory)
+      .then((data) => {
+        setPetList((prev) => data.pets.slice(0, 6));
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, [selectedCategory]);
+
+  const filteredAnimals =
+    selectedCategory === "all" ? animals : animals.filter((animal) => animal.type === selectedCategory);
 
   return (
     <div className="min-h-screen">
@@ -80,9 +96,7 @@ export default function Foster() {
             <div className="inline-flex items-center justify-center w-16 h-16 sm:w-20 sm:h-20 bg-white bg-opacity-20 rounded-full mb-6 sm:mb-8">
               <span className="text-2xl sm:text-3xl">🏠</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">
-              Foster
-            </h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6">Foster</h1>
             <p className="text-lg sm:text-xl text-white max-w-3xl mx-auto mb-8 sm:mb-12 leading-relaxed">
               Foster some of our animals in need!
             </p>
@@ -104,9 +118,7 @@ export default function Foster() {
         <div className="bg-white rounded-3xl shadow-xl p-8 mb-12">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">
-                Why Foster?
-              </h2>
+              <h2 className="text-3xl font-bold text-gray-800 mb-6">Why Foster?</h2>
               <div className="space-y-4">
                 <div className="flex items-start space-x-4">
                   <div className="w-6 h-6 bg-red-600 rounded-full flex-shrink-0 mt-1"></div>
@@ -142,33 +154,30 @@ export default function Foster() {
         <div className="flex justify-center mb-8">
           <div className="bg-white rounded-full shadow-lg p-2 inline-flex space-x-2">
             <button
-              onClick={() => setSelectedCategory('all')}
+              onClick={() => setSelectedCategory("all")}
               className={`px-6 py-3 rounded-full font-medium transition-all ${
-                selectedCategory === 'all'
-                  ? 'bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg'
-                  : 'text-gray-500 hover:bg-gray-100'
-              }`}
-            >
+                selectedCategory === "all"
+                  ? "bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg"
+                  : "text-gray-500 hover:bg-gray-100"
+              }`}>
               All Animals
             </button>
             <button
-              onClick={() => setSelectedCategory('dog')}
+              onClick={() => setSelectedCategory("Dog")}
               className={`px-6 py-3 rounded-full font-medium transition-all ${
-                selectedCategory === 'dog'
-                  ? 'bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg'
-                  : 'text-gray-500 hover:bg-gray-100'
-              }`}
-            >
+                selectedCategory === "Dog"
+                  ? "bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg"
+                  : "text-gray-500 hover:bg-gray-100"
+              }`}>
               Dogs
             </button>
             <button
-              onClick={() => setSelectedCategory('cat')}
+              onClick={() => setSelectedCategory("Cat")}
               className={`px-6 py-3 rounded-full font-medium transition-all ${
-                selectedCategory === 'cat'
-                  ? 'bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg'
-                  : 'text-gray-500 hover:bg-gray-100'
-              }`}
-            >
+                selectedCategory === "Cat"
+                  ? "bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg"
+                  : "text-gray-500 hover:bg-gray-100"
+              }`}>
               Cats
             </button>
           </div>
@@ -176,50 +185,76 @@ export default function Foster() {
 
         {/* Animals Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {filteredAnimals.map((animal) => (
-            <div 
-              key={animal.id} 
-              className="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden"
-            >
-              <div className={`${animal.color} h-64 flex items-center justify-center relative`}>
-                <div className="text-center">
+          {petList.map((animal) => (
+            <FosterPetInfo pet={animal} key={animal._id} />
+          ))}
+          {/* {petList.map((animal) => {
+            const [imageLoading, setImageLoading] = useState(false);
+
+            return (
+              <div
+                key={animal._id}
+                className="bg-white rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+                <div className={`${animal.color} h-64 flex items-center justify-center relative`}>
+                  <div className="text-center">
+                    <div className="bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg cursor-pointer">
+                      <img
+                        src={
+                          !imageLoading
+                            ? loadingImage
+                            : animal.imagesURL.length !== 0
+                            ? animal.imagesURL[0]
+                            : noPetImage
+                        }
+                        alt={animal.name}
+                        className="w-60 rounded-md"
+                        onClick={onClickNavigateToDetails}
+                        onLoad={() => {
+                          setImageLoading((preState) => true);
+                        }}
+                      />
+                    </div>
+                  </div>
+                  {/* <div className="text-center">
+                  <img />
                   <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                    <span className="text-3xl">{animal.type === 'dog' ? '🐕' : '🐱'}</span>
+                    <span className="text-3xl">{animal.type === "dog" ? "🐕" : "🐱"}</span>
                   </div>
                   <p className="text-gray-500 font-medium">[Animal Photo]</p>
                   <p className="text-sm text-gray-400 mt-1">{animal.name}</p>
+                </div> */}
+          {/* <div className="absolute top-4 right-4">
+                    <span className="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-600 shadow-lg">
+                      {animal.age}
+                    </span>
+                  </div>
                 </div>
-                <div className="absolute top-4 right-4">
-                  <span className="bg-white px-3 py-1 rounded-full text-sm font-medium text-gray-600 shadow-lg">
-                    {animal.age}
-                  </span>
-                </div>
-              </div>
-              
-              <div className="p-6">
-                <h3 className="text-2xl font-bold text-gray-800 mb-2">{animal.name}</h3>
-                <p className="text-[#C1272D] font-medium mb-3">{animal.breed}</p>
-                <p className="text-gray-500 mb-4 leading-relaxed">{animal.description}</p>
-                
-                <div className="mb-6">
+
+                <div className="p-6">
+                  <h3 className="text-2xl font-bold text-gray-800 mb-2">{animal.name}</h3>
+                  <p className="text-[#C1272D] font-medium mb-3">{animal.breed}</p>
+                  <p className="text-gray-500 mb-4 leading-relaxed">{animal.description}</p> */}
+
+          {/* <div className="mb-6">
                   <h4 className="font-semibold text-gray-700 mb-2">Special Needs:</h4>
                   <p className="text-sm text-gray-500 bg-gray-50 p-3 rounded-lg">{animal.needs}</p>
+                </div> */}
+
+          {/* <button className="w-full bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                    Foster {animal.name}
+                  </button>
                 </div>
-                
-                <button className="w-full bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white font-semibold py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-                  Foster {animal.name}
-                </button>
               </div>
-            </div>
-          ))}
+            );
+          })} */}
         </div>
 
         {/* Call to Action */}
         <div className="mt-16 bg-gradient-to-r from-[#7C0F0F] to-red-800 rounded-3xl p-12 text-center text-white shadow-2xl">
           <h2 className="text-4xl font-bold mb-6">Ready to Foster?</h2>
           <p className="text-xl mb-8 max-w-2xl mx-auto opacity-90">
-            Take the first step in saving a life. Our team will guide you through the process 
-            and match you with the perfect furry friend.
+            Take the first step in saving a life. Our team will guide you through the process and match you with the
+            perfect furry friend.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button className="bg-white text-[#7C0F0F] px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">

@@ -16,7 +16,7 @@ function saveUserAnswers(user) {
   for (const questionItem of questionsId) {
     if (matchAnswers[questionItem] !== undefined) {
       SessionStorage.setItem(questionItem, matchAnswers[questionItem]);
-      updateMatchAnswers[questionItem] = matchQuestions[questionItem];
+      updateMatchAnswers[questionItem] = matchAnswers[questionItem];
     } else if (SessionStorage.getItem(questionItem) !== null) {
       updateMatchAnswers[questionItem] = SessionStorage.getItem(questionItem);
     }

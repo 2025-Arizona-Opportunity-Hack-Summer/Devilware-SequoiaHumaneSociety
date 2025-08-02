@@ -49,10 +49,18 @@ async function fetchFindPetById(pet_id) {
 
   return data;
 }
-async function fetchFindPets() {
+async function fetchFindPets(species) {
   let data;
 
-  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}`;
+  const queryParams = {};
+
+  if (species !== undefined && species !== null) {
+    queryParams["species"] = species;
+  }
+
+  const queryParamsString = createSearchParams(queryParams).toString();
+
+  const endpoint = `${API_BASE_URL}/${PETS_ENDPOINT}?${queryParamsString}`;
 
   try {
     const response = await fetch(endpoint);
@@ -60,7 +68,6 @@ async function fetchFindPets() {
     if (!response.ok) {
       throw Error("Error");
     }
-
     data = await response.json();
   } catch (err) {
     console.log(err);

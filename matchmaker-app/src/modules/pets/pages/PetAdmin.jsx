@@ -9,7 +9,7 @@ export default withRequiredAuthInfo(
     const buttonStyle =
       "p-3 rounded-md cursor-pointer font-semibold text-white shadow-[3px_3px_#000] hover:translate-[3px] hover:shadow-none duration-300 ";
     return (
-      <div className="m-20">
+      <div className="m-20 lg:min-h-screen">
         <div className="flex gap-2 mb-10">
           <button
             className={`${buttonStyle} bg-[#52b788]`}

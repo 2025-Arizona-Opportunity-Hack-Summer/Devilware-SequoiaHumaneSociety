@@ -1,6 +1,6 @@
 function AdoptFilterResult({ breedFilter, activeLevelFilter, sizeFilter, onClickClearAll }) {
   return (
-    <div className="flex gap-2">
+    <div className="flex gap-2 flex-wrap">
       <AdopterFilterList filterList={breedFilter} />
       <AdopterFilterList filterList={activeLevelFilter} />
       <AdopterFilterList filterList={sizeFilter} />
@@ -25,8 +25,8 @@ function AdopterFilterList({ filterList = [], title }) {
   }
 
   return (
-    <div className="flex gap-2 items-center">
-      <ul className="flex gap-2">{filterItem}</ul>
+    <div className="flex lg:items-center items-start">
+      <ul className="flex gap-2 flex-wrap">{filterItem}</ul>
     </div>
   );
 }

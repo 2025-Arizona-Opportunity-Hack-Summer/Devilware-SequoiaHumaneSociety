@@ -44,7 +44,6 @@ function AdoptPetList() {
     let url;
     if (species === "dog" || species === "cat") {
       url = `${API_BASE_URL}/${PETS_ENDPOINT}?species=${species.charAt(0).toUpperCase() + species.slice(1)}`;
-      console.log(url);
     } else {
       url = `${API_BASE_URL}/${PETS_ENDPOINT}?species=other`;
     }
@@ -151,7 +150,7 @@ function AdoptPetList() {
             <AdoptFilter breedList={breedList} filterValue={filterValue} setFilter={setFilter} />
           </div>
           <div className="w-full">
-            <div className="flex justify-between mb-10">
+            <div className="flex flex-col gap-5 lg:flex-row justify-between mb-10">
               {/* AdoptFilterResult - a list represents the current filter value, contains clear all button*/}
               <AdoptFilterResult
                 breedFilter={breedFilter}

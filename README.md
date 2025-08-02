@@ -155,6 +155,7 @@ This project utilizes environment variables for configuration
 | `VITE_PETS_ENDPOINT`               | The relative path for pet-related API operations. Used in conjunction with `VITE_API_URL`.                                                                                                                                                    |
 | `VITE_USER_QUESTIONNAIRE_ENDPOINT` | The relative path to access a user's questionnaire data. **Must be appended to `VITE_USER_ENDPOINT`**.                                                                                                                                        |
 | `VITE_FAVORITE_PET_ENDPOINT`       | The relative path to access a user's favorited pets. **Must be appended to `VITE_USER_ENDPOINT`**.                                                                                                                                            |
+| `VITE_IMAGE_ENDPOINT`              | The relative path for images-related API operations. Used in conjunction with **`VITE_API_URL`**.                                                                                                                                             |
 | `VITE_PROPELAUTH_URL`              | The URL for the [PropelAuth](https://www.propelauth.com/) authentication service, used for user account management (e.g., login, registration). Follow this [doc](https://docs.propelauth.com/getting-started/quickstart-fe) to generate ones |
 
 **Example `.env` file for local development:**
@@ -205,6 +206,7 @@ This project utilizes environment variables for configuration
 | `BUCKET_REGION`            | The AWS Region where your Amazon S3 bucket is located.                                                                                                                                |
 | `BUCKET_ACCESS_KEY`        | Your AWS Access Key ID for programmatic access to the S3 bucket.                                                                                                                      |
 | `BUCKET_SECRET_KEY`        | Your AWS Secret Access Key for programmatic access to the S3 bucket.                                                                                                                  |
+| `AI_MODEL`                 | See [AI Model Local Invocation](#ai-model--local-invocation) to set up a server for AI Model then copy it to **`AI_MODEL`**                                                           |
 
 **Example `.env` file for local development:**
 
@@ -215,6 +217,7 @@ BUCKET_NAME=bucket_name
 BUCKET_REGION=us
 BUCKET_ACCESS_KEY=ABCDEFGHIJKLMNOPQRSTUVWXYZ
 BUCKET_SECRET_KEY=abcdefghijklmnopqrstuvwxyz
+AI_MODEL=http://localhost:8080/matchmaker
 ```
 
 #### Amazon S3 Bucket

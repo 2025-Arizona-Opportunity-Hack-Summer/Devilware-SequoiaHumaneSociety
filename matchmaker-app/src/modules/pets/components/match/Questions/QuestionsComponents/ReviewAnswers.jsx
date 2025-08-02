@@ -8,19 +8,10 @@ import edit from "../../../../../../assets/images/pencil-svgrepo-com.svg";
 function ReviewAnswers({ setOpenSubmit, setCurrQuestions }) {
   useEffect(() => {
     setOpenSubmit((preState) => true);
-    const scrollUp = () => {
-      window.scroll(0, 0);
-    };
-    window.addEventListener("load", scrollUp);
-
-    return () => {
-      window.removeEventListener("load", scrollUp);
-    };
   }, []);
 
   const onClickBack = () => {
     setCurrQuestions((preState) => 0);
-    window.scroll(0, 0);
   };
   return (
     <div className="w-full">

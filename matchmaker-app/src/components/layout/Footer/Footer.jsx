@@ -15,27 +15,27 @@ function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="/adoptable-cats" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="/adopt/cat" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Adoptable Cats
                 </a>
               </li>
               <li>
-                <a href="/adoptable-dogs" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="/adopt/dog" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Adoptable Dogs
                 </a>
               </li>
               <li>
-                <a href="/adoption-policy" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/adoption-process-return-policy/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Adoption Policy & Process
                 </a>
               </li>
               <li>
-                <a href="/apply-to-adopt" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="/adopt" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Apply to Adopt
                 </a>
               </li>
               <li>
-                <a href="/private-adoptions" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/private-adoptions/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Private Adoptions
                 </a>
               </li>
@@ -55,32 +55,32 @@ function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="/wish-list" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="/favorite" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Wish List
                 </a>
               </li>
               <li>
-                <a href="/medical-fund" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/shelter-medical-fund/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Shelter Medical Fund
                 </a>
               </li>
               <li>
-                <a href="/donate-vehicle" className="hover:text-orange-200 transition-colors duration-200 underline cursor-pointer">
+                <a href="https://www.sequoiahumane.org/donate-a-vehicle/" className="hover:text-orange-200 transition-colors duration-200 underline cursor-pointer">
                   Donate a Vehicle
                 </a>
               </li>
               <li>
-                <a href="/planned-giving" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/planned-giving/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Planned Giving
                 </a>
               </li>
               <li>
-                <a href="/walk-for-dog" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/walk-for-a-dog/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Walk for a Dog
                 </a>
               </li>
               <li>
-                <a href="/shopping-partners" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/shopping-partners-that-give-back/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Shopping Partners
                 </a>
               </li>
@@ -100,22 +100,22 @@ function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="/spay-neuter" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/spay-neuter-assistance/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Spay/Neuter Assistance
                 </a>
               </li>
               <li>
-                <a href="/microchipping" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/microchipping/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Microchipping
                 </a>
               </li>
               <li>
-                <a href="/lost-found" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/lost-animals-2/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Lost or Found Animals
                 </a>
               </li>
               <li>
-                <a href="/surrenders" className="hover:text-white transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/surrenders/" className="hover:text-white transition-colors duration-200 cursor-pointer">
                   Surrenders
                 </a>
               </li>
@@ -142,22 +142,22 @@ function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="/vaccine-clinics" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/vaccine-clinics/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Vaccine Clinics
                 </a>
               </li>
               <li>
-                <a href="/emergency-funding" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/pet-emergency-funding/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Pet Emergency Funding
                 </a>
               </li>
               <li>
-                <a href="/animal-abuse" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/animal-abuse/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Animal Abuse
                 </a>
               </li>
               <li>
-                <a href="/education" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/education/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Education
                 </a>
               </li>
@@ -171,27 +171,27 @@ function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="/newsletter" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="/home" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Newsletter
                 </a>
               </li>
               <li>
-                <a href="/mission" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/mission-vision/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Mission & Vision
                 </a>
               </li>
               <li>
-                <a href="/board" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/board-of-directors/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Board of Directors
                 </a>
               </li>
               <li>
-                <a href="/statistics" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/statistics/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Lives Saved Statistics
                 </a>
               </li>
               <li>
-                <a href="/thrift-shop" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/tailwaggers-thrift-shop/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Tailwaggers Thrift Shop
                 </a>
               </li>

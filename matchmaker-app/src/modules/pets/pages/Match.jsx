@@ -110,7 +110,6 @@ function WarningSVG() {
   );
 }
 
-
 function Match({ isLoggedIn = false }) {
   const [isQuestionPage, setIsQuestionPage] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -142,12 +141,18 @@ function Match({ isLoggedIn = false }) {
             <p className="text-lg sm:text-xl text-white/90 max-w-3xl mx-auto mb-8 sm:mb-12 leading-relaxed">
               Answer a few questions and we'll help you find the perfect companion waiting for you at our shelter
             </p>
-            
+
             {/* Progress Indicator */}
             <div className="flex items-center justify-center gap-2 mb-8">
-              <div className={`w-3 h-3 rounded-full transition-colors ${isQuestionPage ? 'bg-white' : 'bg-white/40'}`}></div>
-              <div className={`w-3 h-3 rounded-full transition-colors ${isLoading ? 'bg-white' : 'bg-white/40'}`}></div>
-              <div className={`w-3 h-3 rounded-full transition-colors ${!isQuestionPage && !isLoading ? 'bg-white' : 'bg-white/40'}`}></div>
+              <div
+                className={`w-3 h-3 rounded-full transition-colors ${
+                  isQuestionPage ? "bg-white" : "bg-white/40"
+                }`}></div>
+              <div className={`w-3 h-3 rounded-full transition-colors ${isLoading ? "bg-white" : "bg-white/40"}`}></div>
+              <div
+                className={`w-3 h-3 rounded-full transition-colors ${
+                  !isQuestionPage && !isLoading ? "bg-white" : "bg-white/40"
+                }`}></div>
             </div>
           </div>
         </div>
@@ -158,23 +163,39 @@ function Match({ isLoggedIn = false }) {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         {/* Step Indicator */}
         <div className="mb-12">
-          <div className="flex items-center justify-center gap-8 text-sm font-medium">
-            <div className={`flex items-center gap-2 ${isQuestionPage ? 'text-[#C1272D]' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${isQuestionPage ? 'bg-[#C1272D]' : 'bg-gray-300'}`}>
+          <div className="flex items-center justify-center gap-8 text-sm font-medium flex-wrap">
+            <div className={`flex items-center gap-2 ${isQuestionPage ? "text-[#C1272D]" : "text-gray-400"}`}>
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+                  isQuestionPage ? "bg-[#C1272D]" : "bg-gray-300"
+                }`}>
                 1
               </div>
               <span>Answer Questions</span>
             </div>
-            <div className={`w-16 h-0.5 ${isLoading || !isQuestionPage ? 'bg-[#C1272D]' : 'bg-gray-300'}`}></div>
-            <div className={`flex items-center gap-2 ${isLoading ? 'text-[#C1272D]' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${isLoading ? 'bg-[#C1272D]' : 'bg-gray-300'}`}>
-                {isLoading ? <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div> : '2'}
+            <div className={`w-16 h-0.5 ${isLoading || !isQuestionPage ? "bg-[#C1272D]" : "bg-gray-300"}`}></div>
+            <div className={`flex items-center gap-2 ${isLoading ? "text-[#C1272D]" : "text-gray-400"}`}>
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+                  isLoading ? "bg-[#C1272D]" : "bg-gray-300"
+                }`}>
+                {isLoading ? (
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                ) : (
+                  "2"
+                )}
               </div>
               <span>Finding Matches</span>
             </div>
-            <div className={`w-16 h-0.5 ${!isQuestionPage && !isLoading ? 'bg-[#C1272D]' : 'bg-gray-300'}`}></div>
-            <div className={`flex items-center gap-2 ${!isQuestionPage && !isLoading ? 'text-[#C1272D]' : 'text-gray-400'}`}>
-              <div className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${!isQuestionPage && !isLoading ? 'bg-[#C1272D]' : 'bg-gray-300'}`}>
+            <div className={`w-16 h-0.5 ${!isQuestionPage && !isLoading ? "bg-[#C1272D]" : "bg-gray-300"}`}></div>
+            <div
+              className={`flex items-center gap-2 ${
+                !isQuestionPage && !isLoading ? "text-[#C1272D]" : "text-gray-400"
+              }`}>
+              <div
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold ${
+                  !isQuestionPage && !isLoading ? "bg-[#C1272D]" : "bg-gray-300"
+                }`}>
                 3
               </div>
               <span>Your Matches</span>
@@ -200,14 +221,18 @@ function Match({ isLoggedIn = false }) {
               <span className="text-2xl">🎯</span>
             </div>
             <h3 className="font-bold text-gray-800 mb-2">Personalized Matching</h3>
-            <p className="text-gray-600 text-sm">Our algorithm considers your lifestyle, preferences, and living situation</p>
+            <p className="text-gray-600 text-sm">
+              Our algorithm considers your lifestyle, preferences, and living situation
+            </p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-md text-center">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-2xl">❤️</span>
             </div>
             <h3 className="font-bold text-gray-800 mb-2">Perfect Companions</h3>
-            <p className="text-gray-600 text-sm">All our animals are health-checked and ready for their forever homes</p>
+            <p className="text-gray-600 text-sm">
+              All our animals are health-checked and ready for their forever homes
+            </p>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow-md text-center">
             <div className="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -228,8 +253,8 @@ function Match({ isLoggedIn = false }) {
               <div className="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <WarningSVG />
               </div>
-              </div>
-            
+            </div>
+
             <h2 className="text-2xl font-bold text-gray-800 mb-4">Sign In Recommended</h2>
             <p className="text-gray-600 mb-8 leading-relaxed">
               You're not logged in, so your matched pets results and preferences won't be saved once you close this tab.
@@ -252,10 +277,9 @@ function Match({ isLoggedIn = false }) {
             {/* Continue without account */}
             <div className="text-center pt-4 border-t border-gray-200">
               <p className="text-sm text-gray-500 mb-3">OR</p>
-              <button 
+              <button
                 onClick={onClickCloseWarningModal}
-                className="text-gray-600 hover:text-gray-800 font-medium text-sm underline"
-              >
+                className="text-gray-600 hover:text-gray-800 font-medium text-sm underline">
                 Continue without saving
               </button>
             </div>

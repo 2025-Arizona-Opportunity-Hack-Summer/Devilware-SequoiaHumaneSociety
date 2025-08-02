@@ -55,14 +55,16 @@ export default withAuthInfo(function NavigationBar({ isLoggedIn, user, userClass
     <nav className="w-full bg-white shadow-lg sticky top-0 z-50">
       <div className="max-w-7xl mx-auto flex items-center justify-between px-2 py-3 md:px-3 md:py-3">
         {/* Logo Section */}
-        <div className="flex items-center gap-1 md:gap-2">
-          <img src={shsLogo} alt="logo" className="w-8 md:w-14" />
-          <span
-            className="text-[#7C0F0F] uppercase font-bold text-xl md:text-3xl tracking-tighter"
-            style={{ fontFamily: "Koulen, sans-serif" }}>
-            Sequoia
-          </span>
-        </div>
+        <Link>
+          <div className="flex items-center gap-1 md:gap-2">
+            <img src={shsLogo} alt="logo" className="w-8 md:w-14" />
+            <span
+              className="text-[#7C0F0F] uppercase font-bold text-xl md:text-3xl tracking-tighter"
+              style={{ fontFamily: "Koulen, sans-serif" }}>
+              Sequoia
+            </span>
+          </div>
+        </Link>
 
         {/* Desktop Navigation - Centered - Hidden at smaller desktop sizes when items would overlap */}
         <div className="hidden xl:flex xl:absolute xl:left-1/2 xl:transform xl:-translate-x-1/2">

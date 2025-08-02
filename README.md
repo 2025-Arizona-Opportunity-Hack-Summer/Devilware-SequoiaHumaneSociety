@@ -5,6 +5,7 @@
 - Our [live server](https://propel-energy.org/)
 - Check our [DevPost](https://devpost.com/software/ai-powered-pet-matchmaker-devilware)
 - Nonprofit: [Sequoia Humane Society](https://ohack.dev/nonprofit/9ajAkAzo9rnb0IOmE4VY)
+- [Official non-profit site](https://www.sequoiahumane.org/).
 - [Hackathon Details](https://www.ohack.dev/hack/2025_summer)
 
 <!-- ## Creator

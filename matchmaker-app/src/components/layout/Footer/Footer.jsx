@@ -171,7 +171,7 @@ function Footer() {
             </h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <a href="/home" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
+                <a href="https://www.sequoiahumane.org/Newsletter/" className="hover:text-orange-200 transition-colors duration-200 cursor-pointer">
                   Newsletter
                 </a>
               </li>

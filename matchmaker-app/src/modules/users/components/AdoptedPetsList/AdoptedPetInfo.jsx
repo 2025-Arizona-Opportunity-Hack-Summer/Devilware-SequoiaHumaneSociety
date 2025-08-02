@@ -115,17 +115,49 @@ export default withAuthInfo(function AdoptedPetInfo({
         <div className="my-4">
           <p className="font-semibold">Characteristics</p>
           <div className="flex gap-2">
-            {pet.characteristics.length == 0 && (
-              <p className="text-gray-400 mb-2 leading-relaxed bg-[#e9ecef] border border-transparent p-3 rounded-md font-semibold">
-                Do not have record
-              </p>
+            {pet.characteristics.length === 0 && (
+              <span className="inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm bg-gray-200 text-gray-400">
+                Don't have records
+              </span>
             )}
             {pet.characteristics.length !== 0 &&
-              pet.characteristics.map((item) => (
-                <p className="text-[#C1272D] mb-2 leading-relaxed border border-[#ced4da] shadow-2xl bg-white m-w-[62px] whitespace-nowrap p-3 rounded-md font-semibold">
-                  {item}
-                </p>
-              ))}
+              pet.characteristics.map((item) => {
+                let colorClass;
+                switch (item.toLowerCase()) {
+                  case "no dogs":
+                  case "no cats":
+                  case "active":
+                    colorClass = "bg-red-200 text-red-800";
+                    break;
+                  case "spunky":
+                    colorClass = "bg-orange-200 text-red-800";
+                    break;
+                  case "foster to adopt":
+                  case "spirited":
+                    colorClass = "bg-yellow-100 text-orange-800";
+                    break;
+                  case "shy":
+                  case "calm":
+                    colorClass = "bg-blue-200 text-blue-800";
+                    break;
+                  case "friendly":
+                    colorClass = "bg-green-100 text-green-800";
+                    break;
+                  case "bonded":
+                    colorClass = "bg-purple-200 text-purple-800";
+                    break;
+                  default:
+                    colorClass = "bg-gray-200 text-gray-700";
+                }
+
+                return (
+                  <span
+                    key={item}
+                    className={`inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm ${colorClass}`}>
+                    {item}
+                  </span>
+                );
+              })}
           </div>
         </div>
       </div>

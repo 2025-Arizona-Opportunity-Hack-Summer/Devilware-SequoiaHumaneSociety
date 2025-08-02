@@ -379,26 +379,47 @@ async function deletePet(req, res, next) {
     });
   }
 }
-
 async function findMatchedPets(req, res, next) {
-  // let {} = req.query;
-  try {
-    const pipeline = [
-      {
-        $facet: {
-          data: [],
-          breeds: [
-            { $unwind: "$breed" },
-            { $group: { _id: "$breed" } },
-            { $group: { _id: null, values: { $addToSet: "$_id" } } },
-            { $project: { _id: 0, values: 1 } },
-          ],
-        },
-      },
-    ];
+  let answers = req.body;
 
-    const pets = await mongoClient.getDB().collection("pets").aggregate(pipeline).toArray();
-    for (const pet of pets[0].data) {
+  let model_result;
+  try {
+    const response = await fetch(process.env.AI_MODEL, {
+      method: "POST",
+      body: JSON.stringify(answers),
+      headers: {
+        "Content-type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+
+    model_result = data.predictions.map((item) => item[0]);
+
+    let pets = await mongoClient
+      .getDB()
+      .collection("pets")
+      .find({ animal_id: { $in: model_result } })
+      .toArray();
+
+    const sizeFilter = answers.p3;
+    pets = [...pets].filter((pet) => {
+      if (sizeFilter.includes("Large") && pet.weight > 60) {
+        return true;
+      } else if (sizeFilter.includes("Medium") && pet.weight >= 25 && pet.weight <= 60) {
+        return true;
+      } else if (sizeFilter.includes("Small") && pet.weight < 25) {
+        return true;
+      }
+
+      return false;
+    });
+
+    const activeLevelFilter = answers.p4;
+
+    pets = [...pets].filter((pet) => activeLevelFilter.includes(pet.active_level));
+
+    for (const pet of pets) {
       // const imagesUrl = [];
       const imagesUrlPromises = [];
 
@@ -414,11 +435,9 @@ async function findMatchedPets(req, res, next) {
       pet.imagesURL = await Promise.all(imagesUrlPromises);
     }
 
-    res.status(200).json({
-      pets: pets[0].data,
-      breeds: pets[0].breeds[0].values,
-    });
+    res.status(200).json(pets);
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       error: "InternalServerError",
       message: "Problem occurs at server. Please contact for help",

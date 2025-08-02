@@ -41,7 +41,9 @@
 .disabled-button {
   @apply bg-[#e9ecef] text-[#ced4da] cursor-default;
 }
-
+.disabled-button {
+  cursor: default;
+}
 .radio-question-label {
   @apply block p-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300;
 }

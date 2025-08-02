@@ -46,6 +46,7 @@ export default withAuthInfo(function CreatePetForm() {
 
     const imageFileNameOnly = storedImages.map((image) => image.name);
 
+    console.log(imageFileNameOnly);
     const body = {
       name: petData.name,
       animal_id: petData.animal_id,

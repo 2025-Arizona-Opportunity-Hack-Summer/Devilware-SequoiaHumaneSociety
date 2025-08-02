@@ -82,15 +82,24 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     setIsLoading((preState) => true);
 
     try {
-      const data = await fetchMatchedPets({});
+      const data = await fetchMatchedPets({
+        a1: SessionStorage.getItem("a1"),
+        a2: SessionStorage.getItem("a2"),
+        a3: SessionStorage.getItem("a3"),
+        a4: SessionStorage.getItem("a4"),
+        p1: [SessionStorage.getItem("p1")],
+        p2: SessionStorage.getItem("p2"),
+        p3: SessionStorage.getItem("p3"),
+        p4: SessionStorage.getItem("p4"),
+      });
 
       setTimeout(() => {
         setIsQuestionPage((preState) => false);
-        dispatch(matchedPetListSlice.actions.assign(data.pets));
-        SessionStorage.setItem("petList", data.pets);
+        dispatch(matchedPetListSlice.actions.assign(data));
+        SessionStorage.setItem("petList", data);
         window.scroll(0, 0);
         setIsLoading((preState) => false);
-      }, 5000);
+      }, 3000);
     } catch (err) {
       setIsLoading((preState) => false);
       console.log(err);
@@ -104,75 +113,78 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
   }
 
   return (
-    <>
-      <MatchBanner />
-      <div className="bg-white py-10 pb-40" id="form">
-        <form className="flex flex-col min-h-screen xl:w-[65vw] w-[90vw] m-auto rounded-2xl " onSubmit={onSubmitForm}>
-          {/* Question lists */}
-          <p className="font-semibold text-xl">
-            Answering the following questions will help us better understand you in finding your ideal pet
-          </p>
-          <ul className="flex flex-col items-end justify-start max-w-screen gap-3 rounded-xl bg-white py-20 px-6 xl:px-12 xl:py-10">
-            {currQuestions === 0 && <AdopterQuestions setNumbersOfAnswers={setNumbersOfAnswers} />}
-            {currQuestions === 0 && finishAdopterQuestion && (
-              <IdealPetQuestions setNumbersOfAnswers={setNumbersOfAnswers} />
-            )}
-            {currQuestions === 1 && <ReviewAnswers setOpenSubmit={setOpenSubmit} setCurrQuestions={setCurrQuestions} />}
-          </ul>
+    <div className="bg-white py-10" id="form">
+      <form className="flex flex-col min-h-screen m-auto rounded-2xl " onSubmit={onSubmitForm}>
+        {/* Question lists */}
+        <p className="font-semibold text-xl">
+          Answering the following questions will help us better understand you in finding your ideal pet
+        </p>
+        <ul className="flex flex-col items-end justify-start max-w-screen gap-3 rounded-xl bg-white py-20 px-6 xl:px-12 xl:py-10">
+          {currQuestions === 0 && <AdopterQuestions setNumbersOfAnswers={setNumbersOfAnswers} />}
+          {currQuestions === 0 && finishAdopterQuestion && (
+            <IdealPetQuestions setNumbersOfAnswers={setNumbersOfAnswers} />
+          )}
+          {currQuestions === 1 && <ReviewAnswers setOpenSubmit={setOpenSubmit} setCurrQuestions={setCurrQuestions} />}
+        </ul>
 
-          {/* Buttons */}
-          <div className="flex justify-between items-center mt-5">
-            <InputButton
-              id="nextButton"
-              inputStyle="hidden"
-              labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
-                currQuestions === 0 ? "disabled-button" : ""
-              }`}
-              disabled={currQuestions === 0}>
-              {/* When button is clicked, move the page to the top again*/}
-              <a href="#form" onClick={onClickBack} className="block px-6 py-3">
+        {/* Buttons */}
+        <div className="flex justify-between items-center mt-5">
+          <InputButton
+            id="backButton"
+            inputStyle="hidden"
+            labelStyle={`rounded-md font-semibold block ${
+              currQuestions === 0 ? "disabled-button" : "cursor-pointer bg-[#7C0F0F] text-white"
+            }`}
+            disabled={currQuestions === 0}>
+            {/* When button is clicked, move the page to the top again*/}
+            {currQuestions === 0 && <p className="block px-6 py-3">Question</p>}
+            {currQuestions !== 0 && (
+              <a href="#form" className="block px-6 py-3" onClick={onClickBack}>
                 Question
               </a>
-            </InputButton>
-            {openSubmit && (
-              /* Submit button */
-              <>
-                <label htmlFor="submitButton" className="submit-label" id="submit-label">
-                  <span
-                    style={{
-                      fontFamily: "Koulen, sans-serif",
-                      fontStyle: "normal",
-                      fontWeight: 600,
-                    }}>
-                    Find your matched pets
-                  </span>
-                </label>
-                <input type="submit" className="hidden" id="submitButton" />
-              </>
             )}
-            <InputButton
-              id="backButton"
-              inputStyle="hidden"
-              labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
-                !isNextAble ? "disabled-button" : ""
-              }`}
-              disabled={!isNextAble}>
-              {/* When button is clicked, move the page to the top again*/}
+          </InputButton>
+          {openSubmit && (
+            /* Submit button */
+            <>
+              <label htmlFor="submitButton" className="submit-label" id="submit-label">
+                <span
+                  style={{
+                    fontFamily: "Koulen, sans-serif",
+                    fontStyle: "normal",
+                    fontWeight: 600,
+                  }}>
+                  Find your matched pets
+                </span>
+              </label>
+              <input type="submit" className="hidden" id="submitButton" />
+            </>
+          )}
+          <InputButton
+            id="nextButton"
+            inputStyle="hidden"
+            labelStyle={`bg-[#7C0F0F] text-white rounded-md cursor-pointer font-semibold block ${
+              !isNextAble ? "disabled-button" : ""
+            }`}
+            disabled={!isNextAble}>
+            {/* When button is clicked, move the page to the top again*/}
+            {!isNextAble && <p className="block px-6 py-3">Review</p>}
+            {isNextAble && (
               <a href="#form" onClick={onClickNext} className="block px-6 py-3">
                 Review
               </a>
-            </InputButton>
+            )}
+          </InputButton>
+        </div>
+        <div className="mt-10 flex flex-col justify-center items-center p-3 gap-2">
+          <p className="font-semibold text-xl">
+            Process complete {Math.floor((numberOfAnswers / totalQuestions) * 100, 2)}%
+          </p>
+          <div className="w-full h-max">
+            <ProgressBar percentage={Math.floor((numberOfAnswers / totalQuestions) * 100, 2)} />
           </div>
-          <div className="mt-10 flex flex-col justify-center items-center p-3 gap-2">
-            <p className="font-semibold text-xl">
-              Process complete {Math.floor((numberOfAnswers / totalQuestions) * 100, 2)}%
-            </p>
-            <div className="xl:w-[65vw] w-[90vw] h-max">
-              <ProgressBar percentage={Math.floor((numberOfAnswers / totalQuestions) * 100, 2)} />
-            </div>
-          </div>
-        </form>
-      </div>
-    </>
+        </div>
+      </form>
+    </div>
   );
 });

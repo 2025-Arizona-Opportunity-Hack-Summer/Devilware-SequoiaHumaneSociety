@@ -3,7 +3,7 @@ import img1 from "../assets/images/aboutimg.png";
 import img2 from "../assets/images/aboutimg2.png";
 import catIcon from "../assets/images/cat-1-com.svg";
 import dogIcon from "../assets/images/dog-1-com.svg";
-
+import SponsorsScroll from "../components/layout/SponsorsScroll/SponsorsScroll";
 // --- SVG Icon Components for a consistent and clean look ---
 
 const HeartIcon = ({ className }) => (
@@ -400,7 +400,10 @@ function Homepage() {
           </div>
         </div>
       </div>
-
+      {/* --- Sponsor section ---*/}
+      <div className="flex justify-center">
+        <SponsorsScroll />
+      </div>
       {/* --- Contact and Donate Section --- */}
       <div className="bg-[#252525] py-16 sm:py-20 lg:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

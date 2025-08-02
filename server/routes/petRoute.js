@@ -5,7 +5,7 @@ const petRoute = express.Router();
 
 petRoute.get("/", petController.findPets);
 petRoute.post("/", petController.createPet);
-petRoute.get("/matchmaker", petController.findMatchedPets);
+petRoute.post("/matchmaker", petController.findMatchedPets);
 petRoute.get("/:pet_id", petController.findPetById);
 petRoute.put("/:pet_id", petController.updatePet);
 petRoute.delete("/:pet_id", petController.deletePet);

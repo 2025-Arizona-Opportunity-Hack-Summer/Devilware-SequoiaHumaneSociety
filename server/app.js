@@ -74,7 +74,7 @@ app.post("/images", upload.array("images"), async (req, res) => {
   try {
     const uploadPromises = images.map(async (file) => {
       const key = file.originalname;
-
+      console.log(key);
       const command = new PutObjectCommand({
         Bucket: process.env.BUCKET_NAME,
         Key: key,
@@ -88,9 +88,9 @@ app.post("/images", upload.array("images"), async (req, res) => {
         console.log(err);
         throw err;
       }
-    });
 
-    await Promise.all(uploadPromises);
+      await Promise.all(uploadPromises);
+    });
 
     res.status(201).json();
   } catch (err) {

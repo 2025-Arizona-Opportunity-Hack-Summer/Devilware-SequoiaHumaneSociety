@@ -16,7 +16,7 @@ export default withRequiredAuthInfo(
             onClick={() => {
               navigate("create");
             }}>
-            Creat pet
+            Create pet
           </button>
           <button
             className={`${buttonStyle} bg-[#0077b6]`}

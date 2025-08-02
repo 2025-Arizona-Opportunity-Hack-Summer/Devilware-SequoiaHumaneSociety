@@ -119,13 +119,9 @@ function PetReview({ onClickBack }) {
       </div>
 
       {/* p1 */}
-      <div>
-        <p className="font-semibold">Prefer types: </p>
-        <ul className="list-disc list-inside">
-          {p1.map((type) => (
-            <li key={type}>{type}</li>
-          ))}
-        </ul>
+      <div className="flex gap-1">
+        <p className="font-semibold">Prefer type: </p>
+        <ul className="list-disc list-inside">{p1}</ul>
       </div>
 
       {/* p2 */}

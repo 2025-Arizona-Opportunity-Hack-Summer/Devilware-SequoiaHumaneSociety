@@ -108,7 +108,7 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
           <div className="flex flex-wrap gap-3">
             {pet.characteristics.length === 0 && (
               <span className="inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm bg-gray-200 text-gray-400">
-                Do not have records
+                Don't have records
               </span>
             )}
             {pet.characteristics.length !== 0 &&
@@ -144,8 +144,7 @@ export default withAuthInfo(function PetInfo({ pet, setVisibleSignIn, isLoggedIn
                 return (
                   <span
                     key={item}
-                    className={`inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm ${colorClass}`}
-                  >
+                    className={`inline-flex items-center rounded-xl px-4 py-2 font-semibold text-sm ${colorClass}`}>
                     {item}
                   </span>
                 );

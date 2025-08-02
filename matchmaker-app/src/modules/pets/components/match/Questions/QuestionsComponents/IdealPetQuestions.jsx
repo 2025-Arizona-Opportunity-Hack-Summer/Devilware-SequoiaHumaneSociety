@@ -68,10 +68,10 @@ export default withAuthInfo(function IdealPetQuestions({ isLoggedIn, user, setNu
 
 function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
   const [hasAnswer, setHasAnswer] = useState(false);
-  const [animalTypes, setAnimalTypes] = useState([]);
+  const [animalType, setAnimalType] = useState("");
   const [edit, setEdit] = useState(false);
 
-  const animalOptions = ["Bird", "Cat", "Dog"];
+  const animalOptions = ["Cat", "Dog"].map((type) => <option key={type}>{type}</option>);
 
   useEffect(() => {
     const storedAnswer = SessionStorage.getItem("p1");
@@ -79,31 +79,44 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
     if (storedAnswer !== null) {
       // if session storage have the answered, then move to the next question
       setHasAnswer((preState) => true);
-      setAnimalTypes((preState) => storedAnswer);
+      setAnimalType((preState) => storedAnswer);
       getNextQuestion();
     }
   }, []);
 
-  const onClickOption = (optionsList) => {
-    setAnimalTypes((preState) => optionsList);
-  };
+  // const onClickOption = (optionsList) => {
+  //   setAnimalTypes((preState) => optionsList);
+  // };
 
-  const onClickNext = () => {
-    if (animalTypes.length === 0) {
-    } else {
-      setHasAnswer((preState) => true);
-      SessionStorage.setItem("p1", animalTypes);
-      if (edit === false) {
-        getNextQuestion();
-      }
-      if (isLoggedIn) {
-        fetchUpdateUserAnswerById("p1", user.email, animalTypes).catch((err) => {
-          console.log(err);
-        });
-      }
+  // const onClickNext = () => {
+  //   if (animalTypes.length === 0) {
+  //   } else {
+  //     setHasAnswer((preState) => true);
+  //     SessionStorage.setItem("p1", animalType);
+  //     if (edit === false) {
+  //       getNextQuestion();
+  //     }
+  //     if (isLoggedIn) {
+  //       fetchUpdateUserAnswerById("p1", user.email, animalType).catch((err) => {
+  //         console.log(err);
+  //       });
+  //     }
+  //   }
+  // };
+
+  const onClickOption = (event) => {
+    setAnimalType((prev) => event.target.value);
+    setHasAnswer((preState) => true);
+    SessionStorage.setItem("p1", event.target.value);
+    if (edit === false) {
+      getNextQuestion();
+    }
+    if (isLoggedIn) {
+      fetchUpdateUserAnswerById("p1", user.email, event.target.value).catch((err) => {
+        console.log(err);
+      });
     }
   };
-
   const onClickEdit = () => {
     setHasAnswer((preState) => false);
     setEdit((preState) => true);
@@ -124,7 +137,7 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
         {/* If the answer is empty string ==> Display list of options */}
         <OptionContainer visible={!hasAnswer}>
           <div className="relative z-30 flex flex-col items-end">
-            <InputDatalist
+            {/* <InputDatalist
               id={"p1"}
               children={""}
               placeholder={"Choose animal or type"}
@@ -140,15 +153,27 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
               id="p1NextButton"
               labelStyle="hover:bg-[#7C0F0F] text-white px-3 py-1 rounded-sm font-bold mt-2 w-max cursor-pointer bg-[#669bbc] transition-all duration-300">
               Next
-            </InputButton>
+              
+            </InputButton> */}
+            <div className="flex gap-2">
+              <div className="flex items-center gap-2">
+                <select
+                  id="a2b"
+                  name="a2b"
+                  className="block px-3 py-3 border-2 border-[#E0E0E0] rounded-md transition-all duration-300 focus:border-[#7C0F0F] hover:border-[#7C0F0F] cursor-pointer"
+                  onChange={onClickOption}
+                  value={animalType}>
+                  <option value="" disabled></option>
+                  {animalOptions}
+                </select>
+              </div>
+            </div>
           </div>
         </OptionContainer>
 
         {/* If the answer is NOT empty string ==> Display answer */}
         <AnswerContainer visible={hasAnswer} id="p1" onClickEdit={onClickEdit}>
-          <p>
-            {animalTypes !== "" && `I am looking for a ${animalTypes.map((animal) => animal.toLowerCase()).join(", ")}`}
-          </p>
+          <p>{animalType !== "" && `I am looking for a ${animalType.toLowerCase()} today`}</p>
         </AnswerContainer>
 
         <UserLogo src={userImage} />
@@ -474,30 +499,30 @@ function QuestionP4({ getNextQuestion, isLoggedIn, user }) {
           <div className="flex gap-5 items-center flex-wrap justify-end">
             <InputCheckbox
               id="p4a"
-              value="Very Active"
+              value="Very active"
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
-              checked={levels.includes("Very Active")}
+              checked={levels.includes("Very active")}
               onChangeHandler={onChangeLevel}>
-              Very Active
+              Very active
             </InputCheckbox>
             <InputCheckbox
               id="p4b"
-              value="Moderately Active"
+              value="Moderately active"
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
-              checked={levels.includes("Moderately Active")}
+              checked={levels.includes("Moderately active")}
               onChangeHandler={onChangeLevel}>
-              Moderately Active
+              Moderately active
             </InputCheckbox>
             <InputCheckbox
               id="p4c"
-              value="Quietly Active"
+              value="Quietly active"
               inputStyle="hidden checkbox-question-input"
               labelStyle="checkbox-question-label"
-              checked={levels.includes("Quietly Active")}
+              checked={levels.includes("Quietly active")}
               onChangeHandler={onChangeLevel}>
-              Quietly Active
+              Quietly active
             </InputCheckbox>
           </div>
           <InputButton

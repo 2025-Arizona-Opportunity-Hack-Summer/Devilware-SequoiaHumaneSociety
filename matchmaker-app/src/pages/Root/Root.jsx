@@ -48,6 +48,7 @@ export default withAuthInfo(function Root({ isLoggedIn, user, accessToken, orgHe
             console.log(err);
           });
       } else {
+        saveUserAnswers(userInfo);
         dispatch(userSlice.actions.assign(userInfo));
       }
     }

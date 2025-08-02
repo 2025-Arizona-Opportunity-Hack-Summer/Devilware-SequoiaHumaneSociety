@@ -182,7 +182,7 @@ function Homepage() {
                 <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
 
-              <button className="group border-2 border-[#C1272D] text-[#C1272D] px-8 py-3 rounded-full font-semibold text-base lg:text-lg hover:bg-[#C1272D] hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+              <button className="group border-2 border-[#C1272D] text-[#C1272D] px-8 py-3 rounded-full font-semibold text-base lg:text-lg hover:bg-[#C1272D] hover:text-white transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer">
                 <HeartIcon className="w-5 h-5 group-hover:scale-110 transition-transform fill-transparent group-hover:fill-white" />
                 Donate Now
               </button>
@@ -231,7 +231,7 @@ function Homepage() {
                   />
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white px-5 py-2 rounded-full font-semibold text-sm transition-all duration-300 shadow-md hover:shadow-lg flex-shrink-0">
+                    className="bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white px-5 py-2 rounded-full font-semibold text-sm transition-all duration-300 shadow-md hover:shadow-lg flex-shrink-0 cursor-pointer">
                     Sign Up
                   </button>
                 </form>
@@ -432,7 +432,7 @@ function Homepage() {
                   className="w-full bg-white/10 text-white placeholder-white/50 px-5 py-3 rounded-2xl border-2 border-transparent focus:outline-none focus:border-[#C1272D] transition-colors"></textarea>
                 <button
                   type="submit"
-                  className="w-full group bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white px-8 py-3 rounded-full font-semibold text-base lg:text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 shadow-lg">
+                  className="w-full group bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white px-8 py-3 rounded-full font-semibold text-base lg:text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 shadow-lg cursor-pointer">
                   Send Message
                 </button>
               </form>
@@ -460,20 +460,20 @@ function Homepage() {
                 Your generosity helps us provide care, shelter, and find forever homes for animals in need.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors">
+                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors cursor-pointer">
                   $25
                 </button>
-                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors">
+                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors cursor-pointer">
                   $50
                 </button>
-                <button className="bg-white/40 hover:bg-white/60 text-white font-bold py-3 rounded-full transition-colors shadow-lg">
+                <button className="bg-white/40 hover:bg-white/60 text-white font-bold py-3 rounded-full transition-colors shadow-lg cursor-pointer">
                   $100
                 </button>
-                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors">
+                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors cursor-pointer">
                   Custom
                 </button>
               </div>
-              <button className="w-full bg-white text-[#C1272D] font-bold py-4 rounded-full text-lg hover:bg-gray-200 transition-colors transform hover:scale-105 shadow-xl">
+              <button className="w-full bg-white text-[#C1272D] font-bold py-4 rounded-full text-lg hover:bg-gray-200 transition-colors transform hover:scale-105 shadow-xl cursor-pointer">
                 Donate Securely
               </button>
             </div>

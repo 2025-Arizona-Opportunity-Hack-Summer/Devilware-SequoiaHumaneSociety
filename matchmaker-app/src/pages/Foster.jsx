@@ -188,7 +188,7 @@ export default function Foster() {
               className={`px-6 py-3 rounded-full font-medium transition-all ${
                 selectedCategory === "all"
                   ? "bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg"
-                  : "text-gray-500 hover:bg-gray-100"
+                  : "text-gray-500 hover:bg-gray-100 cursor-pointer"
               }`}>
               All Animals
             </button>
@@ -197,7 +197,7 @@ export default function Foster() {
               className={`px-6 py-3 rounded-full font-medium transition-all ${
                 selectedCategory === "Dog"
                   ? "bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg"
-                  : "text-gray-500 hover:bg-gray-100"
+                  : "text-gray-500 hover:bg-gray-100 cursor-pointer"
               }`}>
               Dogs
             </button>
@@ -206,7 +206,7 @@ export default function Foster() {
               className={`px-6 py-3 rounded-full font-medium transition-all ${
                 selectedCategory === "Cat"
                   ? "bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg"
-                  : "text-gray-500 hover:bg-gray-100"
+                  : "text-gray-500 hover:bg-gray-100 cursor-pointer"
               }`}>
               Cats
             </button>

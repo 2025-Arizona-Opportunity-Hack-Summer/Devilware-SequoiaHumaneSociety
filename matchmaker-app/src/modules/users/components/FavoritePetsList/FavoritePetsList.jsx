@@ -41,7 +41,7 @@ function FavoritePetList({ user }) {
   return (
     <div>
       <div>
-        <p className="text-5xl text-[#6c757d]">My Favorites ({petList.length})</p>
+        <p className="text-4xl text-[#6c757d]">My Favorites ({petList.length})</p>
       </div>
       <div className="mt-10">
         <PetList petList={petList} isLoggedIn={true} setVisibleSignIn={() => {}} />

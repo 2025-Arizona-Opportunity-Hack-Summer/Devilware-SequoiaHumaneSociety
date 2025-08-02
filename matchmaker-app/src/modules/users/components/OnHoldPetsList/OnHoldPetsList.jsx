@@ -5,9 +5,7 @@ import { userSlice } from "../../../../store/slices/UserInfoSlice";
 
 import { fetchFindOnHoldPets } from "../../services/userSevices";
 
-import PetList from "../../../pets/components/PetList/PetList";
-
-import heartImg from "../../../../assets/images/heart-com.svg";
+import OnHoldPetInfo from "./OnHoldPetInfo";
 
 function OnHoldPetList({ user }) {
   const userInfo = useSelector((store) => store[userSlice.name]);
@@ -41,11 +39,18 @@ function OnHoldPetList({ user }) {
   return (
     <div>
       <div>
-        <p className="text-5xl text-[#6c757d]">On-hold pets ({petList.length})</p>
+        <p className="text-4xl text-[#6c757d]">On-hold pets ({petList.length})</p>
         <p className="text-xl text-[#6c757d] mt-5">You have one business day to meet with them without a hold fee.</p>
       </div>
       <div className="mt-10">
-        <PetList petList={petList} isLoggedIn={true} setVisibleSignIn={() => {}} />
+        {petList.map((pet) => (
+          <OnHoldPetInfo
+            pet={pet}
+            setVisibleSignIn={() => {}}
+            isLoggedIn={true}
+            isFavorite={userInfo.favoritePets.includes(pet._id)}
+          />
+        ))}
       </div>
     </div>
   );

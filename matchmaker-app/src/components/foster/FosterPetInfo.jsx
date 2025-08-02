@@ -52,20 +52,27 @@ function FosterPetInfo({ pet }) {
               pet.characteristics.map((item) => {
                 let colorClass;
                 switch (item.toLowerCase()) {
+                  case "no dogs":
+                  case "no cats":
                   case "active":
-                  case "spunky":
-                  case "red":
                     colorClass = "bg-red-200 text-red-800";
                     break;
+                  case "spunky":
+                    colorClass = "bg-orange-200 text-red-800";
+                    break;
+                  case "foster to adopt":
                   case "spirited":
-                  case "spritited":
                     colorClass = "bg-yellow-100 text-orange-800";
                     break;
+                  case "shy":
                   case "calm":
                     colorClass = "bg-blue-200 text-blue-800";
                     break;
                   case "friendly":
                     colorClass = "bg-green-100 text-green-800";
+                    break;
+                  case "bonded":
+                    colorClass = "bg-purple-200 text-purple-800";
                     break;
                   default:
                     colorClass = "bg-gray-200 text-gray-700";

@@ -149,7 +149,7 @@ function QuestionA1({ getNextQuestion, isLoggedIn, user }) {
               value="Apartment"
               inputStyle="hidden"
               labelStyle="block px-6 py-3 border border-[#E0E0E0] rounded-md cursor-pointer hover:bg-[#7C0F0F] hover:text-white transition-all duration-300">
-              Aparment
+              Apartment
             </InputRadio>
 
             <InputRadio

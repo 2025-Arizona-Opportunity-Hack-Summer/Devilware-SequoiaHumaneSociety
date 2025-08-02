@@ -128,7 +128,7 @@ function QuestionP1({ getNextQuestion, isLoggedIn, user }) {
       {/* Question container - contains the questions */}
       <QuestionContainer>
         <p className={`${!hasAnswer && !edit ? "typewriter" : ""} overflow-hidden`}>
-          What animal types are you looking for?
+          What animal type are you looking for?
         </p>
       </QuestionContainer>
 

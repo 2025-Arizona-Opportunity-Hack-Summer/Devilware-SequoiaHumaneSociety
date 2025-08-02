@@ -8,7 +8,8 @@
 - [Official non-profit site](https://www.sequoiahumane.org/).
 - [Hackathon Details](https://www.ohack.dev/hack/2025_summer)
 - [Demo video](https://youtu.be/UEIS22VAPYg)
-
+- **Admin email**: devilware2025@gmail.com
+- **Admin password**: sequoiahumaneadmin
 <!-- ## Creator
 
 @Faisal Alyousefi (on Slack) -->
@@ -31,7 +32,7 @@
 
 One of the biggest hurdles in finding a compatible pet for everyone is considering various factors and living situations that each person has, and finding the right pet for them.
 
-We realized that while various adoption platforms has introduced a wide array of methods to help improve compatibility, they often tend to focus on basic filters, and don't take into account contexts such as personality, living situations or disabilities. 
+We realized that while various adoption platforms has introduced a wide array of methods to help improve compatibility, they often tend to focus on basic filters, and don't take into account contexts such as personality, living situations or disabilities.
 
 ### What it does
 
@@ -41,39 +42,44 @@ Users begin by answering a series of questions touching on various topics such a
 
 Users can further narrow down their preferences - such as choosing certain kind of pets or breeds. Our system picks out what appears to be the most compatible and suggest based on the information you have given.
 
-The goal is to reduce mismatches, lower return rates and create long-lasting, happy adoptions. 
+The goal is to reduce mismatches, lower return rates and create long-lasting, happy adoptions.
 
 ## Team reflections
 
 ### Challenges we ran into
-One major hurdle for us was coordination, as when we started many of us were out of country - this leads to timezone mismatches, which made meetings and cooperation rather difficult. 
 
-We also had to think about balancing technical implementation with user experience as well as accessibility, and ensuring the matches fit with various individuals. Effective communications between team members working on different branches was difficult, but taught us a lot. 
+One major hurdle for us was coordination, as when we started many of us were out of country - this leads to timezone mismatches, which made meetings and cooperation rather difficult.
+
+We also had to think about balancing technical implementation with user experience as well as accessibility, and ensuring the matches fit with various individuals. Effective communications between team members working on different branches was difficult, but taught us a lot.
 
 ### Accomplishments that we're proud of
+
 After two months of planning, developing, and testing, we are extremely proud of our application. Here are our proudest accomplishments:
-- We successfully launched the site, which features a functional pet recommendation engine. We made something that centers empathy and accessibility, ensuring that people from various lifestyles can find the right pet. 
+
+- We successfully launched the site, which features a functional pet recommendation engine. We made something that centers empathy and accessibility, ensuring that people from various lifestyles can find the right pet.
 - Our team comprises of individuals with diverse backgrounds, and we effectively leveraged each other’s expertise to create a comprehensive application. We committed ourselves fully from start to finish.
 - We have an amazing document. Developers can easily run our website on their computers, making website improvements smoother.
 
 ### What we learned
-- We learned a lot about the React framework, the Express framework, and AI models, as well as how to connect them into one application. 
+
+- We learned a lot about the React framework, the Express framework, and AI models, as well as how to connect them into one application.
 - We also learned how to create useful documentation so that developers can understand how to run and use it effectively.
 - Good projects don't start and end at code - it's about empathy, problem solving, effective team coordination and understanding various needs.
 - How to break down large tasks and build something shippable from day 0, with realistic time frames.
-- The success of an app or software depends not only on the quality of the code but also on planning, testing, and suggestions. Without the significant help of mentors, we would not have been able to develop our application to be this successful. 
-- It is fine to not know everything right away - helping and learning is how we improve: as coders, as people. 
-
+- The success of an app or software depends not only on the quality of the code but also on planning, testing, and suggestions. Without the significant help of mentors, we would not have been able to develop our application to be this successful.
+- It is fine to not know everything right away - helping and learning is how we improve: as coders, as people.
 
 ## Tech Stack
 
 The frontend solutions for **AI-Powered Pet Matchmaker**:
+
 - React
 - Redux
 - Tailwind
 - PropelAuth
 
 The backend solutions for **AI-Powered Pet Matchmaker**:
+
 - Node.js
 - Express.js
 - MongoDB
@@ -83,6 +89,7 @@ The backend solutions for **AI-Powered Pet Matchmaker**:
 - Vertex AI
 
 The projects for **AI-Powered Pet Matchmaker** is hosted on:
+
 - **Render** for both frontend and backend
 
 ## Documentation
@@ -149,6 +156,7 @@ This project utilizes environment variables for configuration
 | `VITE_PETS_ENDPOINT`               | The relative path for pet-related API operations. Used in conjunction with `VITE_API_URL`.                                                                                                                                                    |
 | `VITE_USER_QUESTIONNAIRE_ENDPOINT` | The relative path to access a user's questionnaire data. **Must be appended to `VITE_USER_ENDPOINT`**.                                                                                                                                        |
 | `VITE_FAVORITE_PET_ENDPOINT`       | The relative path to access a user's favorited pets. **Must be appended to `VITE_USER_ENDPOINT`**.                                                                                                                                            |
+| `VITE_IMAGE_ENDPOINT`              | The relative path for images-related API operations. Used in conjunction with **`VITE_API_URL`**.                                                                                                                                             |
 | `VITE_PROPELAUTH_URL`              | The URL for the [PropelAuth](https://www.propelauth.com/) authentication service, used for user account management (e.g., login, registration). Follow this [doc](https://docs.propelauth.com/getting-started/quickstart-fe) to generate ones |
 
 **Example `.env` file for local development:**
@@ -199,6 +207,7 @@ This project utilizes environment variables for configuration
 | `BUCKET_REGION`            | The AWS Region where your Amazon S3 bucket is located.                                                                                                                                |
 | `BUCKET_ACCESS_KEY`        | Your AWS Access Key ID for programmatic access to the S3 bucket.                                                                                                                      |
 | `BUCKET_SECRET_KEY`        | Your AWS Secret Access Key for programmatic access to the S3 bucket.                                                                                                                  |
+| `AI_MODEL`                 | See [AI Model Local Invocation](#ai-model--local-invocation) to set up a server for AI Model then copy it to **`AI_MODEL`**                                                           |
 
 **Example `.env` file for local development:**
 
@@ -209,15 +218,22 @@ BUCKET_NAME=bucket_name
 BUCKET_REGION=us
 BUCKET_ACCESS_KEY=ABCDEFGHIJKLMNOPQRSTUVWXYZ
 BUCKET_SECRET_KEY=abcdefghijklmnopqrstuvwxyz
+AI_MODEL=http://localhost:8080/matchmaker
 ```
 
-# AI Model — Local Invocation
+#### Amazon S3 Bucket
+
+[Amazon S3](https://aws.amazon.com/s3/) stores data as objects within buckets. An object is a file and any metadata that describes the file. A bucket is a container for objects. To store your data in Amazon S3, you first create a bucket and specify a bucket name and AWS Region. Then, you upload your data to that bucket as objects in Amazon S3. Each object has a key (or key name), which is the unique identifier for the object within the bucket.
+
+In this project specially, we use Amazon S3 Bucket to store pet's images. See this [video](https://www.youtube.com/watch?v=eQAIojcArRY&t=2079s) to understand how to set up and use the bucket to store images.
+
+### AI Model — Local Invocation
 
 Our compatibility model lives on **Vertex AI AutoML Tabular**. Choose either route:
 
 ---
 
-## A. Call the Hosted Endpoint (recommended)
+#### A. Call the Hosted Endpoint (recommended)
 
 ```bash
 # 1) Authenticate once
@@ -242,9 +258,9 @@ python predict.py \
 
 ---
 
-## B. Offline Docker Container
+#### B. Offline Docker Container
 
-1. **Export** the model from Vertex AI as a Docker image and extract it to `ai-model/offline/`  
+1. **Export** the model from Vertex AI as a Docker image and extract it to `ai-model/offline/`
 2. **Build & run** the container:
 
 ```bash
@@ -255,7 +271,7 @@ docker run -p 8080:8080 petmatcher-model
 
 ---
 
-### 3. Query the Local Server
+#### 3. Query the Local Server
 
 Once your Docker container is running, you can query the model locally using `curl`:
 
@@ -267,7 +283,7 @@ curl -X POST http://localhost:8080/v1/models/petmatcher:predict \
 
 ---
 
-### Helper Directory Layout
+#### Helper Directory Layout
 
 ```
 ai-client/
@@ -275,13 +291,6 @@ ai-client/
 ├── predict.py         # Vertex endpoint wrapper
 └── example_instances.json
 ```
-
-
-#### Amazon S3 Bucket
-
-[Amazon S3](https://aws.amazon.com/s3/) stores data as objects within buckets. An object is a file and any metadata that describes the file. A bucket is a container for objects. To store your data in Amazon S3, you first create a bucket and specify a bucket name and AWS Region. Then, you upload your data to that bucket as objects in Amazon S3. Each object has a key (or key name), which is the unique identifier for the object within the bucket.
-
-In this project specially, we use Amazon S3 Bucket to store pet's images. See this [video](https://www.youtube.com/watch?v=eQAIojcArRY&t=2079s) to understand how to use the bucket to store images.
 
 <!--
 ## Your next steps

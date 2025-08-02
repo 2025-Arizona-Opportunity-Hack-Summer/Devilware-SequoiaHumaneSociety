@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withAuthInfo } from "@propelauth/react";
 
-import MatchBanner from "./QuestionsComponents/MatchBanner";
 import ReviewAnswers from "./QuestionsComponents/ReviewAnswers";
 
 import { finishAdopterQuestionsSlice, finishPetQuestionsSlice } from "../../../../../store/slices/MatchFormSlice";
@@ -177,7 +176,11 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
         </div>
         <div className="mt-10 flex flex-col justify-center items-center p-3 gap-2">
           <p className="font-semibold text-xl">
-            Process complete {Math.floor((numberOfAnswers / totalQuestions) * 100, 2)}%
+            Process complete{" "}
+            {Math.floor((numberOfAnswers / totalQuestions) * 100, 2) > 100
+              ? 100
+              : Math.floor((numberOfAnswers / totalQuestions) * 100, 2)}
+            %
           </p>
           <div className="w-full h-max">
             <ProgressBar percentage={Math.floor((numberOfAnswers / totalQuestions) * 100, 2)} />

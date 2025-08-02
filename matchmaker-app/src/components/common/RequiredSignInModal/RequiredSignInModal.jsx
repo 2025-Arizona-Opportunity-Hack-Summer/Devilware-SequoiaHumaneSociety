@@ -15,21 +15,21 @@ function RequiredSignInModal({ visible, setVisible }) {
 
   return (
     <Modal visible={visible}>
-      <div className="absolute -translate-1/2 top-1/2 left-1/2 bg-white flex rounded-md border-t-[#7C0F0F] border-t-8 required-sign-in-modal">
-        <div className="w-max">
+      <div className="absolute -translate-1/2 top-1/2 left-1/2 bg-white flex rounded-md border-t-[#7C0F0F] border-t-8 required-sign-in-modal w-[300px] lg:w-max">
+        <div className="lg:block hidden w-max">
           <img src={womanHoldingPet} alt="SequoiaAdoption" className="h-[600px] w-auto" />
         </div>
-        <div className="flex flex-col items-center p-12 xl:w-xl">
-          <div className="flex items-center gap-1 md:gap-2">
-            <img src={shsLogo} alt="logo" className="w-8 md:w-29" />
+        <div className="flex flex-col items-center lg:p-12 p-5 lg:w-xl">
+          <div className="flex items-center gap-1 lg:gap-2">
+            <img src={shsLogo} alt="logo" className="w-8 lg:w-29" />
             <span
-              className="text-[#7C0F0F] uppercase font-bold text-xl md:text-3xl tracking-tighter -ml-10"
+              className="text-[#7C0F0F] uppercase font-bold text-xl md:text-3xl tracking-tighter lg:-ml-10"
               style={{ fontFamily: "Koulen, sans-serif" }}>
               Sequoia
             </span>
           </div>
-          <p className="text-2xl font-bold">Welcome to Sequoia</p>
-          <p className="text-[#6c757d]">Sign in to access your Sequoia account</p>
+          <p className="text-xl lg:text-2xl font-bold">Welcome to Sequoia</p>
+          <p className="text-[#6c757d] text-center">Sign in to access your Sequoia account</p>
           <div className="mt-10 flex flex-col items-center w-full gap-5">
             <button className="required-modal-button" onClick={() => navigate("/register")}>
               <span>Create an account</span>
@@ -57,7 +57,7 @@ function CancelSVG() {
       xmlns="http://www.w3.org/2000/svg"
       xmlnsXlink="http://www.w3.org/1999/xlink"
       fill="#000000"
-      width="30px">
+      className="lg:w-[30px] w-[15px] ">
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g id="SVGRepo_tracerCarrier" strokeLinecap="round" strokeLinejoin="round"></g>
       <g id="SVGRepo_iconCarrier">

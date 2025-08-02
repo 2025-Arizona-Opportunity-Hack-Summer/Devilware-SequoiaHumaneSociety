@@ -11,7 +11,7 @@ import WaitingAnswerSpinner from "../QuestionsContainers/WaitingAnswerSpinner";
 import InputRadio from "../../../../../../components/common/inputs/InputRadio";
 import InputText from "../../../../../../components/common/inputs/InputText";
 import InputButton from "../../../../../../components/common/inputs/InputButton";
-import InputDatalist from "../../../../../../components/common/inputs/InputDataList";
+import InputDatalist from "../../../../../../components/common/inputs/InputDatalist";
 
 import SessionStorage from "../../../../../../utils/sessionStorage";
 

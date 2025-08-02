@@ -9,7 +9,7 @@ import "./AdoptRoot.css";
 function AdoptRoot() {
   return (
     <div className="lg:mx-20 adopt-root mx-5">
-      <img src={barn} alt="barn" className="h-96" />
+      <img src={barn} alt="barn" className="lg:h-96" />
       <div className="pt-10  flex flex-col gap-4">
         <h2
           className="uppercase text-[#C1272D] text-5xl"
@@ -21,7 +21,7 @@ function AdoptRoot() {
           Adopt with us
         </h2>
         <p>To start an adoption application, choose the type of animal you are looking to adopt:</p>
-        <ul className="list-disc list-outside flex flex-col gap-2">
+        <ul className="lg:list-disc list-outside flex flex-col gap-2">
           <li>
             <Link to="/adopt/cat" className="text-[#C1272D] font-semibold underline flex gap-2">
               <img src={catNav} alt="cat" className="w-6" />

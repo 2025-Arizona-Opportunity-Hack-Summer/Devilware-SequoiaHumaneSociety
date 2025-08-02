@@ -8,7 +8,7 @@ function WaitingLoaderFindPets({ visible }) {
     return <></>;
   }
   return (
-    <div className="flex justify-center waiting-loader-pet-root">
+    <div className="flex justify-center waiting-loader-pet-root lg:min-h-screen">
       <div className="xl:w-5xl flex flex-col gap-2 mt-20">
         <p
           className="text-center text-3xl"

@@ -16,6 +16,13 @@ export default withAuthInfo(function PetList({ petList = [], className, setVisib
     </li>
   ));
 
+  if (petList.length === 0) {
+    return (
+      <div className="flex flex-col items-center">
+        <p className="text-3xl text-[#6c757d]">We cannot find any pet records</p>
+      </div>
+    );
+  }
   return (
     <div className={`flex flex-col items-start ${className}`}>
       <ul className="flex flex-wrap gap-20 justify-start">{petsRender}</ul>

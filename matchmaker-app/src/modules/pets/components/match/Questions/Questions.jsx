@@ -42,13 +42,14 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
     if (petList !== null) {
       setCurrQuestions((prev) => 1);
       setIsQuestionPage((preState) => false);
+      setNumbersOfAnswers((prev) => 8);
+
       dispatch(matchedPetListSlice.actions.assign(petList));
     } else {
       const petQuestionId = ["p1", "p2", "p3", "p4"];
 
       const getQuestionNumber = () => {
         const petAnswers = petQuestionId.map((id) => SessionStorage.getItem(id) !== null);
-
         if (!petAnswers.includes(false)) {
           setNumbersOfAnswers((prev) => 8);
           onSubmitForm();
@@ -162,15 +163,15 @@ export default withAuthInfo(function Questions({ visible, setIsQuestionPage, set
               </a>
             </InputButton>
           </div>
-        </form>
-        <div className="fixed bottom-0 w-screen -translate-x-1/2 left-1/2 z-50 bg-[#dee2e680] flex flex-col justify-center items-center p-3 gap-2">
-          <p className="font-semibold text-xl">
-            Process complete {Math.floor((numberOfAnswers / totalQuestions) * 100, 2)}%
-          </p>
-          <div className="xl:w-[65vw] w-[90vw] h-max">
-            <ProgressBar percentage={Math.floor((numberOfAnswers / totalQuestions) * 100, 2)} />
+          <div className="mt-10 flex flex-col justify-center items-center p-3 gap-2">
+            <p className="font-semibold text-xl">
+              Process complete {Math.floor((numberOfAnswers / totalQuestions) * 100, 2)}%
+            </p>
+            <div className="xl:w-[65vw] w-[90vw] h-max">
+              <ProgressBar percentage={Math.floor((numberOfAnswers / totalQuestions) * 100, 2)} />
+            </div>
           </div>
-        </div>
+        </form>
       </div>
     </>
   );

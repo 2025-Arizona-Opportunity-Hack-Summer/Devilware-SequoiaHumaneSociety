@@ -15,7 +15,7 @@ import InputButton from "../../../../../components/common/inputs/InputButton";
 import SessionStorage from "../../../../../utils/sessionStorage";
 
 import { matchedPetListSlice } from "../../../../../store/slices/MatchedPetSlice";
-
+import { userSlice } from "../../../../../store/slices/UserInfoSlice";
 import { filterPetsByCriteria } from "../../../utils/petUtils";
 import searchImg from "../../../../../assets/images/search-com.svg";
 
@@ -23,6 +23,7 @@ import "./MatchedPets.css";
 
 function MatchedPets({ visible, setIsQuestionPage }) {
   const matchPetList = useSelector((store) => store[matchedPetListSlice.name]);
+  const userProfile = useSelector((store) => store[userSlice.name]);
   const [visibleFilter, setVisibleFilter] = useState(false);
   const [visibleSignIn, setVisibleSignIn] = useState(false);
   const [searchPet, setSearchPet] = useState("");
@@ -70,7 +71,8 @@ function MatchedPets({ visible, setIsQuestionPage }) {
       storedBreedFilter,
       storedActiveLevelFilter,
       storedSizeFilter,
-      storedSortFilter
+      storedSortFilter,
+      userProfile
     );
     setPetList((prev) => updatedPetList);
   }, [matchPetList]);
@@ -124,13 +126,14 @@ function MatchedPets({ visible, setIsQuestionPage }) {
       let updatedFilter = [...speciesFilter.filter((item) => item !== value)];
       setSpeciesFilter((prev) => updatedFilter);
       SessionStorage.setItem("match-species-filter", updatedFilter);
-      const updatedPetList = filterPet(
+      const updatedPetList = filterPetsByCriteria(
         matchPetList,
         updatedFilter,
         breedFilter,
         activeLevelFilter,
         sizeFilter,
-        sortFilter
+        sortFilter,
+        userProfile
       );
       setPetList((prev) => updatedPetList);
     }

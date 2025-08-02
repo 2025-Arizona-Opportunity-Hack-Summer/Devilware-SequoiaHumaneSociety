@@ -10,7 +10,7 @@ import PetAttributeList from "../PetAttributeList/PetAttributeList";
 import noPetImage from "../../../../assets/images/no-pet-image.png";
 
 import { userSlice } from "../../../../store/slices/UserInfoSlice";
-import { fetchUpdateFavoritePets } from "../../../users/services/userSevices";
+import { fetchUpdateFavoritePetById } from "../../../users/services/userSevices";
 import "./PetDescription.css";
 
 export default withAuthInfo(function PetDescription({ user, isLoggedIn, userClass }) {
@@ -48,7 +48,6 @@ export default withAuthInfo(function PetDescription({ user, isLoggedIn, userClas
     if (!isLoggedIn || userInfo === null) {
       setIsFavorite((prev) => false);
     } else {
-      console.log(userInfo.favoritePets);
       if (userInfo.favoritePets.includes(pet_id)) {
         setIsFavorite((prev) => true);
       } else {
@@ -87,9 +86,9 @@ export default withAuthInfo(function PetDescription({ user, isLoggedIn, userClas
 
   const onClickAddToFavorite = () => {
     if (isLoggedIn) {
-      fetchUpdateFavoritePets(user.email, pet_id)
+      fetchUpdateFavoritePetById(user.email, pet_id)
         .then((response) => {
-          dispatch(userSlice.actions.addFavorites(pet_id));
+          dispatch(userSlice.actions.toggleFavorite(pet_id));
         })
         .catch((err) => {
           console.log(err);

@@ -27,14 +27,13 @@ async function fetchUserProfileByEmail(email) {
   return user;
 }
 
-async function fetchUpdateUserQuesionnaireBySessionStorage(email, updatedMatchQuestions) {
+async function fetchUpdateUserQuesionnaireBySessionStorage(email, updatedMatchAnswers) {
   const endpointUpdate = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${USER_QUESTIONNAIRE_ENDPOINT}`;
 
-  let user;
   try {
     const response = await fetch(endpointUpdate, {
       method: "PUT",
-      body: JSON.stringify({ questionnaire: updatedMatchQuestions }),
+      body: JSON.stringify({ matchAnswers: updatedMatchAnswers }),
       headers: {
         "Content-type": "application/json",
       },
@@ -45,14 +44,12 @@ async function fetchUpdateUserQuesionnaireBySessionStorage(email, updatedMatchQu
     if (!response.ok) {
       throw Error(data.error);
     }
-
-    user = data;
   } catch (err) {
     console.log(err);
     throw Error;
   }
 
-  return user;
+  return updatedMatchAnswers;
 }
 async function fetchUpdateUserQuestionnaireById(id, email, value) {
   const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${USER_QUESTIONNAIRE_ENDPOINT}/${id}`;
@@ -75,28 +72,30 @@ async function fetchUpdateUserQuestionnaireById(id, email, value) {
   }
 }
 
-async function fetchUpdateFavoritePets(email, pet_id) {
-  const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${FAVORITE_PET_ENDPOINT}`;
-  let user;
+async function fetchUpdateFavoritePetById(email, pet_id) {
+  const endpoint = `${API_BASE_URL}/${USER_ENDPOINT}/${email}/${FAVORITE_PET_ENDPOINT}/${pet_id}`;
+  let id_return;
   try {
     const response = await fetch(endpoint, {
       method: "PUT",
-      body: JSON.stringify({ pet_id: pet_id }),
+      body: JSON.stringify({}),
       headers: {
         "Content-type": "application/json",
       },
     });
 
+    const data = await response.json();
     if (!response.ok) {
       throw Error(data.error);
     }
-    const data = await response.json();
 
-    user = data;
+    id_return = data.pet_id;
   } catch (err) {
     console.log(err);
     throw Error(err);
   }
+
+  return id_return;
 }
 
 async function fetchFindFavoritePets(email) {
@@ -104,7 +103,6 @@ async function fetchFindFavoritePets(email) {
 
   let pets;
 
-  console.log(endpoint);
   try {
     const response = await fetch(endpoint);
     if (!response.ok) {
@@ -125,6 +123,6 @@ export {
   fetchUpdateUserQuestionnaireById,
   fetchUserProfileByEmail,
   fetchUpdateUserQuesionnaireBySessionStorage,
-  fetchUpdateFavoritePets,
+  fetchUpdateFavoritePetById,
   fetchFindFavoritePets,
 };

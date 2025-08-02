@@ -27,7 +27,7 @@
 
 ### Inspiration
 
-One of the biggest hurdles in finding a compatible pet for everyone is that we all have our own different needs, lifestyles, housing situations, allergies, family dynamics, etc. - all factors that can affect what kind of pets would be best suited for each person. This can quickly becomes a challenging task for both adopters and shelter staffs alike, and an incompatible pet introduces more logistics.
+One of the biggest hurdles in finding a compatible pet for everyone is considering various factors and living situations that each person has, and finding the right pet for them.
 
 We realized that while various adoption platforms has introduced various methods to help improve compatibility, they often tend to focus on basic filters only, and doesn't take into account contexts such as personality, living situations or even disabilities.
 

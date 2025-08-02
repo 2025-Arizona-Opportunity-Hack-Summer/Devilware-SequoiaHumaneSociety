@@ -7,7 +7,7 @@
 - Nonprofit: [Sequoia Humane Society](https://ohack.dev/nonprofit/9ajAkAzo9rnb0IOmE4VY)
 - [Official non-profit site](https://www.sequoiahumane.org/).
 - [Hackathon Details](https://www.ohack.dev/hack/2025_summer)
-- [Demo video](https://youtu.be/UEIS22VAPYg)
+- [Demo video](https://youtu.be/OEWK-x89IQI)
 - **Admin email**: devilware2025@gmail.com
 - **Admin password**: sequoiahumaneadmin
 <!-- ## Creator

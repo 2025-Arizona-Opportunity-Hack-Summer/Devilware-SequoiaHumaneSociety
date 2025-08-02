@@ -2,6 +2,8 @@ import { useEffect, useState, useTransition } from "react";
 import { fetchFindPets } from "../modules/pets/services/petServices";
 
 import FosterPetInfo from "../components/foster/FosterPetInfo";
+import img1 from "../assets/images/aboutimg.png";
+import barn from "../assets/images/barn.png";
 import noPetImage from "../assets/images/no-pet-image.png";
 import loadingImage from "../assets/images/loading-image.png";
 
@@ -90,6 +92,12 @@ export default function Foster() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <div className="relative overflow-hidden bg-gradient-to-r from-[#7C0F0F] via-[#C1272D] to-[#7C0F0F]">
+        <img
+          src={barn}
+          alt="Foster Banner"
+          className="absolute inset-0 w-full h-full object-fit opacity-40"
+          style={{ zIndex: 0 }}
+        />
         <div className="absolute inset-0 bg-black opacity-20"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 lg:py-32">
           <div className="text-center">
@@ -101,12 +109,22 @@ export default function Foster() {
               Foster some of our animals in need!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-[#7C0F0F] px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                Start Fostering Today
+              <button
+                onClick={() => {
+                  document.getElementById('why-foster')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="bg-white text-[#7C0F0F] px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-center cursor-pointer"
+              >
+                Start Fostering
               </button>
-              <button className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white hover:text-[#7C0F0F] transition-all duration-300">
-                Watch Our Story
-              </button>
+              <a
+                href="https://forms.gle/UPTat7eZyuNnKTgs9"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg bg-transparent hover:bg-white hover:text-[#7C0F0F] transition-all duration-300 text-center"
+              >
+                Apply to Foster
+              </a>
             </div>
           </div>
         </div>
@@ -118,7 +136,7 @@ export default function Foster() {
         <div className="bg-white rounded-3xl shadow-xl p-8 mb-12">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl font-bold text-gray-800 mb-6">Why Foster?</h2>
+              <h2 id="why-foster" className="text-3xl font-bold text-gray-800 mb-6">Why Foster?</h2>
               <div className="space-y-4">
                 <div className="flex items-start space-x-4">
                   <div className="w-6 h-6 bg-red-600 rounded-full flex-shrink-0 mt-1"></div>
@@ -138,13 +156,25 @@ export default function Foster() {
                 </div>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-red-100 to-red-200 rounded-2xl p-8 h-80 flex items-center justify-center">
-              <div className="text-center">
+            <div 
+              className="rounded-2xl p-8 h-80 flex items-center justify-center relative overflow-hidden"
+              style={{
+                backgroundImage: `url(${img1})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat'
+              }}
+            >
+              {/* Dark overlay for better text readability */}
+              <div className="absolute inset-0 bg-black/40 rounded-2xl"></div>
+              
+              {/* Content on top */}
+              <div className="text-center relative z-10">
                 <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
                   <span className="text-4xl">🐾</span>
                 </div>
-                <p className="text-gray-500 font-medium">[Hero Image Placeholder]</p>
-                <p className="text-sm text-gray-400 mt-2">Happy foster family with pet</p>
+                <p className="text-white font-medium">[Our Family]</p>
+                <p className="text-sm text-white mt-2">Happy fostering with one of our pets!</p>
               </div>
             </div>
           </div>
@@ -158,7 +188,7 @@ export default function Foster() {
               className={`px-6 py-3 rounded-full font-medium transition-all ${
                 selectedCategory === "all"
                   ? "bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg"
-                  : "text-gray-500 hover:bg-gray-100"
+                  : "text-gray-500 hover:bg-gray-100 cursor-pointer"
               }`}>
               All Animals
             </button>
@@ -167,7 +197,7 @@ export default function Foster() {
               className={`px-6 py-3 rounded-full font-medium transition-all ${
                 selectedCategory === "Dog"
                   ? "bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg"
-                  : "text-gray-500 hover:bg-gray-100"
+                  : "text-gray-500 hover:bg-gray-100 cursor-pointer"
               }`}>
               Dogs
             </button>
@@ -176,7 +206,7 @@ export default function Foster() {
               className={`px-6 py-3 rounded-full font-medium transition-all ${
                 selectedCategory === "Cat"
                   ? "bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] text-white shadow-lg"
-                  : "text-gray-500 hover:bg-gray-100"
+                  : "text-gray-500 hover:bg-gray-100 cursor-pointer"
               }`}>
               Cats
             </button>
@@ -184,7 +214,7 @@ export default function Foster() {
         </div>
 
         {/* Animals Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mx-auto w-full max-w-6xl">
           {petList.map((animal) => (
             <FosterPetInfo pet={animal} key={animal._id} />
           ))}
@@ -257,12 +287,22 @@ export default function Foster() {
             perfect furry friend.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button className="bg-white text-[#7C0F0F] px-8 py-4 rounded-xl font-bold shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+            <a
+              href="https://forms.gle/UPTat7eZyuNnKTgs9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-white text-[#7C0F0F] px-8 py-4 rounded-full font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105 text-center"
+            >
               Apply to Foster
-            </button>
-            <button className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-red-600 transition-all duration-300">
-              Learn More
-            </button>
+            </a>
+              <a
+                href="https://www.sequoiahumane.org/foster/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="border-2 border-white text-white px-8 py-4 rounded-full font-bold text-lg bg-transparent hover:bg-white hover:text-[#7C0F0F] transition-all duration-300 text-center"
+              >
+                Learn More
+              </a>
           </div>
         </div>
       </div>

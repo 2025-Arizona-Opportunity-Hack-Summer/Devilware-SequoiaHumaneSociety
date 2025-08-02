@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import img1 from "../assets/images/aboutimg.png";
 import img2 from "../assets/images/aboutimg2.png";
+import catIcon from "../assets/images/cat-1-com.svg";
+import dogIcon from "../assets/images/dog-1-com.svg";
 
 // --- SVG Icon Components for a consistent and clean look ---
 
@@ -93,43 +95,6 @@ const StarIcon = ({ className }) => (
   </svg>
 );
 
-const CatIcon = ({ className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}>
-    <path d="M12 5c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" />
-    <path d="M20 14c0-4.42-3.58-8-8-8S4 9.58 4 14c0 1.49.41 2.88 1.14 4.05l-1.82 2.73a.5.5 0 0 0 .68.68l2.73-1.82A7.96 7.96 0 0 0 12 22c4.42 0 8-3.58 8-8z" />
-  </svg>
-);
-
-const DogIcon = ({ className }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width="24"
-    height="24"
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}>
-    <path d="M10 5.172C10 3.74 8.88 2.5 7.5 2.5S5 3.74 5 5.172" />
-    <path d="M14 6.172C14 4.74 15.12 3.5 16.5 3.5S19 4.74 19 6.172" />
-    <path d="M12 10v6" />
-    <path d="M7 10h10" />
-    <path d="M12 16a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2h8v-2a4 4 0 0 0-4-4zm8 0a4 4 0 0 1 4-4h.5a4 4 0 0 1 4 4v2h-8v-2a4 4 0 0 1 4-4z" />
-  </svg>
-);
-
 const PhoneIcon = ({ className }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
@@ -217,7 +182,7 @@ function Homepage() {
                 <ArrowRightIcon className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
 
-              <button className="group border-2 border-[#C1272D] text-[#C1272D] px-8 py-3 rounded-full font-semibold text-base lg:text-lg hover:bg-[#C1272D] hover:text-white transition-all duration-300 flex items-center justify-center gap-2">
+              <button className="group border-2 border-[#C1272D] text-[#C1272D] px-8 py-3 rounded-full font-semibold text-base lg:text-lg hover:bg-[#C1272D] hover:text-white transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer">
                 <HeartIcon className="w-5 h-5 group-hover:scale-110 transition-transform fill-transparent group-hover:fill-white" />
                 Donate Now
               </button>
@@ -266,7 +231,7 @@ function Homepage() {
                   />
                   <button
                     type="submit"
-                    className="bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white px-5 py-2 rounded-full font-semibold text-sm transition-all duration-300 shadow-md hover:shadow-lg flex-shrink-0">
+                    className="bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white px-5 py-2 rounded-full font-semibold text-sm transition-all duration-300 shadow-md hover:shadow-lg flex-shrink-0 cursor-pointer">
                     Sign Up
                   </button>
                 </form>
@@ -357,12 +322,12 @@ function Homepage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="group bg-gray-50 p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 text-center">
-                <CatIcon className="w-12 h-12 mx-auto text-[#C1272D] mb-4" />
+                <img src={catIcon} alt="cat" className="w-12 h-12 mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-[#252525]">Cat Care</h3>
                 <p className="text-sm text-[#888888]">Communal rooms and a "Cattio" for sunbathing.</p>
               </div>
               <div className="group bg-gray-50 p-6 rounded-2xl shadow-md hover:shadow-xl transition-all duration-300 text-center">
-                <DogIcon className="w-12 h-12 mx-auto text-[#C1272D] mb-4" />
+                <img src={dogIcon} alt="dog" className="w-12 h-12 mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-[#252525]">Dog Care</h3>
                 <p className="text-sm text-[#888888]">Spacious areas and guided pack walks.</p>
               </div>
@@ -467,7 +432,7 @@ function Homepage() {
                   className="w-full bg-white/10 text-white placeholder-white/50 px-5 py-3 rounded-2xl border-2 border-transparent focus:outline-none focus:border-[#C1272D] transition-colors"></textarea>
                 <button
                   type="submit"
-                  className="w-full group bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white px-8 py-3 rounded-full font-semibold text-base lg:text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 shadow-lg">
+                  className="w-full group bg-gradient-to-r from-[#7C0F0F] to-[#C1272D] hover:to-[#7C0F0F] text-white px-8 py-3 rounded-full font-semibold text-base lg:text-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300 shadow-lg cursor-pointer">
                   Send Message
                 </button>
               </form>
@@ -495,20 +460,20 @@ function Homepage() {
                 Your generosity helps us provide care, shelter, and find forever homes for animals in need.
               </p>
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8">
-                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors">
+                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors cursor-pointer">
                   $25
                 </button>
-                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors">
+                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors cursor-pointer">
                   $50
                 </button>
-                <button className="bg-white/40 hover:bg-white/60 text-white font-bold py-3 rounded-full transition-colors shadow-lg">
+                <button className="bg-white/40 hover:bg-white/60 text-white font-bold py-3 rounded-full transition-colors shadow-lg cursor-pointer">
                   $100
                 </button>
-                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors">
+                <button className="bg-white/20 hover:bg-white/40 text-white font-bold py-3 rounded-full transition-colors cursor-pointer">
                   Custom
                 </button>
               </div>
-              <button className="w-full bg-white text-[#C1272D] font-bold py-4 rounded-full text-lg hover:bg-gray-200 transition-colors transform hover:scale-105 shadow-xl">
+              <button className="w-full bg-white text-[#C1272D] font-bold py-4 rounded-full text-lg hover:bg-gray-200 transition-colors transform hover:scale-105 shadow-xl cursor-pointer">
                 Donate Securely
               </button>
             </div>

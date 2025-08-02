@@ -82,7 +82,7 @@ function RegistrationForm() {
 
   return (
     <>
-      <div className="min-h-screen bg-white py-6 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-white py-6 px-4 sm:px-6 lg:px-8 lg:py-20 xl:py-28">
         <div className="max-w-2xl w-full mx-auto">
           <div className="text-center mb-8">
             <h1
@@ -269,11 +269,11 @@ function RegistrationForm() {
                 />
                 <label htmlFor="agreeToTerms" className="ml-3 block text-sm text-gray-700">
                   I agree to the{" "}
-                  <a href="/terms" className="font-medium text-gray-800 hover:text-gray-600 underline">
+                  <a href="#" className="font-medium text-gray-800 hover:text-gray-600 underline">
                     Terms and Conditions
                   </a>{" "}
                   and{" "}
-                  <a href="/privacy" className="font-medium text-gray-800 hover:text-gray-600 underline">
+                  <a href="#" className="font-medium text-gray-800 hover:text-gray-600 underline">
                     Privacy Policy
                   </a>
                 </label>

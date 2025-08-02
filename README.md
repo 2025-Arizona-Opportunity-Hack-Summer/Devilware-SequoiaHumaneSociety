@@ -88,6 +88,12 @@ The backend solutions for **AI-Powered Pet Matchmaker**:
 - Google Cloud
 - Vertex AI
 
+The ai solutions for **AI-Powered Pet Matchmaker**:
+- SKLearn
+- Pandas
+- Vertex AI
+- AutoML
+
 The projects for **AI-Powered Pet Matchmaker** is hosted on:
 
 - **Render** for both frontend and backend

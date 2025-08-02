@@ -78,6 +78,8 @@ The backend solutions for **AI-Powered Pet Matchmaker**:
 - MongoDB
 - MongoDB Atlas
 - AWS
+- Google Cloud
+- Vertex AI
 
 The projects for **AI-Powered Pet Matchmaker** is hosted on:
 - **Render** for both frontend and backend

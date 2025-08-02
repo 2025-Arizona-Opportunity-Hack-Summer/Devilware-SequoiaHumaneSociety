@@ -80,6 +80,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router";
 
+import { withAuthInfo } from "@propelauth/react";
 import Questions from "../components/match/Questions/Questions";
 import WaitingLoaderFindPets from "../components/match/WaitingLoaderFindPets/WaitingLoaderFindPets";
 import MatchedPets from "../components/match/MatchedPets/MatchedPets";
@@ -109,8 +110,7 @@ function WarningSVG() {
     </svg>
   );
 }
-
-function Match({ isLoggedIn = false }) {
+export default withAuthInfo(function Match({ isLoggedIn }) {
   const [isQuestionPage, setIsQuestionPage] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [visibleWarningModal, setVisibleWarningModal] = useState(false);
@@ -288,6 +288,4 @@ function Match({ isLoggedIn = false }) {
       </Modal>
     </div>
   );
-}
-
-export default Match;
+});

@@ -8,7 +8,8 @@
 - [Official non-profit site](https://www.sequoiahumane.org/).
 - [Hackathon Details](https://www.ohack.dev/hack/2025_summer)
 - [Demo video](https://youtu.be/UEIS22VAPYg)
-
+- **Admin email**: devilware2025@gmail.com
+- **Admin password**: sequoiahumaneadmin
 <!-- ## Creator
 
 @Faisal Alyousefi (on Slack) -->

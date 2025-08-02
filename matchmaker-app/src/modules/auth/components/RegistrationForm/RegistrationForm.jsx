@@ -177,7 +177,9 @@ function RegistrationForm() {
                   autoComplete="off"
                 />
                 {validFormData.validEmail === false && (
-                  <p className="text-sm font-semibold text-[#C1272D]">Email must a valid form acount@company.domain</p>
+                  <p className="text-sm font-semibold text-[#C1272D]">
+                    Email must have valid form, for example john@doe.com
+                  </p>
                 )}
                 {validFormData.validEmail === true && <TickSVG />}
               </div>
@@ -257,7 +259,7 @@ function RegistrationForm() {
               </div>
             </fieldset>
             <div>
-              <div className="flex items-start pt-4">
+              <div className="flex items-center pt-4">
                 <input
                   type="checkbox"
                   id="agreeToTerms"
@@ -267,15 +269,16 @@ function RegistrationForm() {
                   required
                   className="h-4 w-4 text-gray-800 focus:ring-gray-700 border-gray-300 rounded mt-1"
                 />
-                <label htmlFor="agreeToTerms" className="ml-3 block text-sm text-gray-700">
-                  I agree to the{" "}
+                <label htmlFor="agreeToTerms" className="ml-3 block text-sm text-gray-700 font-semibold ">
+                  I agree to create Sequoia accout{" "}
+                  {/*the{" "}
                   <a href="#" className="font-medium text-gray-800 hover:text-gray-600 underline">
                     Terms and Conditions
                   </a>{" "}
                   and{" "}
                   <a href="#" className="font-medium text-gray-800 hover:text-gray-600 underline">
                     Privacy Policy
-                  </a>
+                  </a>*/}
                 </label>
               </div>
             </div>

@@ -101,7 +101,7 @@ function Volunteer() {
       </div>
 
       {/* Application Form */}
-      <div className="py-12 sm:py-16 bg-white px-4 sm:px-6">
+      <div className="py-12 sm:py-16 bg-white px-4 sm:px-6 mb-32">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl sm:text-3xl font-bold text-[#252525] text-center mb-6 sm:mb-8">
             Apply to Volunteer
@@ -115,23 +115,6 @@ function Volunteer() {
           >
             Submit Application
           </a>
-        </div>
-      </div>
-
-      {/* Contact */}
-      <div className="py-8 sm:py-12 bg-[#252525] text-white px-4 sm:px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h3 className="text-xl sm:text-2xl font-bold mb-4">Questions?</h3>
-          <div className="space-y-2 text-sm sm:text-base">
-            <div className="flex items-center justify-center">
-              <span className="w-4 h-4 mr-2 text-[#C1272D]">✉️</span>
-              <span>volunteer@organization.org</span>
-            </div>
-            <div className="flex items-center justify-center">
-              <span className="w-4 h-4 mr-2 text-[#C1272D]">📞</span>
-              <span>(555) 123-4567</span>
-            </div>
-          </div>
         </div>
       </div>
     </div>
